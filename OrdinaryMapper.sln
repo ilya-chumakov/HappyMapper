@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrdinaryMapper", "OrdinaryMapper\OrdinaryMapper.csproj", "{79DEA2C2-0084-417D-AF75-6156C41EB32B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrdinaryMapper.Tests", "OrdinaryMapper.Tests\OrdinaryMapper.Tests.csproj", "{FBF7EEB5-C0AE-4F73-BC7C-7D5C657836D5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{79DEA2C2-0084-417D-AF75-6156C41EB32B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79DEA2C2-0084-417D-AF75-6156C41EB32B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79DEA2C2-0084-417D-AF75-6156C41EB32B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79DEA2C2-0084-417D-AF75-6156C41EB32B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FBF7EEB5-C0AE-4F73-BC7C-7D5C657836D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FBF7EEB5-C0AE-4F73-BC7C-7D5C657836D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FBF7EEB5-C0AE-4F73-BC7C-7D5C657836D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FBF7EEB5-C0AE-4F73-BC7C-7D5C657836D5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
