@@ -5,14 +5,9 @@ namespace OrdinaryMapper
 {
     public class OrdinaryMapper
     {
-        public static OrdinaryMapper Instance => new OrdinaryMapper();
+        public static OrdinaryMapper Instance { get; } = new OrdinaryMapper();
 
-        public static Dictionary<string, Map> Cache { get; set; }
-
-        public OrdinaryMapper()
-        {
-            Cache = new Dictionary<string, Map>();
-        }
+        public static Dictionary<string, Map> Cache { get; } = new Dictionary<string, Map>();
 
         public void Map<TSrc, TDest>(TSrc src, TDest dest)
         {
