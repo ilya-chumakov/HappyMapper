@@ -3,9 +3,9 @@ using EmitMapper;
 
 namespace OrdinaryMapper.Benchmarks
 {
-    public class EmitMapperFacade : ITestableMapper
+    public class EmitMapperAdapter : ITestableMapper
     {
-        public static ITestableMapper Instance => new EmitMapperFacade();
+        public static ITestableMapper Instance => new EmitMapperAdapter();
 
         public Action<TInput, TOutput> CreateMapMethod<TInput, TOutput>()
         {
@@ -17,9 +17,9 @@ namespace OrdinaryMapper.Benchmarks
         }
     }
 
-    public class OrdinaryMapperFacade : ITestableMapper
+    public class OrdinaryMapperAdapter : ITestableMapper
     {
-        public static ITestableMapper Instance => new OrdinaryMapperFacade();
+        public static ITestableMapper Instance => new OrdinaryMapperAdapter();
 
         public Action<TInput, TOutput> CreateMapMethod<TInput, TOutput>()
         {

@@ -11,9 +11,10 @@ namespace OrdinaryMapper
             Key = GetKey(SrcType, DestType);
         }
 
-        public static string GetKey(Type srcType, Type destType)
+        public static int GetKey(Type srcType, Type destType)
         {
-            return srcType.FullName + "-" + destType.FullName;
+            return srcType.GetHashCode() + destType.GetHashCode();
+            //return srcType.FullName + "-" + destType.FullName;
         }
 
         public static MapContext Create<TSrc, TDest>()
@@ -28,6 +29,6 @@ namespace OrdinaryMapper
         public string NamespaceName => "RoslynMappers";
         public string MapperClassName => "Mapper";
         public string MapperClassFullName => $"{NamespaceName}.{MapperClassName}";
-        public string Key { get; private set; }
+        public int Key { get; private set; }
     }
 }

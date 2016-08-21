@@ -7,25 +7,28 @@ namespace OrdinaryMapper
     {
         public static OrdinaryMapper Instance { get; } = new OrdinaryMapper();
 
-        public static Dictionary<string, Map> Cache { get; } = new Dictionary<string, Map>();
+        public static Dictionary<int, Map> Cache { get; } = new Dictionary<int, Map>();
 
         public void Map<TSrc, TDest>(TSrc src, TDest dest)
         {
-            //string key = MapContext.GetKey(sr)
-            var context = MapContext.Create<TSrc, TDest>();
+            int key = MapContext.GetKey(typeof (TSrc), typeof (TDest));
+            ////var context = MapContext.Create<TSrc, TDest>();
 
             Map map = null;
-            Cache.TryGetValue(context.Key, out map);
+            Cache.TryGetValue(key, out map);
 
-            if (map == null)
-                throw new OrdinaryMapperException(
-                    $"Missing mapping: {context.SrcType.FullName} -> {context.DestType.FullName}. Did you forget to call CreateMap method?");
+            //if (map == null)
+            //    throw new OrdinaryMapperException(
+            //        "Missing mapping"
+            //        //$"Missing mapping: {context.SrcType.FullName} -> {context.DestType.FullName}. Did you forget to call CreateMap method?"
+            //        );
 
             var action = map.Method as Action<TSrc, TDest>;
 
-            if (action == null) throw new OrdinaryMapperException("Broken cache.");
+            //if (action == null) throw new OrdinaryMapperException("Broken cache.");
 
-             action(src, dest);
+            //var action = Method as Action<TSrc, TDest>;
+            action(src, dest);
         }
 
         public void CreateMap<TSrc, TDest>()
@@ -38,10 +41,13 @@ namespace OrdinaryMapper
             if (map == null)
             {
                 var method = CreateMapMethod<TSrc, TDest>(context);
+                Method = method;
                 map = new Map(method);
                 Cache.Add(context.Key, map);
             }
         }
+
+        public object Method { get; set; }
 
         protected Action<TSrc, TDest> CreateMapMethod<TSrc, TDest>(MapContext context)
         {
