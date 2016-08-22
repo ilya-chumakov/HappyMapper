@@ -16,11 +16,12 @@ namespace OrdinaryMapper.Benchmarks
         {
             Mappers = new Dictionary<string, Action<Src, Dest>>();
 
-            Register(SingleMapperAdapter.Instance);
-            Register(TakeSingleMapperFromCacheAdapter.Instance);
-            Register(GenericMapAdapter.Instance);
-            //Register(HandwrittenMapper.Instance);
-            Register(EmitMapperAdapter.Instance);
+            //Register(SingleMapperAdapter.Instance);
+            //Register(TakeSingleMapperFromCacheAdapter.Instance);
+            //Register(GenericMapAdapter.Instance);
+            ////Register(HandwrittenMapper.Instance);
+            //Register(EmitMapperSingle.Instance);
+            Register(EmitMapperCached.Instance);
 
             NameMaxLength = Mappers.Keys.Max(k => k.Length);
         }
@@ -33,7 +34,7 @@ namespace OrdinaryMapper.Benchmarks
         [Test]
         public void Run_AllMappers_MeasuresTime()
         {
-            int[] exponents = new[] { 5, 6, 7 };
+            int[] exponents = new[] { 5, 6 };
             //int[] exponents = new[] { 5, 6, 7, 8 };
             Console.Write("Exponents:  ");
             Array.ForEach(exponents, e => Console.Write(e + " "));
