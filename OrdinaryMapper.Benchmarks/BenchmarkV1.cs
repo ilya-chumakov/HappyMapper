@@ -16,8 +16,10 @@ namespace OrdinaryMapper.Benchmarks
         {
             Mappers = new Dictionary<string, Action<Src, Dest>>();
 
-            Register(OrdinaryMapperAdapter.Instance);
-            Register(HandwrittenMapper.Instance);
+            Register(SingleMapperAdapter.Instance);
+            Register(TakeSingleMapperFromCacheAdapter.Instance);
+            Register(GenericMapAdapter.Instance);
+            //Register(HandwrittenMapper.Instance);
             Register(EmitMapperAdapter.Instance);
 
             NameMaxLength = Mappers.Keys.Max(k => k.Length);

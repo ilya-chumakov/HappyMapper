@@ -127,6 +127,7 @@
     <Compile Include="NamingTools.cs" />
     <Compile Include="OrdinaryMapperException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SingleMapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

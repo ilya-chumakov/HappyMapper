@@ -34,8 +34,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EmitMapper, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EmitMapper.1.0.0\lib\EmitMapper.dll</HintPath>
-      <Private>True</Private>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\.NET - Free Sources\2016-05\EmitMapper-master\EmitMapper\bin\Debug\EmitMapper.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
@@ -60,7 +60,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BenchmarkV1.cs" />
-    <Compile Include="Facades.cs" />
+    <Compile Include="EmitMapperAdapters.cs" />
+    <Compile Include="OrdinaryMapperAdapters.cs" />
     <Compile Include="ITestableMapper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="HandwrittenMapper.cs" />
