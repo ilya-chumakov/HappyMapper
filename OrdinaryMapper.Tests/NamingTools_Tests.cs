@@ -9,7 +9,7 @@ namespace OrdinaryMapper.Tests
         public void Clean_WhenCalled_RemovesChars()
         {
             string origin = "søme string.";
-            string actual = NamingTools.Clean(origin);
+            string actual = NamingTools.ToAlphanumericOnly(origin);
             Console.WriteLine(actual);
             Assert.AreEqual("sme string", actual);
         } 

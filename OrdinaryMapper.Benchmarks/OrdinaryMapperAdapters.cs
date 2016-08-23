@@ -11,7 +11,7 @@ namespace OrdinaryMapper.Benchmarks
 
         public Action<TInput, TOutput> CreateMapMethod<TInput, TOutput>()
         {
-            var singleMapper = OrdinaryMapper.Instance.CreateMap<TInput, TOutput>();
+            var singleMapper = Mapper.Instance.CreateMap<TInput, TOutput>();
 
             Action<TInput, TOutput> action = (src, dest) => singleMapper.Map(src, dest);
 
@@ -28,9 +28,9 @@ namespace OrdinaryMapper.Benchmarks
 
         public Action<TInput, TOutput> CreateMapMethod<TInput, TOutput>()
         {
-            OrdinaryMapper.Instance.CreateMap<TInput, TOutput>();
+            Mapper.Instance.CreateMap<TInput, TOutput>();
 
-            var singleMapper = OrdinaryMapper.Instance.GetSingleMapper<TInput, TOutput>();
+            var singleMapper = Mapper.Instance.GetSingleMapper<TInput, TOutput>();
 
             Action <TInput, TOutput> action = (src, dest) => singleMapper.Map(src, dest);
 
@@ -47,9 +47,9 @@ namespace OrdinaryMapper.Benchmarks
 
         public Action<TInput, TOutput> CreateMapMethod<TInput, TOutput>()
         {
-            OrdinaryMapper.Instance.CreateMap<TInput, TOutput>();
+            Mapper.Instance.CreateMap<TInput, TOutput>();
 
-            Action<TInput, TOutput> action = (src, dest) => OrdinaryMapper.Instance.Map(src, dest);
+            Action<TInput, TOutput> action = (src, dest) => Mapper.Instance.Map(src, dest);
 
             return action;
         }

@@ -9,7 +9,7 @@ namespace OrdinaryMapper.Tests
         [Test]
         public void OrdinaryMapper_Map_Success()
         {
-            OrdinaryMapper mapper = OrdinaryMapper.Instance;
+            Mapper mapper = Mapper.Instance;
             mapper.CreateMap<Src, Dest>();
 
             var src = new Src();

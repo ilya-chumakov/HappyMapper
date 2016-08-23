@@ -6,8 +6,8 @@ namespace OrdinaryMapper
     {
         public const string NamespaceName = "RoslynMappers";
         public const string MapperClassName = "Mapper";
-        public string MapperMethodName => $"{NamingTools.Clean(SrcType.FullName)}_{NamingTools.Clean(DestType.FullName)}";
-        public string MapperClassFullName => $"{NamespaceName}.{MapperClassName}";
+        public string MapperMethodName { get; }
+        public string MapperClassFullName { get; }
 
         public Type SrcType { get; }
         public Type DestType { get; }
@@ -16,6 +16,9 @@ namespace OrdinaryMapper
         {
             SrcType = srcType;
             DestType = destType;
+
+            MapperMethodName = $"{NamingTools.ToAlphanumericOnly(SrcType.FullName)}_{NamingTools.ToAlphanumericOnly(DestType.FullName)}";
+            MapperClassFullName = $"{NamespaceName}.{MapperClassName}";
         }
 
         public static int GetKey(Type srcType, Type destType)

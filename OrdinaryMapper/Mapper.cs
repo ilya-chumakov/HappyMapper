@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace OrdinaryMapper
 {
-    public class OrdinaryMapper
+    public class Mapper
     {
-        public static OrdinaryMapper Instance { get; } = new OrdinaryMapper();
+        public static Mapper Instance { get; } = new Mapper();
 
         public static Dictionary<MapperKey, object> Cache { get; } = new Dictionary<MapperKey, object>();
 

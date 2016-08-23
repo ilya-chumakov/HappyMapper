@@ -124,7 +124,7 @@
     <Compile Include="MapperKey.cs" />
     <Compile Include="MapperTextBuilder.cs" />
     <Compile Include="MapperTypeBuilder.cs" />
-    <Compile Include="OrdinaryMapper.cs" />
+    <Compile Include="Mapper.cs" />
     <Compile Include="NamingTools.cs" />
     <Compile Include="OrdinaryMapperException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
