@@ -10,10 +10,11 @@ namespace OrdinaryMapper.Benchmarks.Types
 
             Name = Guid.NewGuid().ToString();
             Number = random.Next();
-            Float = DateTime.Now.Millisecond / random.Next();
+            Float = DateTime.Now.Millisecond / random.Next(500);
             DateTime = DateTime.Now;
 
             Child = new NestedSrcChild();
+            Child.MyProperty = random.Next(100);
         }
 
         public string Name { get; private set; }
@@ -30,11 +31,16 @@ namespace OrdinaryMapper.Benchmarks.Types
 
     public class NestedDest
     {
+        public NestedDest()
+        {
+            Child = new NestedDestChild();
+        }
+
         public string Name { get; set; }
         public int Number { get; set; }
         public float Float { get; set; }
         public DateTime DateTime { get; set; }
-        public NestedDestChild Child { get; private set; }
+        public NestedDestChild Child { get; set; }
     }
 
     public class NestedDestChild

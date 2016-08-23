@@ -41,8 +41,6 @@ namespace OrdinaryMapper.Tests.Tools
                 errors.Add($"{src.GetType().Name}.{srcProperty.Name}: Expected {srcVal} actual {destVal}");
             }
 
-            errors.ForEach(Console.WriteLine);
-
             return new CompareResult(errors);
         }
     }

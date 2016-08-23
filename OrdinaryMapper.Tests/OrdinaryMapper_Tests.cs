@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System;
+using NUnit.Framework;
 using OrdinaryMapper.Benchmarks;
 using OrdinaryMapper.Benchmarks.Types;
 using OrdinaryMapper.Tests.Tools;
@@ -36,6 +37,7 @@ namespace OrdinaryMapper.Tests
 
             var result = ObjectComparer.AreEqual(src, dest);
 
+            result.Errors.ForEach(Console.WriteLine);
             Assert.IsTrue(result.Success);
         }
     }
