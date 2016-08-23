@@ -11,10 +11,11 @@ namespace OrdinaryMapper
             var destProperties = context.DestType.GetProperties();
 
             var builder = new StringBuilder();
+
             builder.AppendLine("using System;                                                       ");
-            builder.AppendLine($"namespace {context.NamespaceName}                                ");
+            builder.AppendLine($"namespace {MapContext.NamespaceName}                                ");
             builder.AppendLine("{                                                                   ");
-            builder.AppendLine($"    public static class {context.MapperClassName}                  ");
+            builder.AppendLine($"    public static class {MapContext.MapperClassName}                  ");
             builder.AppendLine("    {                                                               ");
             builder.AppendLine($"       public static void {context.MapperMethodName}({context.SrcType.FullName} src, {context.DestType.FullName} dest)");
             builder.AppendLine("        {");

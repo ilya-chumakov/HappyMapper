@@ -11,9 +11,6 @@ namespace OrdinaryMapper
 
         public SingleMapper<TSrc, TDest> GetSingleMapper<TSrc, TDest>()
         {
-            //int key = MapContext.GetKey(typeof (TSrc), typeof (TDest));
-            ////var context = MapContext.Create<TSrc, TDest>();
-
             object map = null;
 
             var key = new MapperKey(typeof(TSrc), typeof(TDest), null);
@@ -26,9 +23,6 @@ namespace OrdinaryMapper
 
         public void Map<TSrc, TDest>(TSrc src, TDest dest)
         {
-            //int key = MapContext.GetKey(typeof (TSrc), typeof (TDest));
-            ////var context = MapContext.Create<TSrc, TDest>();
-
             object map = null;
 
             var key = new MapperKey(typeof(TSrc), typeof(TDest), null);
@@ -45,7 +39,6 @@ namespace OrdinaryMapper
 
         public SingleMapper<TSrc, TDest> CreateMap<TSrc, TDest>()
         {
-            var context = MapContext.Create<TSrc, TDest>();
             var key = new MapperKey(typeof(TSrc), typeof(TDest), null);
 
             object map = null;
@@ -53,22 +46,20 @@ namespace OrdinaryMapper
 
             if (map == null)
             {
-                var method = CreateMapMethod<TSrc, TDest>(context);
-                Method = method;
+                var method = CreateMapMethod<TSrc, TDest>(key);
 
                 map = new SingleMapper<TSrc, TDest>(method);
 
-                //Cache.Add(context.Key, map);
                 Cache.Add(key, map);
             }
 
             return map as SingleMapper<TSrc, TDest>;
         }
 
-        public object Method { get; set; }
-
-        protected Action<TSrc, TDest> CreateMapMethod<TSrc, TDest>(MapContext context)
+        protected Action<TSrc, TDest> CreateMapMethod<TSrc, TDest>(MapperKey key)
         {
+            var context = new MapContext(key.SrcType, key.DestType);
+
             string text = MapperTextBuilder.CreateText(context);
 
             var type = MapperTypeBuilder.CreateMapperType(text, context);
