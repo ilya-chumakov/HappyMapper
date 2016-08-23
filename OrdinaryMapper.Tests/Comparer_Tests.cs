@@ -1,6 +1,7 @@
 ﻿using System;
 using NUnit.Framework;
 using OrdinaryMapper.Benchmarks;
+using OrdinaryMapper.Benchmarks.Types;
 using OrdinaryMapper.Tests.Tools;
 
 namespace OrdinaryMapper.Tests

@@ -1,4 +1,5 @@
 using System;
+using OrdinaryMapper.Benchmarks.Types;
 
 namespace OrdinaryMapper.Benchmarks
 {

@@ -62,12 +62,13 @@
     <Compile Include="Benchmark.cs" />
     <Compile Include="Benchmark_Tests.cs" />
     <Compile Include="EmitMapperAdapters.cs" />
+    <Compile Include="Types\NestedTypes.cs" />
     <Compile Include="OrdinaryMapperAdapters.cs" />
     <Compile Include="ITestableMapper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="HandwrittenMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Types.cs" />
+    <Compile Include="Types\SimpleTypes.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OrdinaryMapper\OrdinaryMapper.csproj">
