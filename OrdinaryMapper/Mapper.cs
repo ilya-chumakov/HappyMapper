@@ -7,7 +7,7 @@ namespace OrdinaryMapper
     {
         public static Mapper Instance { get; } = new Mapper();
 
-        public static Dictionary<MapperKey, object> Cache { get; } = new Dictionary<MapperKey, object>();
+        public Dictionary<MapperKey, object> Cache { get; } = new Dictionary<MapperKey, object>();
 
         public SingleMapper<TSrc, TDest> GetSingleMapper<TSrc, TDest>()
         {

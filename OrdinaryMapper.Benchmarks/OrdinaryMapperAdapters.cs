@@ -7,11 +7,11 @@ namespace OrdinaryMapper.Benchmarks
     /// </summary>
     public class SingleMapperAdapter : ITestableMapper
     {
-        public static ITestableMapper Instance => new SingleMapperAdapter();
-
         public Action<TInput, TOutput> CreateMapMethod<TInput, TOutput>()
         {
-            var singleMapper = Mapper.Instance.CreateMap<TInput, TOutput>();
+            var genericMapper = new Mapper();
+
+            var singleMapper = genericMapper.CreateMap<TInput, TOutput>();
 
             Action<TInput, TOutput> action = (src, dest) => singleMapper.Map(src, dest);
 
@@ -24,15 +24,15 @@ namespace OrdinaryMapper.Benchmarks
     /// </summary>
     public class TakeSingleMapperFromCacheAdapter : ITestableMapper
     {
-        public static ITestableMapper Instance => new TakeSingleMapperFromCacheAdapter();
-
         public Action<TInput, TOutput> CreateMapMethod<TInput, TOutput>()
         {
-            Mapper.Instance.CreateMap<TInput, TOutput>();
+            var genericMapper = new Mapper();
 
-            var singleMapper = Mapper.Instance.GetSingleMapper<TInput, TOutput>();
+            genericMapper.CreateMap<TInput, TOutput>();
 
-            Action <TInput, TOutput> action = (src, dest) => singleMapper.Map(src, dest);
+            var singleMapper = genericMapper.GetSingleMapper<TInput, TOutput>();
+
+            Action<TInput, TOutput> action = (src, dest) => singleMapper.Map(src, dest);
 
             return action;
         }
@@ -43,13 +43,13 @@ namespace OrdinaryMapper.Benchmarks
     /// </summary>
     public class GenericMapAdapter : ITestableMapper
     {
-        public static ITestableMapper Instance => new GenericMapAdapter();
-
         public Action<TInput, TOutput> CreateMapMethod<TInput, TOutput>()
         {
-            Mapper.Instance.CreateMap<TInput, TOutput>();
+            var genericMapper = new Mapper();
 
-            Action<TInput, TOutput> action = (src, dest) => Mapper.Instance.Map(src, dest);
+            genericMapper.CreateMap<TInput, TOutput>();
+
+            Action<TInput, TOutput> action = (src, dest) => genericMapper.Map(src, dest);
 
             return action;
         }

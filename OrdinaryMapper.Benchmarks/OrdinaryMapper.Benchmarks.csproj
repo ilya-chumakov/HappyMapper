@@ -59,7 +59,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BenchmarkV1.cs" />
+    <Compile Include="Benchmark.cs" />
+    <Compile Include="Benchmark_Tests.cs" />
     <Compile Include="EmitMapperAdapters.cs" />
     <Compile Include="OrdinaryMapperAdapters.cs" />
     <Compile Include="ITestableMapper.cs" />

@@ -2,40 +2,32 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using NUnit.Framework;
 
 namespace OrdinaryMapper.Benchmarks
 {
-    public class BenchmarkV1
+    public class Benchmark<TSrc, TDest> 
+        where TSrc: new()
+        where TDest : new ()
     {
         public int NameMaxLength { get; private set; }
-        public Dictionary<string, Action<Src, Dest>> Mappers { get; set; }
+        public Dictionary<string, Action<TSrc, TDest>> Mappers { get; set; }
 
-        [SetUp]
-        public void SetUp()
+        public Benchmark()
         {
-            Mappers = new Dictionary<string, Action<Src, Dest>>();
+            Mappers = new Dictionary<string, Action<TSrc, TDest>>();
+        }
 
-            Register(SingleMapperAdapter.Instance);
-            Register(TakeSingleMapperFromCacheAdapter.Instance);
-            Register(GenericMapAdapter.Instance);
-            Register(HandwrittenMapper.Instance);
-            Register(EmitMapperSingle.Instance);
-            Register(EmitMapperCached.Instance);
+        public void Register<TMapper>() where TMapper : ITestableMapper, new ()
+        {
+            ITestableMapper mapper = new TMapper();
 
+            Mappers.Add(mapper.GetType().Name, mapper.CreateMapMethod<TSrc, TDest>());
+        }
+
+        public void Run(int[] exponents)
+        {
             NameMaxLength = Mappers.Keys.Max(k => k.Length);
-        }
 
-        private void Register(ITestableMapper mapper)
-        {
-            Mappers.Add(mapper.GetType().Name, mapper.CreateMapMethod<Src, Dest>());
-        }
-
-        [Test]
-        public void Run_AllMappers_MeasuresTime()
-        {
-            int[] exponents = new[] { 6, 7 };
-            //int[] exponents = new[] { 5, 6, 7, 8 };
             Console.Write("Exponents:  ");
             Array.ForEach(exponents, e => Console.Write(e + " "));
             Console.WriteLine();
@@ -45,12 +37,12 @@ namespace OrdinaryMapper.Benchmarks
             {
                 Console.Write(MapperNameFormatted(kvp.Key));
 
-                Action<Src, Dest> mapMethod = kvp.Value;
+                Action<TSrc, TDest> mapMethod = kvp.Value;
 
                 GC.Collect();
 
                 //warmup
-                mapMethod(new Src(), new Dest());
+                mapMethod(new TSrc(), new TDest());
                 
                 foreach (int exponent in exponents)
                 {
@@ -59,8 +51,8 @@ namespace OrdinaryMapper.Benchmarks
                     var stopwatch = new Stopwatch();
                     for (int i = 0; i < iterationCount; i++)
                     {
-                        var src = new Src();
-                        var dest = new Dest();
+                        var src = new TSrc();
+                        var dest = new TDest();
 
                         stopwatch.Start();
                         mapMethod(src, dest);
