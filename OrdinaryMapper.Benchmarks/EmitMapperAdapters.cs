@@ -3,6 +3,9 @@ using EmitMapper;
 
 namespace OrdinaryMapper.Benchmarks
 {
+    /// <summary>
+    /// Mapping without cache search
+    /// </summary>
     public class EmitMapperSingle : ITestableMapper
     {
         public static ITestableMapper Instance => new EmitMapperSingle();
@@ -17,6 +20,9 @@ namespace OrdinaryMapper.Benchmarks
         }
     }
 
+    /// <summary>
+    /// Mapper search + mapping
+    /// </summary>
     public class EmitMapperCached: ITestableMapper
     {
         public static ITestableMapper Instance => new EmitMapperCached();

@@ -2,6 +2,9 @@
 
 namespace OrdinaryMapper.Benchmarks
 {
+    /// <summary>
+    /// Mapping without cache search
+    /// </summary>
     public class SingleMapperAdapter : ITestableMapper
     {
         public static ITestableMapper Instance => new SingleMapperAdapter();
@@ -11,12 +14,14 @@ namespace OrdinaryMapper.Benchmarks
             var singleMapper = OrdinaryMapper.Instance.CreateMap<TInput, TOutput>();
 
             Action<TInput, TOutput> action = (src, dest) => singleMapper.Map(src, dest);
-            //Action<TInput, TOutput> action = (src, dest) => OrdinaryMapper.Instance.Map(src, dest);
 
             return action;
         }
     }
 
+    /// <summary>
+    /// Mapping without cache search
+    /// </summary>
     public class TakeSingleMapperFromCacheAdapter : ITestableMapper
     {
         public static ITestableMapper Instance => new TakeSingleMapperFromCacheAdapter();
@@ -33,6 +38,9 @@ namespace OrdinaryMapper.Benchmarks
         }
     }
 
+    /// <summary>
+    /// Mapper search + mapping
+    /// </summary>
     public class GenericMapAdapter : ITestableMapper
     {
         public static ITestableMapper Instance => new GenericMapAdapter();
