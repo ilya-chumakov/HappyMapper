@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections;
+using System.Diagnostics;
 
 namespace OrdinaryMapper
 {
+    [DebuggerDisplay("{SrcType.Name} -> {DestType.Name}")]
     public class MapperKey : IEquatable<MapperKey>
     {
         public Type SrcType { get; }

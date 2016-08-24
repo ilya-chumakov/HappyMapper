@@ -43,7 +43,7 @@ namespace OrdinaryMapper
             return compilation;
         }
 
-        private static Assembly CreateAssembly(CSharpCompilation compilation)
+        public static Assembly CreateAssembly(CSharpCompilation compilation)
         {
             using (var ms = new MemoryStream())
             {
