@@ -52,24 +52,37 @@ namespace OrdinaryMapper
 
                 var destProperty = destProperties.First(p => p.Name == name);
 
-                Type rightType = srcProperty.PropertyType;
-                Type leftType = destProperty.PropertyType;
+                Type srcPropType = srcProperty.PropertyType;
+                Type destPropType = destProperty.PropertyType;
 
-                if (leftType.IsAssignableFrom(rightType))
+                if (destPropType.IsAssignableFrom(srcPropType))
                 {
                     builder.AppendLine($"{destPrefix}.{name} = {srcPrefix}.{name};");
                 }
                 else
                 {
-                    if (rightType.IsClass && leftType.IsClass)
+                    if (srcPropType.IsClass && destPropType.IsClass)
                     {
+                        builder.AppendLine($"if ({srcPrefix}.{name} == null) {destPrefix}.{name} = null;");
+                        builder.AppendLine("else");
+                        builder.AppendLine("{");
+
+                        //has parameterless ctor
+                        if (destPropType.GetConstructor(Type.EmptyTypes) != null)
+                            //create new Dest() object
+                            builder.AppendLine($"{destPrefix}.{name} = new {destPropType.FullName}();");
+                        else
+                            builder.AppendLine($"if ({destPrefix}.{name} == null) throw new NullReferenceException();");
+
                         string text = CreatePropertiesAssignments(
-                            rightType.GetProperties(), 
-                            leftType.GetProperties(),
+                            srcPropType.GetProperties(), 
+                            destPropType.GetProperties(),
                             $"{srcPrefix}.{name}",
                             $"{destPrefix}.{name}");
 
                         builder.AppendLine(text);
+
+                        builder.AppendLine("}");
                     }
                 }
             }

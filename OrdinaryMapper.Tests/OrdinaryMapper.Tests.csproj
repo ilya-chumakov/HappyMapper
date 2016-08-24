@@ -52,6 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cases\ChildWithoutParameterlessCtor_Test.cs" />
     <Compile Include="Comparer_Tests.cs" />
     <Compile Include="MapperTextBuilder_Tests.cs" />
     <Compile Include="OrdinaryMapper_Tests.cs" />
