@@ -29,6 +29,7 @@ namespace OrdinaryMapper
                 MetadataReference.CreateFromFile(typeof (object).Assembly.Location),
                 MetadataReference.CreateFromFile(context.SrcType.Assembly.Location),
                 MetadataReference.CreateFromFile(context.DestType.Assembly.Location),
+                MetadataReference.CreateFromFile(typeof(OrdinaryMapperException).Assembly.Location),
             };
 
             CSharpCompilation compilation = CSharpCompilation.Create(

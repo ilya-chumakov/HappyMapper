@@ -37,13 +37,19 @@ namespace OrdinaryMapper.Tests.Cases.ChildWithoutParameterlessCtor
         [Test]
         public void Map_NoDestChildCtor_ThrowsEx()
         {
-            Mapper mapper = Mapper.Instance;
-            mapper.CreateMap<Src, Dest>();
+            Assert.Throws(Is.TypeOf<OrdinaryMapperException>()
+                         .And.Message.ContainsSubstring("parameterless ctor"),
+                         //.And.Property("MyParam").EqualTo(42),
+                delegate
+                {
+                    Mapper mapper = Mapper.Instance;
+                    mapper.CreateMap<Src, Dest>();
 
-            var src = new Src();
-            var dest = new Dest();
+                    var src = new Src();
+                    var dest = new Dest();
 
-            mapper.Map(src, dest);
+                    mapper.Map(src, dest);
+                });
         }
 
         [Test]

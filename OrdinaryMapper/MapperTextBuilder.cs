@@ -18,6 +18,8 @@ namespace OrdinaryMapper
             string destParameterName = "dest";
 
             builder.AppendLine("using System;                                                       ");
+            builder.AppendLine("using OrdinaryMapper;                                                       ");
+
             builder.AppendLine($"namespace {MapContext.NamespaceName}                                ");
             builder.AppendLine("{                                                                   ");
             builder.AppendLine($"    public static class {MapContext.MapperClassName}                  ");
@@ -72,7 +74,12 @@ namespace OrdinaryMapper
                             //create new Dest() object
                             builder.AppendLine($"{destPrefix}.{name} = new {destPropType.FullName}();");
                         else
-                            builder.AppendLine($"if ({destPrefix}.{name} == null) throw new NullReferenceException();");
+                        {
+                            string exMessage = 
+                                ErrorMessages.NoParameterlessCtor($"{name}", $"{name}", destPropType);
+
+                            builder.AppendLine($@"if ({destPrefix}.{name} == null) throw new OrdinaryMapperException(""{exMessage}"");");
+                        }
 
                         string text = CreatePropertiesAssignments(
                             srcPropType.GetProperties(), 
