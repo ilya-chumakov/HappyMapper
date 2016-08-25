@@ -13,28 +13,41 @@ namespace OrdinaryMapper
     {
         public static Type CreateMapperType(string text, MapContext context)
         {
-            var compilation = CreateCompilation(text, context);
+            var compilation = CreateCompilation(new[] { text }, context.ToHashSet());
 
             var assembly = CreateAssembly(compilation);
 
             return assembly.GetType($"{context.MapperClassFullName}");
         }
 
-        private static CSharpCompilation CreateCompilation(string text, MapContext context)
+        public static CSharpCompilation CreateCompilation(string[] texts, HashSet<Type> types)
         {
-            SyntaxTree syntaxTree = CSharpSyntaxTree.ParseText(text);
+            var trees = new SyntaxTree[texts.Length];
 
+            for (int index = 0; index < texts.Length; index++)
+            {
+                trees[index] = CSharpSyntaxTree.ParseText(texts[index]);
+            }
+
+            return CreateCompilation(trees, types);
+        }
+
+        public static CSharpCompilation CreateCompilation(SyntaxTree[] syntaxTrees, HashSet<Type> types)
+        {
             string assemblyName = Path.GetRandomFileName();
-            MetadataReference[] references = {
-                MetadataReference.CreateFromFile(typeof (object).Assembly.Location),
-                MetadataReference.CreateFromFile(context.SrcType.Assembly.Location),
-                MetadataReference.CreateFromFile(context.DestType.Assembly.Location),
-                MetadataReference.CreateFromFile(typeof(OrdinaryMapperException).Assembly.Location),
-            };
+
+            var references = new List<MetadataReference>();
+            references.Add(MetadataReference.CreateFromFile(typeof(object).Assembly.Location));
+            references.Add(MetadataReference.CreateFromFile(typeof(OrdinaryMapperException).Assembly.Location));
+
+            foreach (Type type in types)
+            {
+                references.Add(MetadataReference.CreateFromFile(type.Assembly.Location));
+            }
 
             CSharpCompilation compilation = CSharpCompilation.Create(
                 assemblyName,
-                syntaxTrees: new[] { syntaxTree },
+                syntaxTrees: syntaxTrees,
                 references: references,
                 options: new CSharpCompilationOptions(
                     outputKind: OutputKind.DynamicallyLinkedLibrary,

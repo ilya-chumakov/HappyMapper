@@ -44,6 +44,7 @@ namespace OrdinaryMapper.Tests.Cases.ChildWithoutParameterlessCtor
                 {
                     Mapper mapper = Mapper.Instance;
                     mapper.CreateMap<Src, Dest>();
+                    mapper.Compile();
 
                     var src = new Src();
                     var dest = new Dest();

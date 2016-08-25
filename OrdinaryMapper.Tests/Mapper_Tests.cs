@@ -6,13 +6,14 @@ using OrdinaryMapper.Tests.Tools;
 
 namespace OrdinaryMapper.Tests
 {
-    public class OrdinaryMapper_Tests
+    public class Mapper_Tests
     {
         [Test]
-        public void OrdinaryMapper_MapSimpleReferenceTypes_Success()
+        public void Mapper_MapSimpleReferenceTypes_Success()
         {
-            Mapper mapper = Mapper.Instance;
+            Mapper mapper = new Mapper();
             mapper.CreateMap<Src, Dest>();
+            mapper.Compile();
 
             var src = new Src();
             var dest = new Dest();
@@ -25,10 +26,11 @@ namespace OrdinaryMapper.Tests
         }
 
         [Test]
-        public void OrdinaryMapper_MapNestedReferenceTypes_Success()
+        public void Mapper_MapNestedReferenceTypes_Success()
         {
-            Mapper mapper = Mapper.Instance;
+            Mapper mapper = new Mapper();
             mapper.CreateMap<NestedSrc, NestedDest>();
+            mapper.Compile();
 
             var src = new NestedSrc();
             var dest = new NestedDest();

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
+using Microsoft.CodeAnalysis.CSharp;
 
 namespace OrdinaryMapper
 {
@@ -7,39 +9,95 @@ namespace OrdinaryMapper
     {
         public static Mapper Instance { get; } = new Mapper();
 
-        public Dictionary<MapperKey, object> Cache { get; } = new Dictionary<MapperKey, object>();
+        public Dictionary<TypePair, object> Cache { get; } = new Dictionary<TypePair, object>();
+        public Dictionary<TypePair, TypeMap> TypeMaps { get; } = new Dictionary<TypePair, TypeMap>();
 
         public SingleMapper<TSrc, TDest> GetSingleMapper<TSrc, TDest>()
         {
-            object map = null;
+            object mapperType = null;
 
-            var key = new MapperKey(typeof(TSrc), typeof(TDest), null);
-            Cache.TryGetValue(key, out map);
+            var key = new TypePair(typeof(TSrc), typeof(TDest), null);
+            Cache.TryGetValue(key, out mapperType);
 
-            if (map == null) throw new OrdinaryMapperException(ErrorMessages.MissingMapping(key.SrcType, key.DestType));
+            if (mapperType == null) throw new OrdinaryMapperException(ErrorMessages.MissingMapping(key.SrcType, key.DestType));
 
-            return map as SingleMapper<TSrc, TDest>;
+            var method = CreateMapMethod<TSrc, TDest>(mapperType as Type);
+
+            var mapper = new SingleMapper<TSrc, TDest>(method);
+
+            return mapper;
         }
 
         public void Map<TSrc, TDest>(TSrc src, TDest dest)
         {
-            object map = null;
+            object mapperType = null;
 
-            var key = new MapperKey(typeof(TSrc), typeof(TDest), null);
-            Cache.TryGetValue(key, out map);
+            var key = new TypePair(typeof(TSrc), typeof(TDest), null);
+            Cache.TryGetValue(key, out mapperType);
 
-            if (map == null) throw new OrdinaryMapperException(ErrorMessages.MissingMapping(key.SrcType, key.DestType));
+            if (mapperType == null) throw new OrdinaryMapperException(ErrorMessages.MissingMapping(key.SrcType, key.DestType));
 
-            var mapper = map as SingleMapper<TSrc, TDest>;
+            var method = CreateMapMethod<TSrc, TDest>(mapperType as Type);
+
+            var mapper = new SingleMapper<TSrc, TDest>(method);
 
             if (mapper == null) throw new OrdinaryMapperException("Broken cache.");
 
             mapper.Map(src, dest);
         }
 
-        public SingleMapper<TSrc, TDest> CreateMap<TSrc, TDest>()
+        public void CreateMap<TSrc, TDest>()
         {
-            var key = new MapperKey(typeof(TSrc), typeof(TDest), null);
+            var typePair = new TypePair(typeof(TSrc), typeof(TDest));
+
+            TypeMap map;
+            TypeMaps.TryGetValue(typePair, out map);
+
+            if (map == null) TypeMaps.Add(typePair, new TypeMap(typePair));
+        }
+
+        public void Compile()
+        {
+            var texts = new List<string>();
+            var types = new HashSet<Type>();
+
+            foreach (var kvp in TypeMaps)
+            {
+                TypePair typePair = kvp.Key;
+                TypeMap map = kvp.Value;
+
+                var context = new MapContext(typePair.SrcType, typePair.DestType);
+
+                string text = MapperTextBuilder.CreateText(context);
+
+                texts.Add(text);
+
+                types.Add(typePair.SrcType);
+                types.Add(typePair.DestType);
+            }
+
+            CSharpCompilation compilation = MapperTypeBuilder.CreateCompilation(texts.ToArray(), types);
+
+            Assembly assembly = MapperTypeBuilder.CreateAssembly(compilation);
+
+            foreach (var kvp in TypeMaps)
+            {
+                TypePair typePair = kvp.Key;
+                TypeMap map = kvp.Value;
+
+                var context = new MapContext(typePair.SrcType, typePair.DestType);
+
+                var type = assembly.GetType($"{context.MapperClassFullName}");
+
+                //map = new SingleMapper<TSrc, TDest>(method);
+
+                Cache.Add(typePair, type);
+            }
+        }
+
+        public SingleMapper<TSrc, TDest> CreateMap_OLD<TSrc, TDest>()
+        {
+            var key = new TypePair(typeof(TSrc), typeof(TDest), null);
 
             object map = null;
             Cache.TryGetValue(key, out map);
@@ -56,7 +114,15 @@ namespace OrdinaryMapper
             return map as SingleMapper<TSrc, TDest>;
         }
 
-        protected Action<TSrc, TDest> CreateMapMethod<TSrc, TDest>(MapperKey key)
+        protected Action<TSrc, TDest> CreateMapMethod<TSrc, TDest>(Type type)
+        {
+            var context = MapContext.Create<TSrc, TDest>();
+
+            return (Action<TSrc, TDest>)
+                Delegate.CreateDelegate(typeof(Action<TSrc, TDest>), type, context.MapperMethodName);
+        }
+
+        protected Action<TSrc, TDest> CreateMapMethod<TSrc, TDest>(TypePair key)
         {
             var context = new MapContext(key.SrcType, key.DestType);
 

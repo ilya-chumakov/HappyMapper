@@ -121,7 +121,7 @@
     <Compile Include="ErrorMessages.cs" />
     <Compile Include="ITestableMapper.cs" />
     <Compile Include="MapContext.cs" />
-    <Compile Include="MapperKey.cs" />
+    <Compile Include="TypePair.cs" />
     <Compile Include="MapperTextBuilder.cs" />
     <Compile Include="MapperTypeBuilder.cs" />
     <Compile Include="Mapper.cs" />

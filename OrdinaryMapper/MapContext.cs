@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace OrdinaryMapper
 {
@@ -29,6 +30,16 @@ namespace OrdinaryMapper
         public static MapContext Create<TSrc, TDest>()
         {
             return new MapContext(typeof(TSrc), typeof(TDest));
+        }
+
+        public HashSet<Type> ToHashSet()
+        {
+            var types = new HashSet<Type>();
+
+            types.Add(SrcType);
+            types.Add(DestType);
+
+            return types;
         }
     }
 }

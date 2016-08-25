@@ -1,18 +1,27 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace OrdinaryMapper
 {
     [DebuggerDisplay("{SrcType.Name} -> {DestType.Name}")]
-    public class MapperKey : IEquatable<MapperKey>
+    public class TypeMap : TypePair
+    {
+        public TypeMap(TypePair typePair): this(typePair.SrcType, typePair.DestType){ }
+
+        public TypeMap(Type srcType, Type destType, string mapperName = null) : base(srcType, destType, mapperName) {}
+    }
+
+    [DebuggerDisplay("{SrcType.Name} -> {DestType.Name}")]
+    public class TypePair : IEquatable<TypePair>
     {
         public Type SrcType { get; }
         public Type DestType { get; }
         readonly string _mapperName;
         readonly int _hash;
 
-        public MapperKey(Type srcType, Type destType, string mapperName = null)
+        public TypePair(Type srcType, Type destType, string mapperName = null)
         {
             SrcType = srcType;
             DestType = destType;
@@ -20,7 +29,7 @@ namespace OrdinaryMapper
             _hash = srcType.GetHashCode() + destType.GetHashCode() + (mapperName == null ? 0 : mapperName.GetHashCode());
         }
 
-        public bool Equals(MapperKey other)
+        public bool Equals(TypePair other)
         {
             return _hash == other._hash
                 && SrcType == other.SrcType
@@ -30,7 +39,7 @@ namespace OrdinaryMapper
 
         public override bool Equals(object obj)
         {
-            var other = (MapperKey)obj;
+            var other = (TypePair)obj;
 
             return _hash == other._hash
                 && SrcType == other.SrcType

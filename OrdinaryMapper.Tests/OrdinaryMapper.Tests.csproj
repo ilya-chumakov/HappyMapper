@@ -125,7 +125,8 @@
     <Compile Include="Cases\ChildWithoutParameterlessCtor_Test.cs" />
     <Compile Include="Comparer_Tests.cs" />
     <Compile Include="MapperTextBuilder_Tests.cs" />
-    <Compile Include="OrdinaryMapper_Tests.cs" />
+    <Compile Include="Mapper_SingleMapper_Tests.cs" />
+    <Compile Include="Mapper_Tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="NamingTools_Tests.cs" />
     <Compile Include="Roslyn\ManySyntaxTrees_Tests.cs" />
