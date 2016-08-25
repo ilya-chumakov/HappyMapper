@@ -29,19 +29,15 @@ namespace OrdinaryMapper
 
         public void Map<TSrc, TDest>(TSrc src, TDest dest)
         {
-            object @delegate = null;
+            object @delegate;
 
-            var key = new TypePair(typeof(TSrc), typeof(TDest), null);
+            var key = new TypePair(typeof(TSrc), typeof(TDest));
             DelegateCache.TryGetValue(key, out @delegate);
             var mapMethod = @delegate as Action<TSrc, TDest>;
 
-            if (@delegate == null) throw new OrdinaryMapperException(ErrorMessages.MissingMapping(key.SrcType, key.DestType));
+            if (mapMethod == null) throw new OrdinaryMapperException(ErrorMessages.MissingMapping(key.SrcType, key.DestType));
 
-            var mapper = new SingleMapper<TSrc, TDest>(mapMethod);
-
-            if (mapper == null) throw new OrdinaryMapperException("Broken cache.");
-
-            mapper.Map(src, dest);
+            mapMethod(src, dest);
         }
 
         public void CreateMap<TSrc, TDest>()
