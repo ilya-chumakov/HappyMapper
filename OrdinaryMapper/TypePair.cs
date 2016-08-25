@@ -6,11 +6,18 @@ using System.Diagnostics;
 namespace OrdinaryMapper
 {
     [DebuggerDisplay("{SrcType.Name} -> {DestType.Name}")]
-    public class TypeMap : TypePair
+    public class TypeMap
     {
-        public TypeMap(TypePair typePair): this(typePair.SrcType, typePair.DestType){ }
+        public Type SrcType { get; }
+        public Type DestType { get; }
+        public Type MapDelegateType { get; }
 
-        public TypeMap(Type srcType, Type destType, string mapperName = null) : base(srcType, destType, mapperName) {}
+        public TypeMap(TypePair typePair, Type mapDelegateType)
+        {
+            SrcType = typePair.SrcType;
+            DestType = typePair.DestType;
+            MapDelegateType = mapDelegateType;
+        }
     }
 
     [DebuggerDisplay("{SrcType.Name} -> {DestType.Name}")]
