@@ -5,7 +5,7 @@ namespace OrdinaryMapper
     public static class NamingTools
     {
         /// <summary>
-        /// Replace all chars except ASCII
+        /// Replace all chars except alphanumeric ASCII
         /// </summary>
         /// <param name="typeName"></param>
         /// <returns></returns>

@@ -2,9 +2,9 @@
 
 namespace OrdinaryMapper
 {
-    public class SingleMapper<TSrc, TDest> //: Map
+    public class SingleMapper<TSrc, TDest>
     {
-        public SingleMapper(Action<TSrc, TDest> mapMethod) //: base(mapMethod)
+        public SingleMapper(Action<TSrc, TDest> mapMethod)
         {
             Map = mapMethod;
         }

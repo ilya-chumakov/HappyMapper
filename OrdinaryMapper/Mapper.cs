@@ -92,44 +92,5 @@ namespace OrdinaryMapper
                 DelegateCache.Add(typePair, @delegate);
             }
         }
-
-        public SingleMapper<TSrc, TDest> CreateMap_OLD<TSrc, TDest>()
-        {
-            var key = new TypePair(typeof(TSrc), typeof(TDest), null);
-
-            object map = null;
-            DelegateCache.TryGetValue(key, out map);
-
-            if (map == null)
-            {
-                var method = CreateMapMethod<TSrc, TDest>(key);
-
-                map = new SingleMapper<TSrc, TDest>(method);
-
-                DelegateCache.Add(key, map);
-            }
-
-            return map as SingleMapper<TSrc, TDest>;
-        }
-
-        protected Action<TSrc, TDest> CreateMapMethod<TSrc, TDest>(Type type)
-        {
-            var context = MapContext.Create<TSrc, TDest>();
-
-            return (Action<TSrc, TDest>)
-                Delegate.CreateDelegate(typeof(Action<TSrc, TDest>), type, context.MapperMethodName);
-        }
-
-        protected Action<TSrc, TDest> CreateMapMethod<TSrc, TDest>(TypePair key)
-        {
-            var context = new MapContext(key.SrcType, key.DestType);
-
-            string text = MapperTextBuilder.CreateText(context);
-
-            var type = MapperTypeBuilder.CreateMapperType(text, context);
-
-            return (Action<TSrc, TDest>)
-                Delegate.CreateDelegate(typeof(Action<TSrc, TDest>), type, context.MapperMethodName);
-        }
     }
 }

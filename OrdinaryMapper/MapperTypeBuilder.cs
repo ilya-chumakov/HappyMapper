@@ -11,16 +11,14 @@ namespace OrdinaryMapper
 {
     public static class MapperTypeBuilder
     {
-        public static Type CreateMapperType(string text, MapContext context)
+        public static CSharpCompilation CreateCompilation(string[] texts, HashSet<Type> types)
         {
-            var compilation = CreateCompilation(new[] { text }, context.ToHashSet());
+            var trees = CreateSyntaxTrees(texts);
 
-            var assembly = CreateAssembly(compilation);
-
-            return assembly.GetType($"{context.MapperClassFullName}");
+            return CreateCompilation(trees, types);
         }
 
-        public static CSharpCompilation CreateCompilation(string[] texts, HashSet<Type> types)
+        private static SyntaxTree[] CreateSyntaxTrees(string[] texts)
         {
             var trees = new SyntaxTree[texts.Length];
 
@@ -28,8 +26,7 @@ namespace OrdinaryMapper
             {
                 trees[index] = CSharpSyntaxTree.ParseText(texts[index]);
             }
-
-            return CreateCompilation(trees, types);
+            return trees;
         }
 
         public static CSharpCompilation CreateCompilation(SyntaxTree[] syntaxTrees, HashSet<Type> types)
