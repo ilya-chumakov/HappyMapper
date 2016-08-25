@@ -22,6 +22,18 @@ namespace OrdinaryMapper.Tests
         }
 
         [Test]
+        public void GetSingleMapper_NoMap_ThrowsEx()
+        {
+            Assert.Throws(Is.TypeOf<OrdinaryMapperException>()
+                , () => 
+                {
+                    Mapper mapper = new Mapper();
+                    mapper.Compile();
+                    var singleMapper = mapper.GetSingleMapper<Src, Dest>();
+                });
+        }
+
+        [Test]
         public void GetSingleMapper_MapExists_ReturnsMapper()
         {
             var singleMapper = CreateSingleMapper();

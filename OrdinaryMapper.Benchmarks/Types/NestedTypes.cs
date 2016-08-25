@@ -15,6 +15,8 @@ namespace OrdinaryMapper.Benchmarks.Types
 
             Child = new NestedSrcChild();
             Child.MyProperty = random.Next(100);
+            Child.GrandChild = new NestedSrcGrandChild();
+            Child.GrandChild.Foo = (byte) random.Next(byte.MaxValue);
         }
 
         public string Name { get; private set; }
@@ -27,6 +29,12 @@ namespace OrdinaryMapper.Benchmarks.Types
     public class NestedSrcChild
     {
         public int MyProperty { get; set; }
+        public NestedSrcGrandChild GrandChild { get; set; }
+    }
+
+    public class NestedSrcGrandChild
+    {
+        public byte Foo { get; set; }
     }
 
     public class NestedDest
@@ -34,6 +42,7 @@ namespace OrdinaryMapper.Benchmarks.Types
         public NestedDest()
         {
             Child = new NestedDestChild();
+            Child.GrandChild = new NestedDestGrandChild();
         }
 
         public string Name { get; set; }
@@ -46,5 +55,11 @@ namespace OrdinaryMapper.Benchmarks.Types
     public class NestedDestChild
     {
         public int MyProperty { get; set; }
+        public NestedDestGrandChild GrandChild { get; set; }
+    }
+
+    public class NestedDestGrandChild
+    {
+        public byte Foo { get; set; }
     }
 }

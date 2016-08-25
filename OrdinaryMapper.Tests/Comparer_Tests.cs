@@ -59,6 +59,7 @@ namespace OrdinaryMapper.Tests
             dest.Float = src.Float;
             dest.DateTime = src.DateTime;
             dest.Child.MyProperty = src.Child.MyProperty;
+            dest.Child.GrandChild.Foo = src.Child.GrandChild.Foo;
 
             var result = ObjectComparer.AreEqual(src, dest);
 
