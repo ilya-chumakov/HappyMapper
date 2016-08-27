@@ -60,7 +60,7 @@ namespace OrdinaryMapper
         {
             var propertyMap = new PropertyMap(destProperty, this);
 
-            //propertyMap.ChainMembers(resolvers);
+            propertyMap.ChainMembers(resolvers);
 
             _propertyMaps.Add(propertyMap);
         }

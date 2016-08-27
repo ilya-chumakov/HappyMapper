@@ -11,8 +11,8 @@
         {
             //TODO: cache typedetails
 
-            var sourceTypeInfo = new TypeDetails(sourceType);
-            var destTypeInfo = new TypeDetails(destinationType);
+            var sourceTypeInfo = new TypeDetails(sourceType, options);
+            var destTypeInfo = new TypeDetails(destinationType, options);
             //var sourceTypeInfo = options.CreateTypeDetails(sourceType);
             //var destTypeInfo = options.CreateTypeDetails(destinationType);
 
@@ -23,7 +23,7 @@
             {
                 var resolvers = new LinkedList<MemberInfo>();
 
-                //if (MapDestinationPropertyToSource(options, sourceTypeInfo, destProperty.DeclaringType, destProperty.GetMemberType(), destProperty.Name, resolvers))
+                if (MapDestinationPropertyToSource(options, sourceTypeInfo, destProperty.DeclaringType, destProperty.GetMemberType(), destProperty.Name, resolvers))
                 {
                     //как получить SOURCE?
                     typeMap.AddPropertyMap(destProperty, resolvers);
@@ -41,5 +41,11 @@
             //}
             return typeMap;
         }
+
+        private bool MapDestinationPropertyToSource(MapperConfigurationExpression options, TypeDetails sourceTypeInfo, Type destType, Type destMemberType, string destMemberInfo, LinkedList<MemberInfo> members)
+        {
+            return options.MemberConfigurations.Any(_ => _.MapDestinationPropertyToSource(options, sourceTypeInfo, destType, destMemberType, destMemberInfo, members));
+        }
+
     }
 }

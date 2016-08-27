@@ -7,6 +7,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Reflection.Metadata;
 using System.Threading;
+using OrdinaryMapper.MemberMapping;
 
 namespace OrdinaryMapper
 {
@@ -67,6 +68,18 @@ namespace OrdinaryMapper
         private readonly List<ITypeMapConfiguration> _typeMapConfigs = new List<ITypeMapConfiguration>();
         private readonly TypeMapFactory _typeMapFactory = new TypeMapFactory();
 
+        public Func<PropertyInfo, bool> ShouldMapProperty { get; set; } = p => p.IsPublic();
+
+        public Func<FieldInfo, bool> ShouldMapField { get; set; } = f => f.IsPublic();
+
+        public MapperConfigurationExpression()
+        {
+            _memberConfigurations.Add(new MemberConfigurationConv()
+                //.AddMember<NameSplitMember>()
+                //.AddName<PrePostfixName>(_ => _.AddStrings(p => p.Prefixes, "Get"))
+                );
+        }
+
         public void Register(TypeMapRegistry typeMapRegistry)
         {
             //foreach (var config in _typeMapConfigs.Where(c => !c.IsOpenGeneric))
@@ -101,7 +114,20 @@ namespace OrdinaryMapper
 
             return mappingExp;
         }
+        private readonly IList<IMemberConfigurationCONV> _memberConfigurations = new List<IMemberConfigurationCONV>();
+
+        public IMemberConfigurationCONV DefaultMemberConfig => _memberConfigurations.First();
+
+        public IEnumerable<IMemberConfigurationCONV> MemberConfigurations => _memberConfigurations;
+
+        public IMemberConfigurationCONV AddMemberConfiguration()
+        {
+            var condition = new MemberConfigurationConv();
+            _memberConfigurations.Add(condition);
+            return condition;
+        }
     }
+
     public interface IMemberConfiguration
     {
         void Configure(TypeMap typeMap);

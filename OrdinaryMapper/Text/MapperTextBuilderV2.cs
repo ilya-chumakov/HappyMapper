@@ -34,17 +34,20 @@ namespace OrdinaryMapper
                     continue;
                 }
 
+                var propertyTypePair = propertyMap.GetTypePair();
+
                 string text;
-                if (TemplateCache.TryGetValue(propertyMap.TypeMap.TypePair, out text))
+                if (TemplateCache.TryGetValue(propertyTypePair, out text))
                 {
                     coder.InsertText(srcFieldName, destFieldName, propertyMap, text);
                     continue;
                 }
 
                 TypeMap nodeMap;
-                if (typeMaps.TryGetValue(propertyMap.TypeMap.TypePair, out nodeMap))
+                if (typeMaps.TryGetValue(propertyTypePair, out nodeMap))
                 {
                     ProcessProperties(nodeMap, typeMaps, propertyMap.SourceMember.Name, propertyMap.DestinationProperty.Name);
+                    continue;
                 }
             }
 

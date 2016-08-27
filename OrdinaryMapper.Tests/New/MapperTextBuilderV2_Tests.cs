@@ -22,24 +22,28 @@ namespace OrdinaryMapper.Tests.New
                 TypeMap map = kvp.Value;
 
                 string text = MapperTextBuilderV2.CreateText(map, typeMaps);
+                Console.WriteLine(text);
             }
         }
+
         [Test]
         public void CreateMapper_Nested()
         {
-            var typeMaps = new Dictionary<TypePair, TypeMap>();
-            CreateMap<A, B>(typeMaps);
-            //CreateMap<NestedA, NestedB>(typeMaps);
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<A, B>();
+                cfg.CreateMap<NestedA, NestedB>();
+            });
 
+            var typeMaps = config.TypeMaps;
 
             foreach (var kvp in typeMaps)
             {
                 TypePair typePair = kvp.Key;
                 TypeMap map = kvp.Value;
 
-                var context = new MapContext(typePair.SrcType, typePair.DestType);
-
                 string text = MapperTextBuilderV2.CreateText(map, typeMaps);
+                Console.WriteLine(text);
             }
         }
 

@@ -15,11 +15,12 @@ namespace OrdinaryMapper
     [DebuggerDisplay("{Type}")]
     public class TypeDetails
     {
-        public TypeDetails(Type type)// , IProfileConfiguration config)
+        public TypeDetails(Type type, MapperConfigurationExpression config)
         {
-
             Type = type;
-            var membersToMap = MembersToMap((info => true), (info => true));
+            Func<MemberInfo, bool> def = pi => pi.IsPublic();
+
+            var membersToMap = MembersToMap(config?.ShouldMapProperty ?? def, config?.ShouldMapField ?? def);
             //var membersToMap = MembersToMap(config.ShouldMapProperty, config.ShouldMapField);
             var publicReadableMembers = GetAllPublicReadableMembers(membersToMap);
             var publicWritableMembers = GetAllPublicWritableMembers(membersToMap);

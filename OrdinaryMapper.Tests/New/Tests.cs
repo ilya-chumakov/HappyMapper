@@ -1,4 +1,7 @@
-﻿using NUnit.Framework;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using NUnit.Framework;
 
 namespace OrdinaryMapper.Tests.New
 {
@@ -17,13 +20,26 @@ namespace OrdinaryMapper.Tests.New
                 cfg.CreateMap<A, B>().ForMember(d => d.MyProperty, opt => opt.Ignore());
                 cfg.CreateMap<C, D>();
             });
+
+            PrintPropertyMaps(config);
+        }
+
+        private static void PrintPropertyMaps(MapperConfiguration config)
+        {
+            List<PropertyMap> propertyMaps = config.TypeMaps.Values.SelectMany(tm => tm.PropertyMaps).ToList();
+
+            foreach (var propertyMap in propertyMaps)
+            {
+                Console.WriteLine(propertyMap.ToString());
+            }
         }
 
         [Test]
         public void TypeDetails_Ctor_Success()
         {
-            var td = new TypeDetails(typeof(A));
+            var td = new TypeDetails(typeof(A), null);
             Assert.IsNotNull(td);
         }
+
     }
 }

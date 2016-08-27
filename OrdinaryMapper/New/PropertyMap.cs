@@ -64,5 +64,22 @@ namespace OrdinaryMapper
         {
             return !Ignored;
         }
+
+        public void ChainMembers(IEnumerable<MemberInfo> members)
+        {
+            var getters = members as IList<MemberInfo> ?? members.ToList();
+            _memberChain.AddRange(getters);
+        }
+
+        public TypePair GetTypePair()
+        {
+            //TODO cache
+            return new TypePair(SourceType, DestinationPropertyType);
+        }
+
+        public override string ToString()
+        {
+            return $"{SourceMember.Name} -> {DestinationProperty.Name}";
+        }
     }
 }
