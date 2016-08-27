@@ -51,6 +51,11 @@ namespace OrdinaryMapper
             return propertyMap;
         }
 
+        public ConcurrentBag<PropertyMap> PropertyMaps
+        {
+            get { return _propertyMaps; }
+        }
+
         public void AddPropertyMap(MemberInfo destProperty, IEnumerable<MemberInfo> resolvers)
         {
             var propertyMap = new PropertyMap(destProperty, this);

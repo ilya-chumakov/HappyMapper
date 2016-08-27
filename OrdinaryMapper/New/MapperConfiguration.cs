@@ -23,6 +23,8 @@ namespace OrdinaryMapper
         }
 
         private readonly TypeMapRegistry _typeMapRegistry = new TypeMapRegistry();
+        
+        public IDictionary<TypePair, TypeMap> TypeMaps => _typeMapRegistry.TypeMapsDictionary;
 
         private void Seal(MapperConfigurationExpression configuration)
         {

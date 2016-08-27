@@ -25,6 +25,7 @@
 
                 //if (MapDestinationPropertyToSource(options, sourceTypeInfo, destProperty.DeclaringType, destProperty.GetMemberType(), destProperty.Name, resolvers))
                 {
+                    //как получить SOURCE?
                     typeMap.AddPropertyMap(destProperty, resolvers);
                 }
             }

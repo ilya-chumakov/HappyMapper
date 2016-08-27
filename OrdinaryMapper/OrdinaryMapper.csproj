@@ -130,9 +130,12 @@
     <Compile Include="New\PropertyMap.cs" />
     <Compile Include="New\TypeDetails.cs" />
     <Compile Include="New\TypeExtensions.cs" />
+    <Compile Include="Text\Coder.cs" />
+    <Compile Include="Text\MapperTextBuilderV2.cs" />
+    <Compile Include="Text\TypeAssignment.cs" />
     <Compile Include="TypeMap.cs" />
     <Compile Include="TypePair.cs" />
-    <Compile Include="MapperTextBuilder.cs" />
+    <Compile Include="Text\MapperTextBuilder.cs" />
     <Compile Include="MapperTypeBuilder.cs" />
     <Compile Include="Mapper.cs" />
     <Compile Include="NamingTools.cs" />
