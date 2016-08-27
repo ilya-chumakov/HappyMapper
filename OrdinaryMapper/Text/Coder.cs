@@ -16,7 +16,7 @@ namespace OrdinaryMapper
 
         public void SimpleAssign(string src, string dest, PropertyMap propertyMap)
         {
-            string template = "{1}.{propertyMap.SourceMember.Name} = new {0}.{propertyMap.DestinationProperty.Name};";
+            string template = $"{{1}}.{propertyMap.SourceMember.Name} = {{0}}.{propertyMap.DestinationProperty.Name};";
 
             string compiled = string.Format(template, src, dest);
 
@@ -24,7 +24,7 @@ namespace OrdinaryMapper
             code.AppendLine(compiled);
         }
 
-        public void InsertText(string src, string dest, PropertyMap propertyMap, string text)
+        public void AttachTemplate(string src, string dest, PropertyMap propertyMap, string text)
         {
             templates.AppendLine(text);
 
@@ -34,10 +34,16 @@ namespace OrdinaryMapper
 
         public TypeAssignment GetAssignment()
         {
-            var ass = new TypeAssignment();
-            ass.Code = code.ToString();
-            ass.Template = templates.ToString();
-            return ass;
+            var assignment = new TypeAssignment();
+            assignment.Code = code.ToString();
+            assignment.Template = templates.ToString();
+            return assignment;
+        }
+
+        public void AttachAssignment(TypeAssignment propAssignment)
+        {
+            code.Append(propAssignment.Code);
+            templates.Append(propAssignment.Template);
         }
     }
 }

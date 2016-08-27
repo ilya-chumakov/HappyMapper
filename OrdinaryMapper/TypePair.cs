@@ -43,5 +43,10 @@ namespace OrdinaryMapper
         {
             return _hash;
         }
+
+        public override string ToString()
+        {
+            return $"SrcType: {SrcType.Name} -> DestType: {DestType.Name}.";
+        }
     }
 }

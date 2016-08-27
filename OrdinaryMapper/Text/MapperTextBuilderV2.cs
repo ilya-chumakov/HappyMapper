@@ -28,7 +28,7 @@ namespace OrdinaryMapper
 
             foreach (PropertyMap propertyMap in rootMap.PropertyMaps)
             {
-                if (propertyMap.SourceType.IsPrimitive && propertyMap.DestinationPropertyType.IsPrimitive)
+                if (propertyMap.DestinationPropertyType.IsAssignableFrom(propertyMap.SourceType))
                 {
                     coder.SimpleAssign(srcFieldName, destFieldName, propertyMap);
                     continue;
@@ -39,23 +39,35 @@ namespace OrdinaryMapper
                 string text;
                 if (TemplateCache.TryGetValue(propertyTypePair, out text))
                 {
-                    coder.InsertText(srcFieldName, destFieldName, propertyMap, text);
+                    coder.AttachTemplate(srcFieldName, destFieldName, propertyMap, text);
                     continue;
                 }
 
                 TypeMap nodeMap;
                 if (typeMaps.TryGetValue(propertyTypePair, out nodeMap))
                 {
-                    ProcessProperties(nodeMap, typeMaps, propertyMap.SourceMember.Name, propertyMap.DestinationProperty.Name);
+                    string srcPrefix = Combine(srcFieldName, propertyMap.SourceMember.Name);
+                    string destPrefix = Combine(destFieldName, propertyMap.DestinationProperty.Name);
+
+                    var propAssignment = ProcessProperties(nodeMap, typeMaps, srcPrefix, destPrefix);
+
+                    coder.AttachAssignment(propAssignment);
                     continue;
                 }
+
+                //TODO scan via Reflection
             }
 
-            var ass = coder.GetAssignment();
+            var assignment = coder.GetAssignment();
 
-            TemplateCache.Add(rootMap.TypePair, ass.Template);
+            TemplateCache.AddIfNotExist(rootMap.TypePair, assignment.Template);
 
-            return ass;
+            return assignment;
+        }
+
+        private static string Combine(string left, string right)
+        {
+            return $"{left}.{right}";
         }
 
 
@@ -129,14 +141,14 @@ namespace OrdinaryMapper
                             builder.AppendLine($"{destPrefix}.{name} = new {destPropType.FullName}();");
                         else
                         {
-                            string exMessage = 
+                            string exMessage =
                                 ErrorMessages.NoParameterlessCtor($"{name}", $"{name}", destPropType);
 
                             builder.AppendLine($@"if ({destPrefix}.{name} == null) throw new OrdinaryMapperException(""{exMessage}"");");
                         }
 
                         string text = CreatePropertiesAssignments(
-                            srcPropType.GetProperties(), 
+                            srcPropType.GetProperties(),
                             destPropType.GetProperties(),
                             $"{srcPrefix}.{name}",
                             $"{destPrefix}.{name}");

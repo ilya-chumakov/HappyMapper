@@ -132,6 +132,7 @@
     <Compile Include="New\TypeDetails.cs" />
     <Compile Include="New\TypeExtensions.cs" />
     <Compile Include="Text\Coder.cs" />
+    <Compile Include="Text\DictionaryEx.cs" />
     <Compile Include="Text\MapperTextBuilderV2.cs" />
     <Compile Include="Text\TypeAssignment.cs" />
     <Compile Include="TypeMap.cs" />

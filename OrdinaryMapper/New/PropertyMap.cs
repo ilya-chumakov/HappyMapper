@@ -6,7 +6,7 @@ using System.Reflection;
 
 namespace OrdinaryMapper
 {
-    [DebuggerDisplay("{DestinationProperty.Name}")]
+    [DebuggerDisplay("{SourceMember.Name} -> {DestinationProperty.Name}")]
     public class PropertyMap
     {
         private readonly List<MemberInfo> _memberChain = new List<MemberInfo>();
