@@ -40,6 +40,8 @@ namespace OrdinaryMapper
 
             foreach (PropertyMap propertyMap in rootMap.PropertyMaps)
             {
+                if (propertyMap.Ignored) continue;
+
                 //assign without explicit cast
                 if (propertyMap.DestType.IsAssignableFrom(propertyMap.SrcType)
                     || propertyMap.DestType.IsImplicitCastableFrom(propertyMap.SrcType))
