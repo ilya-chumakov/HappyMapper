@@ -15,6 +15,12 @@ namespace OrdinaryMapper
 
         public StringBuilder CodeBuilder { get; set; }
 
+        public void AppendLine(string code, string template)
+        {
+            CodeBuilder.AppendLine(code);
+            TemplateBuilder.AppendLine(template);
+        }
+
         /// <summary>
         /// destPrefix.Foo = srcPrefix.Foo;
         /// </summary>
@@ -28,8 +34,7 @@ namespace OrdinaryMapper
 
             string compiled = string.Format(template, srcPrefix, destPrefix);
 
-            TemplateBuilder.AppendLine(template);
-            CodeBuilder.AppendLine(compiled);
+            AppendLine(compiled, template);
         }
 
         internal void SimpleAssign(PropertyNameContext context)
@@ -42,12 +47,10 @@ namespace OrdinaryMapper
             ApplyTemplate(context.SrcMemberName, context.DestMemberName, text);
         }
 
-        public void ApplyTemplate(string src, string dest, string text)
+        public void ApplyTemplate(string src, string dest, string template)
         {
-            TemplateBuilder.AppendLine(text);
-
-            string formattedText = string.Format(text, src, dest);
-            CodeBuilder.AppendLine(formattedText);
+            string formattedText = string.Format(template, src, dest);
+            AppendLine(formattedText, template);
         }
 
         public Assignment GetAssignment()
@@ -60,17 +63,15 @@ namespace OrdinaryMapper
 
         public void AttachPropertyAssignment(Assignment assignment, PropertyMap propertyMap)
         {
-            CodeBuilder.Append(assignment.Code);
-
             string shiftedTemplate = ShiftTemplate(
                 assignment.RelativeTemplate, propertyMap.SrcMember.Name, propertyMap.DestMember.Name);
 
-            TemplateBuilder.Append(shiftedTemplate);
+            AppendLine(assignment.Code, shiftedTemplate);
         }
 
         public static string ShiftTemplate(string template, string srcName, string destName)
         {
-            return string.Format(template, 
+            return string.Format(template,
                 "{0}." + srcName,
                 "{1}." + destName);
         }
@@ -78,14 +79,38 @@ namespace OrdinaryMapper
         public void NullCheck(PropertyNameContext context)
         {
             string text = $"if ({context.SrcFullMemberName} == null) {context.DestFullMemberName} = null;";
-            CodeBuilder.AppendLine(text);
-            TemplateBuilder.AppendLine(text);
+            AppendLine(text, text);
         }
 
         public void AttachRawCode(string raw)
         {
-            CodeBuilder.AppendLine(raw);
-            TemplateBuilder.AppendLine(raw);
+            AppendLine(raw, raw);
         }
+
+        //TODO refactor
+        public void AppendNoParameterlessCtorException(PropertyNameContext context, Type destPropType)
+        {
+            //has parameterless ctor
+            if (destPropType.GetConstructor(Type.EmptyTypes) != null)
+            {
+                //create new Dest() object
+                string fullName = destPropType.FullName.Replace('+', '.');
+                string template = $"{{0}}.{context.DestMemberName} = new {fullName}();";
+
+                string code = string.Format(template, context.DestMemberPrefix);
+                AppendLine(code, template);
+            }
+            else
+            {
+                string exMessage =
+                    ErrorMessages.NoParameterlessCtor($"{context.SrcMemberName}", $"{context.DestMemberName}", destPropType);
+
+                string template = $@"if ({{0}}.{context.DestMemberName} == null) throw new OrdinaryMapperException(""{exMessage}"");";
+                string code = string.Format(template, context.DestMemberPrefix);
+
+                AppendLine(code, template);
+            }
+        }
+
     }
 }

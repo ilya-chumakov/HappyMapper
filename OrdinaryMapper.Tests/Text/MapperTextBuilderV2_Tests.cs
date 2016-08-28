@@ -96,5 +96,12 @@ namespace OrdinaryMapper.Tests.Text
                 Console.WriteLine();
             }
         }
+
+        [Test]
+        public void NestedType_Test()
+        {
+            var x = new OrdinaryMapper.Tests.Text.MapperTextBuilderV2_Tests.B1();
+            Assert.IsNotNull(x);
+        }
     }
 }

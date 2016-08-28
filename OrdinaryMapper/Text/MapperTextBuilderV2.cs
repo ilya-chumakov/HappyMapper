@@ -60,7 +60,9 @@ namespace OrdinaryMapper
                     if (referenceType)
                     {
                         coder.NullCheck(context);
-                        coder.AttachRawCode(" else {{"); 
+                        coder.AttachRawCode(" else {{");
+
+                        coder.AppendNoParameterlessCtorException(context, propertyMap.DestType);
                     }
 
                     ProcessPropertyTypePair(coder, context, propertyMap);
@@ -138,17 +140,7 @@ namespace OrdinaryMapper
                         builder.AppendLine("else");
                         builder.AppendLine("{");
 
-                        //has parameterless ctor
-                        if (destPropType.GetConstructor(Type.EmptyTypes) != null)
-                            //create new Dest() object
-                            builder.AppendLine($"{destPrefix}.{name} = new {destPropType.FullName}();");
-                        else
-                        {
-                            string exMessage =
-                                ErrorMessages.NoParameterlessCtor($"{name}", $"{name}", destPropType);
-
-                            builder.AppendLine($@"if ({destPrefix}.{name} == null) throw new OrdinaryMapperException(""{exMessage}"");");
-                        }
+                        //coder.AppendNoParameterlessCtorException(context, destPropType);
 
                         string text = CreatePropertiesAssignments(
                             srcPropType.GetProperties(),
@@ -165,7 +157,6 @@ namespace OrdinaryMapper
 
             return builder.ToString();
         }
-
 
         public string CreateText(MapContext context)
         {
