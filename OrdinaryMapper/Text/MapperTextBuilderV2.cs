@@ -59,13 +59,13 @@ namespace OrdinaryMapper
 
                     if (referenceType)
                     {
-                        //coder.NullCheck(context);
-                        //coder.AttachRawCode(" else {{"); 
+                        coder.NullCheck(context);
+                        coder.AttachRawCode(" else {{"); 
                     }
 
                     ProcessPropertyTypePair(coder, context, propertyMap);
 
-                    //if (referenceType) coder.AttachRawCode("}}");
+                    if (referenceType) coder.AttachRawCode("}}");
                 }
             }
 
@@ -103,7 +103,7 @@ namespace OrdinaryMapper
                 }
             }
 
-            var propAssignment = ProcessTypeMap(nodeMap, context.SrcFullMemberName, context.SrcFullMemberName);
+            var propAssignment = ProcessTypeMap(nodeMap, context.SrcFullMemberName, context.DestFullMemberName);
             coder.AttachPropertyAssignment(propAssignment, propertyMap);
             return;
         }
