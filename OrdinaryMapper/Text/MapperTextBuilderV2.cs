@@ -16,20 +16,22 @@ namespace OrdinaryMapper
             string srcFieldName = "src";
             string destFieldName = "dest";
 
-            var assignment = ProcessProperties(map, typeMaps, srcFieldName, destFieldName);
+            var assignment = ProcessTypeMap(map, typeMaps, srcFieldName, destFieldName);
 
             return assignment.Code;
         }
 
-        private static TypeAssignment ProcessProperties(TypeMap rootMap, IDictionary<TypePair, TypeMap> typeMaps, string srcFieldName,
+        private static TypeAssignment ProcessTypeMap(TypeMap rootMap, IDictionary<TypePair, TypeMap> allTypeMaps, string srcFieldName,
             string destFieldName)
         {
             var coder = new Coder();
 
             foreach (PropertyMap propertyMap in rootMap.PropertyMaps)
             {
-                if (propertyMap.DestinationPropertyType.IsAssignableFrom(propertyMap.SourceType))
+                if (propertyMap.DestinationPropertyType.IsAssignableFrom(propertyMap.SourceType)
+                    || propertyMap.DestinationPropertyType.IsImplicitCastableFrom(propertyMap.SourceType))
                 {
+                    //TODO: need to determine explicit casts and produce cast operators
                     coder.SimpleAssign(srcFieldName, destFieldName, propertyMap);
                     continue;
                 }
@@ -44,12 +46,12 @@ namespace OrdinaryMapper
                 }
 
                 TypeMap nodeMap;
-                if (typeMaps.TryGetValue(propertyTypePair, out nodeMap))
+                if (allTypeMaps.TryGetValue(propertyTypePair, out nodeMap))
                 {
                     string srcPrefix = Combine(srcFieldName, propertyMap.SourceMember.Name);
                     string destPrefix = Combine(destFieldName, propertyMap.DestinationProperty.Name);
 
-                    var propAssignment = ProcessProperties(nodeMap, typeMaps, srcPrefix, destPrefix);
+                    var propAssignment = ProcessTypeMap(nodeMap, allTypeMaps, srcPrefix, destPrefix);
 
                     coder.AttachAssignment(propAssignment);
                     continue;

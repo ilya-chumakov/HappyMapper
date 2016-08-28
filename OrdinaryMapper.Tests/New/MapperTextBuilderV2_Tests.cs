@@ -61,7 +61,9 @@ namespace OrdinaryMapper.Tests.New
                 TypeMap map = kvp.Value;
 
                 string text = MapperTextBuilderV2.CreateText(map, typeMaps);
+                Console.WriteLine(typePair.ToString());
                 Console.WriteLine(text);
+                Console.WriteLine();
             }
         }
 

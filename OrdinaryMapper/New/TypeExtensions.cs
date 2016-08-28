@@ -3,20 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace AutoMapper.Configuration
-{
-}
-
 namespace OrdinaryMapper
 {
 
-
-#if NET45
     using System.Reflection.Emit;
-#endif
 
     internal static class TypeExtensions
     {
+        public static bool IsImplicitCastableFrom(this Type dest, Type src)
+        {
+            return ImplicitCastChecker.CanCast(src, dest);
+        }
+
         public static Type GetGenericTypeDefinitionIfGeneric(this Type type)
         {
             return type.IsGenericType() ? type.GetGenericTypeDefinition() : type;
@@ -37,12 +35,10 @@ namespace OrdinaryMapper
             return type.GetTypeInfo().DeclaredConstructors;
         }
 
-#if NET45
         public static Type CreateType(this TypeBuilder type)
         {
             return type.CreateTypeInfo().AsType();
         }
-#endif
 
         public static IEnumerable<MemberInfo> GetDeclaredMembers(this Type type)
         {

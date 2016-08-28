@@ -127,6 +127,7 @@
     <Compile Include="MapperTextBuilder_Tests.cs" />
     <Compile Include="Mapper_SingleMapper_Tests.cs" />
     <Compile Include="Mapper_Tests.cs" />
+    <Compile Include="New\ImplicitCastChecker_Tests.cs" />
     <Compile Include="New\MapperTextBuilderV2_Tests.cs" />
     <Compile Include="New\Tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
