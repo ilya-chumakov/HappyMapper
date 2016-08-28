@@ -46,7 +46,7 @@ namespace OrdinaryMapper
                 return null;
 
             var propertyMap =
-                _propertyMaps.FirstOrDefault(pm => pm.DestinationProperty.Name.Equals(destinationProperty.Name));
+                _propertyMaps.FirstOrDefault(pm => pm.DestMember.Name.Equals(destinationProperty.Name));
 
             return propertyMap;
         }

@@ -38,7 +38,9 @@ namespace OrdinaryMapper.Tests.New
                 TypePair typePair = kvp.Key;
                 TypeMap map = kvp.Value;
 
-                string text = MapperTextBuilderV2.CreateText(map, typeMaps);
+                var mtb = new MapperTextBuilderV2(typeMaps, config.Configuration);
+                string text = mtb.CreateText(map);
+
                 Console.WriteLine(typePair.ToString());
                 Console.WriteLine(text);
                 Console.WriteLine();
@@ -60,7 +62,9 @@ namespace OrdinaryMapper.Tests.New
                 TypePair typePair = kvp.Key;
                 TypeMap map = kvp.Value;
 
-                string text = MapperTextBuilderV2.CreateText(map, typeMaps);
+                var mtb = new MapperTextBuilderV2(typeMaps, config.Configuration);
+                string text = mtb.CreateText(map);
+
                 Console.WriteLine(typePair.ToString());
                 Console.WriteLine(text);
                 Console.WriteLine();

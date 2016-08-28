@@ -6,22 +6,22 @@ using System.Reflection;
 
 namespace OrdinaryMapper
 {
-    [DebuggerDisplay("{SourceMember.Name} -> {DestinationProperty.Name}")]
+    [DebuggerDisplay("{SrcMember.Name} -> {DestMember.Name}")]
     public class PropertyMap
     {
         private readonly List<MemberInfo> _memberChain = new List<MemberInfo>();
 
-        public PropertyMap(MemberInfo destinationProperty, TypeMap typeMap)
+        public PropertyMap(MemberInfo destMember, TypeMap typeMap)
         {
             TypeMap = typeMap;
             //UseDestinationValue = true;
-            DestinationProperty = destinationProperty;
+            DestMember = destMember;
         }
 
         public TypeMap TypeMap { get; }
-        public MemberInfo DestinationProperty { get; }
+        public MemberInfo DestMember { get; }
 
-        public Type DestinationPropertyType => DestinationProperty.GetMemberType();
+        public Type DestType => DestMember.GetMemberType();
 
         public IEnumerable<MemberInfo> SourceMembers => _memberChain;
 
@@ -37,7 +37,7 @@ namespace OrdinaryMapper
         //public bool ExplicitExpansion { get; set; }
         //public object NullSubstitute { get; set; }
 
-        public MemberInfo SourceMember
+        public MemberInfo SrcMember
         {
             get
             {
@@ -45,11 +45,11 @@ namespace OrdinaryMapper
             }
         }
 
-        public Type SourceType
+        public Type SrcType
         {
             get
             {
-                return SourceMember?.GetMemberType();
+                return SrcMember?.GetMemberType();
             }
         }
 
@@ -74,12 +74,12 @@ namespace OrdinaryMapper
         public TypePair GetTypePair()
         {
             //TODO cache
-            return new TypePair(SourceType, DestinationPropertyType);
+            return new TypePair(SrcType, DestType);
         }
 
         public override string ToString()
         {
-            return $"{SourceMember.Name} -> {DestinationProperty.Name}";
+            return $"{SrcMember.Name} -> {DestMember.Name}";
         }
     }
 }

@@ -14,11 +14,18 @@ namespace OrdinaryMapper
 
         public StringBuilder code { get; set; }
 
-        public void SimpleAssign(string src, string dest, PropertyMap propertyMap)
+        /// <summary>
+        /// destPrefix.Foo = srcPrefix.Foo;
+        /// </summary>
+        /// <param name="srcPrefix"></param>
+        /// <param name="destPrefix"></param>
+        /// <param name="srcMemberName"></param>
+        /// <param name="destMemberName"></param>
+        public void SimpleAssign(string srcPrefix, string destPrefix, string srcMemberName, string destMemberName)
         {
-            string template = $"{{1}}.{propertyMap.SourceMember.Name} = {{0}}.{propertyMap.DestinationProperty.Name};";
+            string template = $"{{1}}.{srcMemberName} = {{0}}.{destMemberName};";
 
-            string compiled = string.Format(template, src, dest);
+            string compiled = string.Format(template, srcPrefix, destPrefix);
 
             templates.AppendLine(template);
             code.AppendLine(compiled);
