@@ -1,6 +1,6 @@
 namespace OrdinaryMapper
 {
-    internal class PropertyNameContext
+    public class PropertyNameContext
     {
         public PropertyNameContext(PropertyMap propertyMap, string srcPrefix, string destPrefix)
         {

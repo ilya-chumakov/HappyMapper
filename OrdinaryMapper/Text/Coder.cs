@@ -7,13 +7,13 @@ namespace OrdinaryMapper
     {
         public Coder()
         {
-            code = new StringBuilder();
-            templates = new StringBuilder();
+            CodeBuilder = new StringBuilder();
+            TemplateBuilder = new StringBuilder();
         }
 
-        public StringBuilder templates { get; set; }
+        public StringBuilder TemplateBuilder { get; set; }
 
-        public StringBuilder code { get; set; }
+        public StringBuilder CodeBuilder { get; set; }
 
         /// <summary>
         /// destPrefix.Foo = srcPrefix.Foo;
@@ -28,8 +28,8 @@ namespace OrdinaryMapper
 
             string compiled = string.Format(template, srcPrefix, destPrefix);
 
-            templates.AppendLine(template);
-            code.AppendLine(compiled);
+            TemplateBuilder.AppendLine(template);
+            CodeBuilder.AppendLine(compiled);
         }
 
         internal void SimpleAssign(PropertyNameContext context)
@@ -37,30 +37,35 @@ namespace OrdinaryMapper
             SimpleAssign(context.SrcMemberPrefix, context.DestMemberPrefix, context.SrcMemberName, context.DestMemberName);
         }
 
+        internal void ApplyTemplate(PropertyNameContext context, string text)
+        {
+            ApplyTemplate(context.SrcMemberName, context.DestMemberName, text);
+        }
+
         public void ApplyTemplate(string src, string dest, string text)
         {
-            templates.AppendLine(text);
+            TemplateBuilder.AppendLine(text);
 
             string formattedText = string.Format(text, src, dest);
-            code.AppendLine(formattedText);
+            CodeBuilder.AppendLine(formattedText);
         }
 
         public Assignment GetAssignment()
         {
             var assignment = new Assignment();
-            assignment.Code = code.ToString();
-            assignment.RelativeTemplate = templates.ToString();
+            assignment.Code = CodeBuilder.ToString();
+            assignment.RelativeTemplate = TemplateBuilder.ToString();
             return assignment;
         }
 
         public void AttachPropertyAssignment(Assignment assignment, PropertyMap propertyMap)
         {
-            code.Append(assignment.Code);
+            CodeBuilder.Append(assignment.Code);
 
             string shiftedTemplate = ShiftTemplate(
                 assignment.RelativeTemplate, propertyMap.SrcMember.Name, propertyMap.DestMember.Name);
 
-            templates.Append(shiftedTemplate);
+            TemplateBuilder.Append(shiftedTemplate);
         }
 
         public static string ShiftTemplate(string template, string srcName, string destName)
@@ -70,5 +75,17 @@ namespace OrdinaryMapper
                 "{1}." + destName);
         }
 
+        public void NullCheck(PropertyNameContext context)
+        {
+            string text = $"if ({context.SrcFullMemberName} == null) {context.DestFullMemberName} = null;";
+            CodeBuilder.AppendLine(text);
+            TemplateBuilder.AppendLine(text);
+        }
+
+        public void AttachRawCode(string raw)
+        {
+            CodeBuilder.AppendLine(raw);
+            TemplateBuilder.AppendLine(raw);
+        }
     }
 }

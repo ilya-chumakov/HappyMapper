@@ -10,7 +10,7 @@ namespace OrdinaryMapper.Tests.Text
             public string Name { get; set; }
             public A1 Child { get; set; }
         }
-        public class A1 { public int Id { get; set; } public A2 Child { get; set; } }
+        public class A1 { public int Id { get; set; } public A2 SubChild { get; set; } }
         public class A2 { public DateTime Date { get; set; } }
 
         public class B
@@ -18,7 +18,7 @@ namespace OrdinaryMapper.Tests.Text
             public string Name { get; set; }
             public B1 Child { get; set; }
         }
-        public class B1 { public int Id { get; set; } public B2 Child { get; set; } }
+        public class B1 { public int Id { get; set; } public B2 SubChild { get; set; } }
         public class B2 { public DateTime Date { get; set; } }
 
         [Test]

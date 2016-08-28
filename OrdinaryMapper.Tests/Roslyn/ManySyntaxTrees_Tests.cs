@@ -12,7 +12,7 @@ namespace OrdinaryMapper.Tests.Roslyn
         public void MyMethod()
         {
             string classA = "namespace X { static class A {} }";
-            string classB = "namespace X { static class A {} }";
+            string classB = "namespace X { static class B {} }";
 
             SyntaxTree treeA = CSharpSyntaxTree.ParseText(classA);
             SyntaxTree treeB = CSharpSyntaxTree.ParseText(classB);
