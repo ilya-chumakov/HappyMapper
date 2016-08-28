@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using NUnit.Framework;
 
-namespace OrdinaryMapper.Tests.New
+namespace OrdinaryMapper.Tests.Text
 {
     public class MapperTextBuilderV2_Tests
     {
@@ -33,13 +32,13 @@ namespace OrdinaryMapper.Tests.New
             });
 
             var typeMaps = config.TypeMaps;
+            var mtb = new MapperTextBuilderV2(typeMaps, config.Configuration);
 
             foreach (var kvp in typeMaps)
             {
                 TypePair typePair = kvp.Key;
                 TypeMap map = kvp.Value;
 
-                var mtb = new MapperTextBuilderV2(typeMaps, config.Configuration);
                 string text = mtb.CreateText(map);
 
                 Console.WriteLine(typePair.ToString());

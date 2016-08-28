@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 
-namespace OrdinaryMapper.Tests.New
+namespace OrdinaryMapper.Tests.Text
 {
     public class ImplicitCastChecker_Tests
     {

@@ -135,7 +135,7 @@
     <Compile Include="Text\Coder.cs" />
     <Compile Include="Text\DictionaryEx.cs" />
     <Compile Include="Text\MapperTextBuilderV2.cs" />
-    <Compile Include="Text\TypeAssignment.cs" />
+    <Compile Include="Text\Assignment.cs" />
     <Compile Include="TypeMap.cs" />
     <Compile Include="TypePair.cs" />
     <Compile Include="Text\MapperTextBuilder.cs" />

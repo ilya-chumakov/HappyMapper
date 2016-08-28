@@ -7,7 +7,7 @@ namespace OrdinaryMapper
     {
         public static void AddIfNotExist<TKey, TValue>(this IDictionary<TKey, TValue> dict, TKey key, TValue value)
         {
-            if (!dict.TryGetValue(key, out value))
+            if (!dict.ContainsKey(key))
             {
                 dict[key] = value;
             }

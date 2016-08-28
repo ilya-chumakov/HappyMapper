@@ -34,12 +34,13 @@ namespace OrdinaryMapper
             return assignment.Code;
         }
 
-        private TypeAssignment ProcessTypeMap(TypeMap rootMap, string srcFieldName, string destFieldName)
+        private Assignment ProcessTypeMap(TypeMap rootMap, string srcFieldName, string destFieldName)
         {
             var coder = new Coder();
 
             foreach (PropertyMap propertyMap in rootMap.PropertyMaps)
             {
+                //TODO: generate new Dest() instance
                 if (propertyMap.Ignored) continue;
 
                 //assign without explicit cast
@@ -70,7 +71,7 @@ namespace OrdinaryMapper
                 {
                     var propAssignment = ProcessTypeMap(nodeMap, srcPrefix, destPrefix);
 
-                    coder.AttachAssignment(propAssignment);
+                    coder.AttachPropertyAssignment(propAssignment, propertyMap);
                     continue;
                 }
 
@@ -84,14 +85,14 @@ namespace OrdinaryMapper
                     }
 
                     var propAssignment = ProcessTypeMap(implicitTypeMap, srcPrefix, destPrefix);
-                    coder.AttachAssignment(propAssignment);
+                    coder.AttachPropertyAssignment(propAssignment, propertyMap);
                     continue;
                 }
             }
 
             var assignment = coder.GetAssignment();
 
-            TemplateCache.AddIfNotExist(rootMap.TypePair, assignment.Template);
+            TemplateCache.AddIfNotExist(rootMap.TypePair, assignment.RelativeTemplate);
 
             return assignment;
         }

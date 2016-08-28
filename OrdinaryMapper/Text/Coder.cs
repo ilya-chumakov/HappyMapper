@@ -39,18 +39,29 @@ namespace OrdinaryMapper
             code.AppendLine(formattedText);
         }
 
-        public TypeAssignment GetAssignment()
+        public Assignment GetAssignment()
         {
-            var assignment = new TypeAssignment();
+            var assignment = new Assignment();
             assignment.Code = code.ToString();
-            assignment.Template = templates.ToString();
+            assignment.RelativeTemplate = templates.ToString();
             return assignment;
         }
 
-        public void AttachAssignment(TypeAssignment propAssignment)
+        public void AttachPropertyAssignment(Assignment assignment, PropertyMap propertyMap)
         {
-            code.Append(propAssignment.Code);
-            templates.Append(propAssignment.Template);
+            code.Append(assignment.Code);
+
+            string shiftedTemplate = ShiftTemplate(
+                assignment.RelativeTemplate, propertyMap.SrcMember.Name, propertyMap.DestMember.Name);
+
+            templates.Append(shiftedTemplate);
+        }
+
+        public static string ShiftTemplate(string template, string srcName, string destName)
+        {
+            return string.Format(template, 
+                "{0}." + srcName,
+                "{1}." + destName);
         }
     }
 }
