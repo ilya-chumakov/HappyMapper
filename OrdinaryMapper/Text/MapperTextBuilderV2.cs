@@ -24,7 +24,28 @@ namespace OrdinaryMapper
             Options = mce;
         }
 
-        public string CreateText(TypeMap map)
+        public List<string> CreateCodeFiles()
+        {
+            var files = new List<string>(ExplicitTypeMaps.Count);
+
+            foreach (var kvp in ExplicitTypeMaps)
+            {
+                TypePair typePair = kvp.Key;
+                TypeMap map = kvp.Value;
+
+                string methodCode = CreateMethodInnerCode(map);
+
+                var context = new MapContext(typePair.SrcType, typePair.DestType);
+
+                string file = CreateCodeFile(context, methodCode);
+
+                files.Add(file);
+            }
+
+            return files;
+        }
+
+        public string CreateMethodInnerCode(TypeMap map)
         {
             string srcFieldName = "src";
             string destFieldName = "dest";
@@ -110,61 +131,8 @@ namespace OrdinaryMapper
             return;
         }
 
-        private string CreatePropertiesAssignments(
-            PropertyInfo[] srcProperties,
-            PropertyInfo[] destProperties,
-            string srcPrefix,
-            string destPrefix)
+        public string CreateCodeFile(MapContext context, string methodCode)
         {
-            var coder = new Coder();
-            var builder = new StringBuilder();
-            foreach (var srcProperty in srcProperties)
-            {
-                string name = srcProperty.Name;
-
-                var destProperty = destProperties.First(p => p.Name == name);
-
-                Type srcPropType = srcProperty.PropertyType;
-                Type destPropType = destProperty.PropertyType;
-
-                if (destPropType.IsAssignableFrom(srcPropType))
-                {
-                    coder.SimpleAssign(srcPrefix, destPrefix, name, name);
-                    //builder.AppendLine($"{destPrefix}.{name} = {srcPrefix}.{name};");
-                }
-                else
-                {
-                    if (srcPropType.IsClass && destPropType.IsClass)
-                    {
-                        builder.AppendLine($"if ({srcPrefix}.{name} == null) {destPrefix}.{name} = null;");
-                        builder.AppendLine("else");
-                        builder.AppendLine("{");
-
-                        //coder.AppendNoParameterlessCtorException(context, destPropType);
-
-                        string text = CreatePropertiesAssignments(
-                            srcPropType.GetProperties(),
-                            destPropType.GetProperties(),
-                            $"{srcPrefix}.{name}",
-                            $"{destPrefix}.{name}");
-
-                        builder.AppendLine(text);
-
-                        builder.AppendLine("}");
-                    }
-                }
-            }
-
-            return builder.ToString();
-        }
-
-        public string CreateText(MapContext context)
-        {
-
-
-            var srcProperties = context.SrcType.GetProperties();
-            var destProperties = context.DestType.GetProperties();
-
             var builder = new StringBuilder();
 
             string srcParameterName = "src";
@@ -178,12 +146,11 @@ namespace OrdinaryMapper
             builder.AppendLine($"    public class {MapContext.MapperClassName}                  ");
             builder.AppendLine("    {                                                               ");
             builder.AppendLine($"       public void {context.MapperMethodName}");
-            builder.AppendLine($"({context.SrcType.FullName} {srcParameterName},");
-            builder.AppendLine($" {context.DestType.FullName} {destParameterName})");
+            builder.AppendLine($"({context.SrcType.FullName.NormalizeTypeName()} {srcParameterName},");
+            builder.AppendLine($" {context.DestType.FullName.NormalizeTypeName()} {destParameterName})");
             builder.AppendLine("        {");
 
-            string assignments = CreatePropertiesAssignments(srcProperties, destProperties, srcParameterName, destParameterName);
-            builder.AppendLine(assignments);
+            builder.AppendLine(methodCode);
 
             builder.AppendLine("        }");
 

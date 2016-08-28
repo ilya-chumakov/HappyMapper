@@ -94,7 +94,7 @@ namespace OrdinaryMapper
             if (destPropType.GetConstructor(Type.EmptyTypes) != null)
             {
                 //create new Dest() object
-                string fullName = destPropType.FullName.Replace('+', '.');
+                string fullName = destPropType.FullName.NormalizeTypeName();
                 string template = $"{{0}}.{context.DestMemberName} = new {fullName}();";
 
                 string code = string.Format(template, context.DestMemberPrefix);

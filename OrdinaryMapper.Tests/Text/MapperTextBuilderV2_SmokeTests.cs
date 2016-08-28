@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using NUnit.Framework;
 
 namespace OrdinaryMapper.Tests.Text
 {
-    public class MapperTextBuilderV2_Tests
+    public class MapperTextBuilderV2_SmokeTests
     {
         public class A
         {
@@ -20,6 +21,29 @@ namespace OrdinaryMapper.Tests.Text
         }
         public class B1 { public int Id { get; set; } public B2 SubChild { get; set; } }
         public class B2 { public DateTime Date { get; set; } }
+
+        [Test]
+        public void CreateCodeFiles_Success()
+        {
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<A, B>();
+                cfg.CreateMap<A1, B1>().ForMember(d => d.Id, opt => opt.Ignore());
+                cfg.CreateMap<A2, B2>();
+            });
+
+            var typeMaps = config.TypeMaps;
+            var mtb = new MapperTextBuilderV2(typeMaps, config.Configuration);
+
+            List<string> files = mtb.CreateCodeFiles();
+
+            foreach (var file in files)
+            {
+                Console.WriteLine(file);
+                Console.WriteLine("--------------------------------------");
+                Console.WriteLine();
+            }
+        }
 
         [Test]
         public void CreateText_IgnoreAtSubLevel()
@@ -39,7 +63,7 @@ namespace OrdinaryMapper.Tests.Text
                 TypePair typePair = kvp.Key;
                 TypeMap map = kvp.Value;
 
-                string text = mtb.CreateText(map);
+                string text = mtb.CreateMethodInnerCode(map);
 
                 Console.WriteLine(typePair.ToString());
                 Console.WriteLine(text);
@@ -65,7 +89,7 @@ namespace OrdinaryMapper.Tests.Text
                 TypeMap map = kvp.Value;
 
                 var mtb = new MapperTextBuilderV2(typeMaps, config.Configuration);
-                string text = mtb.CreateText(map);
+                string text = mtb.CreateMethodInnerCode(map);
 
                 Console.WriteLine(typePair.ToString());
                 Console.WriteLine(text);
@@ -89,7 +113,7 @@ namespace OrdinaryMapper.Tests.Text
                 TypeMap map = kvp.Value;
 
                 var mtb = new MapperTextBuilderV2(typeMaps, config.Configuration);
-                string text = mtb.CreateText(map);
+                string text = mtb.CreateMethodInnerCode(map);
 
                 Console.WriteLine(typePair.ToString());
                 Console.WriteLine(text);
@@ -100,7 +124,7 @@ namespace OrdinaryMapper.Tests.Text
         [Test]
         public void NestedType_Test()
         {
-            var x = new OrdinaryMapper.Tests.Text.MapperTextBuilderV2_Tests.B1();
+            var x = new OrdinaryMapper.Tests.Text.MapperTextBuilderV2_SmokeTests.B1();
             Assert.IsNotNull(x);
         }
     }
