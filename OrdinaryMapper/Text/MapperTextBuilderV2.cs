@@ -40,6 +40,8 @@ namespace OrdinaryMapper
 
             foreach (PropertyMap propertyMap in rootMap.PropertyMaps)
             {
+                var context = new PropertyNameContext(propertyMap, srcFieldName, destFieldName);
+
                 //TODO: generate new Dest() instance
                 if (propertyMap.Ignored) continue;
 
@@ -48,45 +50,46 @@ namespace OrdinaryMapper
                     || propertyMap.DestType.IsImplicitCastableFrom(propertyMap.SrcType))
                 {
                     //TODO: need to determine explicit casts and produce cast operators
-                    coder.SimpleAssign(srcFieldName, destFieldName, propertyMap.SrcMember.Name, propertyMap.DestMember.Name);
+                    coder.SimpleAssign(context);
                     continue;
                 }
-
-                var propertyTypePair = propertyMap.GetTypePair();
-
-                //typepair already in template cache
-                string text;
-                if (TemplateCache.TryGetValue(propertyTypePair, out text))
+                else
                 {
-                    coder.AttachTemplate(srcFieldName, destFieldName, propertyMap, text);
-                    continue;
-                }
+                    //builder.AppendLine($"if ({srcPrefix}.{name} == null) {destPrefix}.{name} = null;");
+                    //builder.AppendLine("else");
+                    //builder.AppendLine("{");
 
-                string srcPrefix = Combine(srcFieldName, propertyMap.SrcMember.Name);
-                string destPrefix = Combine(destFieldName, propertyMap.DestMember.Name);
+                    var typePair = propertyMap.GetTypePair();
 
-                //typepair explicitly mapped by user
-                TypeMap nodeMap;
-                if (ExplicitTypeMaps.TryGetValue(propertyTypePair, out nodeMap))
-                {
-                    var propAssignment = ProcessTypeMap(nodeMap, srcPrefix, destPrefix);
-
-                    coder.AttachPropertyAssignment(propAssignment, propertyMap);
-                    continue;
-                }
-
-                //create implicit map 
-                {
-                    TypeMap implicitTypeMap;
-                    if (!ImplicitTypeMaps.TryGetValue(propertyTypePair, out implicitTypeMap))
+                    //typepair already in template cache
+                    string text;
+                    if (TemplateCache.TryGetValue(typePair, out text))
                     {
-                        implicitTypeMap = TypeMapFactory.CreateTypeMap(propertyMap.SrcType, propertyMap.DestType, Options);
-                        ImplicitTypeMaps.AddIfNotExist(implicitTypeMap);
+                        coder.ApplyTemplate(srcFieldName, destFieldName, text);
+                        continue;
                     }
 
-                    var propAssignment = ProcessTypeMap(implicitTypeMap, srcPrefix, destPrefix);
-                    coder.AttachPropertyAssignment(propAssignment, propertyMap);
-                    continue;
+                    //typepair explicitly mapped by user
+                    TypeMap nodeMap;
+                    if (ExplicitTypeMaps.TryGetValue(typePair, out nodeMap))
+                    {
+                        var propAssignment = ProcessTypeMap(nodeMap, context.SrcMemberPrefix, context.DestMemberPrefix);
+                        coder.AttachPropertyAssignment(propAssignment, propertyMap);
+                        continue;
+                    }
+
+                    //create implicit map 
+                    {
+                        if (!ImplicitTypeMaps.TryGetValue(typePair, out nodeMap))
+                        {
+                            nodeMap = TypeMapFactory.CreateTypeMap(propertyMap.SrcType, propertyMap.DestType, Options);
+                            ImplicitTypeMaps.AddIfNotExist(nodeMap);
+                        }
+
+                        var propAssignment = ProcessTypeMap(nodeMap, context.SrcMemberPrefix, context.DestMemberPrefix);
+                        coder.AttachPropertyAssignment(propAssignment, propertyMap);
+                        continue;
+                    }
                 }
             }
 
@@ -95,11 +98,6 @@ namespace OrdinaryMapper
             TemplateCache.AddIfNotExist(rootMap.TypePair, assignment.RelativeTemplate);
 
             return assignment;
-        }
-
-        private string Combine(string left, string right)
-        {
-            return $"{left}.{right}";
         }
 
         private string CreatePropertiesAssignments(
@@ -197,4 +195,5 @@ namespace OrdinaryMapper
         }
 
     }
+
 }

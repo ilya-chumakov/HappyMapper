@@ -1,3 +1,4 @@
+using System;
 using System.Text;
 
 namespace OrdinaryMapper
@@ -31,7 +32,12 @@ namespace OrdinaryMapper
             code.AppendLine(compiled);
         }
 
-        public void AttachTemplate(string src, string dest, PropertyMap propertyMap, string text)
+        internal void SimpleAssign(PropertyNameContext context)
+        {
+            SimpleAssign(context.SrcMemberPrefix, context.DestMemberPrefix, context.SrcMemberName, context.DestMemberName);
+        }
+
+        public void ApplyTemplate(string src, string dest, string text)
         {
             templates.AppendLine(text);
 
@@ -63,5 +69,6 @@ namespace OrdinaryMapper
                 "{0}." + srcName,
                 "{1}." + destName);
         }
+
     }
 }
