@@ -126,6 +126,7 @@
     <Compile Include="Comparer_Tests.cs" />
     <Compile Include="MapperTextBuilder_Tests.cs" />
     <Compile Include="Mapper_SingleMapper_Tests.cs" />
+    <Compile Include="MapperConfiguration_Tests.cs" />
     <Compile Include="Mapper_Tests.cs" />
     <Compile Include="Text\Coder_Tests.cs" />
     <Compile Include="Text\ImplicitCastChecker_Tests.cs" />

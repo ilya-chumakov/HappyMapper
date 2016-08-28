@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom.Compiler;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -21,6 +22,13 @@ namespace OrdinaryMapper
             Configuration = configurationExpression;
 
             Seal(Configuration);
+        }
+
+        public Mapper CompileMapper()
+        {
+            var delegates = Compiler.CompileToAssembly(Configuration, TypeMaps);
+
+            return new Mapper(delegates);
         }
 
         private readonly TypeMapRegistry _typeMapRegistry = new TypeMapRegistry();
@@ -179,6 +187,8 @@ namespace OrdinaryMapper
 
         public void Configure(MapperConfigurationExpression profile, TypeMap typeMap)
         {
+            typeMap.MapDelegateType = typeof (Action<TSource, TDestination>);
+
             foreach (var memberConfig in _memberConfigurations)
             {
                 memberConfig.Configure(typeMap);

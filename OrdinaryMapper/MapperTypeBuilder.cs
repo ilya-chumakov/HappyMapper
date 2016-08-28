@@ -15,7 +15,18 @@ namespace OrdinaryMapper
         {
             var trees = CreateSyntaxTrees(texts);
 
-            return CreateCompilation(trees, types);
+            var metadataReferences = GetMetadataReferences(types);
+
+            return CreateCompilation(trees, metadataReferences);
+        }
+
+        public static CSharpCompilation CreateCompilation(string[] texts, HashSet<string> locations)
+        {
+            var trees = CreateSyntaxTrees(texts);
+
+            var metadataReferences = GetMetadataReferences(locations);
+
+            return CreateCompilation(trees, metadataReferences);
         }
 
         private static SyntaxTree[] CreateSyntaxTrees(string[] texts)
@@ -29,10 +40,8 @@ namespace OrdinaryMapper
             return trees;
         }
 
-        public static CSharpCompilation CreateCompilation(SyntaxTree[] syntaxTrees, HashSet<Type> types)
+        private static List<MetadataReference> GetMetadataReferences(HashSet<Type> types)
         {
-            string assemblyName = Path.GetRandomFileName();
-
             var references = new List<MetadataReference>();
             references.Add(MetadataReference.CreateFromFile(typeof(object).Assembly.Location));
             references.Add(MetadataReference.CreateFromFile(typeof(OrdinaryMapperException).Assembly.Location));
@@ -41,6 +50,25 @@ namespace OrdinaryMapper
             {
                 references.Add(MetadataReference.CreateFromFile(type.Assembly.Location));
             }
+            return references;
+        }
+
+        private static List<MetadataReference> GetMetadataReferences(HashSet<string> locations)
+        {
+            var references = new List<MetadataReference>();
+            references.Add(MetadataReference.CreateFromFile(typeof(object).Assembly.Location));
+            references.Add(MetadataReference.CreateFromFile(typeof(OrdinaryMapperException).Assembly.Location));
+
+            foreach (string location in locations)
+            {
+                references.Add(MetadataReference.CreateFromFile(location));
+            }
+            return references;
+        }
+
+        public static CSharpCompilation CreateCompilation(SyntaxTree[] syntaxTrees, List<MetadataReference> references)
+        {
+            string assemblyName = Path.GetRandomFileName();
 
             CSharpCompilation compilation = CSharpCompilation.Create(
                 assemblyName,

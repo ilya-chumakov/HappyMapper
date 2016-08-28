@@ -9,8 +9,18 @@ namespace OrdinaryMapper
     {
         public static Mapper Instance { get; } = new Mapper();
 
-        public Dictionary<TypePair, object> DelegateCache { get; } = new Dictionary<TypePair, object>();
+        public Dictionary<TypePair, object> DelegateCache { get; private set; }
         public Dictionary<TypePair, TypeMap> TypeMaps { get; } = new Dictionary<TypePair, TypeMap>();
+
+        public Mapper()
+        {
+            DelegateCache = new Dictionary<TypePair, object>();
+        }
+
+        public Mapper(Dictionary<TypePair, object> delegates)
+        {
+            DelegateCache = delegates;
+        }
 
         public SingleMapper<TSrc, TDest> GetSingleMapper<TSrc, TDest>()
         {

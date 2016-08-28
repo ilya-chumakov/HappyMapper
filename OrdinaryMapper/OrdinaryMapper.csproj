@@ -123,6 +123,8 @@
     <Compile Include="ITestableMapper.cs" />
     <Compile Include="MapContext.cs" />
     <Compile Include="New\Class1.cs" />
+    <Compile Include="Text\CodeFileBuilder.cs" />
+    <Compile Include="Text\Compiler.cs" />
     <Compile Include="New\TypeMapRegistry.cs" />
     <Compile Include="New\TypeMapFactory.cs" />
     <Compile Include="New\ReflectionHelper.cs" />

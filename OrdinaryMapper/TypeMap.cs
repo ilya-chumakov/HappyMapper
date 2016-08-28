@@ -12,7 +12,7 @@ namespace OrdinaryMapper
     {
         public Type SrcType { get; }
         public Type DestType { get; }
-        public Type MapDelegateType { get; }
+        public Type MapDelegateType { get; set; }
         public TypePair TypePair { get; }
 
         public TypeMap(TypePair typePair, Type mapDelegateType)

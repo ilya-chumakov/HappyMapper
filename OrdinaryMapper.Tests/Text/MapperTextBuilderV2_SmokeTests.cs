@@ -35,11 +35,11 @@ namespace OrdinaryMapper.Tests.Text
             var typeMaps = config.TypeMaps;
             var mtb = new MapperTextBuilderV2(typeMaps, config.Configuration);
 
-            List<string> files = mtb.CreateCodeFiles();
+            var files = mtb.CreateCodeFiles();
 
-            foreach (var file in files)
+            foreach (var file in files.Values)
             {
-                Console.WriteLine(file);
+                Console.WriteLine(file.Code);
                 Console.WriteLine("--------------------------------------");
                 Console.WriteLine();
             }

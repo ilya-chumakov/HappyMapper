@@ -11,11 +11,11 @@ namespace OrdinaryMapper
     public class MapperTextBuilderV2
     {
         public Dictionary<TypePair, string> TemplateCache { get; } = new Dictionary<TypePair, string>();
-
         public ImmutableDictionary<TypePair, TypeMap> ExplicitTypeMaps { get; }
         public IDictionary<TypePair, TypeMap> ImplicitTypeMaps { get; }
         public TypeMapFactory TypeMapFactory { get; } = new TypeMapFactory();
         public MapperConfigurationExpression Options { get; }
+        public HashSet<string> DetectedLocations { get; } = new HashSet<string>();
 
         public MapperTextBuilderV2(IDictionary<TypePair, TypeMap> explicitTypeMaps, MapperConfigurationExpression mce)
         {
@@ -24,9 +24,9 @@ namespace OrdinaryMapper
             Options = mce;
         }
 
-        public List<string> CreateCodeFiles()
+        public Dictionary<TypePair, CodeFile> CreateCodeFiles()
         {
-            var files = new List<string>(ExplicitTypeMaps.Count);
+            var files = new Dictionary<TypePair, CodeFile>();
 
             foreach (var kvp in ExplicitTypeMaps)
             {
@@ -35,11 +35,11 @@ namespace OrdinaryMapper
 
                 string methodCode = CreateMethodInnerCode(map);
 
-                var context = new MapContext(typePair.SrcType, typePair.DestType);
+                var fileBuilder = new CodeFileBuilder(typePair);
 
-                string file = CreateCodeFile(context, methodCode);
+                var file = fileBuilder.CreateCodeFile(methodCode);
 
-                files.Add(file);
+                files.Add(typePair, file);
             }
 
             return files;
@@ -47,6 +47,8 @@ namespace OrdinaryMapper
 
         public string CreateMethodInnerCode(TypeMap map)
         {
+            RememberTypeLocations(map);
+
             string srcFieldName = "src";
             string destFieldName = "dest";
 
@@ -61,6 +63,8 @@ namespace OrdinaryMapper
 
             foreach (PropertyMap propertyMap in rootMap.PropertyMaps)
             {
+                RememberTypeLocations(propertyMap);
+
                 var context = new PropertyNameContext(propertyMap, srcFieldName, destFieldName);
 
                 //TODO: generate new Dest() instance
@@ -99,6 +103,22 @@ namespace OrdinaryMapper
             return assignment;
         }
 
+        /// <summary>
+        /// remember all used types
+        /// </summary>
+        /// <param name="propertyMap"></param>
+        private void RememberTypeLocations(PropertyMap propertyMap)
+        {
+            DetectedLocations.Add(propertyMap.SrcType.Assembly.Location);
+            DetectedLocations.Add(propertyMap.DestType.Assembly.Location);
+        }
+
+        private void RememberTypeLocations(TypeMap typeMap)
+        {
+            DetectedLocations.Add(typeMap.SrcType.Assembly.Location);
+            DetectedLocations.Add(typeMap.DestType.Assembly.Location);
+        }
+
         private void ProcessPropertyTypePair(Coder coder, PropertyNameContext context, PropertyMap propertyMap)
         {
             var typePair = propertyMap.GetTypePair();
@@ -110,7 +130,7 @@ namespace OrdinaryMapper
                 coder.ApplyTemplate(context, text);
                 return;
             }
-            
+
             TypeMap nodeMap;
 
             //typepair explicitly mapped by user
@@ -130,36 +150,5 @@ namespace OrdinaryMapper
             coder.AttachPropertyAssignment(propAssignment, propertyMap);
             return;
         }
-
-        public string CreateCodeFile(MapContext context, string methodCode)
-        {
-            var builder = new StringBuilder();
-
-            string srcParameterName = "src";
-            string destParameterName = "dest";
-
-            builder.AppendLine("using System;                                                       ");
-            builder.AppendLine("using OrdinaryMapper;                                                       ");
-
-            builder.AppendLine($"namespace {MapContext.NamespaceName}                                ");
-            builder.AppendLine("{                                                                   ");
-            builder.AppendLine($"    public class {MapContext.MapperClassName}                  ");
-            builder.AppendLine("    {                                                               ");
-            builder.AppendLine($"       public void {context.MapperMethodName}");
-            builder.AppendLine($"({context.SrcType.FullName.NormalizeTypeName()} {srcParameterName},");
-            builder.AppendLine($" {context.DestType.FullName.NormalizeTypeName()} {destParameterName})");
-            builder.AppendLine("        {");
-
-            builder.AppendLine(methodCode);
-
-            builder.AppendLine("        }");
-
-            builder.AppendLine("    }                                                               ");
-            builder.AppendLine("}");
-
-            return builder.ToString();
-        }
-
     }
-
 }
