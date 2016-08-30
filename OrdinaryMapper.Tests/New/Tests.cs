@@ -11,6 +11,7 @@ namespace OrdinaryMapper.Tests.New
         public class B { public string MyProperty { get; set; } }
         public class C { public string MyProperty { get; set; } }
         public class D { public string MyProperty { get; set; } }
+        public class X { public string Foo { get; set; } }
 
         [Test]
         public void MapperConfiguration_CreateMap()
@@ -18,7 +19,8 @@ namespace OrdinaryMapper.Tests.New
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<A, B>().ForMember(d => d.MyProperty, opt => opt.Ignore());
-                cfg.CreateMap<C, D>();
+                cfg.CreateMap<C, D>().ForMember(d => d.MyProperty, opt => opt.MapFrom(s => s.MyProperty));
+                cfg.CreateMap<X, A>().ForMember(d => d.MyProperty, opt => opt.MapFrom(s => s.Foo));
             });
 
             PrintPropertyMaps(config);

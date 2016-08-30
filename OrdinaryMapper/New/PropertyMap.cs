@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 
 namespace OrdinaryMapper
@@ -31,7 +32,7 @@ namespace OrdinaryMapper
         //public LambdaExpression CustomResolver { get; set; }
         //public LambdaExpression Condition { get; set; }
         //public LambdaExpression PreCondition { get; set; }
-        //public LambdaExpression CustomExpression { get; private set; }
+        public LambdaExpression CustomExpression { get; private set; }
         //public MemberInfo CustomSourceMember { get; set; }
         //public bool UseDestinationValue { get; set; }
         //public bool ExplicitExpansion { get; set; }
@@ -41,6 +42,13 @@ namespace OrdinaryMapper
         {
             get
             {
+                if (CustomExpression != null)
+                {
+                    var member = ExpressionHelper.GetMemberInfo(CustomExpression);
+
+                    if (member != null) return member;
+                }
+
                 return _memberChain.LastOrDefault();
             }
         }
@@ -49,6 +57,9 @@ namespace OrdinaryMapper
         {
             get
             {
+                if (CustomExpression != null)
+                    return CustomExpression.ReturnType;
+
                 return SrcMember?.GetMemberType();
             }
         }
@@ -57,18 +68,26 @@ namespace OrdinaryMapper
 
         public bool IsMapped()
         {
-            return Ignored;
+            return CustomExpression != null
+                || Ignored;
         }
 
         public bool CanResolveValue()
         {
-            return !Ignored;
+            return CustomExpression != null && !Ignored;
         }
 
         public void ChainMembers(IEnumerable<MemberInfo> members)
         {
             var getters = members as IList<MemberInfo> ?? members.ToList();
             _memberChain.AddRange(getters);
+        }
+
+        public void SetCustomValueResolverExpression<TSource, TMember>(Expression<Func<TSource, TMember>> sourceMember)
+        {
+            CustomExpression = sourceMember;
+
+            Ignored = false;
         }
 
         public TypePair GetTypePair()

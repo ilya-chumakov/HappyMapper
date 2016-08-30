@@ -219,6 +219,11 @@ namespace OrdinaryMapper
             PropertyMapActions.Add(pm => pm.Ignored = true);
         }
 
+        public void MapFrom<TSourceMember>(Expression<Func<TSource, TSourceMember>> sourceMember)
+        {
+            PropertyMapActions.Add(pm => pm.SetCustomValueResolverExpression(sourceMember));
+        }
+
         public void Configure(TypeMap typeMap)
         {
             var destMember = _destinationMember;
