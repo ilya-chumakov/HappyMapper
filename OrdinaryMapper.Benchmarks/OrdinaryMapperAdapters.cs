@@ -37,4 +37,25 @@ namespace OrdinaryMapper.Benchmarks
             return action;
         }
     }
+
+    /// <summary>
+    /// New API and text engine.
+    /// Perfomance a bit degraded due to 'if' statements added by new text engine (runtime null checks etc.).
+    /// </summary>
+    public class OrdinaryMapperCachedV2 : ITestableMapper
+    {
+        public Action<TInput, TOutput> CreateMapMethod<TInput, TOutput>()
+        {
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<TInput, TOutput>();
+            });
+
+            var mapper = config.CompileMapper();
+
+            Action<TInput, TOutput> action = (src, dest) => mapper.Map(src, dest);
+
+            return action;
+        }
+    }
 }

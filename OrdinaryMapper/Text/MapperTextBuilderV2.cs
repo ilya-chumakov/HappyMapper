@@ -34,7 +34,7 @@ namespace OrdinaryMapper
                 TypeMap map = kvp.Value;
 
                 string methodCode = CreateMethodInnerCode(map);
-
+                methodCode = methodCode.Replace("{{", "").Replace("}}", "");
                 var fileBuilder = new CodeFileBuilder(typePair);
 
                 var file = fileBuilder.CreateCodeFile(methodCode);
@@ -67,7 +67,6 @@ namespace OrdinaryMapper
 
                 var context = new PropertyNameContext(propertyMap, srcFieldName, destFieldName);
 
-                //TODO: generate new Dest() instance
                 if (propertyMap.Ignored) continue;
 
                 //assign without explicit cast
@@ -81,7 +80,7 @@ namespace OrdinaryMapper
                 else
                 {
                     bool referenceType = propertyMap.DestType.IsClass;
-
+                    //TODO: perfomance degrades on each null check! Try to avoid it if possible!
                     if (referenceType)
                     {
                         coder.NullCheck(context);
