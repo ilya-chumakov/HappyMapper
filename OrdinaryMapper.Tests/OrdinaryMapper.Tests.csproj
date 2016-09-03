@@ -139,6 +139,10 @@
     <Compile Include="Tools\ObjectComparer.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AutoMapper.ConfigurationAPI\AutoMapper.Net4\AutoMapper.Net4.csproj">
+      <Project>{8c955148-fa96-4f0d-880d-abb6770f54e9}</Project>
+      <Name>AutoMapper.Net4</Name>
+    </ProjectReference>
     <ProjectReference Include="..\OrdinaryMapper.Benchmarks\OrdinaryMapper.Benchmarks.csproj">
       <Project>{a7e947d4-e356-43f4-949e-87bad4fe6f8e}</Project>
       <Name>OrdinaryMapper.Benchmarks</Name>
