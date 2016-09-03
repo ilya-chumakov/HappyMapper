@@ -5,22 +5,26 @@ using System.Collections.Immutable;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using AutoMapper;
-using AutoMapper.Configuration;
-using OrdinaryMapper.Saved;
+using OrdinaryMapper;
+using OrdinaryMapper.Extentions;
+using MapperConfigurationExpression = AutoMapper.Configuration.MapperConfigurationExpression;
+using PropertyMap = AutoMapper.PropertyMap;
+using TypeMap = AutoMapper.TypeMap;
+using TypeMapFactory = AutoMapper.TypeMapFactory;
+using TypePair = AutoMapper.TypePair;
 
-namespace OrdinaryMapper
+namespace OrdinaryMapperAmcApi
 {
-    public class MapperTextBuilderV2
+    public class MapperTextBuilderV3
     {
         public Dictionary<TypePair, string> TemplateCache { get; } = new Dictionary<TypePair, string>();
-        public ImmutableDictionary<TypePair, TypeMap> ExplicitTypeMaps { get; }
-        public IDictionary<TypePair, TypeMap> ImplicitTypeMaps { get; }
+        public ImmutableDictionary<AutoMapper.TypePair, AutoMapper.TypeMap> ExplicitTypeMaps { get; }
+        public IDictionary<AutoMapper.TypePair, AutoMapper.TypeMap> ImplicitTypeMaps { get; }
         public TypeMapFactory TypeMapFactory { get; } = new TypeMapFactory();
         public MapperConfigurationExpression Options { get; }
         public HashSet<string> DetectedLocations { get; } = new HashSet<string>();
 
-        public MapperTextBuilderV2(IDictionary<TypePair, TypeMap> explicitTypeMaps, MapperConfigurationExpression mce)
+        public MapperTextBuilderV3(IDictionary<AutoMapper.TypePair, AutoMapper.TypeMap> explicitTypeMaps, MapperConfigurationExpression mce)
         {
             ExplicitTypeMaps = explicitTypeMaps.ToImmutableDictionary();
             ImplicitTypeMaps = explicitTypeMaps.ShallowCopy();
@@ -33,8 +37,8 @@ namespace OrdinaryMapper
 
             foreach (var kvp in ExplicitTypeMaps)
             {
-                TypePair typePair = kvp.Key;
-                TypeMap map = kvp.Value;
+                var typePair = kvp.Key;
+                var map = kvp.Value;
 
                 string methodCode = CreateMethodInnerCode(map);
                 methodCode = methodCode.Replace("{{", "").Replace("}}", "");
@@ -117,8 +121,8 @@ namespace OrdinaryMapper
 
         private void RememberTypeLocations(TypeMap typeMap)
         {
-            DetectedLocations.Add(typeMap.SourceType.Assembly.Location);
-            DetectedLocations.Add(typeMap.DestinationType.Assembly.Location);
+            DetectedLocations.Add(typeMap.SrcType.Assembly.Location);
+            DetectedLocations.Add(typeMap.DestType.Assembly.Location);
         }
 
         private void ProcessPropertyTypePair(Coder coder, PropertyNameContext context, PropertyMap propertyMap)

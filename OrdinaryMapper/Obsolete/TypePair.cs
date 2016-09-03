@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace OrdinaryMapper
+namespace OrdinaryMapper.Obsolete
 {
     [DebuggerDisplay("{SrcType.Name} -> {DestType.Name}")]
     public class TypePair : IEquatable<TypePair>

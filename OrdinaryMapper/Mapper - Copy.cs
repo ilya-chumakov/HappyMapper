@@ -1,24 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using AutoMapper;
 using Microsoft.CodeAnalysis.CSharp;
-using OrdinaryMapper.Obsolete;
 
 namespace OrdinaryMapper
 {
-    public class Mapper
+    public class HappyMapper
     {
         public static Mapper Instance { get; } = new Mapper();
 
         public Dictionary<TypePair, object> DelegateCache { get; private set; }
         public Dictionary<TypePair, TypeMap> TypeMaps { get; } = new Dictionary<TypePair, TypeMap>();
 
-        public Mapper()
+        public HappyMapper()
         {
             DelegateCache = new Dictionary<TypePair, object>();
         }
 
-        public Mapper(Dictionary<TypePair, object> delegates)
+        public HappyMapper(Dictionary<TypePair, object> delegates)
         {
             DelegateCache = delegates;
         }
@@ -27,11 +27,11 @@ namespace OrdinaryMapper
         {
             object @delegate = null;
 
-            var key = new TypePair(typeof(TSrc), typeof(TDest), null);
+            var key = new TypePair(typeof(TSrc), typeof(TDest));
             DelegateCache.TryGetValue(key, out @delegate);
             var mapMethod = @delegate as Action<TSrc, TDest>;
 
-            if (mapMethod == null) throw new OrdinaryMapperException(ErrorMessages.MissingMapping(key.SrcType, key.DestType));
+            if (mapMethod == null) throw new OrdinaryMapperException(ErrorMessages.MissingMapping(key.SourceType, key.DestinationType));
 
             var mapper = new SingleMapper<TSrc, TDest>(mapMethod);
 
@@ -46,7 +46,7 @@ namespace OrdinaryMapper
             DelegateCache.TryGetValue(key, out @delegate);
             var mapMethod = @delegate as Action<TSrc, TDest>;
 
-            if (mapMethod == null) throw new OrdinaryMapperException(ErrorMessages.MissingMapping(key.SrcType, key.DestType));
+            if (mapMethod == null) throw new OrdinaryMapperException(ErrorMessages.MissingMapping(key.SourceType, key.DestinationType));
 
             mapMethod(src, dest);
         }
@@ -58,9 +58,22 @@ namespace OrdinaryMapper
             TypeMap map;
             TypeMaps.TryGetValue(typePair, out map);
 
-            if (map == null) TypeMaps.Add(typePair, new TypeMap(typePair, typeof(Action<TSrc, TDest>)));
+            //if (map == null) TypeMaps.Add(typePair, new TypeMap(typePair, typeof(Action<TSrc, TDest>)));
+            if (map == null)
+            {
+                var mapDelegateType = typeof(Action<TSrc, TDest>);
+
+                //TypeMaps.Add(typePair, new TypeMap(typePair, mapDelegateType));
+
+                var tm = TypeMapFactory.CreateTypeMapEx(
+                    typePair, null, MemberList.Destination, mapDelegateType);
+
+                TypeMaps.Add(typePair, tm);
+            }
         }
 
+        public TypeMapFactory TypeMapFactory { get; set; }
+        
         public void Compile()
         {
             var texts = new List<string>();
@@ -71,14 +84,14 @@ namespace OrdinaryMapper
                 TypePair typePair = kvp.Key;
                 TypeMap map = kvp.Value;
 
-                var context = new MapContext(typePair.SrcType, typePair.DestType);
+                var context = new MapContext(typePair.SourceType, typePair.DestinationType);
 
                 string text = MapperTextBuilder.CreateText(context);
 
                 texts.Add(text);
 
-                types.Add(typePair.SrcType);
-                types.Add(typePair.DestType);
+                types.Add(typePair.SourceType);
+                types.Add(typePair.DestinationType);
             }
 
             CSharpCompilation compilation = MapperTypeBuilder.CreateCompilation(texts.ToArray(), types);
@@ -90,7 +103,7 @@ namespace OrdinaryMapper
                 TypePair typePair = kvp.Key;
                 TypeMap map = kvp.Value;
 
-                var context = new MapContext(typePair.SrcType, typePair.DestType);
+                var context = new MapContext(typePair.SourceType, typePair.DestinationType);
 
                 var type = assembly.GetType($"{context.MapperClassFullName}");
 

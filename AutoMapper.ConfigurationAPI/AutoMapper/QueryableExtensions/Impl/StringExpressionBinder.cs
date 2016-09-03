@@ -8,7 +8,7 @@ namespace AutoMapper.QueryableExtensions.Impl
     {
         public bool IsMatch(PropertyMap propertyMap, TypeMap propertyTypeMap, ExpressionResolutionResult result)
         {
-            return propertyMap.DestinationPropertyType == typeof(string);
+            return propertyMap.DestType == typeof(string);
         }
 
         public MemberAssignment Build(IConfigurationProvider configuration, PropertyMap propertyMap, TypeMap propertyTypeMap, ExpressionRequest request, ExpressionResolutionResult result, ConcurrentDictionary<ExpressionRequest, int> typePairCount)
@@ -18,7 +18,7 @@ namespace AutoMapper.QueryableExtensions.Impl
 
         private static MemberAssignment BindStringExpression(PropertyMap propertyMap, ExpressionResolutionResult result)
         {
-            return Expression.Bind(propertyMap.DestinationProperty, Expression.Call(result.ResolutionExpression, "ToString", null, null));
+            return Expression.Bind(propertyMap.DestMember, Expression.Call(result.ResolutionExpression, "ToString", null, null));
         }
     }
 }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace OrdinaryMapper
+namespace OrdinaryMapper.Obsolete
 {
     internal static class PrimitiveExtensions
     {

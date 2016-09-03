@@ -202,7 +202,7 @@ namespace AutoMapper
             {
                 foreach (var typeMap in TypeMapRegistry.TypeMaps)
                 {
-                    var expression = new MappingExpression(typeMap.Types, typeMap.ConfiguredMemberList);
+                    var expression = new MappingExpression(typeMap.TypePair, typeMap.ConfiguredMemberList);
 
                     action(typeMap, expression);
 
@@ -216,7 +216,7 @@ namespace AutoMapper
                 {
                     foreach (var propertyMap in typeMap.GetPropertyMaps())
                     {
-                        var memberExpression = new MappingExpression.MemberConfigurationExpression(propertyMap.DestinationProperty, typeMap.SourceType);
+                        var memberExpression = new MappingExpression.MemberConfigurationExpression(propertyMap.DestMember, typeMap.SourceType);
 
                         action(propertyMap, memberExpression);
 
@@ -232,16 +232,16 @@ namespace AutoMapper
 
             foreach (var typeMap in TypeMapRegistry.TypeMaps)
             {
-                _typeMapPlanCache[typeMap.Types] = typeMap;
+                _typeMapPlanCache[typeMap.TypePair] = typeMap;
 
                 if (typeMap.DestinationTypeOverride != null)
                 {
-                    redirectedTypes.Add(Tuple.Create(typeMap.Types, new TypePair(typeMap.SourceType, typeMap.DestinationTypeOverride)));
+                    redirectedTypes.Add(Tuple.Create(typeMap.TypePair, new TypePair(typeMap.SourceType, typeMap.DestinationTypeOverride)));
                 }
                 if (typeMap.SourceType.IsNullableType())
                 {
                     var nonNullableTypes = new TypePair(Nullable.GetUnderlyingType(typeMap.SourceType), typeMap.DestinationType);
-                    redirectedTypes.Add(Tuple.Create(nonNullableTypes, typeMap.Types));
+                    redirectedTypes.Add(Tuple.Create(nonNullableTypes, typeMap.TypePair));
                 }
                 derivedMaps.AddRange(GetDerivedTypeMaps(typeMap).Select(derivedMap => Tuple.Create(new TypePair(derivedMap.SourceType, typeMap.DestinationType), derivedMap)));
             }

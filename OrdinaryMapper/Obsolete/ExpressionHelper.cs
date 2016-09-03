@@ -1,7 +1,7 @@
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace OrdinaryMapper
+namespace OrdinaryMapper.Obsolete
 {
     public static class ExpressionHelper
     {

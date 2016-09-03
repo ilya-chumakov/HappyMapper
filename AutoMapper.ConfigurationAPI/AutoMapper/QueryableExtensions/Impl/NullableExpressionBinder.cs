@@ -9,7 +9,7 @@ namespace AutoMapper.QueryableExtensions.Impl
     {
         public bool IsMatch(PropertyMap propertyMap, TypeMap propertyTypeMap, ExpressionResolutionResult result)
         {
-            return propertyMap.DestinationPropertyType.IsNullableType()
+            return propertyMap.DestType.IsNullableType()
                    && !result.Type.IsNullableType();
         }
 
@@ -26,7 +26,7 @@ namespace AutoMapper.QueryableExtensions.Impl
                 var memberExpr = (MemberExpression) result.ResolutionExpression;
                 if (memberExpr.Expression != null && memberExpr.Expression.NodeType == ExpressionType.MemberAccess)
                 {
-                    var destType = propertyMap.DestinationPropertyType;
+                    var destType = propertyMap.DestType;
                     var parentExpr = memberExpr.Expression;
                     Expression expressionToBind = Expression.Convert(memberExpr, destType);
                     var nullExpression = Expression.Convert(Expression.Constant(null), destType);
@@ -41,12 +41,12 @@ namespace AutoMapper.QueryableExtensions.Impl
                             );
                     }
 
-                    return Expression.Bind(propertyMap.DestinationProperty, expressionToBind);
+                    return Expression.Bind(propertyMap.DestMember, expressionToBind);
                 }
             }
 
-            return Expression.Bind(propertyMap.DestinationProperty,
-                Expression.Convert(result.ResolutionExpression, propertyMap.DestinationPropertyType));
+            return Expression.Bind(propertyMap.DestMember,
+                Expression.Convert(result.ResolutionExpression, propertyMap.DestType));
         }
     }
 }

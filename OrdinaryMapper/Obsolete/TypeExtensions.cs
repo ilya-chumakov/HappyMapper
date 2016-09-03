@@ -2,18 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Reflection.Emit;
 
-namespace OrdinaryMapper
+namespace OrdinaryMapper.Obsolete
 {
-
-    using System.Reflection.Emit;
-
     internal static class TypeExtensions
     {
-        public static bool IsImplicitCastableFrom(this Type dest, Type src)
-        {
-            return ImplicitCastChecker.CanCast(src, dest);
-        }
+        //public static bool IsImplicitCastableFrom(this Type dest, Type src)
+        //{
+        //    return ImplicitCastChecker.CanCast(src, dest);
+        //}
 
         public static Type GetGenericTypeDefinitionIfGeneric(this Type type)
         {

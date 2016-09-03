@@ -12,7 +12,7 @@ namespace AutoMapper.QueryableExtensions.Impl
 
             var propertyMap = typeMap.GetPropertyMaps()
                 .FirstOrDefault(pm => pm.CanResolveValue() &&
-                                      pm.SourceMember != null && pm.SourceMember.Name == sourceMemberInfo.Name);
+                                      pm.SrcMember != null && pm.SrcMember.Name == sourceMemberInfo.Name);
 
             if (propertyMap == null)
             {

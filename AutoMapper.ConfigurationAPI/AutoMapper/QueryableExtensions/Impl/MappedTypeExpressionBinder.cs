@@ -27,13 +27,13 @@ namespace AutoMapper.QueryableExtensions.Impl
             // which would result in an exception.
             if (configuration.Configuration.AllowNullDestinationValues && !propertyMap.AllowNull)
             {
-                var expressionNull = Expression.Constant(null, propertyMap.DestinationPropertyType);
+                var expressionNull = Expression.Constant(null, propertyMap.DestType);
                 transformedExpression =
                     Expression.Condition(Expression.NotEqual(result.ResolutionExpression, Expression.Constant(null)),
                         transformedExpression, expressionNull);
             }
 
-            return Expression.Bind(propertyMap.DestinationProperty, transformedExpression);
+            return Expression.Bind(propertyMap.DestMember, transformedExpression);
         }
     }
 }

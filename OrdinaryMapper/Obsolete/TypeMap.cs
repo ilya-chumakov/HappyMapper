@@ -5,7 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 
-namespace OrdinaryMapper
+namespace OrdinaryMapper.Obsolete
 {
     [DebuggerDisplay("{SrcType.Name} -> {DestType.Name}")]
     public class TypeMap

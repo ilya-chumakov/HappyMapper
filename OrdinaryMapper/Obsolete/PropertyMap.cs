@@ -5,7 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace OrdinaryMapper
+namespace OrdinaryMapper.Obsolete
 {
     [DebuggerDisplay("{SrcMember.Name} -> {DestMember.Name}")]
     public class PropertyMap

@@ -14,8 +14,8 @@ namespace AutoMapper.QueryableExtensions.Impl
     {
         public bool IsMatch(PropertyMap propertyMap, TypeMap propertyTypeMap, ExpressionResolutionResult result)
         {
-            return propertyMap.DestinationPropertyType.IsEnumerableType() && propertyMap.SourceType.IsEnumerableType() &&
-                    !(TypeHelper.GetElementType(propertyMap.DestinationPropertyType).IsPrimitive() && TypeHelper.GetElementType(propertyMap.SourceType).IsPrimitive());
+            return propertyMap.DestType.IsEnumerableType() && propertyMap.SrcType.IsEnumerableType() &&
+                    !(TypeHelper.GetElementType(propertyMap.DestType).IsPrimitive() && TypeHelper.GetElementType(propertyMap.SrcType).IsPrimitive());
         }
 
         public MemberAssignment Build(IConfigurationProvider configuration, PropertyMap propertyMap, TypeMap propertyTypeMap, ExpressionRequest request, ExpressionResolutionResult result, ConcurrentDictionary<ExpressionRequest, int> typePairCount)
@@ -25,8 +25,8 @@ namespace AutoMapper.QueryableExtensions.Impl
 
         private static MemberAssignment BindEnumerableExpression(IConfigurationProvider configuration, PropertyMap propertyMap, ExpressionRequest request, ExpressionResolutionResult result, ConcurrentDictionary<ExpressionRequest, int> typePairCount)
         {
-            var destinationListType = TypeHelper.GetElementType(propertyMap.DestinationPropertyType);
-            var sourceListType = TypeHelper.GetElementType(propertyMap.SourceType);
+            var destinationListType = TypeHelper.GetElementType(propertyMap.DestType);
+            var sourceListType = TypeHelper.GetElementType(propertyMap.SrcType);
             var expression = result.ResolutionExpression;
 
             if (sourceListType != destinationListType)
@@ -40,9 +40,9 @@ namespace AutoMapper.QueryableExtensions.Impl
                 expression = Expression.Call(typeof (Enumerable), "Select", new[] {sourceListType, destinationListType}, result.ResolutionExpression, transformedExpression);
             }
 
-            expression = Expression.Call(typeof(Enumerable), propertyMap.DestinationPropertyType.IsArray ? "ToArray" : "ToList", new[] { destinationListType }, expression);
+            expression = Expression.Call(typeof(Enumerable), propertyMap.DestType.IsArray ? "ToArray" : "ToList", new[] { destinationListType }, expression);
 
-            return Expression.Bind(propertyMap.DestinationProperty, expression);
+            return Expression.Bind(propertyMap.DestMember, expression);
         }
     }
 }

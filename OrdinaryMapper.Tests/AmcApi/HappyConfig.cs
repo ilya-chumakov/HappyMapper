@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using AutoMapper;
+using AutoMapper.Configuration;
+using OrdinaryMapper;
 
 namespace OrdinaryMapperAmcApi.Tests
 {
@@ -9,20 +11,20 @@ namespace OrdinaryMapperAmcApi.Tests
         private MapperConfiguration AutoMapperCfg = null;
 
         public IDictionary<TypePair, TypeMap> TypeMaps => AutoMapperCfg.TypeMapRegistry.TypeMapsDictionary;
+        public MapperConfigurationExpression Configuration => (MapperConfigurationExpression)AutoMapperCfg.Configuration;
 
         public HappyConfig(Action<IMapperConfigurationExpression> configurationExpression)
         {
             AutoMapperCfg = new MapperConfiguration(configurationExpression);
         }
 
-        public Mapper CompileMapper()
+        public HappyMapper CompileMapper()
         {
             var cfg = AutoMapperCfg.Configuration;
 
+            var delegates = Compiler.CompileToAssembly(null, TypeMaps);
 
-            var delegates = OrdinaryMapper.Compiler.CompileToAssembly(null, TypeMaps);
-
-            return new Mapper(delegates);
+            return new HappyMapper(delegates);
         }
     }
 }

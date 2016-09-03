@@ -1,16 +1,10 @@
 ﻿using System;
-using System.CodeDom.Compiler;
-using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Reflection.Metadata;
-using System.Threading;
-using OrdinaryMapper.MemberMapping;
 
-namespace OrdinaryMapper
+namespace OrdinaryMapper.Obsolete
 {
 
     public class MapperConfiguration //: IConfigurationProvider
@@ -26,9 +20,10 @@ namespace OrdinaryMapper
 
         public Mapper CompileMapper()
         {
-            var delegates = Compiler.CompileToAssembly(Configuration, TypeMaps);
+            throw new NotImplementedException();
+            //var delegates = Compiler.CompileToAssembly(Configuration, TypeMaps);
 
-            return new Mapper(delegates);
+            //return new Mapper(delegates);
         }
 
         private readonly TypeMapRegistry _typeMapRegistry = new TypeMapRegistry();

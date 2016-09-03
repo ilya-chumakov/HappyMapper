@@ -54,7 +54,7 @@ namespace AutoMapper
                         string.Format(
                             "The following property on {0} cannot be mapped: \n\t{2}\nAdd a custom mapping expression, ignore, add a custom resolver, or modify the destination type {1}.",
                             Types?.DestinationType.FullName, Types?.DestinationType.FullName,
-                            PropertyMap?.DestinationProperty.Name);
+                            PropertyMap?.DestMember.Name);
 
                     message += "\nContext:";
 
@@ -67,7 +67,7 @@ namespace AutoMapper
                             ? string.Format("\n\tMapping from type {1} to {0}", configExc.Types?.DestinationType.FullName,
                                 configExc.Types?.SourceType.FullName)
                             : string.Format("\n\tMapping to property {0} from {2} to {1}",
-                                configExc.PropertyMap.DestinationProperty.Name,
+                                configExc.PropertyMap.DestMember.Name,
                                 configExc.Types?.DestinationType.FullName, configExc.Types?.SourceType.FullName);
                         }
 

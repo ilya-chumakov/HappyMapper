@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
+using OrdinaryMapperAmcApi.Tests;
 
 namespace OrdinaryMapper.Tests.New
 {
@@ -16,7 +17,7 @@ namespace OrdinaryMapper.Tests.New
         [Test]
         public void MapperConfiguration_CreateMap()
         {
-            var config = new MapperConfiguration(cfg =>
+            var config = new HappyConfig(cfg =>
             {
                 cfg.CreateMap<A, B>().ForMember(d => d.MyProperty, opt => opt.Ignore());
                 cfg.CreateMap<C, D>().ForMember(d => d.MyProperty, opt => opt.MapFrom(s => s.MyProperty));
@@ -26,9 +27,9 @@ namespace OrdinaryMapper.Tests.New
             PrintPropertyMaps(config);
         }
 
-        private static void PrintPropertyMaps(MapperConfiguration config)
+        private static void PrintPropertyMaps(HappyConfig config)
         {
-            List<PropertyMap> propertyMaps = config.TypeMaps.Values.SelectMany(tm => tm.PropertyMaps).ToList();
+            var propertyMaps = config.TypeMaps.Values.SelectMany(tm => tm.PropertyMaps).ToList();
 
             foreach (var propertyMap in propertyMaps)
             {
@@ -36,12 +37,12 @@ namespace OrdinaryMapper.Tests.New
             }
         }
 
-        [Test]
-        public void TypeDetails_Ctor_Success()
-        {
-            var td = new TypeDetails(typeof(A), null);
-            Assert.IsNotNull(td);
-        }
+        //[Test]
+        //public void TypeDetails_Ctor_Success()
+        //{
+        //    var td = new TypeDetails(typeof(A), null);
+        //    Assert.IsNotNull(td);
+        //}
 
     }
 }

@@ -270,8 +270,8 @@ namespace AutoMapper.Mappers
                 var propertyMap = FindPropertyMapOfExpression(node.Expression as MemberExpression);
                 if (propertyMap == null)
                     return node;
-                var sourceType = propertyMap.SourceMember.GetMemberType();
-                var destType = propertyMap.DestinationPropertyType;
+                var sourceType = propertyMap.SrcMember.GetMemberType();
+                var destType = propertyMap.DestType;
                 if (sourceType == destType)
                     return Expression.MakeMemberAccess(baseExpression, node.Member);
                 var typeMap = _configurationProvider.FindTypeMapFor(sourceType, destType);
@@ -301,10 +301,10 @@ namespace AutoMapper.Mappers
 
             private void SetSorceSubTypes(PropertyMap propertyMap)
             {
-                if (propertyMap.SourceMember is PropertyInfo)
-                    _destSubTypes = (propertyMap.SourceMember as PropertyInfo).PropertyType.GetTypeInfo().GenericTypeArguments.Concat(new []{ (propertyMap.SourceMember as PropertyInfo).PropertyType }).ToList();
-                else if (propertyMap.SourceMember is FieldInfo)
-                    _destSubTypes = (propertyMap.SourceMember as FieldInfo).FieldType.GetTypeInfo().GenericTypeArguments;
+                if (propertyMap.SrcMember is PropertyInfo)
+                    _destSubTypes = (propertyMap.SrcMember as PropertyInfo).PropertyType.GetTypeInfo().GenericTypeArguments.Concat(new []{ (propertyMap.SrcMember as PropertyInfo).PropertyType }).ToList();
+                else if (propertyMap.SrcMember is FieldInfo)
+                    _destSubTypes = (propertyMap.SrcMember as FieldInfo).FieldType.GetTypeInfo().GenericTypeArguments;
             }
         }
     }

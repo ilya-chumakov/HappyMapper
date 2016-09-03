@@ -80,7 +80,7 @@ namespace AutoMapper
                 {
                     message = message + newLine + newLine + "Property:";
                     message += newLine +
-                               $"{PropertyMap.DestinationProperty.Name}";
+                               $"{PropertyMap.DestMember.Name}";
                 }
 
                 return message;

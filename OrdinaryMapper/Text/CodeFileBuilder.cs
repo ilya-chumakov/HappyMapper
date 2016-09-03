@@ -1,5 +1,6 @@
 using System;
 using System.Text;
+using AutoMapper;
 
 namespace OrdinaryMapper
 {
@@ -18,8 +19,8 @@ namespace OrdinaryMapper
         public CodeFileBuilder(TypePair typePair)
         {
             TypePair = typePair;
-            SrcFullName = typePair.SrcType.FullName;
-            DestFullName = typePair.DestType.FullName;
+            SrcFullName = typePair.SourceType.FullName;
+            DestFullName = typePair.DestinationType.FullName;
 
             CreateClassName(typePair);
             MapperClassFullName = $"{NamespaceName}.{MapperClassName}";
@@ -31,8 +32,8 @@ namespace OrdinaryMapper
         {
             string guid = Guid.NewGuid().ToString().Replace("-", "");
 
-            string normSrcName = NamingTools.ToAlphanumericOnly(typePair.SrcType.Name);
-            string normDestName = NamingTools.ToAlphanumericOnly(typePair.DestType.Name);
+            string normSrcName = NamingTools.ToAlphanumericOnly(typePair.SourceType.Name);
+            string normDestName = NamingTools.ToAlphanumericOnly(typePair.DestinationType.Name);
 
             MapperClassName = $"Mapper_{normSrcName}_{normDestName}_{guid}";
         }

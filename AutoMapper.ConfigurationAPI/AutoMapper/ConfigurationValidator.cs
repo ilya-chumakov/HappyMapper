@@ -41,7 +41,7 @@ namespace AutoMapper
             {
                 try
                 {
-                    DryRunTypeMap(typeMapsChecked, typeMap.Types, typeMap,
+                    DryRunTypeMap(typeMapsChecked, typeMap.TypePair, typeMap,
                         new ResolutionContext(new ObjectMappingOperationOptions(_config.ServiceCtor), new Mapper(_config)));
                 }
                 catch (Exception e)
@@ -109,7 +109,7 @@ namespace AutoMapper
             {
                 if (propertyMap.Ignored) continue;
 
-                var sourceType = propertyMap.SourceType;
+                var sourceType = propertyMap.SrcType;
 
                 if (sourceType == null) continue;
 
@@ -117,7 +117,7 @@ namespace AutoMapper
                 if (sourceType.IsGenericParameter || sourceType == typeof (object))
                     return;
 
-                var destinationType = propertyMap.DestinationProperty.GetMemberType();
+                var destinationType = propertyMap.DestMember.GetMemberType();
                 var memberTypeMap = _config.ResolveTypeMap(sourceType,
                     destinationType);
 

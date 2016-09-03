@@ -1,7 +1,9 @@
 ﻿using System;
 using NUnit.Framework;
 using OrdinaryMapper.Benchmarks.Types;
+using OrdinaryMapper.Obsolete;
 using OrdinaryMapper.Tests.Tools;
+using OrdinaryMapperAmcApi.Tests;
 
 namespace OrdinaryMapper.Tests
 {
@@ -10,12 +12,12 @@ namespace OrdinaryMapper.Tests
         [Test]
         public void MapperConfiguration_MapSimpleReferenceTypes_Success()
         {
-            var config = new MapperConfiguration(cfg =>
+            var config = new HappyConfig(cfg =>
             {
                 cfg.CreateMap<Src, Dest>();
             });
 
-            Mapper mapper = config.CompileMapper();
+            var mapper = config.CompileMapper();
 
             var src = new Src();
             var dest = new Dest();
@@ -30,12 +32,12 @@ namespace OrdinaryMapper.Tests
         [Test]
         public void MapperConfiguration_MapNestedReferenceTypes_Success()
         {
-            var config = new MapperConfiguration(cfg =>
+            var config = new HappyConfig(cfg =>
             {
                 cfg.CreateMap<NestedSrc, NestedDest>();
             });
 
-            Mapper mapper = config.CompileMapper();
+            var mapper = config.CompileMapper();
 
             var src = new NestedSrc();
             var dest = new NestedDest();

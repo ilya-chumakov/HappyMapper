@@ -10,7 +10,7 @@ namespace AutoMapper
 
         public IEnumerable<TypeMap> TypeMaps => TypeMapsDictionary.Values;
 
-        public void RegisterTypeMap(TypeMap typeMap) => TypeMapsDictionary[typeMap.Types] = typeMap;
+        public void RegisterTypeMap(TypeMap typeMap) => TypeMapsDictionary[typeMap.TypePair] = typeMap;
 
         public TypeMap GetTypeMap(TypePair typePair) => TypeMapsDictionary.GetOrDefault(typePair);
     }

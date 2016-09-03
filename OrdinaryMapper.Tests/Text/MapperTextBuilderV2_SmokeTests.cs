@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using AutoMapper;
 using NUnit.Framework;
+using OrdinaryMapperAmcApi.Tests;
 
 namespace OrdinaryMapper.Tests.Text
 {
@@ -25,7 +27,7 @@ namespace OrdinaryMapper.Tests.Text
         [Test]
         public void CreateCodeFiles_Success()
         {
-            var config = new MapperConfiguration(cfg =>
+            var config = new HappyConfig(cfg =>
             {
                 cfg.CreateMap<A, B>();
                 cfg.CreateMap<A1, B1>().ForMember(d => d.Id, opt => opt.Ignore());
@@ -48,7 +50,7 @@ namespace OrdinaryMapper.Tests.Text
         [Test]
         public void CreateText_IgnoreAtSubLevel()
         {
-            var config = new MapperConfiguration(cfg =>
+            var config = new HappyConfig(cfg =>
             {
                 cfg.CreateMap<A, B>();
                 cfg.CreateMap<A1, B1>().ForMember(d => d.Id, opt => opt.Ignore());
@@ -74,7 +76,7 @@ namespace OrdinaryMapper.Tests.Text
         [Test]
         public void CreateText_FullExplicitMap()
         {
-            var config = new MapperConfiguration(cfg =>
+            var config = new HappyConfig(cfg =>
             {
                 cfg.CreateMap<A, B>();
                 cfg.CreateMap<A1, B1>();
@@ -100,7 +102,7 @@ namespace OrdinaryMapper.Tests.Text
         [Test]
         public void CreateText_RootLevelOnlyMapped()
         {
-            var config = new MapperConfiguration(cfg =>
+            var config = new HappyConfig(cfg =>
             {
                 cfg.CreateMap<A, B>();
             });

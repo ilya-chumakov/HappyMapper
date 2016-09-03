@@ -1,4 +1,5 @@
 ﻿using System;
+using OrdinaryMapper.Obsolete;
 
 namespace OrdinaryMapper.Benchmarks
 {

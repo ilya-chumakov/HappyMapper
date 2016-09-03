@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace OrdinaryMapper
+namespace OrdinaryMapper.Obsolete
 {
     public class TypeMapRegistry
     {

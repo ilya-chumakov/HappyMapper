@@ -547,7 +547,7 @@ namespace AutoMapper.Configuration
             {
                 foreach (var destProperty in typeMap.GetPropertyMaps().Where(pm => pm.Ignored))
                 {
-                    _reverseMap.ForSourceMember(destProperty.DestinationProperty.Name, opt => opt.Ignore());
+                    _reverseMap.ForSourceMember(destProperty.DestMember.Name, opt => opt.Ignore());
                 }
                 foreach (var includedDerivedType in typeMap.IncludedDerivedTypes)
                 {

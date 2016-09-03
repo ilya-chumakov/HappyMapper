@@ -8,28 +8,28 @@ namespace AutoMapper
     using System.Reflection;
     using Execution;
 
-    [DebuggerDisplay("{DestinationProperty.Name}")]
+    [DebuggerDisplay("{DestMember.Name}")]
     public class PropertyMap
     {
         private readonly List<MemberInfo> _memberChain = new List<MemberInfo>();
 
-        public PropertyMap(MemberInfo destinationProperty, TypeMap typeMap)
+        public PropertyMap(MemberInfo destMember, TypeMap typeMap)
         {
             TypeMap = typeMap;
             //UseDestinationValue = true;
-            DestinationProperty = destinationProperty;
+            DestMember = destMember;
         }
 
         public PropertyMap(PropertyMap inheritedMappedProperty, TypeMap typeMap)
-            : this(inheritedMappedProperty.DestinationProperty, typeMap)
+            : this(inheritedMappedProperty.DestMember, typeMap)
         {
             ApplyInheritedPropertyMap(inheritedMappedProperty);
         }
 
         public TypeMap TypeMap { get; }
-        public MemberInfo DestinationProperty { get; }
+        public MemberInfo DestMember { get; }
 
-        public Type DestinationPropertyType => DestinationProperty.GetMemberType();
+        public Type DestType => DestMember.GetMemberType();
 
         public IEnumerable<MemberInfo> SourceMembers => _memberChain;
 
@@ -46,7 +46,13 @@ namespace AutoMapper
         public object NullSubstitute { get; set; }
         public ValueResolverConfiguration ValueResolverConfig { get; set; }
 
-        public MemberInfo SourceMember
+        public TypePair GetTypePair()
+        {
+            //TODO cache
+            return new TypePair(SrcType, DestType);
+        }
+
+        public MemberInfo SrcMember
         {
             get
             {
@@ -71,7 +77,7 @@ namespace AutoMapper
             }
         }
 
-        public Type SourceType
+        public Type SrcType
         {
             get
             {
@@ -81,7 +87,7 @@ namespace AutoMapper
                     return CustomResolver.ReturnType;
                 if(ValueResolverConfig != null)
                     return typeof(object);
-                return SourceMember?.GetMemberType();
+                return SrcMember?.GetMemberType();
             }
         }
 
@@ -114,7 +120,7 @@ namespace AutoMapper
             return _memberChain.Count > 0 
                 || ValueResolverConfig != null 
                 || CustomResolver != null 
-                || SourceMember != null
+                || SrcMember != null
                 || CustomExpression != null
                 || Ignored;
         }
@@ -124,7 +130,7 @@ namespace AutoMapper
             return (_memberChain.Count > 0
                 || ValueResolverConfig != null
                 || CustomResolver != null
-                || SourceMember != null
+                || SrcMember != null
                 || CustomExpression != null) && !Ignored;
         }
 

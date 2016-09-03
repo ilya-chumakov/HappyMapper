@@ -17,11 +17,13 @@ namespace AutoMapper
     [DebuggerDisplay("{SourceType.Name} -> {DestinationType.Name}")]
     public class TypeMap
     {
+        public Type MapDelegateType { get; set; }
+
         private readonly List<LambdaExpression> _afterMapActions = new List<LambdaExpression>();
         private readonly List<LambdaExpression> _beforeMapActions = new List<LambdaExpression>();
         private readonly HashSet<TypePair> _includedDerivedTypes = new HashSet<TypePair>();
         private readonly HashSet<TypePair> _includedBaseTypes = new HashSet<TypePair>();
-        private readonly ConcurrentBag<PropertyMap> _propertyMaps = new ConcurrentBag<PropertyMap>();
+        public ConcurrentBag<PropertyMap> PropertyMaps { get; } = new ConcurrentBag<PropertyMap>();
         private readonly ConcurrentBag<SourceMemberConfig> _sourceMemberConfigs = new ConcurrentBag<SourceMemberConfig>();
 
         private readonly IList<PropertyMap> _inheritedMaps = new List<PropertyMap>();
@@ -29,11 +31,16 @@ namespace AutoMapper
         private bool _sealed;
         private readonly IList<TypeMap> _inheritedTypeMaps = new List<TypeMap>();
 
-        public TypeMap(TypeDetails sourceType, TypeDetails destinationType, MemberList memberList, IProfileConfiguration profile)
+        public TypeMap(TypeDetails sourceType, 
+            TypeDetails destinationType, 
+            MemberList memberList, 
+            IProfileConfiguration profile,
+            Type mapDelegateType = null)
         {
+            MapDelegateType = mapDelegateType;
             SourceTypeDetails = sourceType;
             DestinationTypeDetails = destinationType;
-            Types = new TypePair(sourceType.Type, destinationType.Type);
+            TypePair = new TypePair(sourceType.Type, destinationType.Type);
             Profile = profile;
             ConfiguredMemberList = memberList;
             IgnorePropertiesStartingWith = profile.GlobalIgnores;
@@ -41,7 +48,7 @@ namespace AutoMapper
 
         public LambdaExpression MapExpression { get; private set; }
 
-        public TypePair Types { get; }
+        public TypePair TypePair { get; }
 
         public ConstructorMap ConstructorMap { get; set; }
 
@@ -84,7 +91,7 @@ namespace AutoMapper
 
         public PropertyMap[] GetPropertyMaps()
         {
-            return _orderedPropertyMaps ?? _propertyMaps.Concat(_inheritedMaps).ToArray();
+            return _orderedPropertyMaps ?? PropertyMaps.Concat(_inheritedMaps).ToArray();
         }
 
         public bool ConstructorParameterMatches(string destinationPropertyName)
@@ -98,7 +105,7 @@ namespace AutoMapper
 
             propertyMap.ChainMembers(resolvers);
 
-            _propertyMaps.Add(propertyMap);
+            PropertyMaps.Add(propertyMap);
         }
 
         public string[] GetUnmappedPropertyNames()
@@ -106,11 +113,11 @@ namespace AutoMapper
             Func<PropertyMap, string> getFunc =
                 pm =>
                     ConfiguredMemberList == MemberList.Destination
-                        ? pm.DestinationProperty.Name
-                        : pm.CustomExpression == null && pm.SourceMember != null
-                            ? pm.SourceMember.Name
-                            : pm.DestinationProperty.Name;
-            var autoMappedProperties = _propertyMaps.Where(pm => pm.IsMapped())
+                        ? pm.DestMember.Name
+                        : pm.CustomExpression == null && pm.SrcMember != null
+                            ? pm.SrcMember.Name
+                            : pm.DestMember.Name;
+            var autoMappedProperties = PropertyMaps.Where(pm => pm.IsMapped())
                 .Select(getFunc).ToList();
             var inheritedProperties = _inheritedMaps.Where(pm => pm.IsMapped())
                 .Select(getFunc).ToList();
@@ -126,9 +133,9 @@ namespace AutoMapper
             }
             else
             {
-                var redirectedSourceMembers = _propertyMaps
-                    .Where(pm => pm.IsMapped() && pm.SourceMember != null && pm.SourceMember.Name != pm.DestinationProperty.Name)
-                    .Select(pm => pm.SourceMember.Name);
+                var redirectedSourceMembers = PropertyMaps
+                    .Where(pm => pm.IsMapped() && pm.SrcMember != null && pm.SrcMember.Name != pm.DestMember.Name)
+                    .Select(pm => pm.SrcMember.Name);
 
                 var ignoredSourceMembers = _sourceMemberConfigs
                     .Where(smc => smc.IsIgnored())
@@ -189,7 +196,7 @@ namespace AutoMapper
 
             propertyMap = new PropertyMap(destinationProperty, this);
 
-            _propertyMaps.Add(propertyMap);
+            PropertyMaps.Add(propertyMap);
 
             return propertyMap;
         }
@@ -197,7 +204,7 @@ namespace AutoMapper
         public void IncludeDerivedTypes(Type derivedSourceType, Type derivedDestinationType)
         {
             var derivedTypes = new TypePair(derivedSourceType, derivedDestinationType);
-            if (derivedTypes.Equals(Types))
+            if (derivedTypes.Equals(TypePair))
             {
                 throw new InvalidOperationException("You cannot include a type map into itself.");
             }
@@ -207,7 +214,7 @@ namespace AutoMapper
         public void IncludeBaseTypes(Type baseSourceType, Type baseDestinationType)
         {
             var baseTypes = new TypePair(baseSourceType, baseDestinationType);
-            if (baseTypes.Equals(Types))
+            if (baseTypes.Equals(TypePair))
             {
                 throw new InvalidOperationException("You cannot include a type map into itself.");
             }
@@ -266,7 +273,7 @@ namespace AutoMapper
             }
 
             _orderedPropertyMaps =
-                _propertyMaps
+                PropertyMaps
                     .Union(_inheritedMaps)
                     .OrderBy(map => map.MappingOrder).ToArray();
 
@@ -278,18 +285,18 @@ namespace AutoMapper
             if (!destinationProperty.DeclaringType.IsAssignableFrom(DestinationType))
                 return null;
             var propertyMap =
-                _propertyMaps.FirstOrDefault(pm => pm.DestinationProperty.Name.Equals(destinationProperty.Name));
+                PropertyMaps.FirstOrDefault(pm => pm.DestMember.Name.Equals(destinationProperty.Name));
 
             if (propertyMap != null)
                 return propertyMap;
 
             propertyMap =
-                _inheritedMaps.FirstOrDefault(pm => pm.DestinationProperty.Name.Equals(destinationProperty.Name));
+                _inheritedMaps.FirstOrDefault(pm => pm.DestMember.Name.Equals(destinationProperty.Name));
 
             if (propertyMap == null)
                 return null;
 
-            var propertyInfo = propertyMap.DestinationProperty as PropertyInfo;
+            var propertyInfo = propertyMap.DestMember as PropertyInfo;
 
             if (propertyInfo == null)
                 return propertyMap;
@@ -348,7 +355,7 @@ namespace AutoMapper
             {
                 var conventionPropertyMap = GetPropertyMaps()
                     .SingleOrDefault(m =>
-                        m.DestinationProperty.Name == inheritedMappedProperty.DestinationProperty.Name);
+                        m.DestMember.Name == inheritedMappedProperty.DestMember.Name);
 
                 if (conventionPropertyMap != null)
                 {

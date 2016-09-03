@@ -122,18 +122,20 @@
     <Compile Include="ErrorMessages.cs" />
     <Compile Include="ITestableMapper.cs" />
     <Compile Include="MapContext.cs" />
-    <Compile Include="New\Class1.cs" />
-    <Compile Include="New\ExpressionHelper.cs" />
+    <Compile Include="Mapper - Copy.cs" />
+    <Compile Include="Obsolete\Class1.cs" />
+    <Compile Include="Obsolete\ExpressionHelper.cs" />
+    <Compile Include="Saved\Class1.cs" />
     <Compile Include="Text\CodeFileBuilder.cs" />
     <Compile Include="Text\Compiler.cs" />
-    <Compile Include="New\TypeMapRegistry.cs" />
-    <Compile Include="New\TypeMapFactory.cs" />
-    <Compile Include="New\ReflectionHelper.cs" />
-    <Compile Include="New\MapperConfiguration.cs" />
-    <Compile Include="New\PrimitiveExtensions.cs" />
-    <Compile Include="New\PropertyMap.cs" />
-    <Compile Include="New\TypeDetails.cs" />
-    <Compile Include="New\TypeExtensions.cs" />
+    <Compile Include="Obsolete\TypeMapRegistry.cs" />
+    <Compile Include="Obsolete\TypeMapFactory.cs" />
+    <Compile Include="Obsolete\ReflectionHelper.cs" />
+    <Compile Include="Obsolete\MapperConfiguration.cs" />
+    <Compile Include="Obsolete\PrimitiveExtensions.cs" />
+    <Compile Include="Obsolete\PropertyMap.cs" />
+    <Compile Include="Obsolete\TypeDetails.cs" />
+    <Compile Include="Obsolete\TypeExtensions.cs" />
     <Compile Include="Text\ImplicitCastChecker.cs" />
     <Compile Include="Text\Coder.cs" />
     <Compile Include="Text\DictionaryEx.cs" />
@@ -141,8 +143,8 @@
     <Compile Include="Text\Assignment.cs" />
     <Compile Include="Text\PropertyNameContext.cs" />
     <Compile Include="Text\StringEx.cs" />
-    <Compile Include="TypeMap.cs" />
-    <Compile Include="TypePair.cs" />
+    <Compile Include="Obsolete\TypeMap.cs" />
+    <Compile Include="Obsolete\TypePair.cs" />
     <Compile Include="Text\MapperTextBuilder.cs" />
     <Compile Include="MapperTypeBuilder.cs" />
     <Compile Include="Mapper.cs" />
@@ -158,6 +160,12 @@
   <ItemGroup>
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.1.1.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.Analyzers.dll" />
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.1.1.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AutoMapper.ConfigurationAPI\AutoMapper.Net4\AutoMapper.Net4.csproj">
+      <Project>{8c955148-fa96-4f0d-880d-abb6770f54e9}</Project>
+      <Name>AutoMapper.Net4</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

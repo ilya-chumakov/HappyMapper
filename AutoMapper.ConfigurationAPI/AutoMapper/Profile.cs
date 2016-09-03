@@ -279,7 +279,7 @@ namespace AutoMapper
 
             var typeMap = _typeMapFactory.CreateTypeMap(types.SourceType, types.DestinationType, this, MemberList.Destination);
 
-            var config = new MappingExpression(typeMap.Types, typeMap.ConfiguredMemberList);
+            var config = new MappingExpression(typeMap.TypePair, typeMap.ConfiguredMemberList);
 
             config.Configure(this, typeMap);
 
@@ -335,7 +335,7 @@ namespace AutoMapper
         {
             foreach(var action in _allTypeMapActions)
             {
-                var expression = new MappingExpression(typeMap.Types, typeMap.ConfiguredMemberList);
+                var expression = new MappingExpression(typeMap.TypePair, typeMap.ConfiguredMemberList);
 
                 action(typeMap, expression);
 
@@ -346,7 +346,7 @@ namespace AutoMapper
             {
                 foreach (var propertyMap in typeMap.GetPropertyMaps())
                 {
-                    var memberExpression = new MappingExpression.MemberConfigurationExpression(propertyMap.DestinationProperty, typeMap.SourceType);
+                    var memberExpression = new MappingExpression.MemberConfigurationExpression(propertyMap.DestMember, typeMap.SourceType);
 
                     action(propertyMap, memberExpression);
 
