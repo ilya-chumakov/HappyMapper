@@ -504,6 +504,8 @@ namespace AutoMapper.Configuration
 
         public void Configure(IProfileConfiguration profile, TypeMap typeMap)
         {
+            typeMap.MapDelegateType = typeof(Action<TSource, TDestination>);
+
             foreach (var destProperty in typeMap.DestinationTypeDetails.PublicWriteAccessors)
             {
                 var attrs = destProperty.GetCustomAttributes(true);

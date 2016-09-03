@@ -141,6 +141,11 @@ namespace AutoMapper
             Ignored = false;
         }
 
+        public override string ToString()
+        {
+            return $"{SrcMember.Name} -> {DestMember.Name}";
+        }
+
         private class MemberFinderVisitor : ExpressionVisitor
         {
             public MemberExpression Member { get; private set; }

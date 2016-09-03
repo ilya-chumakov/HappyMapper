@@ -277,7 +277,7 @@ namespace AutoMapper
                     .Union(_inheritedMaps)
                     .OrderBy(map => map.MappingOrder).ToArray();
 
-            MapExpression = new TypeMapPlanBuilder(configurationProvider, typeMapRegistry, this).CreateMapperLambda();
+            //MapExpression = new TypeMapPlanBuilder(configurationProvider, typeMapRegistry, this).CreateMapperLambda();
         }
 
         public PropertyMap GetExistingPropertyMapFor(MemberInfo destinationProperty)

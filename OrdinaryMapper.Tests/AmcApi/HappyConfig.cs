@@ -20,9 +20,7 @@ namespace OrdinaryMapperAmcApi.Tests
 
         public HappyMapper CompileMapper()
         {
-            var cfg = AutoMapperCfg.Configuration;
-
-            var delegates = Compiler.CompileToAssembly(null, TypeMaps);
+            var delegates = Compiler.CompileToAssembly(Configuration, TypeMaps);
 
             return new HappyMapper(delegates);
         }
