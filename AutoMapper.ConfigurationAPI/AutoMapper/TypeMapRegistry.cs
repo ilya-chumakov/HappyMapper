@@ -6,12 +6,12 @@ namespace AutoMapper
 
     public class TypeMapRegistry
     {
-        private readonly IDictionary<TypePair, TypeMap> _typeMaps = new Dictionary<TypePair, TypeMap>();
+        public IDictionary<TypePair, TypeMap> TypeMapsDictionary { get; } = new Dictionary<TypePair, TypeMap>();
 
-        public IEnumerable<TypeMap> TypeMaps => _typeMaps.Values;
+        public IEnumerable<TypeMap> TypeMaps => TypeMapsDictionary.Values;
 
-        public void RegisterTypeMap(TypeMap typeMap) => _typeMaps[typeMap.Types] = typeMap;
+        public void RegisterTypeMap(TypeMap typeMap) => TypeMapsDictionary[typeMap.Types] = typeMap;
 
-        public TypeMap GetTypeMap(TypePair typePair) => _typeMaps.GetOrDefault(typePair);
+        public TypeMap GetTypeMap(TypePair typePair) => TypeMapsDictionary.GetOrDefault(typePair);
     }
 }

@@ -17,7 +17,7 @@ namespace AutoMapper
     public class MapperConfiguration : IConfigurationProvider
     {
         private readonly IEnumerable<IObjectMapper> _mappers;
-        private readonly TypeMapRegistry _typeMapRegistry = new TypeMapRegistry();
+        public TypeMapRegistry TypeMapRegistry { get; } = new TypeMapRegistry();
         private readonly ConcurrentDictionary<TypePair, TypeMap> _typeMapPlanCache = new ConcurrentDictionary<TypePair, TypeMap>();
         private readonly ConcurrentDictionary<MapRequest, MapperFuncs> _mapPlanCache = new ConcurrentDictionary<MapRequest, MapperFuncs>();
         private readonly ConfigurationValidator _validator;
@@ -91,13 +91,13 @@ namespace AutoMapper
             return new MapperFuncs(mapRequest, mapperToUse, this);
         }
 
-        public TypeMap[] GetAllTypeMaps() => _typeMapRegistry.TypeMaps.ToArray();
+        public TypeMap[] GetAllTypeMaps() => TypeMapRegistry.TypeMaps.ToArray();
 
         public TypeMap FindTypeMapFor(Type sourceType, Type destinationType) => FindTypeMapFor(new TypePair(sourceType, destinationType));
 
         public TypeMap FindTypeMapFor<TSource, TDestination>() => FindTypeMapFor(new TypePair(typeof(TSource), typeof(TDestination)));
 
-        public TypeMap FindTypeMapFor(TypePair typePair) => _typeMapRegistry.GetTypeMap(typePair);
+        public TypeMap FindTypeMapFor(TypePair typePair) => TypeMapRegistry.GetTypeMap(typePair);
 
         public TypeMap ResolveTypeMap(Type sourceType, Type destinationType)
         {
@@ -113,7 +113,7 @@ namespace AutoMapper
             {
                 lock(typeMap)
                 {
-                    typeMap.Seal(_typeMapRegistry, this);
+                    typeMap.Seal(TypeMapRegistry, this);
                 }
             }
             return typeMap;
@@ -157,7 +157,7 @@ namespace AutoMapper
 
         public void AssertConfigurationIsValid(string profileName)
         {
-            _validator.AssertConfigurationIsValid(_typeMapRegistry.TypeMaps.Where(typeMap => typeMap.Profile.ProfileName == profileName));
+            _validator.AssertConfigurationIsValid(TypeMapRegistry.TypeMaps.Where(typeMap => typeMap.Profile.ProfileName == profileName));
         }
 
         public void AssertConfigurationIsValid<TProfile>()
@@ -168,7 +168,7 @@ namespace AutoMapper
 
         public void AssertConfigurationIsValid()
         {
-            _validator.AssertConfigurationIsValid(_typeMapRegistry.TypeMaps.Where(tm => !tm.SourceType.IsGenericTypeDefinition() && !tm.DestinationType.IsGenericTypeDefinition()));
+            _validator.AssertConfigurationIsValid(TypeMapRegistry.TypeMaps.Where(tm => !tm.SourceType.IsGenericTypeDefinition() && !tm.DestinationType.IsGenericTypeDefinition()));
         }
 
         public IMapper CreateMapper() => new Mapper(this);
@@ -195,12 +195,12 @@ namespace AutoMapper
 
             foreach (var profile in configuration.Profiles.Cast<IProfileConfiguration>())
             {
-                profile.Register(_typeMapRegistry);
+                profile.Register(TypeMapRegistry);
             }
 
             foreach (var action in configuration.AllTypeMapActions)
             {
-                foreach (var typeMap in _typeMapRegistry.TypeMaps)
+                foreach (var typeMap in TypeMapRegistry.TypeMaps)
                 {
                     var expression = new MappingExpression(typeMap.Types, typeMap.ConfiguredMemberList);
 
@@ -212,7 +212,7 @@ namespace AutoMapper
 
             foreach (var action in configuration.AllPropertyMapActions)
             {
-                foreach (var typeMap in _typeMapRegistry.TypeMaps)
+                foreach (var typeMap in TypeMapRegistry.TypeMaps)
                 {
                     foreach (var propertyMap in typeMap.GetPropertyMaps())
                     {
@@ -227,10 +227,10 @@ namespace AutoMapper
 
             foreach (var profile in configuration.Profiles.Cast<IProfileConfiguration>())
             {
-                profile.Configure(_typeMapRegistry);
+                profile.Configure(TypeMapRegistry);
             }
 
-            foreach (var typeMap in _typeMapRegistry.TypeMaps)
+            foreach (var typeMap in TypeMapRegistry.TypeMaps)
             {
                 _typeMapPlanCache[typeMap.Types] = typeMap;
 
@@ -258,9 +258,9 @@ namespace AutoMapper
                 _typeMapPlanCache[derivedMap.Item1] = derivedMap.Item2;
             }
 
-            foreach (var typeMap in _typeMapRegistry.TypeMaps)
+            foreach (var typeMap in TypeMapRegistry.TypeMaps)
             {
-                typeMap.Seal(_typeMapRegistry, this);
+                typeMap.Seal(TypeMapRegistry, this);
             }
         }
 
@@ -291,12 +291,12 @@ namespace AutoMapper
         {
             var typeMap = Configuration.Profiles
                 .Cast<IProfileConfiguration>()
-                .Select(p => p.ConfigureConventionTypeMap(_typeMapRegistry, typePair))
+                .Select(p => p.ConfigureConventionTypeMap(TypeMapRegistry, typePair))
                 .FirstOrDefault(t => t != null);
 
             if(!Configuration.CreateMissingTypeMaps)
             {
-                typeMap?.Seal(_typeMapRegistry, this);
+                typeMap?.Seal(TypeMapRegistry, this);
             }
 
             return typeMap;
@@ -309,10 +309,10 @@ namespace AutoMapper
 
             var typeMap = Configuration.Profiles
                 .Cast<IProfileConfiguration>()
-                .Select(p => p.ConfigureClosedGenericTypeMap(_typeMapRegistry, typePair, requestedTypes))
+                .Select(p => p.ConfigureClosedGenericTypeMap(TypeMapRegistry, typePair, requestedTypes))
                 .FirstOrDefault(t => t != null);
 
-            typeMap?.Seal(_typeMapRegistry, this);
+            typeMap?.Seal(TypeMapRegistry, this);
 
             return typeMap;
         }
@@ -398,7 +398,7 @@ namespace AutoMapper
                 }
                 else
                 {
-                    var map = mapperToUse.MapExpression(mapperConfiguration._typeMapRegistry, mapperConfiguration, null, ToType(source, mapRequest.RuntimeTypes.SourceType), destination, context);
+                    var map = mapperToUse.MapExpression(mapperConfiguration.TypeMapRegistry, mapperConfiguration, null, ToType(source, mapRequest.RuntimeTypes.SourceType), destination, context);
                     var mapToDestination = Lambda(ToType(map, destinationType), source, destination, context);
                     fullExpression = TryCatch(mapToDestination, source, destination, context, mapRequest.RequestedTypes);
                 }

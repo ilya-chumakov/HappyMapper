@@ -5,7 +5,7 @@ using NUnit.Framework;
 
 namespace OrdinaryMapper.Tests.New
 {
-    public class Tests
+    public class PropertyMapsPrint
     {
         public class A { public string MyProperty { get; set; } }
         public class B { public string MyProperty { get; set; } }
