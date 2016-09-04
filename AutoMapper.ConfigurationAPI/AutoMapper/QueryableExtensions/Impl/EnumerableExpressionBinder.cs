@@ -1,15 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Reflection;
+using System.Collections.Concurrent;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Collections.Concurrent;
+using AutoMapper.ConfigurationAPI.Configuration;
+using AutoMapper.ConfigurationAPI.Mappers;
 
-namespace AutoMapper.QueryableExtensions.Impl
+namespace AutoMapper.ConfigurationAPI.QueryableExtensions.Impl
 {
-    using Configuration;
-    using Mappers;
-
     public class EnumerableExpressionBinder : IExpressionBinder
     {
         public bool IsMatch(PropertyMap propertyMap, TypeMap propertyTypeMap, ExpressionResolutionResult result)

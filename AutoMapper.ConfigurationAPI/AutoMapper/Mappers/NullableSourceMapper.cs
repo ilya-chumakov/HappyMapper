@@ -2,11 +2,10 @@ using System;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using AutoMapper.ConfigurationAPI.Configuration;
 
-namespace AutoMapper.Mappers
+namespace AutoMapper.ConfigurationAPI.Mappers
 {
-    using Configuration;
-
     public class NullableSourceMapper : IObjectMapper
     {
         public static TDestination Map<TSource, TDestination>(TSource? source, TDestination destination, ResolutionContext context) where TSource : struct

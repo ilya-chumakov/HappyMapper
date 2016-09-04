@@ -1,16 +1,11 @@
 using System;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
+using AutoMapper.ConfigurationAPI.Execution;
 
-namespace AutoMapper
+namespace AutoMapper.ConfigurationAPI
 {
-    using AutoMapper.Execution;
-    using System.Linq;
-    using System.Linq.Expressions;
-    using static System.Linq.Expressions.Expression;
-    using static ExpressionExtensions;
-    using System.Reflection;
-    using Configuration;
-    using Mappers;
-
     public class ConstructorParameterMap
     {
         public ConstructorParameterMap(ParameterInfo parameter, MemberInfo[] sourceMembers, bool canResolve)
@@ -37,9 +32,9 @@ namespace AutoMapper
         {
             var valueResolverExpression = ResolveSource(builder.Source, builder.Context);
             var sourceType = valueResolverExpression.Type;
-            var resolvedValue = Variable(sourceType, "resolvedValue");            
-            return Block(new[] { resolvedValue },
-                Assign(resolvedValue, valueResolverExpression),
+            var resolvedValue = Expression.Variable(sourceType, "resolvedValue");            
+            return Expression.Block(new[] { resolvedValue },
+                Expression.Assign(resolvedValue, valueResolverExpression),
                 builder.MapExpression(new TypePair(sourceType, DestinationType), resolvedValue));
         }
 
@@ -52,18 +47,18 @@ namespace AutoMapper
             if(CustomValueResolver != null)
             {
                 // Invoking a delegate
-                return Invoke(Constant(CustomValueResolver), sourceParameter, contextParameter);
+                return Expression.Invoke(Expression.Constant(CustomValueResolver), sourceParameter, contextParameter);
             }
             if(Parameter.IsOptional)
             {
                 DefaultValue = true;
-                return Constant(Parameter.GetDefaultValue(), Parameter.ParameterType);
+                return Expression.Constant(Parameter.GetDefaultValue(), Parameter.ParameterType);
             }
             return SourceMembers.Aggregate(
                             (Expression) sourceParameter,
                             (inner, getter) => getter is MethodInfo
-                                ? Call(getter.IsStatic() ? null : inner, (MethodInfo) getter)
-                                : (Expression) MakeMemberAccess(getter.IsStatic() ? null : inner, getter)
+                                ? Expression.Call(getter.IsStatic() ? null : inner, (MethodInfo) getter)
+                                : (Expression) Expression.MakeMemberAccess(getter.IsStatic() ? null : inner, getter)
                       ).IfNotNull(DestinationType);
         }
     }

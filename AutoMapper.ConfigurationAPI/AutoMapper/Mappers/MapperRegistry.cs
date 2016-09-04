@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace AutoMapper.Mappers
+namespace AutoMapper.ConfigurationAPI.Mappers
 {
     public static class MapperRegistry
     {

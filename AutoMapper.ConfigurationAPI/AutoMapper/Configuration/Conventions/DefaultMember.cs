@@ -1,10 +1,9 @@
-namespace AutoMapper.Configuration.Conventions
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Reflection;
-    using Execution;
+using System;
+using System.Collections.Generic;
+using System.Reflection;
 
+namespace AutoMapper.ConfigurationAPI.Configuration.Conventions
+{
     // Source Destination Mapper
 
     public class DefaultMember : IChildMemberConfiguration

@@ -1,10 +1,9 @@
-namespace AutoMapper
+using System;
+using AutoMapper.ConfigurationAPI.Configuration;
+using AutoMapper.ConfigurationAPI.Mappers;
+
+namespace AutoMapper.ConfigurationAPI
 {
-    using System;
-    using System.Linq;
-    using Configuration;
-    using Execution;
-    using Mappers;
     using ObjectMappingOperationOptions = MappingOperationOptions<object, object>;
 
     public class Mapper : IRuntimeMapper

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using AutoMapper;
+using AutoMapper.ConfigurationAPI;
 using NUnit.Framework;
 using OrdinaryMapper.AmcApi;
 using OrdinaryMapperAmcApi.Tests;

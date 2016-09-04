@@ -1,11 +1,11 @@
-#if NET45
-namespace AutoMapper.Execution
-{
-    using System;
-    using System.Linq;
-    using System.Reflection;
-    using System.Reflection.Emit;
+using System;
+using System.Linq;
+using System.Reflection;
+using System.Reflection.Emit;
 
+#if NET45
+namespace AutoMapper.ConfigurationAPI.Execution
+{
     public class PropertyEmitter
     {
         private static readonly MethodInfo proxyBase_NotifyPropertyChanged =

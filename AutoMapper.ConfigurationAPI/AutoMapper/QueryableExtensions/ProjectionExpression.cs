@@ -1,13 +1,13 @@
 using System;
-using IObjectDictionary = System.Collections.Generic.IDictionary<string, object>;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Collections.Generic;
+using AutoMapper.ConfigurationAPI.Execution;
+using IObjectDictionary = System.Collections.Generic.IDictionary<string, object>;
 
-namespace AutoMapper.QueryableExtensions
+namespace AutoMapper.ConfigurationAPI.QueryableExtensions
 {
-    using Execution;
     using MemberPaths = IEnumerable<IEnumerable<MemberInfo>>;
 
     public class ProjectionExpression : IProjectionExpression

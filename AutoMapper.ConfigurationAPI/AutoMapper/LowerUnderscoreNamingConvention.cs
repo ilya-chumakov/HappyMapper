@@ -1,7 +1,7 @@
-namespace AutoMapper
-{
-    using System.Text.RegularExpressions;
+using System.Text.RegularExpressions;
 
+namespace AutoMapper.ConfigurationAPI
+{
     public class LowerUnderscoreNamingConvention : INamingConvention
     {
         public Regex SplittingExpression { get; } = new Regex(@"[\p{Ll}\p{Lu}0-9]+(?=_?)");

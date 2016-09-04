@@ -1,6 +1,6 @@
 using System;
 using System.Text;
-using AutoMapper;
+using AutoMapper.ConfigurationAPI;
 
 namespace OrdinaryMapper
 {

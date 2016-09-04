@@ -1,12 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using AutoMapper.Mappers;
+using AutoMapper.ConfigurationAPI.Configuration.Conventions;
+using AutoMapper.ConfigurationAPI.Mappers;
 
-namespace AutoMapper
+namespace AutoMapper.ConfigurationAPI
 {
-    using Configuration.Conventions;
-
     /// <summary>
     /// Contains profile-specific configuration
     /// </summary>

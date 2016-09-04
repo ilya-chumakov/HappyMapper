@@ -1,12 +1,12 @@
 
-namespace AutoMapper
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Reflection;
-    using Execution;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using AutoMapper.ConfigurationAPI.Execution;
 
+namespace AutoMapper.ConfigurationAPI
+{
     public class TypeMapFactory
     {
         public TypeMap CreateTypeMapEx(TypePair pair, IProfileConfiguration options, MemberList memberList, Type mapDelegateType)

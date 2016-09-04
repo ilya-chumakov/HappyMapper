@@ -1,4 +1,4 @@
-namespace AutoMapper.Execution
+namespace AutoMapper.ConfigurationAPI.Execution
 {
     public delegate TValue LateBoundMethod<TSource, TValue>(TSource target, object[] arguments);
 

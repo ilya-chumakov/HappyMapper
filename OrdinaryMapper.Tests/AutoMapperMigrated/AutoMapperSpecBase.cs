@@ -1,10 +1,9 @@
 ﻿using System;
+using AutoMapper.ConfigurationAPI;
 using NUnit.Framework;
 
 namespace AutoMapper.UnitTests
 {
-    using QueryableExtensions;
-
     public abstract class AutoMapperSpecBase : NonValidatingSpecBase
     {
         [Test]

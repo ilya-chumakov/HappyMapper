@@ -1,12 +1,12 @@
-namespace AutoMapper.Configuration.Conventions
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Reflection;
-    using System.Text.RegularExpressions;
-    using Execution;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Text.RegularExpressions;
+using AutoMapper.ConfigurationAPI.Execution;
 
+namespace AutoMapper.ConfigurationAPI.Configuration.Conventions
+{
     public class NameSplitMember : IChildMemberConfiguration
     {
         public INamingConvention SourceMemberNamingConvention { get; set; }

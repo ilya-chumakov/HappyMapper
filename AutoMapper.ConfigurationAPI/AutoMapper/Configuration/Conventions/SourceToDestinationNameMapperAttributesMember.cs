@@ -1,11 +1,11 @@
-namespace AutoMapper.Configuration.Conventions
-{
-    using System;
-    using System.Collections.Concurrent;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Reflection;
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 
+namespace AutoMapper.ConfigurationAPI.Configuration.Conventions
+{
     public class SourceToDestinationNameMapperAttributesMember : ISourceToDestinationNameMapper
     {
         private static readonly ConcurrentDictionary<TypeDetails, Dictionary<MemberInfo, IEnumerable<SourceToDestinationMapperAttribute>>> Cache = new ConcurrentDictionary<TypeDetails, Dictionary<MemberInfo, IEnumerable<SourceToDestinationMapperAttribute>>>();

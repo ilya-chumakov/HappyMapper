@@ -1,9 +1,9 @@
-namespace AutoMapper.Configuration
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Linq.Expressions;
+using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 
+namespace AutoMapper.ConfigurationAPI.Configuration
+{
     public class ResolutionExpression<TSource> : IResolverConfigurationExpression<TSource>, IResolutionExpression<TSource>
     {
         private readonly ValueResolverConfiguration _config;

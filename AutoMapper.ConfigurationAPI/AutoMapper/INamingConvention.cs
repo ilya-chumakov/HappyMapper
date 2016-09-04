@@ -1,6 +1,6 @@
 using System.Text.RegularExpressions;
 
-namespace AutoMapper
+namespace AutoMapper.ConfigurationAPI
 {
     /// <summary>
     /// Defines a naming convention strategy

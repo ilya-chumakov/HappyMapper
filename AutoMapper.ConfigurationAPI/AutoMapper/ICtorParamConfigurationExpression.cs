@@ -1,11 +1,10 @@
-﻿namespace AutoMapper
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Linq.Expressions;
-    using System.Linq;
-    using Execution;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 
+namespace AutoMapper.ConfigurationAPI
+{
     public interface ICtorParamConfigurationExpression<TSource>
     {
         /// <summary>

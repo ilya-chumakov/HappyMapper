@@ -1,8 +1,8 @@
-#if NET45
-namespace AutoMapper.Execution
-{
-    using System;
+using System;
 
+#if NET45
+namespace AutoMapper.ConfigurationAPI.Execution
+{
     public interface IProxyGenerator
     {
         Type GetProxyType(Type interfaceType);

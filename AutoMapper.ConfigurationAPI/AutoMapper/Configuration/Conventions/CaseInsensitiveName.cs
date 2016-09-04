@@ -1,9 +1,9 @@
-namespace AutoMapper.Configuration.Conventions
-{
-    using System;
-    using System.Linq;
-    using System.Reflection;
+using System;
+using System.Linq;
+using System.Reflection;
 
+namespace AutoMapper.ConfigurationAPI.Configuration.Conventions
+{
     public class CaseInsensitiveName : ISourceToDestinationNameMapper
     {
         public MemberInfo GetMatchingMemberInfo(IGetTypeInfoMembers getTypeInfoMembers, TypeDetails typeInfo, Type destType, Type destMemberType, string nameToSearch)

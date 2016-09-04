@@ -1,11 +1,11 @@
-namespace AutoMapper.Configuration.Conventions
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Collections.ObjectModel;
-    using System.Linq;
-    using System.Reflection;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Reflection;
 
+namespace AutoMapper.ConfigurationAPI.Configuration.Conventions
+{
     public class ReplaceName : ISourceToDestinationNameMapper
     {
         private ICollection<MemberNameReplacer> MemberNameReplacers { get; }

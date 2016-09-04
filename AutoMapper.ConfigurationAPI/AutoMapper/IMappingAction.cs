@@ -1,4 +1,4 @@
-namespace AutoMapper
+namespace AutoMapper.ConfigurationAPI
 {
     /// <summary>
     /// Custom mapping action

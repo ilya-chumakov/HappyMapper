@@ -1,9 +1,9 @@
-namespace AutoMapper
-{
-    using System;
-    using System.Linq;
-    using System.Text;
+using System;
+using System.Linq;
+using System.Text;
 
+namespace AutoMapper.ConfigurationAPI
+{
     public class AutoMapperConfigurationException : Exception
     {
         public TypeMapConfigErrors[] Errors { get; }

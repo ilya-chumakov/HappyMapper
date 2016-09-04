@@ -1,8 +1,8 @@
-namespace AutoMapper.QueryableExtensions
-{
-    using System;
-    using System.Linq.Expressions;
+using System;
+using System.Linq.Expressions;
 
+namespace AutoMapper.ConfigurationAPI.QueryableExtensions
+{
     public class ExpressionResolutionResult
     {
         public Expression ResolutionExpression { get; private set; }

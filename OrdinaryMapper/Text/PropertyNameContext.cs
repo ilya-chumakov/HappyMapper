@@ -1,5 +1,5 @@
 
-using AutoMapper;
+using AutoMapper.ConfigurationAPI;
 
 namespace OrdinaryMapper
 {

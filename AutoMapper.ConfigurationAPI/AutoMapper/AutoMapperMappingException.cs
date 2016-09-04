@@ -1,10 +1,7 @@
-namespace AutoMapper
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
+using System;
 
+namespace AutoMapper.ConfigurationAPI
+{
     public class AutoMapperMappingException : Exception
     {
         private readonly string _message;

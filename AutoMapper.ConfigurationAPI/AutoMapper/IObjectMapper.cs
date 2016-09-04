@@ -1,11 +1,8 @@
-using System;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace AutoMapper
+namespace AutoMapper.ConfigurationAPI
 {
-    using static Expression;
-
     /// <summary>
     /// Mapping execution strategy, as a chain of responsibility
     /// </summary>
@@ -58,7 +55,7 @@ namespace AutoMapper
 
         public Expression MapExpression(TypeMapRegistry typeMapRegistry, IConfigurationProvider configurationProvider, PropertyMap propertyMap, Expression sourceExpression, Expression destExpression, Expression contextExpression)
         {
-            return Call(Constant(this), MapMethod, sourceExpression, destExpression, contextExpression);
+            return Expression.Call(Expression.Constant(this), MapMethod, sourceExpression, destExpression, contextExpression);
         }
     }
 }

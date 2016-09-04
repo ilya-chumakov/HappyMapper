@@ -3,14 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using AutoMapper.ConfigurationAPI.Configuration;
+using AutoMapper.ConfigurationAPI.Mappers;
 
-namespace AutoMapper.Execution
+namespace AutoMapper.ConfigurationAPI.Execution
 {
-    using Configuration;
-    using Mappers;
-    using static Expression;
-    using static ExpressionExtensions;
-
     public class TypeMapPlanBuilder
     {
         private static readonly Expression<Func<IRuntimeMapper, ResolutionContext>> CreateContext = mapper => new ResolutionContext(mapper.DefaultContext.Options, mapper);
@@ -35,10 +32,10 @@ namespace AutoMapper.Execution
             _configurationProvider = configurationProvider;
             _typeMapRegistry = typeMapRegistry;
             _typeMap = typeMap;
-            _source = Parameter(typeMap.SourceType, "src");
-            _initialDestination = Parameter(typeMap.DestinationTypeToUse, "dest");
-            _context = Parameter(typeof(ResolutionContext), "ctxt");
-            _destination = Variable(_initialDestination.Type, "typeMapDestination");
+            _source = Expression.Parameter(typeMap.SourceType, "src");
+            _initialDestination = Expression.Parameter(typeMap.DestinationTypeToUse, "dest");
+            _context = Expression.Parameter(typeof(ResolutionContext), "ctxt");
+            _destination = Expression.Variable(_initialDestination.Type, "typeMapDestination");
         }
 
         public LambdaExpression CreateMapperLambda()
@@ -50,7 +47,7 @@ namespace AutoMapper.Execution
             var customExpression = TypeConverterMapper() ?? _typeMap.Substitution ?? _typeMap.CustomMapper ?? _typeMap.CustomProjection;
             if(customExpression != null)
             {
-                return Lambda(customExpression.ReplaceParameters(_source, _initialDestination, _context), _source, _initialDestination, _context);
+                return Expression.Lambda(customExpression.ReplaceParameters(_source, _initialDestination, _context), _source, _initialDestination, _context);
             }
             bool constructorMapping;
 
@@ -63,7 +60,7 @@ namespace AutoMapper.Execution
             var checkContext = CheckContext(_typeMap, _context);
             var lambaBody = (checkContext != null) ? new[] { checkContext, mapperFunc } : new[] { mapperFunc };
 
-            return Lambda(Block(new[] { _destination }, lambaBody), _source, _initialDestination, _context);
+            return Expression.Lambda(Expression.Block(new[] { _destination }, lambaBody), _source, _initialDestination, _context);
         }
 
         private LambdaExpression TypeConverterMapper()
@@ -86,11 +83,11 @@ namespace AutoMapper.Execution
             }
             // (src, dest, ctxt) => ((ITypeConverter<TSource, TDest>)ctxt.Options.CreateInstance<TypeConverterType>()).ToType(src, ctxt);
             var converterInterfaceType = typeof(ITypeConverter<,>).MakeGenericType(_typeMap.SourceType, _typeMap.DestinationTypeToUse);
-            return Lambda(
-                Call(
-                    ToType(
-                        Call(
-                            MakeMemberAccess(_context, typeof(ResolutionContext).GetDeclaredProperty("Options")),
+            return Expression.Lambda(
+                Expression.Call(
+                    ExpressionExtensions.ToType(
+                        Expression.Call(
+                            Expression.MakeMemberAccess(_context, typeof(ResolutionContext).GetDeclaredProperty("Options")),
                             typeof(IMappingOperationOptions).GetDeclaredMethod("CreateInstance")
                                 .MakeGenericMethod(type)
                             ),
@@ -105,32 +102,32 @@ namespace AutoMapper.Execution
         {
             if(typeMap.MaxDepth > 0 || typeMap.PreserveReferences)
             {
-                var mapper = Property(context, "Mapper");
-                return IfThen(Property(context, "IsDefault"), Assign(context, Invoke(CreateContext, mapper)));
+                var mapper = Expression.Property(context, "Mapper");
+                return Expression.IfThen(Expression.Property(context, "IsDefault"), Expression.Assign(context, Expression.Invoke(CreateContext, mapper)));
             }
             return null;
         }
 
         private Expression CreateDestinationFunc(out bool constructorMapping)
         {
-            var newDestFunc = ToType(CreateNewDestinationFunc(out constructorMapping), _typeMap.DestinationTypeToUse);
+            var newDestFunc = ExpressionExtensions.ToType(CreateNewDestinationFunc(out constructorMapping), _typeMap.DestinationTypeToUse);
 
             var getDest = _typeMap.DestinationTypeToUse.IsValueType()
                 ? newDestFunc
-                : Coalesce(_initialDestination, newDestFunc);
+                : Expression.Coalesce(_initialDestination, newDestFunc);
 
-            Expression destinationFunc = Assign(_destination, getDest);
+            Expression destinationFunc = Expression.Assign(_destination, getDest);
 
             if(_typeMap.PreserveReferences)
             {
-                var dest = Variable(typeof(object), "dest");
+                var dest = Expression.Variable(typeof(object), "dest");
 
-                Expression valueBag = Property(_context, "InstanceCache");
-                var set = Assign(Property(valueBag, "Item", _source), dest);
+                Expression valueBag = Expression.Property(_context, "InstanceCache");
+                var set = Expression.Assign(Expression.Property(valueBag, "Item", _source), dest);
                 var setCache =
-                    IfThen(NotEqual(_source, Constant(null)), set);
+                    Expression.IfThen(Expression.NotEqual(_source, Expression.Constant(null)), set);
 
-                destinationFunc = Block(new[] { dest }, Assign(dest, destinationFunc), setCache, dest);
+                destinationFunc = Expression.Block(new[] { dest }, Expression.Assign(dest, destinationFunc), setCache, dest);
             }
             return destinationFunc;
         }
@@ -147,7 +144,7 @@ namespace AutoMapper.Execution
                 var property = TryPropertyMap(propertyMap);
                 if(constructorMapping && _typeMap.ConstructorParameterMatches(propertyMap.DestMember.Name))
                 {
-                    property = IfThen(NotEqual(_initialDestination, Constant(null)), property);
+                    property = Expression.IfThen(Expression.NotEqual(_initialDestination, Expression.Constant(null)), property);
                 }
                 actions.Add(property);
             }
@@ -158,7 +155,7 @@ namespace AutoMapper.Execution
             actions.Insert(0, destinationFunc);
             if(_typeMap.MaxDepth > 0)
             {
-                actions.Insert(0, Call(_context, ((MethodCallExpression)IncTypeDepthInfo.Body).Method, Constant(_typeMap.TypePair)));
+                actions.Insert(0, Expression.Call(_context, ((MethodCallExpression)IncTypeDepthInfo.Body).Method, Expression.Constant(_typeMap.TypePair)));
             }
             actions.AddRange(
                 _typeMap.AfterMapActions.Select(
@@ -166,12 +163,12 @@ namespace AutoMapper.Execution
 
             if(_typeMap.MaxDepth > 0)
             {
-                actions.Add(Call(_context, ((MethodCallExpression)DecTypeDepthInfo.Body).Method, Constant(_typeMap.TypePair)));
+                actions.Add(Expression.Call(_context, ((MethodCallExpression)DecTypeDepthInfo.Body).Method, Expression.Constant(_typeMap.TypePair)));
             }
 
             actions.Add(_destination);
 
-            return Block(actions);
+            return Expression.Block(actions);
         }
 
         private Expression CreateMapperFunc(Expression assignmentFunc)
@@ -181,49 +178,49 @@ namespace AutoMapper.Execution
             if(_typeMap.Condition != null)
             {
                 mapperFunc =
-                    Condition(_typeMap.Condition.Body,
-                        mapperFunc, Default(_typeMap.DestinationTypeToUse));
+                    Expression.Condition(_typeMap.Condition.Body,
+                        mapperFunc, Expression.Default(_typeMap.DestinationTypeToUse));
                 //mapperFunc = (source, context, destFunc) => _condition(context) ? inner(source, context, destFunc) : default(TDestination);
             }
 
             if(_typeMap.MaxDepth > 0)
             {
-                mapperFunc = Condition(
-                    LessThanOrEqual(
-                        Call(_context, ((MethodCallExpression)GetTypeDepthInfo.Body).Method, Constant(_typeMap.TypePair)),
-                        Constant(_typeMap.MaxDepth)
+                mapperFunc = Expression.Condition(
+                    Expression.LessThanOrEqual(
+                        Expression.Call(_context, ((MethodCallExpression)GetTypeDepthInfo.Body).Method, Expression.Constant(_typeMap.TypePair)),
+                        Expression.Constant(_typeMap.MaxDepth)
                     ),
                     mapperFunc,
-                    Default(_typeMap.DestinationTypeToUse));
+                    Expression.Default(_typeMap.DestinationTypeToUse));
                 //mapperFunc = (source, context, destFunc) => context.GetTypeDepth(types) <= maxDepth ? inner(source, context, destFunc) : default(TDestination);
             }
 
             if(_typeMap.Profile.AllowNullDestinationValues && !_typeMap.SourceType.IsValueType())
             {
                 mapperFunc =
-                    Condition(Equal(_source, Default(_typeMap.SourceType)),
-                        Default(_typeMap.DestinationTypeToUse), mapperFunc.RemoveIfNotNull(_source));
+                    Expression.Condition(Expression.Equal(_source, Expression.Default(_typeMap.SourceType)),
+                        Expression.Default(_typeMap.DestinationTypeToUse), mapperFunc.RemoveIfNotNull(_source));
                 //mapperFunc = (source, context, destFunc) => source == default(TSource) ? default(TDestination) : inner(source, context, destFunc);
             }
 
             if(_typeMap.PreserveReferences)
             {
-                var cache = Variable(_typeMap.DestinationTypeToUse, "cachedDestination");
+                var cache = Expression.Variable(_typeMap.DestinationTypeToUse, "cachedDestination");
 
-                var condition = Condition(
-                    AndAlso(
-                        NotEqual(_source, Constant(null)),
-                        AndAlso(
-                            Equal(_initialDestination, Constant(null)),
-                            Call(Property(_context, "InstanceCache"),
+                var condition = Expression.Condition(
+                    Expression.AndAlso(
+                        Expression.NotEqual(_source, Expression.Constant(null)),
+                        Expression.AndAlso(
+                            Expression.Equal(_initialDestination, Expression.Constant(null)),
+                            Expression.Call(Expression.Property(_context, "InstanceCache"),
                                 typeof(Dictionary<object, object>).GetDeclaredMethod("ContainsKey"), _source)
                             )),
-                    Assign(cache,
-                        ToType(Property(Property(_context, "InstanceCache"), "Item", _source), _typeMap.DestinationTypeToUse)),
-                    Assign(cache, mapperFunc)
+                    Expression.Assign(cache,
+                        ExpressionExtensions.ToType(Expression.Property(Expression.Property(_context, "InstanceCache"), "Item", _source), _typeMap.DestinationTypeToUse)),
+                    Expression.Assign(cache, mapperFunc)
                     );
 
-                mapperFunc = Block(new[] { cache }, condition, cache);
+                mapperFunc = Expression.Block(new[] { cache }, condition, cache);
             }
             return mapperFunc;
         }
@@ -235,7 +232,7 @@ namespace AutoMapper.Execution
                 return _typeMap.DestinationCtor.ReplaceParameters(_source, _context);
 
             if(_typeMap.ConstructDestinationUsingServiceLocator)
-                return Call(MakeMemberAccess(_context, typeof(ResolutionContext).GetDeclaredProperty("Options")),
+                return Expression.Call(Expression.MakeMemberAccess(_context, typeof(ResolutionContext).GetDeclaredProperty("Options")),
                     typeof(IMappingOperationOptions).GetDeclaredMethod("CreateInstance")
                         .MakeGenericMethod(_typeMap.DestinationTypeToUse)
                     );
@@ -248,17 +245,17 @@ namespace AutoMapper.Execution
 #if NET45
             if(_typeMap.DestinationTypeToUse.IsInterface())
             {
-                var ctor = Call(Constant(ObjectCreator.DelegateFactory), typeof(DelegateFactory).GetDeclaredMethod("CreateCtor", new[] { typeof(Type) }), Call(New(typeof(ProxyGenerator)), typeof(ProxyGenerator).GetDeclaredMethod("GetProxyType"), Constant(_typeMap.DestinationTypeToUse)));
+                var ctor = Expression.Call(Expression.Constant(ObjectCreator.DelegateFactory), typeof(DelegateFactory).GetDeclaredMethod("CreateCtor", new[] { typeof(Type) }), Expression.Call(Expression.New(typeof(ProxyGenerator)), typeof(ProxyGenerator).GetDeclaredMethod("GetProxyType"), Expression.Constant(_typeMap.DestinationTypeToUse)));
                 // We're invoking a delegate here
-                return Invoke(ctor);
+                return Expression.Invoke(ctor);
             }
 #endif
 
             if(_typeMap.DestinationTypeToUse.IsAbstract())
-                return Constant(null);
+                return Expression.Constant(null);
 
             if(_typeMap.DestinationTypeToUse.IsGenericTypeDefinition())
-                return Constant(null);
+                return Expression.Constant(null);
 
             return DelegateFactory.GenerateConstructorExpression(_typeMap.DestinationTypeToUse);
         }
@@ -270,25 +267,25 @@ namespace AutoMapper.Execution
             if(pmExpression == null)
                 return null;
 
-            var exception = Parameter(typeof(Exception), "ex");
+            var exception = Expression.Parameter(typeof(Exception), "ex");
 
             var mappingExceptionCtor = ((NewExpression)CtorExpression.Body).Constructor;
 
-            return TryCatch(Block(typeof(void), pmExpression),
-                MakeCatchBlock(typeof(Exception), exception,
-                    Throw(New(mappingExceptionCtor, Constant("Error mapping types."), exception, Constant(propertyMap.TypeMap.TypePair), Constant(propertyMap.TypeMap), Constant(propertyMap))), null));
+            return Expression.TryCatch(Expression.Block(typeof(void), pmExpression),
+                Expression.MakeCatchBlock(typeof(Exception), exception,
+                    Expression.Throw(Expression.New(mappingExceptionCtor, Expression.Constant("Error mapping types."), exception, Expression.Constant(propertyMap.TypeMap.TypePair), Expression.Constant(propertyMap.TypeMap), Expression.Constant(propertyMap))), null));
         }
 
         private Expression CreatePropertyMapFunc(PropertyMap propertyMap)
         {
-            var destMember = MakeMemberAccess(_destination, propertyMap.DestMember);
+            var destMember = Expression.MakeMemberAccess(_destination, propertyMap.DestMember);
 
             Expression getter;
 
             var pi = propertyMap.DestMember as PropertyInfo;
             if(pi != null && pi.GetGetMethod(true) == null)
             {
-                getter = Default(propertyMap.DestType);
+                getter = Expression.Default(propertyMap.DestType);
             }
             else
             {
@@ -304,17 +301,17 @@ namespace AutoMapper.Execution
             {
                 if(_initialDestination.Type.IsValueType())
                 {
-                    destValueExpr = Default(propertyMap.DestType);
+                    destValueExpr = Expression.Default(propertyMap.DestType);
                 }
                 else
                 {
-                    destValueExpr = Condition(Equal(_initialDestination, Constant(null)), Default(propertyMap.DestType), getter);
+                    destValueExpr = Expression.Condition(Expression.Equal(_initialDestination, Expression.Constant(null)), Expression.Default(propertyMap.DestType), getter);
                 }
             }
 
             var valueResolverExpr = BuildValueResolverFunc(propertyMap, getter);
-            var resolvedValue = Variable(valueResolverExpr.Type, "resolvedValue");
-            var setResolvedValue = Assign(resolvedValue, valueResolverExpr);
+            var resolvedValue = Expression.Variable(valueResolverExpr.Type, "resolvedValue");
+            var setResolvedValue = Expression.Assign(resolvedValue, valueResolverExpr);
             valueResolverExpr = resolvedValue;
 
             if(propertyMap.DestType != null)
@@ -336,16 +333,16 @@ namespace AutoMapper.Execution
             }
             else
             {
-                propertyValue = Variable(valueResolverExpr.Type, "propertyValue");
-                setPropertyValue = Assign(propertyValue, valueResolverExpr);
+                propertyValue = Expression.Variable(valueResolverExpr.Type, "propertyValue");
+                setPropertyValue = Expression.Assign(propertyValue, valueResolverExpr);
             }
 
             Expression mapperExpr;
             if(propertyMap.DestMember is FieldInfo)
             {
                 mapperExpr = propertyMap.SrcType != propertyMap.DestType
-                    ? Assign(destMember, ToType(propertyValue, propertyMap.DestType))
-                    : Assign(getter, propertyValue);
+                    ? Expression.Assign(destMember, ExpressionExtensions.ToType(propertyValue, propertyMap.DestType))
+                    : Expression.Assign(getter, propertyValue);
             }
             else
             {
@@ -356,35 +353,35 @@ namespace AutoMapper.Execution
                 }
                 else
                 {
-                    mapperExpr = Assign(destMember, ToType(propertyValue, propertyMap.DestType));
+                    mapperExpr = Expression.Assign(destMember, ExpressionExtensions.ToType(propertyValue, propertyMap.DestType));
                 }
             }
 
             if(propertyMap.Condition != null)
             {
-                mapperExpr = IfThen(
+                mapperExpr = Expression.IfThen(
                     propertyMap.Condition.ConvertReplaceParameters(
                         _source,
                         _destination,
-                        ToType(propertyValue, propertyMap.Condition.Parameters[2].Type),
-                        ToType(getter, propertyMap.Condition.Parameters[2].Type),
+                        ExpressionExtensions.ToType(propertyValue, propertyMap.Condition.Parameters[2].Type),
+                        ExpressionExtensions.ToType(getter, propertyMap.Condition.Parameters[2].Type),
                         _context
                         ),
                     mapperExpr
                     );
             }
 
-            mapperExpr = Block(new[] { setResolvedValue, setPropertyValue, mapperExpr }.Distinct());
+            mapperExpr = Expression.Block(new[] { setResolvedValue, setPropertyValue, mapperExpr }.Distinct());
 
             if(propertyMap.PreCondition != null)
             {
-                mapperExpr = IfThen(
+                mapperExpr = Expression.IfThen(
                     propertyMap.PreCondition.ConvertReplaceParameters(_source, _context),
                     mapperExpr
                     );
             }
 
-            return Block(new[] { resolvedValue, propertyValue }.Distinct(), mapperExpr);
+            return Expression.Block(new[] { resolvedValue, propertyValue }.Distinct(), mapperExpr);
         }
 
         private Expression SetMap(PropertyMap propertyMap, Expression valueResolverExpression, Expression destinationValueExpression)
@@ -405,12 +402,12 @@ namespace AutoMapper.Execution
                 Type resolverType;
                 if(valueResolverConfig.Instance != null)
                 {
-                    ctor = Constant(valueResolverConfig.Instance);
+                    ctor = Expression.Constant(valueResolverConfig.Instance);
                     resolverType = valueResolverConfig.Instance.GetType();
                 }
                 else
                 {
-                    ctor = Call(MakeMemberAccess(_context, typeof(ResolutionContext).GetDeclaredProperty("Options")),
+                    ctor = Expression.Call(Expression.MakeMemberAccess(_context, typeof(ResolutionContext).GetDeclaredProperty("Options")),
                         typeof(IMappingOperationOptions).GetDeclaredMethod("CreateInstance")
                             .MakeGenericMethod(valueResolverConfig.Type)
                         );
@@ -431,17 +428,17 @@ namespace AutoMapper.Execution
                     var destMemberResolverParam = iResolverType.GetGenericArguments()[3];
 
                     valueResolverFunc =
-                        ToType(Call(ToType(ctor, resolverType), resolverType.GetDeclaredMethod("Resolve"),
-                            ToType(_source, sourceResolverParam),
-                            ToType(_destination, destResolverParam),
-                            ToType(sourceMember, sourceMemberResolverParam),
-                            ToType(destValueExpr, destMemberResolverParam),
+                        ExpressionExtensions.ToType(Expression.Call(ExpressionExtensions.ToType(ctor, resolverType), resolverType.GetDeclaredMethod("Resolve"),
+                            ExpressionExtensions.ToType(_source, sourceResolverParam),
+                            ExpressionExtensions.ToType(_destination, destResolverParam),
+                            ExpressionExtensions.ToType(sourceMember, sourceMemberResolverParam),
+                            ExpressionExtensions.ToType(destValueExpr, destMemberResolverParam),
                             _context),
                             destinationPropertyType);
                 }
                 else if(valueResolverConfig.SourceMemberName != null)
                 {
-                    var sourceMember = MakeMemberAccess(_source,
+                    var sourceMember = Expression.MakeMemberAccess(_source,
                         typeMap.SourceType.GetFieldOrProperty(valueResolverConfig.SourceMemberName));
 
                     var iResolverType =
@@ -454,11 +451,11 @@ namespace AutoMapper.Execution
                     var destMemberResolverParam = iResolverType.GetGenericArguments()[3];
 
                     valueResolverFunc =
-                        ToType(Call(ToType(ctor, resolverType), resolverType.GetDeclaredMethod("Resolve"),
-                            ToType(_source, sourceResolverParam),
-                            ToType(_destination, destResolverParam),
-                            ToType(sourceMember, sourceMemberResolverParam),
-                            ToType(destValueExpr, destMemberResolverParam),
+                        ExpressionExtensions.ToType(Expression.Call(ExpressionExtensions.ToType(ctor, resolverType), resolverType.GetDeclaredMethod("Resolve"),
+                            ExpressionExtensions.ToType(_source, sourceResolverParam),
+                            ExpressionExtensions.ToType(_destination, destResolverParam),
+                            ExpressionExtensions.ToType(sourceMember, sourceMemberResolverParam),
+                            ExpressionExtensions.ToType(destValueExpr, destMemberResolverParam),
                             _context),
                             destinationPropertyType);
                 }
@@ -472,10 +469,10 @@ namespace AutoMapper.Execution
                     var destMemberResolverParam = iResolverType.GetGenericArguments()[2];
 
                     valueResolverFunc =
-                        ToType(Call(ToType(ctor, resolverType), iResolverType.GetDeclaredMethod("Resolve"),
-                            ToType(_source, sourceResolverParam),
-                            ToType(_destination, destResolverParam),
-                            ToType(destValueExpr, destMemberResolverParam),
+                        ExpressionExtensions.ToType(Expression.Call(ExpressionExtensions.ToType(ctor, resolverType), iResolverType.GetDeclaredMethod("Resolve"),
+                            ExpressionExtensions.ToType(_source, sourceResolverParam),
+                            ExpressionExtensions.ToType(_destination, destResolverParam),
+                            ExpressionExtensions.ToType(destValueExpr, destMemberResolverParam),
                             _context),
                             destinationPropertyType);
                 }
@@ -494,9 +491,9 @@ namespace AutoMapper.Execution
                     : nullCheckedExpression.Type;
                 valueResolverFunc = nullCheckedExpression.Type.IsValueType() && !destinationNullable
                     ? nullCheckedExpression
-                    : TryCatch(ToType(nullCheckedExpression, returnType),
-                        Catch(typeof(NullReferenceException), Default(returnType)),
-                        Catch(typeof(ArgumentNullException), Default(returnType))
+                    : Expression.TryCatch(ExpressionExtensions.ToType(nullCheckedExpression, returnType),
+                        Expression.Catch(typeof(NullReferenceException), Expression.Default(returnType)),
+                        Expression.Catch(typeof(ArgumentNullException), Expression.Default(returnType))
                         );
             }
             else if(propertyMap.SourceMembers.Any()
@@ -507,7 +504,7 @@ namespace AutoMapper.Execution
                 var pi = last as PropertyInfo;
                 if(pi != null && pi.GetGetMethod(true) == null)
                 {
-                    valueResolverFunc = Default(last.GetMemberType());
+                    valueResolverFunc = Expression.Default(last.GetMemberType());
                 }
                 else
                 {
@@ -515,9 +512,9 @@ namespace AutoMapper.Execution
                         (Expression)_source,
                         (inner, getter) => getter is MethodInfo
                             ? getter.IsStatic()
-                                ? Call(null, (MethodInfo)getter, inner)
-                                : (Expression)Call(inner, (MethodInfo)getter)
-                            : MakeMemberAccess(getter.IsStatic() ? null : inner, getter)
+                                ? Expression.Call(null, (MethodInfo)getter, inner)
+                                : (Expression)Expression.Call(inner, (MethodInfo)getter)
+                            : Expression.MakeMemberAccess(getter.IsStatic() ? null : inner, getter)
                         );
                     if(destinationPropertyType == valueResolverFunc.Type || _configurationProvider.ResolveTypeMap(valueResolverFunc.Type, destinationPropertyType) == null)
                     {
@@ -527,28 +524,28 @@ namespace AutoMapper.Execution
             }
             else if(propertyMap.SrcMember != null)
             {
-                valueResolverFunc = MakeMemberAccess(_source, propertyMap.SrcMember);
+                valueResolverFunc = Expression.MakeMemberAccess(_source, propertyMap.SrcMember);
             }
             else
             {
-                valueResolverFunc = Throw(Constant(new Exception("I done blowed up")));
+                valueResolverFunc = Expression.Throw(Expression.Constant(new Exception("I done blowed up")));
             }
 
             if(propertyMap.NullSubstitute != null)
             {
-                var nullSubstitute = Constant(propertyMap.NullSubstitute);
-                valueResolverFunc = Coalesce(valueResolverFunc, ToType(nullSubstitute, valueResolverFunc.Type));
+                var nullSubstitute = Expression.Constant(propertyMap.NullSubstitute);
+                valueResolverFunc = Expression.Coalesce(valueResolverFunc, ExpressionExtensions.ToType(nullSubstitute, valueResolverFunc.Type));
             }
             else if(!typeMap.Profile.AllowNullDestinationValues)
             {
                 var toCreate = propertyMap.SrcType ?? destinationPropertyType;
                 if(!toCreate.IsAbstract() && toCreate.IsClass())
                 {
-                    valueResolverFunc = Coalesce(
+                    valueResolverFunc = Expression.Coalesce(
                         valueResolverFunc,
-                        ToType(Call(
+                        ExpressionExtensions.ToType(Expression.Call(
                             typeof(ObjectCreator).GetDeclaredMethod("CreateNonNullValue"),
-                            Constant(toCreate)
+                            Expression.Constant(toCreate)
                             ), propertyMap.SrcType));
                 }
             }
@@ -566,7 +563,7 @@ namespace AutoMapper.Execution
         {
             if(destinationParameter == null)
             {
-                destinationParameter = Default(typePair.DestinationType);
+                destinationParameter = Expression.Default(typePair.DestinationType);
             }
             var typeMap = configurationProvider.ResolveTypeMap(typePair);
             if(typeMap != null)
@@ -592,7 +589,7 @@ namespace AutoMapper.Execution
             if(match != null)
             {
                 var mapperExpression = match.MapExpression(typeMapRegistry, configurationProvider, propertyMap, sourceParameter, destinationParameter, contextParameter);
-                return ToType(mapperExpression, typePair.DestinationType);
+                return ExpressionExtensions.ToType(mapperExpression, typePair.DestinationType);
             }
             return ContextMap(typePair, sourceParameter, contextParameter, destinationParameter);
         }
@@ -600,7 +597,7 @@ namespace AutoMapper.Execution
         private static Expression ContextMap(TypePair typePair, Expression sourceParameter, Expression contextParameter, Expression destinationParameter)
         {
             var mapMethod = typeof(ResolutionContext).GetDeclaredMethods().First(m => m.Name == "Map").MakeGenericMethod(typePair.SourceType, typePair.DestinationType);
-            return Call(contextParameter, mapMethod, sourceParameter, destinationParameter);
+            return Expression.Call(contextParameter, mapMethod, sourceParameter, destinationParameter);
         }
     }
 }

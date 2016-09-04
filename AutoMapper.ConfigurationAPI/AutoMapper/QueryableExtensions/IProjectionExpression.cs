@@ -1,9 +1,9 @@
-namespace AutoMapper.QueryableExtensions
-{
-    using System;
-    using System.Linq;
-    using System.Linq.Expressions;
+using System;
+using System.Linq;
+using System.Linq.Expressions;
 
+namespace AutoMapper.ConfigurationAPI.QueryableExtensions
+{
     /// <summary>
     /// Continuation to execute projection
     /// </summary>

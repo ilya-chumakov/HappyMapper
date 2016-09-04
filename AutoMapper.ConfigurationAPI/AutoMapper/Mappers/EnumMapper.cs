@@ -1,13 +1,10 @@
-using System.ComponentModel;
+using System;
+using System.Linq;
 using System.Linq.Expressions;
-using static System.Linq.Expressions.Expression;
+using System.Reflection;
 
-namespace AutoMapper.Mappers
+namespace AutoMapper.ConfigurationAPI.Mappers
 {
-    using System;
-    using System.Reflection;
-    using System.Linq;
-    
     public class StringToEnumMapper : IObjectMapper
     {
         public static TDestination Map<TDestination>(string source)
@@ -27,7 +24,7 @@ namespace AutoMapper.Mappers
 
         public Expression MapExpression(TypeMapRegistry typeMapRegistry, IConfigurationProvider configurationProvider, PropertyMap propertyMap, Expression sourceExpression, Expression destExpression, Expression contextExpression)
         {
-            return Call(null, MapMethodInfo.MakeGenericMethod(destExpression.Type), sourceExpression);
+            return Expression.Call(null, MapMethodInfo.MakeGenericMethod(destExpression.Type), sourceExpression);
         }
     }
 
@@ -68,7 +65,7 @@ namespace AutoMapper.Mappers
 
         public Expression MapExpression(TypeMapRegistry typeMapRegistry, IConfigurationProvider configurationProvider, PropertyMap propertyMap, Expression sourceExpression, Expression destExpression, Expression contextExpression)
         {
-            return Call(null, MapMethodInfo.MakeGenericMethod(sourceExpression.Type, destExpression.Type), sourceExpression);
+            return Expression.Call(null, MapMethodInfo.MakeGenericMethod(sourceExpression.Type, destExpression.Type), sourceExpression);
         }
     }
 
@@ -145,7 +142,7 @@ namespace AutoMapper.Mappers
 
         public Expression MapExpression(TypeMapRegistry typeMapRegistry, IConfigurationProvider configurationProvider, PropertyMap propertyMap, Expression sourceExpression, Expression destExpression, Expression contextExpression)
         {
-            return Call(null, MapMethodInfo.MakeGenericMethod(sourceExpression.Type, destExpression.Type), sourceExpression);
+            return Expression.Call(null, MapMethodInfo.MakeGenericMethod(sourceExpression.Type, destExpression.Type), sourceExpression);
         }
     }
     

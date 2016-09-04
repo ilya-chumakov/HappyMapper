@@ -1,11 +1,9 @@
+using System.Collections.Generic;
 using System.Linq.Expressions;
-using AutoMapper.Execution;
+using AutoMapper.ConfigurationAPI.Configuration;
 
-namespace AutoMapper.Mappers
+namespace AutoMapper.ConfigurationAPI.Mappers
 {
-    using System.Collections.Generic;
-    using Configuration;
-    
     public class DictionaryMapper : IObjectMapper
     {
         public bool IsMatch(TypePair context) => context.SourceType.IsDictionaryType() && context.DestinationType.IsDictionaryType();

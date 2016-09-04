@@ -1,6 +1,6 @@
 using System.Linq.Expressions;
 
-namespace AutoMapper.Mappers
+namespace AutoMapper.ConfigurationAPI.Mappers
 {
     public class AssignableMapper : IObjectMapper
     {

@@ -1,13 +1,13 @@
-namespace AutoMapper.Mappers
-{
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Reflection;
-    using Configuration;
-    using Execution;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using AutoMapper.ConfigurationAPI.Configuration;
+using AutoMapper.ConfigurationAPI.Execution;
 
+namespace AutoMapper.ConfigurationAPI.Mappers
+{
     /// <summary>
     /// Instantiates objects
     /// </summary>

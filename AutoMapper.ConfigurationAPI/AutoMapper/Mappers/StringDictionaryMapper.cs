@@ -1,14 +1,12 @@
-﻿using static System.Linq.Expressions.Expression;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
+using AutoMapper.ConfigurationAPI.Execution;
 using StringDictionary = System.Collections.Generic.IDictionary<string, object>;
 
-namespace AutoMapper.Mappers
+namespace AutoMapper.ConfigurationAPI.Mappers
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Linq.Expressions;
-    using System.Reflection;
-    using Execution;
-
     public class ToStringDictionaryMapper : IObjectMapper
     {
         private static readonly MethodInfo MembersDictionaryMethodInfo =
@@ -24,7 +22,7 @@ namespace AutoMapper.Mappers
                 Expression contextExpression)
             =>
             typeMapRegistry.MapCollectionExpression(configurationProvider, propertyMap,
-                Call(MembersDictionaryMethodInfo, sourceExpression, contextExpression), destExpression, contextExpression, _ => null,
+                Expression.Call(MembersDictionaryMethodInfo, sourceExpression, contextExpression), destExpression, contextExpression, _ => null,
                 typeof(Dictionary<,>), CollectionMapperExtensions.MapKeyPairValueExpr);
 
         public static Dictionary<string, object> MembersDictionary(object source, ResolutionContext context)
@@ -50,7 +48,7 @@ namespace AutoMapper.Mappers
             PropertyMap propertyMap, Expression sourceExpression, Expression destExpression,
             Expression contextExpression)
         {
-            return Call(null, MapMethodInfo.MakeGenericMethod(destExpression.Type), sourceExpression, destExpression, contextExpression);
+            return Expression.Call(null, MapMethodInfo.MakeGenericMethod(destExpression.Type), sourceExpression, destExpression, contextExpression);
         }
 
         private static TDestination Map<TDestination>(StringDictionary source, TDestination destination, ResolutionContext context)

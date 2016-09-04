@@ -1,9 +1,9 @@
-namespace AutoMapper.QueryableExtensions
-{
-    using System;
-    using System.Linq;
-    using System.Reflection;
+using System;
+using System.Linq;
+using System.Reflection;
 
+namespace AutoMapper.ConfigurationAPI.QueryableExtensions
+{
     public class ExpressionRequest : IEquatable<ExpressionRequest>
     {
         public Type SourceType { get; }

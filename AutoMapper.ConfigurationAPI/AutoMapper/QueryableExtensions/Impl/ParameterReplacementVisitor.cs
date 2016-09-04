@@ -1,7 +1,7 @@
-namespace AutoMapper.QueryableExtensions.Impl
-{
-    using System.Linq.Expressions;
+using System.Linq.Expressions;
 
+namespace AutoMapper.ConfigurationAPI.QueryableExtensions.Impl
+{
     public class ParameterReplacementVisitor : ExpressionVisitor
     {
         private readonly Expression _memberExpression;

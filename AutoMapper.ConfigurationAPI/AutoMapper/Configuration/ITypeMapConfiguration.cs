@@ -1,7 +1,7 @@
-namespace AutoMapper.Configuration
-{
-    using System;
+using System;
 
+namespace AutoMapper.ConfigurationAPI.Configuration
+{
     public interface ITypeMapConfiguration
     {
         void Configure(IProfileConfiguration profile, TypeMap typeMap);

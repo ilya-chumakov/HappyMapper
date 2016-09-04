@@ -1,11 +1,11 @@
-namespace AutoMapper.Mappers
-{
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Linq.Expressions;
-    using Configuration;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq.Expressions;
+using AutoMapper.ConfigurationAPI.Configuration;
 
+namespace AutoMapper.ConfigurationAPI.Mappers
+{
     public class EnumerableMapper : IObjectMapper
     {
         public bool IsMatch(TypePair context)

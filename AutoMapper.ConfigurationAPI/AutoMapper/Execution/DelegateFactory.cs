@@ -1,16 +1,13 @@
-using AutoMapper.Configuration;
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
+using System.Runtime.CompilerServices;
 
-namespace AutoMapper.Execution
+namespace AutoMapper.ConfigurationAPI.Execution
 {
-    using System;
-    using System.Collections.Concurrent;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Linq.Expressions;
-    using System.Reflection;
-    using System.Runtime.CompilerServices;
-    using static System.Linq.Expressions.Expression;
-
     public class DelegateFactory
     {
         private readonly ConcurrentDictionary<Type, LateBoundCtor> _ctorCache =
@@ -25,25 +22,25 @@ namespace AutoMapper.Execution
 
         public Expression<LateBoundMethod<object, TValue>> CreateGet<TValue>(MethodInfo method)
         {
-            ParameterExpression instanceParameter = Parameter(typeof(object), "target");
-            ParameterExpression argumentsParameter = Parameter(typeof (object[]), "arguments");
+            ParameterExpression instanceParameter = Expression.Parameter(typeof(object), "target");
+            ParameterExpression argumentsParameter = Expression.Parameter(typeof (object[]), "arguments");
 
             MethodCallExpression call;
             if (!method.IsDefined(typeof (ExtensionAttribute), false))
             {
                 // instance member method
-                call = Call(Convert(instanceParameter, method.DeclaringType), method,
+                call = Expression.Call(Expression.Convert(instanceParameter, method.DeclaringType), method,
                     CreateParameterExpressions(method, instanceParameter, argumentsParameter));
             }
             else
             {
                 // static extension method
-                call = Call(
+                call = Expression.Call(
                     method,
                     CreateParameterExpressions(method, instanceParameter, argumentsParameter));
             }
 
-            Expression<LateBoundMethod<object, TValue>> lambda = Lambda<LateBoundMethod<object, TValue>>(
+            Expression<LateBoundMethod<object, TValue>> lambda = Expression.Lambda<LateBoundMethod<object, TValue>>(
                 call,
                 instanceParameter,
                 argumentsParameter);
@@ -61,14 +58,14 @@ namespace AutoMapper.Execution
         {
             var ctorExpr = GenerateConstructorExpression(type);
 
-            return Lambda<LateBoundCtor>(Convert(ctorExpr, typeof (object))).Compile();
+            return Expression.Lambda<LateBoundCtor>(Expression.Convert(ctorExpr, typeof (object))).Compile();
         }
 
         public static Expression GenerateConstructorExpression(Type type)
         {
             if(type.IsValueType())
             {
-                return Convert(New(type), typeof(object));
+                return Expression.Convert(Expression.New(type), typeof(object));
             }
 
             var constructors = type
@@ -80,15 +77,15 @@ namespace AutoMapper.Execution
             if(ctorWithOptionalArgs == null)
             {
                 var ex = new ArgumentException(type + " needs to have a constructor with 0 args or only optional args", "type");
-                return Block(Throw(Constant(ex)), Constant(null));
+                return Expression.Block(Expression.Throw(Expression.Constant(ex)), Expression.Constant(null));
             }
             //get all optional default values
             var args = ctorWithOptionalArgs
                 .GetParameters()
-                .Select(p => Constant(p.GetDefaultValue(), p.ParameterType)).ToArray();
+                .Select(p => Expression.Constant(p.GetDefaultValue(), p.ParameterType)).ToArray();
 
             //create the ctor expression
-            return New(ctorWithOptionalArgs, args);
+            return Expression.New(ctorWithOptionalArgs, args);
         }
 
         private static Expression[] CreateParameterExpressions(MethodInfo method, Expression instanceParameter,
@@ -99,13 +96,13 @@ namespace AutoMapper.Execution
             if (method.IsDefined(typeof (ExtensionAttribute), false))
             {
                 Type extendedType = method.GetParameters()[0].ParameterType;
-                expressions.Add(Convert(instanceParameter, extendedType));
+                expressions.Add(Expression.Convert(instanceParameter, extendedType));
                 realMethodParameters = realMethodParameters.Skip(1).ToArray();
             }
 
             expressions.AddRange(realMethodParameters.Select((parameter, index) =>
-                Convert(
-                    ArrayIndex(argumentsParameter, Constant(index)),
+                Expression.Convert(
+                    Expression.ArrayIndex(argumentsParameter, Expression.Constant(index)),
                     parameter.ParameterType)));
 
             return expressions.ToArray();

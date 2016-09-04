@@ -1,14 +1,13 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using AutoMapper.ConfigurationAPI.Configuration;
 
-namespace AutoMapper.Mappers
+namespace AutoMapper.ConfigurationAPI.Mappers
 {
-    using System;
-    using System.Collections;
-    using System.Linq;
-    using Configuration;
-
     public class MultidimensionalArrayMapper : IObjectMapper
     {
         static MultidimensionalArrayFiller filler;

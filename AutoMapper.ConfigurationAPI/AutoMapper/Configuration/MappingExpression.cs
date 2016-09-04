@@ -1,16 +1,13 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
+using AutoMapper.ConfigurationAPI.Execution;
 using AutoMapper.Extended.Net4;
 
-namespace AutoMapper.Configuration
+namespace AutoMapper.ConfigurationAPI.Configuration
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Linq.Expressions;
-    using System.Reflection;
-    using Execution;
-    using QueryableExtensions.Impl;
-    using static System.Linq.Expressions.Expression;
-
     public class MappingExpression : MappingExpression<object, object>, IMappingExpression
     {
         public MappingExpression(TypePair types, MemberList memberList) : base(memberList, types.SourceType, types.DestinationType)
@@ -457,12 +454,12 @@ namespace AutoMapper.Configuration
             {
                 tm.ConstructExpression = ctor;
 
-                var ctxtParam = Parameter(typeof (ResolutionContext), "ctxt");
-                var srcParam = Parameter(typeof (TSource), "src");
+                var ctxtParam = Expression.Parameter(typeof (ResolutionContext), "ctxt");
+                var srcParam = Expression.Parameter(typeof (TSource), "src");
 
                 var body = ctor.ReplaceParameters(srcParam);
 
-                tm.DestinationCtor = Lambda(body, srcParam, ctxtParam);
+                tm.DestinationCtor = Expression.Lambda(body, srcParam, ctxtParam);
             });
 
             return this;

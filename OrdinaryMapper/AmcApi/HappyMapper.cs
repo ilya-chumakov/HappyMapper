@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using AutoMapper;
+using AutoMapper.ConfigurationAPI;
 using Microsoft.CodeAnalysis.CSharp;
 
 namespace OrdinaryMapper

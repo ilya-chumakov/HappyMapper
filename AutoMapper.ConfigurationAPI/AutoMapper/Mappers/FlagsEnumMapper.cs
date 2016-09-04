@@ -1,12 +1,10 @@
+using System;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using AutoMapper.Execution;
 
-namespace AutoMapper.Mappers
+namespace AutoMapper.ConfigurationAPI.Mappers
 {
-    using System;
-    using System.Linq;
-
     public class FlagsEnumMapper : IObjectMapper
     {
         public static TDestination Map<TSource, TDestination>(TSource source, Func<TDestination> ifNull)

@@ -1,13 +1,12 @@
+using System;
+using System.ComponentModel;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using AutoMapper.ConfigurationAPI.Configuration;
 
-namespace AutoMapper.Mappers
+namespace AutoMapper.ConfigurationAPI.Mappers
 {
-    using System;
-    using System.ComponentModel;
-    using Configuration;
-
     public class TypeConverterMapper : IObjectMapper
     {
         private static TDestination Map<TSource, TDestination>(TSource source, Func<TDestination> ifNull)

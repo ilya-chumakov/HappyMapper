@@ -1,10 +1,8 @@
-namespace AutoMapper
-{
-    using System;
-    using System.Linq;
-    using System.Collections.Generic;
-    using Configuration;
+using System;
+using System.Collections.Generic;
 
+namespace AutoMapper.ConfigurationAPI
+{
     /// <summary>
     /// Context information regarding resolution of a destination value
     /// </summary>

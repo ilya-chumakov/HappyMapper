@@ -1,12 +1,8 @@
-﻿using System.Linq;
+﻿using System;
 using System.Linq.Expressions;
 
-namespace AutoMapper.Mappers
+namespace AutoMapper.ConfigurationAPI.Mappers
 {
-    using System;
-    using System.Reflection;
-    using static System.Linq.Expressions.Expression;
-
     public class PrimitiveArrayMapper : IObjectMapper
     {
         private bool IsPrimitiveArrayType(Type type)
@@ -35,21 +31,21 @@ namespace AutoMapper.Mappers
             var copyMethod = ((MethodCallExpression) expr.Body).Method;
 
             var valueIfNullExpr = configurationProvider.Configuration.AllowNullCollections
-                ? (Expression) Constant(null, destExpression.Type)
-                : NewArrayBounds(destElementType, Constant(0));
+                ? (Expression) Expression.Constant(null, destExpression.Type)
+                : Expression.NewArrayBounds(destElementType, Expression.Constant(0));
 
-            var dest = Parameter(destExpression.Type, "destArray");
-            var sourceLength = Parameter(typeof(int), "sourceLength");
+            var dest = Expression.Parameter(destExpression.Type, "destArray");
+            var sourceLength = Expression.Parameter(typeof(int), "sourceLength");
             var lengthProperty = typeof(Array).GetDeclaredProperty("Length");
-            var mapExpr = Block(
+            var mapExpr = Expression.Block(
                 new[] {dest, sourceLength},
-                Assign(sourceLength, Property(sourceExpression, lengthProperty)),
-                Assign(dest, NewArrayBounds(destElementType, sourceLength)),
-                Call(copyMethod, sourceExpression, dest, sourceLength),
+                Expression.Assign(sourceLength, Expression.Property(sourceExpression, lengthProperty)),
+                Expression.Assign(dest, Expression.NewArrayBounds(destElementType, sourceLength)),
+                Expression.Call(copyMethod, sourceExpression, dest, sourceLength),
                 dest
             );
 
-            return Condition(Equal(sourceExpression, Constant(null)), valueIfNullExpr, mapExpr);
+            return Expression.Condition(Expression.Equal(sourceExpression, Expression.Constant(null)), valueIfNullExpr, mapExpr);
         }
     }
 }

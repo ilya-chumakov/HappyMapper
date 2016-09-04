@@ -1,4 +1,4 @@
-namespace AutoMapper
+namespace AutoMapper.ConfigurationAPI
 {
     /// <summary>
     /// Member list to check for configuration validation

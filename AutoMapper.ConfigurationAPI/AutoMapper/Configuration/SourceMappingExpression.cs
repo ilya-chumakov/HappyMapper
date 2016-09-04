@@ -1,9 +1,9 @@
-namespace AutoMapper.Configuration
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Reflection;
+using System;
+using System.Collections.Generic;
+using System.Reflection;
 
+namespace AutoMapper.ConfigurationAPI.Configuration
+{
     public class SourceMappingExpression : ISourceMemberConfigurationExpression
     {
         private readonly MemberInfo _sourceMember;

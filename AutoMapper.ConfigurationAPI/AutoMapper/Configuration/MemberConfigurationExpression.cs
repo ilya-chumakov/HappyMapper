@@ -1,12 +1,11 @@
-namespace AutoMapper.Configuration
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Reflection;
-    using System.Linq;
-    using System.Linq.Expressions;
-    using Execution;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
 
+namespace AutoMapper.ConfigurationAPI.Configuration
+{
     public interface IMemberConfiguration
     {
         void Configure(TypeMap typeMap);

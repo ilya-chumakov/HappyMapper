@@ -1,9 +1,9 @@
-namespace AutoMapper.Mappers
-{
-    using System.Collections.Generic;
-    using System.Linq.Expressions;
-    using Configuration;
+using System.Collections.Generic;
+using System.Linq.Expressions;
+using AutoMapper.ConfigurationAPI.Configuration;
 
+namespace AutoMapper.ConfigurationAPI.Mappers
+{
     public class EnumerableToDictionaryMapper : IObjectMapper
     {
         public bool IsMatch(TypePair context)

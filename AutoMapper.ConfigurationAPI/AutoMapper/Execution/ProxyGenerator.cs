@@ -1,16 +1,16 @@
-#if NET45
-namespace AutoMapper.Execution
-{
-    using System;
-    using System.Collections.Concurrent;
-    using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.Diagnostics;
-    using System.Linq;
-    using System.Reflection;
-    using System.Reflection.Emit;
-    using System.Text.RegularExpressions;
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.Linq;
+using System.Reflection;
+using System.Reflection.Emit;
+using System.Text.RegularExpressions;
 
+#if NET45
+namespace AutoMapper.ConfigurationAPI.Execution
+{
     public class ProxyGenerator : IProxyGenerator
     {
         private static readonly byte[] privateKey =

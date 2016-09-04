@@ -1,13 +1,13 @@
-namespace AutoMapper
-{
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.Linq;
-    using System.Reflection;
-    using Configuration;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Reflection;
+using AutoMapper.ConfigurationAPI.Configuration;
 
+namespace AutoMapper.ConfigurationAPI
+{
     /// <summary>
     /// Contains cached reflection information for easy retrieval
     /// </summary>

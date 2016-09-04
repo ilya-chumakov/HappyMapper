@@ -1,11 +1,11 @@
-namespace AutoMapper.Configuration
-{
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Reflection;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 
+namespace AutoMapper.ConfigurationAPI.Configuration
+{
     internal static class PrimitiveExtensions
     {
         public static TValue GetOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key)

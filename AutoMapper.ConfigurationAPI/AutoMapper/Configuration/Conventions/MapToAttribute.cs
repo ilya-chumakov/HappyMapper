@@ -1,8 +1,8 @@
-namespace AutoMapper.Configuration.Conventions
-{
-    using System;
-    using System.Reflection;
+using System;
+using System.Reflection;
 
+namespace AutoMapper.ConfigurationAPI.Configuration.Conventions
+{
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
     public class MapToAttribute : SourceToDestinationMapperAttribute
     {

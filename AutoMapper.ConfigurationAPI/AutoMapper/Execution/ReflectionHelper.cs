@@ -1,13 +1,13 @@
-namespace AutoMapper.Execution
-{
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Dynamic;
-    using System.Linq;
-    using System.Linq.Expressions;
-    using System.Reflection;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Dynamic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
 
+namespace AutoMapper.ConfigurationAPI.Execution
+{
     public static class ReflectionHelper
     {
         public static object GetDefaultValue(this ParameterInfo parameter)

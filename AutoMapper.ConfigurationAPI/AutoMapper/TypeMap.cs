@@ -1,16 +1,15 @@
 
-namespace AutoMapper
-{
-    using System;
-    using System.Collections.Concurrent;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.Linq;
-    using System.Linq.Expressions;
-    using System.Reflection;
-    using Configuration;
-    using Execution;
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
+using AutoMapper.ConfigurationAPI.Configuration;
 
+namespace AutoMapper.ConfigurationAPI
+{
     /// <summary>
     /// Main configuration object holding all mapping configuration for a source and destination type
     /// </summary>

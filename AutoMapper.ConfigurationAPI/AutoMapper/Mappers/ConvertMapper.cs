@@ -1,12 +1,10 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq.Expressions;
 
-namespace AutoMapper.Mappers
+namespace AutoMapper.ConfigurationAPI.Mappers
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Collections.ObjectModel;
-
     public class ConvertMapper : IObjectMapper
     {
         private readonly IReadOnlyDictionary<TypePair, LambdaExpression> _converters = new ReadOnlyDictionary<TypePair, LambdaExpression>(new Dictionary<TypePair, LambdaExpression>

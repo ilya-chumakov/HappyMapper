@@ -1,11 +1,9 @@
+using System;
 using System.Collections.Generic;
-using AutoMapper.Mappers;
+using AutoMapper.ConfigurationAPI.QueryableExtensions;
 
-namespace AutoMapper
+namespace AutoMapper.ConfigurationAPI
 {
-    using System;
-    using QueryableExtensions;
-
     public interface IConfigurationProvider
     {
         /// <summary>

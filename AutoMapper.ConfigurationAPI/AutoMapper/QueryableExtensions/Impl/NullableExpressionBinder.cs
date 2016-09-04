@@ -1,10 +1,9 @@
 using System.Collections.Concurrent;
+using System.Linq.Expressions;
+using AutoMapper.ConfigurationAPI.Configuration;
 
-namespace AutoMapper.QueryableExtensions.Impl
+namespace AutoMapper.ConfigurationAPI.QueryableExtensions.Impl
 {
-    using System.Linq.Expressions;
-    using Configuration;
-
     public class NullableExpressionBinder : IExpressionBinder
     {
         public bool IsMatch(PropertyMap propertyMap, TypeMap propertyTypeMap, ExpressionResolutionResult result)

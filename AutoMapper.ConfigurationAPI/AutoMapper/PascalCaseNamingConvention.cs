@@ -1,7 +1,7 @@
-namespace AutoMapper
-{
-    using System.Text.RegularExpressions;
+using System.Text.RegularExpressions;
 
+namespace AutoMapper.ConfigurationAPI
+{
     public class PascalCaseNamingConvention : INamingConvention
     {
         public Regex SplittingExpression { get; } = new Regex(@"(\p{Lu}+(?=$|\p{Lu}[\p{Ll}0-9])|\p{Lu}?[\p{Ll}0-9]+)");

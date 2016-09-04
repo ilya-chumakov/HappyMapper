@@ -1,13 +1,11 @@
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Linq.Expressions;
-using static System.Linq.Expressions.Expression;
+using AutoMapper.ConfigurationAPI.Configuration;
 
-namespace AutoMapper.Mappers
+namespace AutoMapper.ConfigurationAPI.Mappers
 {
-    using System.Collections.Generic;
-    using System.Collections.ObjectModel;
-    using Configuration;
-
     public class ReadOnlyCollectionMapper : IObjectMapper
     {
         public bool IsMatch(TypePair context)
@@ -23,10 +21,10 @@ namespace AutoMapper.Mappers
         public Expression MapExpression(TypeMapRegistry typeMapRegistry, IConfigurationProvider configurationProvider, PropertyMap propertyMap, Expression sourceExpression, Expression destExpression, Expression contextExpression)
         {
             var listType = typeof(List<>).MakeGenericType(TypeHelper.GetElementType(destExpression.Type));
-            var list = typeMapRegistry.MapCollectionExpression(configurationProvider, propertyMap, sourceExpression, Default(listType), contextExpression, _ => Constant(false), typeof(List<>), CollectionMapperExtensions.MapItemExpr);
-            var dest = Variable(listType, "dest");
+            var list = typeMapRegistry.MapCollectionExpression(configurationProvider, propertyMap, sourceExpression, Expression.Default(listType), contextExpression, _ => Expression.Constant(false), typeof(List<>), CollectionMapperExtensions.MapItemExpr);
+            var dest = Expression.Variable(listType, "dest");
 
-            return Block(new[] { dest }, Assign(dest, list), Condition(NotEqual(dest, Default(listType)), New(destExpression.Type.GetConstructors().First(), dest), Default(destExpression.Type)));
+            return Expression.Block(new[] { dest }, Expression.Assign(dest, list), Expression.Condition(Expression.NotEqual(dest, Expression.Default(listType)), Expression.New(destExpression.Type.GetConstructors().First(), dest), Expression.Default(destExpression.Type)));
         }
     }
 }

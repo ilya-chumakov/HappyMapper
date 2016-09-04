@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using AutoMapper;
-using AutoMapper.Configuration;
+using AutoMapper.ConfigurationAPI;
+using AutoMapper.ConfigurationAPI.Configuration;
 using Microsoft.CodeAnalysis.CSharp;
 
 namespace OrdinaryMapper

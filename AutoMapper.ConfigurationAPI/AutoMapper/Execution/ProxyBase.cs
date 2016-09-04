@@ -1,7 +1,7 @@
-namespace AutoMapper.Execution
-{
-    using System.ComponentModel;
+using System.ComponentModel;
 
+namespace AutoMapper.ConfigurationAPI.Execution
+{
     public abstract class ProxyBase
     {
         public ProxyBase()

@@ -1,7 +1,7 @@
-namespace AutoMapper.QueryableExtensions.Impl
-{
-    using System.Linq.Expressions;
+using System.Linq.Expressions;
 
+namespace AutoMapper.ConfigurationAPI.QueryableExtensions.Impl
+{
     public class MemberAccessQueryMapperVisitor : ExpressionVisitor
     {
         private readonly ExpressionVisitor _rootVisitor;

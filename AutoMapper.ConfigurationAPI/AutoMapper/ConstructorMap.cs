@@ -1,16 +1,14 @@
-﻿using AutoMapper.QueryableExtensions;
-using AutoMapper.QueryableExtensions.Impl;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
+using AutoMapper.ConfigurationAPI.Execution;
+using AutoMapper.ConfigurationAPI.QueryableExtensions;
+using AutoMapper.ConfigurationAPI.QueryableExtensions.Impl;
 
-namespace AutoMapper
+namespace AutoMapper.ConfigurationAPI
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Reflection;
-    using Execution;
-    using static Expression;
-
     public class ConstructorMap
     {
         private readonly IList<ConstructorParameterMap> _ctorParams = new List<ConstructorParameterMap>();
@@ -49,7 +47,7 @@ namespace AutoMapper
 
                 return result;
             });
-            return New(Ctor, parameters.Select(p => p.ResolutionExpression));
+            return Expression.New(Ctor, parameters.Select(p => p.ResolutionExpression));
         }
 
         public Expression BuildExpression(TypeMapPlanBuilder builder)
@@ -61,9 +59,9 @@ namespace AutoMapper
 
             ctorArgs =
                 ctorArgs.Zip(Ctor.GetParameters(),
-                    (exp, pi) => exp.Type == pi.ParameterType ? exp : Convert(exp, pi.ParameterType))
+                    (exp, pi) => exp.Type == pi.ParameterType ? exp : Expression.Convert(exp, pi.ParameterType))
                     .ToArray();
-            var newExpr = New(Ctor, ctorArgs);
+            var newExpr = Expression.New(Ctor, ctorArgs);
             return newExpr;
         }
 

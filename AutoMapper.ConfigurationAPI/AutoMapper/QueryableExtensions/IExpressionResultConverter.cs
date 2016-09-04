@@ -1,4 +1,4 @@
-namespace AutoMapper.QueryableExtensions
+namespace AutoMapper.ConfigurationAPI.QueryableExtensions
 {
     public interface IExpressionResultConverter
     {

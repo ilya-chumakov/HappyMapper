@@ -1,12 +1,12 @@
-namespace AutoMapper.Mappers
-{
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Reflection;
-    using Configuration;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using AutoMapper.ConfigurationAPI.Configuration;
 
+namespace AutoMapper.ConfigurationAPI.Mappers
+{
     internal static class TypeHelper
     {
         public static Type GetElementType(Type enumerableType)

@@ -1,7 +1,7 @@
-namespace AutoMapper.Configuration
-{
-    using System.Reflection;
+using System.Reflection;
 
+namespace AutoMapper.ConfigurationAPI.Configuration
+{
     /// <summary>
     /// Contains member configuration relating to source members
     /// </summary>

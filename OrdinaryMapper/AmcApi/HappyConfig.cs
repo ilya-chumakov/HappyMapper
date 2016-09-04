@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using AutoMapper;
-using AutoMapper.Configuration;
+using AutoMapper.ConfigurationAPI;
+using AutoMapper.ConfigurationAPI;
+using AutoMapper.ConfigurationAPI.Configuration;
 
 namespace OrdinaryMapper.AmcApi
 {

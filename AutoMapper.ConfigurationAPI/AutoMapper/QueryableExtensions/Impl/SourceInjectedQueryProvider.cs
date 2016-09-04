@@ -1,12 +1,12 @@
-namespace AutoMapper.QueryableExtensions.Impl
-{
-    using System;
-    using System.Linq;
-    using System.Linq.Expressions;
-    using Configuration;
-    using Execution;
-    using Mappers;
+using System;
+using System.Linq;
+using System.Linq.Expressions;
+using AutoMapper.ConfigurationAPI.Configuration;
+using AutoMapper.ConfigurationAPI.Execution;
+using AutoMapper.ConfigurationAPI.Mappers;
 
+namespace AutoMapper.ConfigurationAPI.QueryableExtensions.Impl
+{
     public class SourceInjectedQueryProvider<TSource, TDestination> : IQueryProvider
     {
         private readonly IMapper _mapper;

@@ -1,18 +1,17 @@
-namespace AutoMapper
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
+using AutoMapper.ConfigurationAPI.Configuration;
+using AutoMapper.ConfigurationAPI.Mappers;
+using AutoMapper.ConfigurationAPI.QueryableExtensions;
+using AutoMapper.ConfigurationAPI.QueryableExtensions.Impl;
+
+namespace AutoMapper.ConfigurationAPI
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Collections.Concurrent;
-    using System.Linq;
-    using System.Linq.Expressions;
-    using Configuration;
-    using Mappers;
-    using QueryableExtensions;
-    using QueryableExtensions.Impl;
-    using static System.Linq.Expressions.Expression;
-    using static ExpressionExtensions;
     using UntypedMapperFunc = System.Func<object, object, ResolutionContext, object>;
-    using System.Reflection;
 
     public class MapperConfiguration : IConfigurationProvider
     {
@@ -341,17 +340,17 @@ namespace AutoMapper
 
             private static Expression<UntypedMapperFunc> Wrap(MapRequest mapRequest, LambdaExpression typedExpression)
             {
-                var sourceParameter = Parameter(typeof(object), "source");
-                var destinationParameter = Parameter(typeof(object), "destination");
-                var contextParameter = Parameter(typeof(ResolutionContext), "context");
+                var sourceParameter = Expression.Parameter(typeof(object), "source");
+                var destinationParameter = Expression.Parameter(typeof(object), "destination");
+                var contextParameter = Expression.Parameter(typeof(ResolutionContext), "context");
                 var requestedSourceType = mapRequest.RequestedTypes.SourceType;
                 var requestedDestinationType = mapRequest.RequestedTypes.DestinationType;
 
-                var destination = requestedDestinationType.IsValueType() ? Coalesce(destinationParameter, New(requestedDestinationType)) : (Expression)destinationParameter;
+                var destination = requestedDestinationType.IsValueType() ? Expression.Coalesce(destinationParameter, Expression.New(requestedDestinationType)) : (Expression)destinationParameter;
                 // Invoking a delegate here
-                return Lambda<UntypedMapperFunc>(
-                            ToType(
-                                Invoke(typedExpression, ToType(sourceParameter, requestedSourceType), ToType(destination, requestedDestinationType), contextParameter)
+                return Expression.Lambda<UntypedMapperFunc>(
+                            ExpressionExtensions.ToType(
+                                Expression.Invoke(typedExpression, ExpressionExtensions.ToType(sourceParameter, requestedSourceType), ExpressionExtensions.ToType(destination, requestedDestinationType), contextParameter)
                                 , typeof(object)),
                           sourceParameter, destinationParameter, contextParameter);
             }
@@ -366,13 +365,13 @@ namespace AutoMapper
 
                 if (typeMapSourceParameter.Type != requestedSourceType || typeMapDestinationParameter.Type != requestedDestinationType)
                 {
-                    var requestedSourceParameter = Parameter(requestedSourceType, "source");
-                    var requestedDestinationParameter = Parameter(requestedDestinationType, "typeMapDestination");
-                    var contextParameter = Parameter(typeof(ResolutionContext), "context");
+                    var requestedSourceParameter = Expression.Parameter(requestedSourceType, "source");
+                    var requestedDestinationParameter = Expression.Parameter(requestedDestinationType, "typeMapDestination");
+                    var contextParameter = Expression.Parameter(typeof(ResolutionContext), "context");
 
-                    mapExpression = Lambda(ToType(Invoke(typeMap.MapExpression,
-                        ToType(requestedSourceParameter, typeMapSourceParameter.Type),
-                        ToType(requestedDestinationParameter, typeMapDestinationParameter.Type),
+                    mapExpression = Expression.Lambda(ExpressionExtensions.ToType(Expression.Invoke(typeMap.MapExpression,
+                        ExpressionExtensions.ToType(requestedSourceParameter, typeMapSourceParameter.Type),
+                        ExpressionExtensions.ToType(requestedDestinationParameter, typeMapDestinationParameter.Type),
                         contextParameter
                         ), mapRequest.RuntimeTypes.DestinationType),
                         requestedSourceParameter, requestedDestinationParameter, contextParameter);
@@ -387,19 +386,19 @@ namespace AutoMapper
             {
                 var destinationType = mapRequest.RequestedTypes.DestinationType;
 
-                var source = Parameter(mapRequest.RequestedTypes.SourceType, "source");
-                var destination = Parameter(destinationType, "mapperDestination");
-                var context = Parameter(typeof(ResolutionContext), "context");
+                var source = Expression.Parameter(mapRequest.RequestedTypes.SourceType, "source");
+                var destination = Expression.Parameter(destinationType, "mapperDestination");
+                var context = Expression.Parameter(typeof(ResolutionContext), "context");
                 LambdaExpression fullExpression;
                 if (mapperToUse == null)
                 {
-                    var message = Constant("Missing type map configuration or unsupported mapping.");
-                    fullExpression = Lambda(Block(Throw(New(ExceptionConstructor, message, Constant(null, typeof(Exception)), Constant(mapRequest.RequestedTypes))), Default(destinationType)), source, destination, context);
+                    var message = Expression.Constant("Missing type map configuration or unsupported mapping.");
+                    fullExpression = Expression.Lambda(Expression.Block(Expression.Throw(Expression.New(ExceptionConstructor, message, Expression.Constant(null, typeof(Exception)), Expression.Constant(mapRequest.RequestedTypes))), Expression.Default(destinationType)), source, destination, context);
                 }
                 else
                 {
-                    var map = mapperToUse.MapExpression(mapperConfiguration.TypeMapRegistry, mapperConfiguration, null, ToType(source, mapRequest.RuntimeTypes.SourceType), destination, context);
-                    var mapToDestination = Lambda(ToType(map, destinationType), source, destination, context);
+                    var map = mapperToUse.MapExpression(mapperConfiguration.TypeMapRegistry, mapperConfiguration, null, ExpressionExtensions.ToType(source, mapRequest.RuntimeTypes.SourceType), destination, context);
+                    var mapToDestination = Expression.Lambda(ExpressionExtensions.ToType(map, destinationType), source, destination, context);
                     fullExpression = TryCatch(mapToDestination, source, destination, context, mapRequest.RequestedTypes);
                 }
                 return fullExpression;
@@ -407,12 +406,12 @@ namespace AutoMapper
 
             private static LambdaExpression TryCatch(LambdaExpression mapExpression, ParameterExpression source, ParameterExpression destination, ParameterExpression context, TypePair types)
             {
-                var exception = Parameter(typeof(Exception), "ex");
+                var exception = Expression.Parameter(typeof(Exception), "ex");
 
-                return Lambda(Expression.TryCatch(mapExpression.Body,
-                    MakeCatchBlock(typeof(Exception), exception, Block(
-                        Throw(New(ExceptionConstructor, Constant("Error mapping types."), exception, Constant(types))),
-                        Default(destination.Type)), null)),
+                return Expression.Lambda(Expression.TryCatch(mapExpression.Body,
+                    Expression.MakeCatchBlock(typeof(Exception), exception, Expression.Block(
+                        Expression.Throw(Expression.New(ExceptionConstructor, Expression.Constant("Error mapping types."), exception, Expression.Constant(types))),
+                        Expression.Default(destination.Type)), null)),
                     source, destination, context);
             }
         }

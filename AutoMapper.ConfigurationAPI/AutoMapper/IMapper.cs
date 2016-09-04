@@ -1,7 +1,7 @@
-namespace AutoMapper
-{
-    using System;
+using System;
 
+namespace AutoMapper.ConfigurationAPI
+{
     public interface IMapper
     {
         /// <summary>

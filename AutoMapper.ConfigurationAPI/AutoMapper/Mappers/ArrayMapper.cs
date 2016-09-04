@@ -1,16 +1,12 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
+using AutoMapper.ConfigurationAPI.Configuration;
 
-namespace AutoMapper.Mappers
+namespace AutoMapper.ConfigurationAPI.Mappers
 {
-    using System;
-    using System.Reflection;
-    using Configuration;
-    using static Expression;
-    using static ExpressionExtensions;
-
     public class ArrayMapper : IObjectMapper
     {
         private static readonly MethodInfo MapMethodInfo = typeof(ArrayMapper).GetAllMethods().First(_ => _.IsStatic);
@@ -39,20 +35,20 @@ namespace AutoMapper.Mappers
             if (destExpression.Type.IsAssignableFrom(sourceExpression.Type) && configurationProvider.ResolveTypeMap(sourceElementType, destElementType) == null)
             {
                 // return (TDestination[]) source;
-                var convertExpr = Convert(sourceExpression, destElementType.MakeArrayType());
+                var convertExpr = Expression.Convert(sourceExpression, destElementType.MakeArrayType());
 
                 if (configurationProvider.Configuration.AllowNullCollections)
                     return convertExpr;
 
                 // return (TDestination[]) source ?? new TDestination[0];
-                return Coalesce(convertExpr, NewArrayBounds(destElementType, Constant(0)));
+                return Expression.Coalesce(convertExpr, Expression.NewArrayBounds(destElementType, Expression.Constant(0)));
             }
 
             var ifNullExpr = configurationProvider.Configuration.AllowNullCollections
-                                 ? (Expression) Constant(null, destExpression.Type)
-                                 : NewArrayBounds(destElementType, Constant(0));
+                                 ? (Expression) Expression.Constant(null, destExpression.Type)
+                                 : Expression.NewArrayBounds(destElementType, Expression.Constant(0));
 
-            var itemParam = Parameter(sourceElementType, "item");
+            var itemParam = Expression.Parameter(sourceElementType, "item");
             var itemExpr = typeMapRegistry.MapItemExpr(configurationProvider, propertyMap, sourceExpression.Type, destExpression.Type, itemParam, contextExpression);
 
             //var count = source.Count();
@@ -63,9 +59,9 @@ namespace AutoMapper.Mappers
             //    array[i++] = newItemFunc(item, context);
             //return array;
 
-            var countParam = Parameter(typeof(int), "count");
-            var arrayParam = Parameter(destExpression.Type, "destinationArray");
-            var indexParam = Parameter(typeof(int), "destinationArrayIndex");
+            var countParam = Expression.Parameter(typeof(int), "count");
+            var arrayParam = Expression.Parameter(destExpression.Type, "destinationArray");
+            var indexParam = Expression.Parameter(typeof(int), "destinationArrayIndex");
 
             var actions = new List<Expression>();
             var parameters = new List<ParameterExpression> { countParam, arrayParam, indexParam };
@@ -75,18 +71,18 @@ namespace AutoMapper.Mappers
                 .DeclaredMethods
                 .Single(mi => mi.Name == "Count" && mi.GetParameters().Length == 1)
                 .MakeGenericMethod(sourceElementType);
-            actions.Add(Assign(countParam, Call(countMethod, sourceExpression)));
-            actions.Add(Assign(arrayParam, NewArrayBounds(destElementType, countParam)));
-            actions.Add(Assign(indexParam, Constant(0)));
-            actions.Add(ForEach(sourceExpression, itemParam,
-                Assign(ArrayAccess(arrayParam, PostIncrementAssign(indexParam)), itemExpr)
+            actions.Add(Expression.Assign(countParam, Expression.Call(countMethod, sourceExpression)));
+            actions.Add(Expression.Assign(arrayParam, Expression.NewArrayBounds(destElementType, countParam)));
+            actions.Add(Expression.Assign(indexParam, Expression.Constant(0)));
+            actions.Add(ExpressionExtensions.ForEach(sourceExpression, itemParam,
+                Expression.Assign(Expression.ArrayAccess(arrayParam, Expression.PostIncrementAssign(indexParam)), itemExpr)
                 ));
             actions.Add(arrayParam);
 
-            var mapExpr = Block(parameters, actions);
+            var mapExpr = Expression.Block(parameters, actions);
 
             // return (source == null) ? ifNullExpr : Map<TSourceElement, TDestElement>(source, context);
-            return Condition(Equal(sourceExpression, Constant(null)), ifNullExpr, mapExpr);
+            return Expression.Condition(Expression.Equal(sourceExpression, Expression.Constant(null)), ifNullExpr, mapExpr);
         }
 
     }

@@ -1,10 +1,9 @@
-namespace AutoMapper.QueryableExtensions.Impl
-{
-    using System;
-    using System.Linq;
-    using System.Linq.Expressions;
-    using System.Reflection;
+using System;
+using System.Linq;
+using System.Linq.Expressions;
 
+namespace AutoMapper.ConfigurationAPI.QueryableExtensions.Impl
+{
     public class MemberResolverExpressionResultConverter : IExpressionResultConverter
     {
         public ExpressionResolutionResult GetExpressionResolutionResult(

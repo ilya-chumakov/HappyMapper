@@ -1,11 +1,11 @@
-namespace AutoMapper
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+
+namespace AutoMapper.ConfigurationAPI
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Linq.Expressions;
-    using System.Reflection;
-#if NET45
+    #if NET45
     using System.Reflection.Emit;
 #endif
 

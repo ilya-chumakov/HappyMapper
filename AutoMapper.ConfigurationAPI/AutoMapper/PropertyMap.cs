@@ -1,13 +1,13 @@
-namespace AutoMapper
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.Linq;
-    using System.Linq.Expressions;
-    using System.Reflection;
-    using Execution;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
+using AutoMapper.ConfigurationAPI.Execution;
 
+namespace AutoMapper.ConfigurationAPI
+{
     [DebuggerDisplay("{DestMember.Name}")]
     public class PropertyMap
     {

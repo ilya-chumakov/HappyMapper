@@ -1,9 +1,8 @@
-namespace AutoMapper
-{
-    using System.Collections.Concurrent;
-    using System.Collections.Generic;
-    using Configuration;
+using System.Collections.Generic;
+using AutoMapper.ConfigurationAPI.Configuration;
 
+namespace AutoMapper.ConfigurationAPI
+{
     public class TypeMapRegistry
     {
         public IDictionary<TypePair, TypeMap> TypeMapsDictionary { get; } = new Dictionary<TypePair, TypeMap>();

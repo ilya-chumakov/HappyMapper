@@ -1,4 +1,4 @@
-namespace AutoMapper
+namespace AutoMapper.ConfigurationAPI
 {
     /// <summary>
     /// Extension point to provide custom resolution for a destination value

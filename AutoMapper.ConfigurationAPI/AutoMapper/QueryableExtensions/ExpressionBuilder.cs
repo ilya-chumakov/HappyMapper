@@ -4,14 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using AutoMapper.QueryableExtensions.Impl;
-using static System.Linq.Expressions.Expression;
+using AutoMapper.ConfigurationAPI.Configuration;
+using AutoMapper.ConfigurationAPI.Execution;
+using AutoMapper.ConfigurationAPI.QueryableExtensions.Impl;
 
-namespace AutoMapper.QueryableExtensions
+namespace AutoMapper.ConfigurationAPI.QueryableExtensions
 {
-    using Configuration;
-    using Execution;
-
     public interface IExpressionBuilder
     {
         Expression CreateMapExpression(Type sourceType, Type destinationType, IDictionary<string, object> parameters = null, params MemberInfo[] membersToExpand);
@@ -132,9 +130,9 @@ namespace AutoMapper.QueryableExtensions
             }
             var newExpression = typeMap.ConstructorMap?.CanResolve == true
                 ? typeMap.ConstructorMap.NewExpression(instanceParameter)
-                : New(typeMap.DestinationTypeToUse);
+                : Expression.New(typeMap.DestinationTypeToUse);
 
-            return Lambda(newExpression);
+            return Expression.Lambda(newExpression);
         }
 
 
@@ -235,15 +233,15 @@ namespace AutoMapper.QueryableExtensions
             private ConditionalExpression NullCheck(Expression input)
             {
                 var underlyingType = input.Type.GetTypeOfNullable();
-                var nullSubstitute = ExpressionExtensions.ToType(Constant(_nullSubstitute), underlyingType);
-                var equalsNull = Property(input, "HasValue");
-                return Condition(equalsNull, Property(input, "Value"), nullSubstitute, underlyingType);
+                var nullSubstitute = ExpressionExtensions.ToType(Expression.Constant(_nullSubstitute), underlyingType);
+                var equalsNull = Expression.Property(input, "HasValue");
+                return Expression.Condition(equalsNull, Expression.Property(input, "Value"), nullSubstitute, underlyingType);
             }
 
             protected override Expression VisitConditional(ConditionalExpression node)
             {
                 var nullCheck = NullCheck(node.IfFalse);
-                return Condition(node.Test, nullCheck.IfFalse, nullCheck);
+                return Expression.Condition(node.Test, nullCheck.IfFalse, nullCheck);
             }
         }
 

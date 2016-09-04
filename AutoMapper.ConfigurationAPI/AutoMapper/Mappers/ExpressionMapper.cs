@@ -1,16 +1,13 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
+using AutoMapper.ConfigurationAPI.Configuration;
+using AutoMapper.ConfigurationAPI.Execution;
 
-namespace AutoMapper.Mappers
+namespace AutoMapper.ConfigurationAPI.Mappers
 {
-    using System;
-    using System.Collections.Generic;
-    using QueryableExtensions.Impl;
-    using System.Linq;
-    using System.Linq.Expressions;
-    using System.Reflection;
-    using Configuration;
-    using Execution;
-
     public class ExpressionMapper : IObjectMapper
     {
         public static TDestination Map<TSource, TDestination>(TSource expression, ResolutionContext context)

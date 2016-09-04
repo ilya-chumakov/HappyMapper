@@ -1,8 +1,7 @@
-﻿namespace AutoMapper.Mappers
-{
-    using System.Linq.Expressions;
-    using static System.Linq.Expressions.Expression;
+﻿using System.Linq.Expressions;
 
+namespace AutoMapper.ConfigurationAPI.Mappers
+{
     public class StringMapper : IObjectMapper
     {
         public bool IsMatch(TypePair context)
@@ -14,9 +13,9 @@
             PropertyMap propertyMap, Expression sourceExpression, Expression destExpression,
             Expression contextExpression)
         {
-            return Condition(Equal(sourceExpression, Default(sourceExpression.Type)),
-                Constant(null, typeof(string)),
-                Call(sourceExpression, typeof(object).GetDeclaredMethod("ToString")));
+            return Expression.Condition(Expression.Equal(sourceExpression, Expression.Default(sourceExpression.Type)),
+                Expression.Constant(null, typeof(string)),
+                Expression.Call(sourceExpression, typeof(object).GetDeclaredMethod("ToString")));
         }
     }
 }

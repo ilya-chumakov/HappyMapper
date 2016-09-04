@@ -1,8 +1,8 @@
-﻿namespace AutoMapper
-{
-    using System;
-    using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
+namespace AutoMapper.ConfigurationAPI
+{
     /// <summary>
     /// Options for a single map operation
     /// </summary>

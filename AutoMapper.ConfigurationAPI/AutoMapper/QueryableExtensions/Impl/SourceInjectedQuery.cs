@@ -1,11 +1,11 @@
-﻿namespace AutoMapper.QueryableExtensions.Impl
-{
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Linq.Expressions;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 
+namespace AutoMapper.ConfigurationAPI.QueryableExtensions.Impl
+{
     public class SourceInjectedQuery<TSource, TDestination> : IOrderedQueryable<TDestination>
     {
         public SourceInjectedQuery(IQueryable<TSource> dataSource, IQueryable<TDestination> destQuery, IMapper mapper, SourceInjectedQueryInspector inspector = null)

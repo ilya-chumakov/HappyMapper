@@ -1,11 +1,11 @@
-﻿#if NETSTANDARD1_3 || NET45
-namespace AutoMapper.Mappers
-{
-    using System.Linq;
-    using System.Linq.Expressions;
-    using System.Reflection;
-    using System.Collections.Specialized;
+﻿using System.Collections.Specialized;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
 
+#if NETSTANDARD1_3 || NET45
+namespace AutoMapper.ConfigurationAPI.Mappers
+{
     public class NameValueCollectionMapper : IObjectMapper
     {
         public static NameValueCollection Map(NameValueCollection source)

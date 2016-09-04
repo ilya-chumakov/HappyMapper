@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.ConfigurationAPI;
 using AutoMapper.UnitTests;
 using NUnit.Framework;
 using OrdinaryMapper.Tests.AutoMapperMigrated;

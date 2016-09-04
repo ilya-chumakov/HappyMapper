@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace AutoMapper
+namespace AutoMapper.ConfigurationAPI
 {
     using StringDictionary = Dictionary<string, object>;
 

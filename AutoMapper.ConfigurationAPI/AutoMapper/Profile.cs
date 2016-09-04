@@ -1,15 +1,15 @@
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
-using AutoMapper.Mappers;
+using AutoMapper.ConfigurationAPI.Configuration;
+using AutoMapper.ConfigurationAPI.Configuration.Conventions;
+using AutoMapper.ConfigurationAPI.Mappers;
 
-namespace AutoMapper
+namespace AutoMapper.ConfigurationAPI
 {
-    using System;
-    using System.Collections.Concurrent;
-    using System.Collections.Generic;
-    using System.Reflection;
-    using Configuration;
-    using Configuration.Conventions;
     using IMemberConfiguration = Configuration.Conventions.IMemberConfiguration;
 
     /// <summary>

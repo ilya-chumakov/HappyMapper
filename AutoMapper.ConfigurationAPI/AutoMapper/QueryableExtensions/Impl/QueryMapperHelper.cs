@@ -1,9 +1,9 @@
-namespace AutoMapper.QueryableExtensions.Impl
-{
-    using System;
-    using System.Linq;
-    using System.Reflection;
+using System;
+using System.Linq;
+using System.Reflection;
 
+namespace AutoMapper.ConfigurationAPI.QueryableExtensions.Impl
+{
     public static class QueryMapperHelper
     {
         public static PropertyMap GetPropertyMap(this IConfigurationProvider config, MemberInfo sourceMemberInfo, Type destinationMemberType)

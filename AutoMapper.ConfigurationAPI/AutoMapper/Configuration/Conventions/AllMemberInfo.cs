@@ -1,10 +1,10 @@
-namespace AutoMapper.Configuration.Conventions
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Reflection;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 
+namespace AutoMapper.ConfigurationAPI.Configuration.Conventions
+{
     public class AllMemberInfo : IGetTypeInfoMembers
     {
         private readonly IList<Func<MemberInfo, bool>> _predicates = new List<Func<MemberInfo, bool>>();

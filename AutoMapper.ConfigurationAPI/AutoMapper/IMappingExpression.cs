@@ -1,9 +1,8 @@
-namespace AutoMapper
-{
-    using System;
-    using System.ComponentModel;
-    using System.Linq.Expressions;
+using System;
+using System.Linq.Expressions;
 
+namespace AutoMapper.ConfigurationAPI
+{
     /// <summary>
     /// Mapping configuration options for non-generic maps
     /// </summary>
