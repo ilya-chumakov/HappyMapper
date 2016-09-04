@@ -1,4 +1,5 @@
 ﻿using System;
+using OrdinaryMapper.AmcApi;
 using OrdinaryMapper.Obsolete;
 
 namespace OrdinaryMapper.Benchmarks
@@ -64,7 +65,7 @@ namespace OrdinaryMapper.Benchmarks
     {
         public Action<TInput, TOutput> CreateMapMethod<TInput, TOutput>()
         {
-            var config = new MapperConfiguration(cfg =>
+            var config = new HappyConfig(cfg =>
             {
                 cfg.CreateMap<TInput, TOutput>();
             });

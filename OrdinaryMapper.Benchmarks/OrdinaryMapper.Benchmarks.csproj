@@ -71,6 +71,10 @@
     <Compile Include="Types\SimpleTypes.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AutoMapper.ConfigurationAPI\AutoMapper.Net4\AutoMapper.Net4.csproj">
+      <Project>{8c955148-fa96-4f0d-880d-abb6770f54e9}</Project>
+      <Name>AutoMapper.Net4</Name>
+    </ProjectReference>
     <ProjectReference Include="..\OrdinaryMapper\OrdinaryMapper.csproj">
       <Project>{79dea2c2-0084-417d-af75-6156c41eb32b}</Project>
       <Name>OrdinaryMapper</Name>
