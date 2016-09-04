@@ -59,4 +59,21 @@ namespace OrdinaryMapper.Benchmarks
             return action;
         }
     }
+
+    public class OrdinaryMapperCachedV3 : ITestableMapper
+    {
+        public Action<TInput, TOutput> CreateMapMethod<TInput, TOutput>()
+        {
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<TInput, TOutput>();
+            });
+
+            var mapper = config.CompileMapper();
+
+            Action<TInput, TOutput> action = (src, dest) => mapper.Map(src, dest);
+
+            return action;
+        }
+    }
 }

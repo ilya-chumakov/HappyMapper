@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using AutoMapper;
 using NUnit.Framework;
+using OrdinaryMapper.AmcApi;
 using OrdinaryMapperAmcApi.Tests;
 
 namespace OrdinaryMapper.Tests.Text

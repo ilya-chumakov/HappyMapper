@@ -122,9 +122,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AmcApi\HappyConfig.cs" />
     <Compile Include="AmcApi\HappyConfig_Tests.cs" />
-    <Compile Include="AutoMapper.Extended\MapperConfiguration_Tests.cs" />
+    <Compile Include="AutoMapper.Extended\UnsupportedTypeBlocker_Tests.cs" />
     <Compile Include="AutoMapperMigrated\ConfigurationValidation.cs" />
     <Compile Include="AutoMapperMigrated\AutoMapperSpecBase.cs" />
     <Compile Include="Tools\TypeExtentions.cs" />

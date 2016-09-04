@@ -119,10 +119,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AmcApi\HappyConfig.cs" />
     <Compile Include="ErrorMessages.cs" />
     <Compile Include="ITestableMapper.cs" />
     <Compile Include="MapContext.cs" />
-    <Compile Include="Mapper - Copy.cs" />
+    <Compile Include="AmcApi\HappyMapper.cs" />
     <Compile Include="Obsolete\Class1.cs" />
     <Compile Include="Obsolete\ExpressionHelper.cs" />
     <Compile Include="Saved\Class1.cs" />

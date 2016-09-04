@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using NUnit.Framework;
+using OrdinaryMapper.AmcApi;
 using OrdinaryMapper.Benchmarks.Types;
 using OrdinaryMapperAmcApi.Tests;
 

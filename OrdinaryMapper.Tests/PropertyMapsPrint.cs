@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
+using OrdinaryMapper.AmcApi;
 using OrdinaryMapperAmcApi.Tests;
 
 namespace OrdinaryMapper.Tests.New

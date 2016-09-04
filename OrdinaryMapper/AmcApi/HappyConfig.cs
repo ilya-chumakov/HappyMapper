@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using AutoMapper;
 using AutoMapper.Configuration;
-using NUnit.Framework;
-using OrdinaryMapper;
 
-namespace OrdinaryMapperAmcApi.Tests
+namespace OrdinaryMapper.AmcApi
 {
     public class HappyConfig
     {
@@ -24,12 +22,6 @@ namespace OrdinaryMapperAmcApi.Tests
             var delegates = Compiler.CompileToAssembly(Configuration, TypeMaps);
 
             return new HappyMapper(delegates);
-        }
-
-        [Test]
-        public void AssertConfigurationIsValid()
-        {
-            AutoMapperCfg.AssertConfigurationIsValid();
         }
     }
 }
