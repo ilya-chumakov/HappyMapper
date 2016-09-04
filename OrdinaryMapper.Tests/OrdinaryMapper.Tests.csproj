@@ -124,6 +124,9 @@
   <ItemGroup>
     <Compile Include="AmcApi\HappyConfig.cs" />
     <Compile Include="AmcApi\HappyConfig_Tests.cs" />
+    <Compile Include="AutoMapperMigrated\ConfigurationValidation.cs" />
+    <Compile Include="AutoMapperMigrated\AutoMapperSpecBase.cs" />
+    <Compile Include="Tools\TypeExtentions.cs" />
     <Compile Include="Cases\ChildWithoutParameterlessCtor_Test.cs" />
     <Compile Include="Comparer_Tests.cs" />
     <Compile Include="MapperTextBuilder_Tests.cs" />

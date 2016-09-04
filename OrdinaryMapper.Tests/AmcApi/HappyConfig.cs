@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using AutoMapper;
 using AutoMapper.Configuration;
+using NUnit.Framework;
 using OrdinaryMapper;
 
 namespace OrdinaryMapperAmcApi.Tests
@@ -15,7 +16,7 @@ namespace OrdinaryMapperAmcApi.Tests
 
         public HappyConfig(Action<IMapperConfigurationExpression> configurationExpression)
         {
-            AutoMapperCfg = new MapperConfiguration(configurationExpression);
+            AutoMapperCfg = new MapperConfiguration(configurationExpression); 
         }
 
         public HappyMapper CompileMapper()
@@ -23,6 +24,12 @@ namespace OrdinaryMapperAmcApi.Tests
             var delegates = Compiler.CompileToAssembly(Configuration, TypeMaps);
 
             return new HappyMapper(delegates);
+        }
+
+        [Test]
+        public void AssertConfigurationIsValid()
+        {
+            AutoMapperCfg.AssertConfigurationIsValid();
         }
     }
 }
