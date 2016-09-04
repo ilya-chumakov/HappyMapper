@@ -62,6 +62,12 @@
   <ItemGroup>
     <Content Include="LICENSE.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\AutoMapper.Extended.Net4\AutoMapper.Extended.Net4.csproj">
+      <Project>{2c5f3563-c2b8-4cc5-87b6-82adfcd3cb57}</Project>
+      <Name>AutoMapper.Extended.Net4</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

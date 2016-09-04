@@ -1,3 +1,5 @@
+using AutoMapper.Extended.Net4;
+
 namespace AutoMapper.Configuration
 {
     using System;
@@ -145,6 +147,9 @@ namespace AutoMapper.Configuration
 
         public MappingExpression(MemberList memberList, Type sourceType, Type destinationType)
         {
+            if (!UnsupportedTypeBlocker.IsValid(sourceType)) throw UnsupportedTypeBlocker.CreateException(sourceType);
+            if (!UnsupportedTypeBlocker.IsValid(destinationType)) throw UnsupportedTypeBlocker.CreateException(destinationType);
+
             MemberList = memberList;
             Types = new TypePair(sourceType, destinationType);
             IsOpenGeneric = sourceType.IsGenericTypeDefinition() || destinationType.IsGenericTypeDefinition();

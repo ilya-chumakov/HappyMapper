@@ -1,0 +1,22 @@
+{
+  "version": 2,
+  "exports": {
+    "AutoMapper.Extended.Net4/1.0.0": {
+      "type": "project",
+      "framework": ".NETFramework,Version=v4.5",
+      "compile": {
+        "bin/Debug/AutoMapper.Extended.Net4.dll": {}
+      },
+      "runtime": {
+        "bin/Debug/AutoMapper.Extended.Net4.dll": {}
+      },
+      "contentFiles": {
+        "bin/Debug/AutoMapper.Extended.Net4.pdb": {
+          "buildAction": "None",
+          "codeLanguage": "any",
+          "copyToOutput": true
+        }
+      }
+    }
+  }
+}
