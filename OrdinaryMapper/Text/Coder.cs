@@ -31,7 +31,7 @@ namespace OrdinaryMapper
         /// <param name="destMemberName"></param>
         public void SimpleAssign(string srcPrefix, string destPrefix, string srcMemberName, string destMemberName)
         {
-            string template = $"{{1}}.{srcMemberName} = {{0}}.{destMemberName};";
+            string template = $"{{1}}.{destMemberName} = {{0}}.{srcMemberName};";
 
             string compiled = string.Format(template, srcPrefix, destPrefix);
 
