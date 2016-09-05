@@ -132,7 +132,7 @@ namespace AutoMapper.ConfigurationAPI
         ///// Do not use the destination value instead of mapping from the source value or creating a new instance
         ///// </summary>        
         //void DoNotUseDestinationValue();
-        
+
         ///// <summary>
         ///// Use a custom value
         ///// </summary>
@@ -157,19 +157,19 @@ namespace AutoMapper.ConfigurationAPI
         ///// </summary>
         ///// <param name="condition">Condition to evaluate using the source object</param>
         //void Condition(Func<TSource, TDestination, TMember, bool> condition);
-       
+
         ///// <summary>
         ///// Conditionally map this member
         ///// </summary>
         ///// <param name="condition">Condition to evaluate using the source object</param>
         //void Condition(Func<TSource, TDestination, bool> condition);
-       
-        ///// <summary>
-        ///// Conditionally map this member
-        ///// </summary>
-        ///// <param name="condition">Condition to evaluate using the source object</param>
-        //void Condition(Func<TSource, bool> condition);
-       
+
+        /// <summary>
+        /// Conditionally map this member
+        /// </summary>
+        /// <param name="condition">Condition to evaluate using the source object</param>
+        void Condition(Func<TSource, bool> condition);
+
         ///// <summary>
         ///// Conditionally map this member, evaluated before accessing the source value
         ///// </summary>

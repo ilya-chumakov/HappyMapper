@@ -3,7 +3,7 @@ using OrdinaryMapper.AmcApi;
 
 namespace OrdinaryMapper.Tests.MemberConfigurationExpressionTests
 {
-    public class Ignore
+    public class Ignore_Tests
     {
         public class A { public int P1 { get; set; } }
         public class B { public int P1 { get; set; } }
