@@ -126,6 +126,8 @@
     <Compile Include="AutoMapper.Extended\UnsupportedTypeBlocker_Tests.cs" />
     <Compile Include="AutoMapperMigrated\ConfigurationValidation.cs" />
     <Compile Include="AutoMapperMigrated\AutoMapperSpecBase.cs" />
+    <Compile Include="MemberConfigurationExpressionTests\MapFrom.cs" />
+    <Compile Include="MemberConfigurationExpressionTests\Ignore.cs" />
     <Compile Include="Tools\TypeExtentions.cs" />
     <Compile Include="Cases\ChildWithoutParameterlessCtor_Test.cs" />
     <Compile Include="Comparer_Tests.cs" />

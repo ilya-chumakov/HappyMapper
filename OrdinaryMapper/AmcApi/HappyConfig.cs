@@ -23,5 +23,10 @@ namespace OrdinaryMapper.AmcApi
 
             return new HappyMapper(delegates);
         }
+
+        public void AssertConfigurationIsValid()
+        {
+            AutoMapperCfg.AssertConfigurationIsValid();
+        }
     }
 }

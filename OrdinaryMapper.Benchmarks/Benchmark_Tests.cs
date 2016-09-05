@@ -18,8 +18,10 @@ namespace OrdinaryMapper.Benchmarks
             //Benchmark.Register<OrdinaryMapperCached>();
             //Benchmark.Register<OrdinaryMapperCachedV2>();
             //Benchmark.Register<OrdinaryMapperSingle>();
+            //Benchmark.Register<OrdinaryMapperSingle>();
 
             Benchmark.Register<OrdinaryMapperCachedV3>();
+            Benchmark.Register<OrdinaryMapperSingleV2>();
 
             Benchmark.Register<EmitMapperCached>();
             Benchmark.Register<EmitMapperSingle>();
@@ -32,7 +34,7 @@ namespace OrdinaryMapper.Benchmarks
         [Test]
         public void Run_AllMappers_MeasuresTime()
         {
-            int[] exponents = new[] { 6 };
+            int[] exponents = new[] { 7 };
             //int[] exponents = new[] { 5, 6, 7, 8 };
 
             Benchmark.Run(exponents);
