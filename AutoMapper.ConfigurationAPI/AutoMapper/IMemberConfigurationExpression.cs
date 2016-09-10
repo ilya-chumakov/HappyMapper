@@ -158,17 +158,17 @@ namespace AutoMapper.ConfigurationAPI
         ///// <param name="condition">Condition to evaluate using the source object</param>
         //void Condition(Func<TSource, TDestination, TMember, bool> condition);
 
-        ///// <summary>
-        ///// Conditionally map this member
-        ///// </summary>
-        ///// <param name="condition">Condition to evaluate using the source object</param>
-        //void Condition(Func<TSource, TDestination, bool> condition);
+        /// <summary>
+        /// Conditionally map this member
+        /// </summary>
+        /// <param name="condition">Condition to evaluate using the source object</param>
+        void Condition(Func<TSource, TDestination, bool> condition);
 
         /// <summary>
         /// Conditionally map this member
         /// </summary>
         /// <param name="condition">Condition to evaluate using the source object</param>
-        void Condition(Func<TSource, bool> condition);
+        //void Condition(Func<TSource, bool> condition);
 
         ///// <summary>
         ///// Conditionally map this member, evaluated before accessing the source value

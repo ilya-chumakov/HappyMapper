@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System;
+using NUnit.Framework;
 using OrdinaryMapper.AmcApi;
 
 namespace OrdinaryMapper.Tests.MemberConfigurationExpressionTests
@@ -13,7 +14,9 @@ namespace OrdinaryMapper.Tests.MemberConfigurationExpressionTests
         {
             var config = new HappyConfig(cfg =>
             {
-                cfg.CreateMap<A, B>().ForMember(d => d.P1, opt => opt.Condition(s => s.P1 > 0 ));
+                cfg.CreateMap<A, B>().ForMember(d => d.P1, opt => opt.Condition((s, d) => s.P1 + d.P1 > 0 ));
+                cfg.CreateMap<A, B>().ForMember(d => d.P1, opt => opt.Condition((s, d) => DateTime.Now.Ticks < 0 ));
+                //cfg.CreateMap<A, B>().ForMember(d => d.P1, opt => opt.Condition((s) => s.P1 > 0 ));
             });
 
             var mapper = config.CompileMapper();
