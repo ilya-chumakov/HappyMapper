@@ -300,12 +300,12 @@ namespace AutoMapper.ConfigurationAPI
         ///// <typeparam name="TTypeConverter">Type converter type</typeparam>
         //void ConvertUsing<TTypeConverter>() where TTypeConverter : ITypeConverter<TSource, TDestination>;
 
-        ///// <summary>
-        ///// Execute a custom function to the source and/or destination types before member mapping
-        ///// </summary>
-        ///// <param name="beforeFunction">Callback for the source/destination types</param>
-        ///// <returns>Itself</returns>
-        //IMappingExpression<TSource, TDestination> BeforeMap(Action<TSource, TDestination> beforeFunction);
+        /// <summary>
+        /// Execute a custom function to the source and/or destination types before member mapping
+        /// </summary>
+        /// <param name="beforeFunction">Callback for the source/destination types</param>
+        /// <returns>Itself</returns>
+        IMappingExpression<TSource, TDestination> BeforeMap(Action<TSource, TDestination> beforeFunction);
 
         ///// <summary>
         ///// Execute a custom function to the source and/or destination types before member mapping
