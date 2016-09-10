@@ -6,7 +6,7 @@ using NUnit.Framework;
 
 namespace OrdinaryMapper.Tests.Text
 {
-    public class Condition_Tests
+    public class ConditionBuilder_Tests
     {
         public class A { public int P1 { get; set; } }
         public class B { public int P1 { get; set; } }
@@ -25,13 +25,14 @@ namespace OrdinaryMapper.Tests.Text
             Expression<Func<A, bool>> exp = src => src.P1 != 0;
             propertyMap.Condition = exp;
 
-            using (var condition = new Condition(context, coder))
-            {
+            using (var condition = new ConditionBuilder(context, coder)) { }
 
-            }
+            string code = coder.GetAssignment().Code.Replace(Environment.NewLine, "");
+            string template = coder.GetAssignment().RelativeTemplate.Replace(Environment.NewLine, "");
 
-            Assert.IsNotNullOrEmpty(coder.GetAssignment().Code);
-            Console.WriteLine(coder.GetAssignment().Code);
+            Assert.IsNotNullOrEmpty(code);
+            Assert.AreEqual("if (x.P1 != 0){{}}", code);
+            Assert.AreEqual("if ({0}.P1 != 0){{}}", template);
         }
 
         [Test]
@@ -45,7 +46,7 @@ namespace OrdinaryMapper.Tests.Text
             var context = new PropertyNameContext(propertyMap, srcFieldName, destFieldName);
             var coder = new Coder();
 
-            using (var condition = new Condition(context, coder)) { }
+            using (var condition = new ConditionBuilder(context, coder)) { }
 
             Assert.IsNullOrEmpty(coder.GetAssignment().Code);
         }

@@ -2,12 +2,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using ExpressionToCodeLib;
 
 namespace OrdinaryMapper
 {
-    public class Condition : IDisposable
+    public class ConditionBuilder : IDisposable
     {
-        public Condition(PropertyNameContext context, Coder coder)
+        public bool IsExist { get; set; } = false;
+        protected PropertyNameContext Context { get; set; }
+        protected Coder Coder { get; set; }
+
+        public ConditionBuilder(PropertyNameContext context, Coder coder)
         {
             Context = context;
             Coder = coder;
@@ -18,14 +23,41 @@ namespace OrdinaryMapper
 
             if (IsExist)
             {
+                string text = ToCode(condition);
+                string template = ToTemplate(condition);
+
+                Coder.AppendLine($"if ({text})", $"if ({template})");
                 Coder.AttachRawCode("{{");
             }
         }
 
-        public bool IsExist { get; set; } = false;
+        private string ToCode(LambdaExpression condition)
+        {
+            var visitor = new ParameterNameReplaceVisitor(
+                Context.PropertyMap.TypeMap.SourceType,
+                Context.PropertyMap.TypeMap.DestinationType,
+                Context.SrcMemberPrefix,
+                Context.DestMemberPrefix,
+                condition.Parameters);
 
-        protected PropertyNameContext Context { get; set; }
-        protected Coder Coder { get; set; }
+            var modifiedCondition = visitor.Visit(condition) as LambdaExpression;
+
+            return ExpressionToCode.ToCode(modifiedCondition.Body);
+        }
+
+        private string ToTemplate(LambdaExpression condition)
+        {
+            var visitor = new ParameterNameReplaceVisitor(
+                Context.PropertyMap.TypeMap.SourceType,
+                Context.PropertyMap.TypeMap.DestinationType,
+                "{0}",
+                "{1}",
+                condition.Parameters);
+
+            var modifiedCondition = visitor.Visit(condition) as LambdaExpression;
+
+            return ExpressionToCode.ToCode(modifiedCondition.Body);
+        }
 
         public void Dispose()
         {

@@ -131,7 +131,7 @@
     <Compile Include="MemberConfigurationExpressionTests\MapFrom_Tests.cs" />
     <Compile Include="MemberConfigurationExpressionTests\Ignore_Tests.cs" />
     <Compile Include="Text\ParameterNameReplaceVisitor_Tests.cs" />
-    <Compile Include="Text\Condition_Tests.cs" />
+    <Compile Include="Text\ConditionBuilder_Tests.cs" />
     <Compile Include="Tools\TypeExtentions.cs" />
     <Compile Include="Cases\ChildWithoutParameterlessCtor_Test.cs" />
     <Compile Include="Comparer_Tests.cs" />
