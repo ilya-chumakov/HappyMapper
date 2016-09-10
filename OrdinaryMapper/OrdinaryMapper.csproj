@@ -137,6 +137,7 @@
     <Compile Include="Obsolete\PropertyMap.cs" />
     <Compile Include="Obsolete\TypeDetails.cs" />
     <Compile Include="Obsolete\TypeExtensions.cs" />
+    <Compile Include="Text\Condition.cs" />
     <Compile Include="Text\ImplicitCastChecker.cs" />
     <Compile Include="Text\Coder.cs" />
     <Compile Include="Text\DictionaryEx.cs" />
