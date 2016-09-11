@@ -186,6 +186,7 @@ namespace AutoMapper.ConfigurationAPI.Configuration
         {
             PropertyMapActions.Add(pm =>
             {
+                //store original Expression cause we need to convert it to code
                 pm.ConditionExpression = expr;
             });
         }

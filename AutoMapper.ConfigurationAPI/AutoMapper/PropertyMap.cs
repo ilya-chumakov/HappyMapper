@@ -38,6 +38,9 @@ namespace AutoMapper.ConfigurationAPI
         public int? MappingOrder { get; set; }
         public LambdaExpression CustomResolver { get; set; }
         public LambdaExpression Condition { get; set; }
+        /// <summary>
+        /// New property to store original condition (Condition property stores a changed value).
+        /// </summary>
         public LambdaExpression ConditionExpression { get; set; }
         public LambdaExpression PreCondition { get; set; }
         public LambdaExpression CustomExpression { get; private set; }
