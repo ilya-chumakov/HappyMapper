@@ -72,29 +72,32 @@ namespace OrdinaryMapper
 
                 if (propertyMap.Ignored) continue;
 
-                //assign without explicit cast
-                if (propertyMap.DestType.IsAssignableFrom(propertyMap.SrcType)
-                    || propertyMap.DestType.IsImplicitCastableFrom(propertyMap.SrcType))
+                using (var condition = new ConditionBuilder(context, coder))
                 {
-                    //TODO: need to determine explicit casts and produce cast operators
-                    coder.SimpleAssign(context);
-                    continue;
-                }
-                else
-                {
-                    bool referenceType = propertyMap.DestType.IsClass;
-                    //TODO: perfomance degrades on each null check! Try to avoid it if possible!
-                    if (referenceType)
+                    //assign without explicit cast
+                    if (propertyMap.DestType.IsAssignableFrom(propertyMap.SrcType)
+                        || propertyMap.DestType.IsImplicitCastableFrom(propertyMap.SrcType))
                     {
-                        coder.NullCheck(context);
-                        coder.AttachRawCode(" else {{");
-
-                        coder.AppendNoParameterlessCtorException(context, propertyMap.DestType);
+                        //TODO: need to determine explicit casts and produce cast operators
+                        coder.SimpleAssign(context);
+                        continue;
                     }
+                    else
+                    {
+                        bool referenceType = propertyMap.DestType.IsClass;
+                        //TODO: perfomance degrades on each null check! Try to avoid it if possible!
+                        if (referenceType)
+                        {
+                            coder.NullCheck(context);
+                            coder.AttachRawCode(" else {{");
 
-                    ProcessPropertyTypePair(coder, context, propertyMap);
+                            coder.AppendNoParameterlessCtorException(context, propertyMap.DestType);
+                        }
 
-                    if (referenceType) coder.AttachRawCode("}}");
+                        ProcessPropertyTypePair(coder, context, propertyMap);
+
+                        if (referenceType) coder.AttachRawCode("}}");
+                    }
                 }
             }
 

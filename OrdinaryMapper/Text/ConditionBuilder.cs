@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Linq.Expressions;
 using ExpressionToCodeLib;
@@ -17,7 +18,9 @@ namespace OrdinaryMapper
             Context = context;
             Coder = coder;
 
-            var condition = Context.PropertyMap.Condition;
+            //var condition = Context.PropertyMap.Condition;
+            var condition = Context.PropertyMap.ConditionExpression;
+            //var x = Context.PropertyMap.Condition.Body as LambdaExpression;
 
             IsExist = condition != null;
 
@@ -40,7 +43,9 @@ namespace OrdinaryMapper
                 Context.DestMemberPrefix,
                 condition.Parameters);
 
-            var modifiedCondition = visitor.Visit(condition) as LambdaExpression;
+            var result = visitor.Visit(condition);
+
+            var modifiedCondition = result as LambdaExpression;
 
             return ExpressionToCode.ToCode(modifiedCondition.Body);
         }
@@ -76,7 +81,10 @@ namespace OrdinaryMapper
         public string DestName { get; set; }
         public ICollection<ParameterExpression> Parameters { get; set; }
 
-        public ParameterNameReplaceVisitor(Type srcType, Type destType, string srcName, string destName, ICollection<ParameterExpression> parameters)
+        public ParameterNameReplaceVisitor(
+            Type srcType, Type destType, 
+            string srcName, string destName, 
+            ReadOnlyCollection<ParameterExpression> parameters)
         {
             SrcType = srcType;
             DestType = destType;
@@ -97,11 +105,11 @@ namespace OrdinaryMapper
 
             if (Parameters.Count == 2)
             {
-                if (node.Type == SrcType || node.Name == Parameters.First().Name)
+                if (node.Type == SrcType || node.Name == (Parameters.First() as ParameterExpression).Name)
                 {
                     return Expression.Parameter(SrcType, SrcName);
                 }
-                if (node.Type == DestType || node.Name == Parameters.Last().Name)
+                if (node.Type == DestType || node.Name == (Parameters.Last() as ParameterExpression).Name)
                 {
                     return Expression.Parameter(DestType, DestName);
                 }

@@ -9,7 +9,8 @@ namespace AutoMapper.ConfigurationAPI
     /// <typeparam name="TSource">Source type for this member</typeparam>
     /// <typeparam name="TMember">Type for this member</typeparam>
     /// <typeparam name="TDestination">Destination type for this map</typeparam>
-    public interface IMemberConfigurationExpression<TSource, out TDestination, TMember>
+    public interface IMemberConfigurationExpression<TSource, TDestination, TMember>
+    //public interface IMemberConfigurationExpression<TSource, out TDestination, TMember>
     {
         ///// <summary>
         ///// Substitute a custom value when the source member resolves as null
@@ -158,11 +159,17 @@ namespace AutoMapper.ConfigurationAPI
         ///// <param name="condition">Condition to evaluate using the source object</param>
         //void Condition(Func<TSource, TDestination, TMember, bool> condition);
 
-        /// <summary>
-        /// Conditionally map this member
-        /// </summary>
-        /// <param name="condition">Condition to evaluate using the source object</param>
-        void Condition(Func<TSource, TDestination, bool> condition);
+        ///// <summary>
+        ///// Conditionally map this member
+        ///// </summary>
+        ///// <param name="condition">Condition to evaluate using the source object</param>
+        ////void Condition(Func<TSource, TDestination, bool> condition);
+
+       /// <summary>
+       /// 
+       /// </summary>
+       /// <param name="expr"></param>
+        void Condition(Expression<Func<TSource, TDestination, bool>> expr);
 
         ///// <summary>
         ///// Conditionally map this member

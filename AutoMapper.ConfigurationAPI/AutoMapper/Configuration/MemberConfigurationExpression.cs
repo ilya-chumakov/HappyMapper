@@ -181,6 +181,16 @@ namespace AutoMapper.ConfigurationAPI.Configuration
             });
         }
 
+
+        public void Condition(Expression<Func<TSource, TDestination, bool>> expr)
+        {
+            PropertyMapActions.Add(pm =>
+            {
+                pm.ConditionExpression = expr;
+            });
+        }
+
+
         public void Condition(Func<TSource, bool> condition)
         {
             PropertyMapActions.Add(pm =>
