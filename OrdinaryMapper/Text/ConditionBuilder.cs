@@ -43,9 +43,9 @@ namespace OrdinaryMapper
                 Context.DestMemberPrefix,
                 condition.Parameters);
 
-            var result = visitor.Visit(condition);
+            var visited = visitor.Visit(condition);
 
-            var modifiedCondition = result as LambdaExpression;
+            var modifiedCondition = visited as LambdaExpression;
 
             return ExpressionToCode.ToCode(modifiedCondition.Body);
         }

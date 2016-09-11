@@ -124,5 +124,27 @@ namespace OrdinaryMapper.Tests.MemberConfigurationExpressionTests
 
             Assert.AreEqual(originValue, b.P1);
         }
+
+        [Test]
+        public void Condition_Closure_NotMapped()
+        {
+            bool flag = false;
+
+            var config = new HappyConfig(cfg =>
+            {
+                cfg.CreateMap<A, B>().ForMember(dest => dest.P1, opt => opt.Condition((ps, pd) => flag));
+            });
+
+            var mapper = config.CompileMapper();
+
+            int newValue = 1;
+            int originValue = 5;
+            var a = new A { P1 = newValue };
+            var b = new B { P1 = originValue };
+            
+            mapper.Map(a, b);
+
+            Assert.AreEqual(originValue, b.P1);
+        }
     }
 }
