@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Linq.Expressions;
+using AutoMapper.Extended.Net4;
 using ExpressionToCodeLib;
 
 namespace OrdinaryMapper
@@ -21,9 +22,7 @@ namespace OrdinaryMapper
             Context = context;
             Coder = coder;
 
-            //var condition = Context.PropertyMap.Condition;
-            var condition = Context.PropertyMap.OriginalCondition.Expression;
-            //var x = Context.PropertyMap.Condition.Body as LambdaExpression;
+            var condition = Context.PropertyMap.OriginalCondition;
 
             IsExist = condition != null;
 
@@ -37,34 +36,24 @@ namespace OrdinaryMapper
             }
         }
 
-        private string ToCode(LambdaExpression condition)
+        private string ToCode(OriginalCondition condition)
         {
-            var visitor = new ParameterNameReplaceVisitor(
-                Context.PropertyMap.TypeMap.SourceType,
-                Context.PropertyMap.TypeMap.DestinationType,
-                Context.SrcMemberPrefix,
-                Context.DestMemberPrefix,
-                condition.Parameters);
+            string id = condition.Id;
+            string methodName = $"OrdinaryMapper.ConditionStore.Condition_{id}";
 
-            var visited = visitor.Visit(condition);
+            string methodCall = $"{methodName}({Context.SrcMemberPrefix}, {Context.DestMemberPrefix})";
 
-            var modifiedCondition = visited as LambdaExpression;
-
-            return ExpressionToCode.ToCode(modifiedCondition.Body);
+            return methodCall;
         }
 
-        private string ToTemplate(LambdaExpression condition)
+        private string ToTemplate(OriginalCondition condition)
         {
-            var visitor = new ParameterNameReplaceVisitor(
-                Context.PropertyMap.TypeMap.SourceType,
-                Context.PropertyMap.TypeMap.DestinationType,
-                "{0}",
-                "{1}",
-                condition.Parameters);
+            string id = condition.Id;
+            string methodName = $"OrdinaryMapper.ConditionStore.Condition_{id}";
 
-            var modifiedCondition = visitor.Visit(condition) as LambdaExpression;
+            string methodCall = $"{methodName}({{0}}, {{1}})";
 
-            return ExpressionToCode.ToCode(modifiedCondition.Body);
+            return methodCall;
         }
 
         public void Dispose()

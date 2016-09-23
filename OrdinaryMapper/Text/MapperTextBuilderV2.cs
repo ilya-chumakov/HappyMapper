@@ -73,7 +73,7 @@ namespace OrdinaryMapper
                 if (propertyMap.Ignored) continue;
 
                 //using (var condition = new ConditionBuilder(context, coder))
-                //using (var condition = new ConditionBuilderV2(context, coder))
+                using (var condition = new ConditionBuilderV2(context, coder))
                 {
                     //assign without explicit cast
                     if (propertyMap.DestType.IsAssignableFrom(propertyMap.SrcType)

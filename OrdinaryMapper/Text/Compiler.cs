@@ -29,6 +29,39 @@ namespace OrdinaryMapper
 
             Assembly assembly = MapperTypeBuilder.CreateAssembly(compilation);
 
+            InitConditionStore(typeMaps, assembly);
+
+            var delegateCache = CreateDelegateCache(typeMaps, files, assembly);
+
+            return delegateCache;
+        }
+
+        private static void InitConditionStore(IDictionary<TypePair, TypeMap> typeMaps, Assembly assembly)
+        {
+            var type = assembly.GetType("OrdinaryMapper.ConditionStore");
+
+            foreach (var kvp in typeMaps)
+            {
+                TypePair typePair = kvp.Key;
+                TypeMap map = kvp.Value;
+
+                foreach (PropertyMap propertyMap in map.PropertyMaps)
+                {
+                    if (propertyMap.OriginalCondition != null)
+                    {
+                        string id = propertyMap.OriginalCondition.Id;
+                        var func = propertyMap.OriginalCondition.Fnc;
+
+                        var fieldInfo = type.GetField($"Condition_{id}");
+
+                        fieldInfo.SetValue(null, func);
+                    }
+                }
+            }
+        }
+
+        private static Dictionary<TypePair, object> CreateDelegateCache(IDictionary<TypePair, TypeMap> typeMaps, Dictionary<TypePair, CodeFile> files, Assembly assembly)
+        {
             Dictionary<TypePair, object> delegateCache = new Dictionary<TypePair, object>();
 
             foreach (var kvp in typeMaps)
@@ -43,7 +76,6 @@ namespace OrdinaryMapper
 
                 delegateCache.Add(typePair, @delegate);
             }
-
             return delegateCache;
         }
     }
@@ -90,9 +122,9 @@ namespace OrdinaryMapper
         private string CreateMethodInnerCode(PropertyMap propertyMap)
         {
             string id = propertyMap.OriginalCondition.Id;
-
-            string type =
-                $"Func<{propertyMap.SrcType.FullName.NormalizeTypeName()}, {propertyMap.DestType.FullName.NormalizeTypeName()}, bool>";
+            string srcTypeName = propertyMap.TypeMap.SourceType.FullName.NormalizeTypeName();
+            string destTypeName = propertyMap.TypeMap.DestinationType.FullName.NormalizeTypeName();
+            string type = $"Func<{srcTypeName}, {destTypeName}, bool>";
 
             var builder = new StringBuilder();
 
