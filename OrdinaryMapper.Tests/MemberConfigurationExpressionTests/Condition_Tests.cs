@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System;
+using NUnit.Framework;
 using OrdinaryMapper.AmcApi;
 
 namespace OrdinaryMapper.Tests.MemberConfigurationExpressionTests
@@ -125,14 +126,15 @@ namespace OrdinaryMapper.Tests.MemberConfigurationExpressionTests
             Assert.AreEqual(originValue, b.P1);
         }
 
-        [Test]
-        public void Condition_Closure_NotMapped()
+        [TestCase(false)]
+        [TestCase(true)]
+        public void Condition_Closure(bool isMapped)
         {
-            bool flag = false;
+            bool captured = isMapped;
 
             var config = new HappyConfig(cfg =>
             {
-                cfg.CreateMap<A, B>().ForMember(dest => dest.P1, opt => opt.Condition((ps, pd) => flag));
+                cfg.CreateMap<A, B>().ForMember(dest => dest.P1, opt => opt.Condition((ps, pd) => captured));
             });
 
             var mapper = config.CompileMapper();
@@ -141,10 +143,11 @@ namespace OrdinaryMapper.Tests.MemberConfigurationExpressionTests
             int originValue = 5;
             var a = new A { P1 = newValue };
             var b = new B { P1 = originValue };
-            
+
             mapper.Map(a, b);
 
-            Assert.AreEqual(originValue, b.P1);
+            int expected = isMapped ? newValue : originValue;
+            Assert.AreEqual(expected, b.P1);
         }
     }
 }

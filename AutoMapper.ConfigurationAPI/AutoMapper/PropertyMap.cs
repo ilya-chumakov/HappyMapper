@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using AutoMapper.ConfigurationAPI.Execution;
+using AutoMapper.Extended.Net4;
 
 namespace AutoMapper.ConfigurationAPI
 {
@@ -37,11 +38,13 @@ namespace AutoMapper.ConfigurationAPI
         public bool AllowNull { get; set; }
         public int? MappingOrder { get; set; }
         public LambdaExpression CustomResolver { get; set; }
-        public LambdaExpression Condition { get; set; }
         /// <summary>
-        /// New property to store original condition (Condition property stores a changed value).
+        /// AutoMapper-converted expression
         /// </summary>
-        public LambdaExpression ConditionExpression { get; set; }
+        public LambdaExpression Condition { get; set; }
+
+        public OriginalCondition OriginalCondition { get; set; }
+
         public LambdaExpression PreCondition { get; set; }
         public LambdaExpression CustomExpression { get; private set; }
         public MemberInfo CustomSourceMember { get; set; }

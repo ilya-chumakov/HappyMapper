@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using AutoMapper.Extended.Net4;
 
 namespace AutoMapper.ConfigurationAPI.Configuration
 {
@@ -26,12 +27,59 @@ namespace AutoMapper.ConfigurationAPI.Configuration
 
         public MemberInfo DestinationMember => _destinationMember;
 
+
+        public void Condition(Func<TSource, TDestination, bool> condition)
+        {
+            PropertyMapActions.Add(pm =>
+            {
+                Expression<Func<TSource, TDestination, TMember, TMember, ResolutionContext, bool>> expr =
+                    (src, dest, srcMember, destMember, ctxt) => condition(src, dest);
+
+                pm.Condition = expr;
+            });
+        }
+
+
+        public void Condition(Expression<Func<TSource, TDestination, bool>> expr)
+        {
+            PropertyMapActions.Add(pm =>
+            {
+                //store original Expression cause we need to convert it to code
+                pm.OriginalCondition = new OriginalCondition(expr.Compile(), expr);
+            });
+        }
+
+        public void MapFrom<TSourceMember>(Expression<Func<TSource, TSourceMember>> sourceMember)
+        {
+            PropertyMapActions.Add(pm => pm.SetCustomValueResolverExpression(sourceMember));
+        }
+
+
+        public void Configure(TypeMap typeMap)
+        {
+            var destMember = _destinationMember;
+
+            if (destMember.DeclaringType.IsGenericType())
+            {
+                destMember = typeMap.DestinationTypeDetails.PublicReadAccessors.Single(m => m.Name == destMember.Name);
+            }
+
+            var propertyMap = typeMap.FindOrCreatePropertyMapFor(destMember);
+
+            foreach (var action in PropertyMapActions)
+            {
+                action(propertyMap);
+            }
+        }
+
+        #region Unsupported
+
         public void NullSubstitute(object nullSubstitute)
         {
             PropertyMapActions.Add(pm => pm.NullSubstitute = nullSubstitute);
         }
 
-        public void ResolveUsing<TValueResolver>() 
+        public void ResolveUsing<TValueResolver>()
             where TValueResolver : IValueResolver<TSource, TDestination, TMember>
         {
             var config = new ValueResolverConfiguration(typeof(TValueResolver));
@@ -42,7 +90,7 @@ namespace AutoMapper.ConfigurationAPI.Configuration
         public void ResolveUsing<TValueResolver, TSourceMember>(Expression<Func<TSource, TSourceMember>> sourceMember)
             where TValueResolver : IMemberValueResolver<TSource, TDestination, TSourceMember, TMember>
         {
-            var config = new ValueResolverConfiguration(typeof (TValueResolver))
+            var config = new ValueResolverConfiguration(typeof(TValueResolver))
             {
                 SourceMember = sourceMember
             };
@@ -53,7 +101,7 @@ namespace AutoMapper.ConfigurationAPI.Configuration
         public void ResolveUsing<TValueResolver, TSourceMember>(string sourceMemberName)
             where TValueResolver : IMemberValueResolver<TSource, TDestination, TSourceMember, TMember>
         {
-            var config = new ValueResolverConfiguration(typeof (TValueResolver))
+            var config = new ValueResolverConfiguration(typeof(TValueResolver))
             {
                 SourceMemberName = sourceMemberName
             };
@@ -68,7 +116,9 @@ namespace AutoMapper.ConfigurationAPI.Configuration
             PropertyMapActions.Add(pm => pm.ValueResolverConfig = config);
         }
 
-        public void ResolveUsing<TSourceMember>(IMemberValueResolver<TSource, TDestination, TSourceMember, TMember> valueResolver, Expression<Func<TSource, TSourceMember>> sourceMember)
+        public void ResolveUsing<TSourceMember>(
+            IMemberValueResolver<TSource, TDestination, TSourceMember, TMember> valueResolver,
+            Expression<Func<TSource, TSourceMember>> sourceMember)
         {
             var config = new ValueResolverConfiguration(valueResolver)
             {
@@ -82,7 +132,8 @@ namespace AutoMapper.ConfigurationAPI.Configuration
         {
             PropertyMapActions.Add(pm =>
             {
-                Expression<Func<TSource, TDestination, TMember, ResolutionContext, TResult>> expr = (src, dest, destMember, ctxt) => resolver(src);
+                Expression<Func<TSource, TDestination, TMember, ResolutionContext, TResult>> expr =
+                    (src, dest, destMember, ctxt) => resolver(src);
 
                 pm.CustomResolver = expr;
             });
@@ -92,7 +143,8 @@ namespace AutoMapper.ConfigurationAPI.Configuration
         {
             PropertyMapActions.Add(pm =>
             {
-                Expression<Func<TSource, TDestination, TMember, ResolutionContext, TResult>> expr = (src, dest, destMember, ctxt) => resolver(src, dest);
+                Expression<Func<TSource, TDestination, TMember, ResolutionContext, TResult>> expr =
+                    (src, dest, destMember, ctxt) => resolver(src, dest);
 
                 pm.CustomResolver = expr;
             });
@@ -102,7 +154,8 @@ namespace AutoMapper.ConfigurationAPI.Configuration
         {
             PropertyMapActions.Add(pm =>
             {
-                Expression<Func<TSource, TDestination, TMember, ResolutionContext, TResult>> expr = (src, dest, destMember, ctxt) => resolver(src, dest, destMember);
+                Expression<Func<TSource, TDestination, TMember, ResolutionContext, TResult>> expr =
+                    (src, dest, destMember, ctxt) => resolver(src, dest, destMember);
 
                 pm.CustomResolver = expr;
             });
@@ -112,15 +165,11 @@ namespace AutoMapper.ConfigurationAPI.Configuration
         {
             PropertyMapActions.Add(pm =>
             {
-                Expression<Func<TSource, TDestination, TMember, ResolutionContext, TResult>> expr = (src, dest, destMember, ctxt) => resolver(src, dest, destMember, ctxt);
+                Expression<Func<TSource, TDestination, TMember, ResolutionContext, TResult>> expr =
+                    (src, dest, destMember, ctxt) => resolver(src, dest, destMember, ctxt);
 
                 pm.CustomResolver = expr;
             });
-        }
-
-        public void MapFrom<TSourceMember>(Expression<Func<TSource, TSourceMember>> sourceMember)
-        {
-            PropertyMapActions.Add(pm => pm.SetCustomValueResolverExpression(sourceMember));
         }
 
         public void MapFrom(string sourceMember)
@@ -169,28 +218,6 @@ namespace AutoMapper.ConfigurationAPI.Configuration
                 pm.Condition = expr;
             });
         }
-
-        public void Condition(Func<TSource, TDestination, bool> condition)
-        {
-            PropertyMapActions.Add(pm =>
-            {
-                Expression<Func<TSource, TDestination, TMember, TMember, ResolutionContext, bool>> expr =
-                    (src, dest, srcMember, destMember, ctxt) => condition(src, dest);
-
-                pm.Condition = expr;
-            });
-        }
-
-
-        public void Condition(Expression<Func<TSource, TDestination, bool>> expr)
-        {
-            PropertyMapActions.Add(pm =>
-            {
-                //store original Expression cause we need to convert it to code
-                pm.ConditionExpression = expr;
-            });
-        }
-
 
         public void Condition(Func<TSource, bool> condition)
         {
@@ -255,21 +282,7 @@ namespace AutoMapper.ConfigurationAPI.Configuration
             PropertyMapActions.Add(pm => pm.MappingOrder = mappingOrder);
         }
 
-        public void Configure(TypeMap typeMap)
-        {
-            var destMember = _destinationMember;
+        #endregion
 
-            if (destMember.DeclaringType.IsGenericType())
-            {
-                destMember = typeMap.DestinationTypeDetails.PublicReadAccessors.Single(m => m.Name == destMember.Name);
-            }
-
-            var propertyMap = typeMap.FindOrCreatePropertyMapFor(destMember);
-
-            foreach (var action in PropertyMapActions)
-            {
-                action(propertyMap);
-            }
-        }
     }
 }

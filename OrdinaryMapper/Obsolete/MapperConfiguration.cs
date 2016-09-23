@@ -21,7 +21,7 @@ namespace OrdinaryMapper.Obsolete
         public Mapper CompileMapper()
         {
             throw new NotImplementedException();
-            //var delegates = Compiler.CompileToAssembly(Configuration, TypeMaps);
+            //var delegates = Compiler.CompileMapsToAssembly(Configuration, TypeMaps);
 
             //return new Mapper(delegates);
         }

@@ -141,6 +141,7 @@
     <Compile Include="Obsolete\PropertyMap.cs" />
     <Compile Include="Obsolete\TypeDetails.cs" />
     <Compile Include="Obsolete\TypeExtensions.cs" />
+    <Compile Include="Text\ConditionBuilderV2.cs" />
     <Compile Include="Text\ConditionBuilder.cs" />
     <Compile Include="Text\ImplicitCastChecker.cs" />
     <Compile Include="Text\Coder.cs" />
@@ -171,6 +172,10 @@
     <ProjectReference Include="..\AutoMapper.ConfigurationAPI\AutoMapper.Net4\AutoMapper.Net4.csproj">
       <Project>{8c955148-fa96-4f0d-880d-abb6770f54e9}</Project>
       <Name>AutoMapper.Net4</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AutoMapper.Extended.Net4\AutoMapper.Extended.Net4.csproj">
+      <Project>{2c5f3563-c2b8-4cc5-87b6-82adfcd3cb57}</Project>
+      <Name>AutoMapper.Extended.Net4</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

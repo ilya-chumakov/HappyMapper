@@ -8,15 +8,15 @@ using ExpressionToCodeLib;
 namespace OrdinaryMapper
 {
     /// <summary>
-    /// Only src and dest - no captured variables!
+    /// Captured variable support!
     /// </summary>
-    public class ConditionBuilder : IDisposable
+    public class ConditionBuilderV2 : IDisposable
     {
         public bool IsExist { get; set; } = false;
         protected PropertyNameContext Context { get; set; }
         protected Coder Coder { get; set; }
 
-        public ConditionBuilder(PropertyNameContext context, Coder coder)
+        public ConditionBuilderV2(PropertyNameContext context, Coder coder)
         {
             Context = context;
             Coder = coder;
@@ -73,52 +73,6 @@ namespace OrdinaryMapper
             {
                 Coder.AttachRawCode("}}");
             }
-        }
-    }
-
-    public class ParameterNameReplaceVisitor : ExpressionVisitor
-    {
-        public Type SrcType { get; set; }
-        public Type DestType { get; set; }
-        public string SrcName { get; set; }
-        public string DestName { get; set; }
-        public ICollection<ParameterExpression> Parameters { get; set; }
-
-        public ParameterNameReplaceVisitor(
-            Type srcType, Type destType, 
-            string srcName, string destName, 
-            ReadOnlyCollection<ParameterExpression> parameters)
-        {
-            SrcType = srcType;
-            DestType = destType;
-            SrcName = srcName;
-            DestName = destName;
-            Parameters = parameters;
-        }
-
-        protected override Expression VisitParameter(ParameterExpression node)
-        {
-            if (Parameters.Count == 0) return node;
-
-            if (Parameters.Count == 1)
-            {
-                if (node.Type == SrcType) return Expression.Parameter(SrcType, SrcName);
-                if (node.Type == DestType) return Expression.Parameter(DestType, DestName);
-            }
-
-            if (Parameters.Count == 2)
-            {
-                if (node.Type == SrcType || node.Name == (Parameters.First() as ParameterExpression).Name)
-                {
-                    return Expression.Parameter(SrcType, SrcName);
-                }
-                if (node.Type == DestType || node.Name == (Parameters.Last() as ParameterExpression).Name)
-                {
-                    return Expression.Parameter(DestType, DestName);
-                }
-            }
-
-            return node;
         }
     }
 }
