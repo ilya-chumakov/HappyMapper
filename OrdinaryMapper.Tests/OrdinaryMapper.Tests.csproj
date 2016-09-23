@@ -158,6 +158,10 @@
       <Project>{a7e947d4-e356-43f4-949e-87bad4fe6f8e}</Project>
       <Name>OrdinaryMapper.Benchmarks</Name>
     </ProjectReference>
+    <ProjectReference Include="..\OrdinaryMapper.Tests.SeparateAssembly\OrdinaryMapper.Tests.SeparateAssembly.csproj">
+      <Project>{c1c8b73f-e3cb-433e-a5ec-ea12c8712243}</Project>
+      <Name>OrdinaryMapper.Tests.SeparateAssembly</Name>
+    </ProjectReference>
     <ProjectReference Include="..\OrdinaryMapper\OrdinaryMapper.csproj">
       <Project>{79dea2c2-0084-417d-af75-6156c41eb32b}</Project>
       <Name>OrdinaryMapper</Name>
