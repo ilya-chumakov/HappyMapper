@@ -7,8 +7,12 @@ namespace OrdinaryMapper
 {
     public static class MapperTextBuilder
     {
+        public static MapperNameConvention Convention { get; set; }
+
         public static string CreateText(MapContext context)
         {
+            Convention = NameConventions.Mapper;
+
             var srcProperties = context.SrcType.GetProperties();
             var destProperties = context.DestType.GetProperties();
 
@@ -17,14 +21,16 @@ namespace OrdinaryMapper
             string srcParameterName = "src";
             string destParameterName = "dest";
 
+            string methodName = Convention.GetMapperMethodName(context.SrcType, context.DestType);
+
             builder.AppendLine("using System;                                                       ");
             builder.AppendLine("using OrdinaryMapper;                                                       ");
 
-            builder.AppendLine($"namespace {MapContext.NamespaceName}                                ");
+            builder.AppendLine($"namespace {Convention.Namespace}                                ");
             builder.AppendLine("{                                                                   ");
-            builder.AppendLine($"    public static class {MapContext.MapperClassName}                  ");
+            builder.AppendLine($"    public static class {Convention.ClassShortName}                  ");
             builder.AppendLine("    {                                                               ");
-            builder.AppendLine($"       public static void {context.MapperMethodName}");
+            builder.AppendLine($"       public static void {methodName}");
             builder.AppendLine($"({context.SrcType.FullName} {srcParameterName},");
             builder.AppendLine($" {context.DestType.FullName} {destParameterName})");
             builder.AppendLine("        {");
@@ -75,14 +81,14 @@ namespace OrdinaryMapper
                             builder.AppendLine($"{destPrefix}.{name} = new {destPropType.FullName}();");
                         else
                         {
-                            string exMessage = 
+                            string exMessage =
                                 ErrorMessages.NoParameterlessCtor($"{name}", $"{name}", destPropType);
 
                             builder.AppendLine($@"if ({destPrefix}.{name} == null) throw new OrdinaryMapperException(""{exMessage}"");");
                         }
 
                         string text = CreatePropertiesAssignments(
-                            srcPropType.GetProperties(), 
+                            srcPropType.GetProperties(),
                             destPropType.GetProperties(),
                             $"{srcPrefix}.{name}",
                             $"{destPrefix}.{name}");

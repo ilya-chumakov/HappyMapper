@@ -12,6 +12,7 @@ namespace OrdinaryMapper
 
         public Dictionary<TypePair, object> DelegateCache { get; private set; }
         public Dictionary<TypePair, TypeMap> TypeMaps { get; } = new Dictionary<TypePair, TypeMap>();
+        public MapperNameConvention Convention { get; set; } = NameConventions.Mapper;
 
         public HappyMapper()
         {
@@ -105,9 +106,9 @@ namespace OrdinaryMapper
 
                 var context = new MapContext(typePair.SourceType, typePair.DestinationType);
 
-                var type = assembly.GetType($"{context.MapperClassFullName}");
+                var type = assembly.GetType($"{Convention.ClassFullName}");
 
-                var @delegate = Delegate.CreateDelegate(map.MapDelegateType, type, context.MapperMethodName);
+                var @delegate = Delegate.CreateDelegate(map.MapDelegateType, type, Convention.GetMapperMethodName(map));
 
                 DelegateCache.Add(typePair, @delegate);
             }
