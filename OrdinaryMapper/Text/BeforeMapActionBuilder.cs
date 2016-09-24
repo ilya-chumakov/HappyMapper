@@ -17,9 +17,12 @@ namespace OrdinaryMapper
         public bool IsExist { get; set; } = false;
         protected TypeMap TypeMap { get; set; }
         protected Coder Coder { get; set; }
+        public BeforeMapActionNameConvention NameConvention { get; set; }
 
         public BeforeMapActionBuilder(TypeMap typeMap, Coder coder, string srcFieldName, string destFieldName)
         {
+            NameConvention = NameConventionConfig.BeforeMapActionNameConvention;
+
             this.srcFieldName = srcFieldName;
             this.destFieldName = destFieldName;
 
@@ -44,7 +47,7 @@ namespace OrdinaryMapper
                 string text = string.Join("", texts);
                 string template = string.Join("", texts);
 
-                Coder.AttachRawCode("{{ //BEFORE MAP ACTION");
+                Coder.AttachRawCode("{{ ");
 
                 Coder.AppendLine(text, text);
             }
@@ -52,19 +55,22 @@ namespace OrdinaryMapper
 
         private string ToCode(OriginalStatement condition)
         {
-            string id = condition.Id;
-            string methodName = $"OrdinaryMapper.BeforeMapActionStore.BeforeMapAction_{id}";
-            string context = $"new {typeof (ResolutionContext).FullName}()";
+            //string id = condition.Id;
+            //string methodName = $"OrdinaryMapper.BeforeMapActionStore.BeforeMapAction_{id}";
+            //string context = $"new {typeof (ResolutionContext).FullName}()";
 
-            string methodCall = $"{methodName}({srcFieldName}, {destFieldName}, {context});";
+            //string methodCall = $"{methodName}({srcFieldName}, {destFieldName}, {context});";
+
+            string methodCall = ToTemplate(condition)
+                .Replace("{0}", srcFieldName)
+                .Replace("{1}", destFieldName);
 
             return methodCall;
         }
 
         private string ToTemplate(OriginalStatement condition)
         {
-            string id = condition.Id;
-            string methodName = $"OrdinaryMapper.BeforeMapActionStore.BeforeMapAction_{id}";
+            string methodName = NameConvention.GetMemberFullName(condition.Id);
             string context = $"new {typeof(ResolutionContext).FullName}()";
 
             string methodCall = $"{methodName}({{0}}, {{1}}, {context});";

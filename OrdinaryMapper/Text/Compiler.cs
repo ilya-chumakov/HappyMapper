@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using AutoMapper.ConfigurationAPI;
@@ -24,6 +25,8 @@ namespace OrdinaryMapper
 
             trees = trees.Union(new[] { f2.Code, f3.Code }).ToArray();
 
+            PrintTrees(trees);
+
             HashSet<string> locations = textBuilder.DetectedLocations;
 
             CSharpCompilation compilation = MapperTypeBuilder.CreateCompilation(trees, locations);
@@ -38,9 +41,21 @@ namespace OrdinaryMapper
             return delegateCache;
         }
 
+        private static void PrintTrees(string[] trees)
+        {
+            foreach (string tree in trees)
+            {
+                //Console.WriteLine(tree);
+                Debug.WriteLine(tree);
+                //Trace.WriteLine(tree);
+            }
+        }
+
         private static void InitBeforeActionStore(IDictionary<TypePair, TypeMap> typeMaps, Assembly assembly)
         {
-            var type = assembly.GetType("OrdinaryMapper.BeforeMapActionStore");
+            var conv = NameConventionConfig.BeforeMapActionNameConvention;
+
+            var type = assembly.GetType(conv.ClassFullName);
 
             foreach (var kvp in typeMaps)
             {
@@ -51,12 +66,9 @@ namespace OrdinaryMapper
                 {
                     if (action != null)
                     {
-                        string id = action.Id;
-                        var func = action.Delegate;
+                        var fieldInfo = type.GetField(conv.GetMemberShortName(action.Id));
 
-                        var fieldInfo = type.GetField($"BeforeMapAction_{id}");
-
-                        fieldInfo.SetValue(null, func);
+                        fieldInfo.SetValue(null, action.Delegate);
                     }
                 }
             }
