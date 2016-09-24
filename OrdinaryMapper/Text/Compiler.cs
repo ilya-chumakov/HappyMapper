@@ -15,21 +15,21 @@ namespace OrdinaryMapper
         {
             var textBuilder = new MapperTextBuilderV2(typeMaps, config);
             var files = textBuilder.CreateCodeFiles();
-            string[] trees = files.Values.Select(x => x.Code).ToArray();
+            string[] sourceCodes = files.Values.Select(x => x.Code).ToArray();
 
-            var cb = new ConditionTextBuilder(typeMaps);
+            var cb = new ConditionStorageBuilder(typeMaps);
             var f2 = cb.CreateCodeFile();
 
-            var bmb = new BeforeTextBuilder(typeMaps);
+            var bmb = new BeforeStorageBuilder(typeMaps);
             var f3 = bmb.CreateCodeFile();
 
-            trees = trees.Union(new[] { f2.Code, f3.Code }).ToArray();
+            sourceCodes = sourceCodes.Union(new[] { f2.Code, f3 }).ToArray();
 
-            PrintTrees(trees);
+            PrintTrees(sourceCodes);
 
             HashSet<string> locations = textBuilder.DetectedLocations;
 
-            CSharpCompilation compilation = MapperTypeBuilder.CreateCompilation(trees, locations);
+            CSharpCompilation compilation = MapperTypeBuilder.CreateCompilation(sourceCodes, locations);
 
             Assembly assembly = MapperTypeBuilder.CreateAssembly(compilation);
 

@@ -17,6 +17,9 @@ namespace OrdinaryMapper
             return template.Replace("{0}", src).Replace("{1}", dest);
         }
 
-
+        public static string RemoveDoubleBraces(this string str)
+        {
+            return str.Replace("{{", "").Replace("}}", "");
+        }
     }
 }

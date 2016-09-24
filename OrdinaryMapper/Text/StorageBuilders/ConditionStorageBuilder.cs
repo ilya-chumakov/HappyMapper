@@ -5,11 +5,11 @@ using AutoMapper.ConfigurationAPI;
 
 namespace OrdinaryMapper
 {
-    public class ConditionTextBuilder
+    public class ConditionStorageBuilder
     {
         public ImmutableDictionary<TypePair, TypeMap> ExplicitTypeMaps { get; set; }
 
-        public ConditionTextBuilder(IDictionary<TypePair, TypeMap> explicitTypeMaps)
+        public ConditionStorageBuilder(IDictionary<TypePair, TypeMap> explicitTypeMaps)
         {
             ExplicitTypeMaps = explicitTypeMaps.ToImmutableDictionary();
         }
@@ -29,7 +29,7 @@ namespace OrdinaryMapper
                     {
                         string methodCode = CreateMethodInnerCode(propertyMap);
 
-                        methodCode = methodCode.Replace("{{", "").Replace("}}", "");
+                        methodCode = methodCode.RemoveDoubleBraces();
 
                         methods.Add(methodCode);
                     }

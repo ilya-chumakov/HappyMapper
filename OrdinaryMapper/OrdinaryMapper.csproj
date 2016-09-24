@@ -141,11 +141,12 @@
     <Compile Include="Obsolete\PropertyMap.cs" />
     <Compile Include="Obsolete\TypeDetails.cs" />
     <Compile Include="Obsolete\TypeExtensions.cs" />
-    <Compile Include="Text\Printers\BeforeMapPrinter.cs" />
-    <Compile Include="Text\Printers\ConditionPrinterV2.cs" />
-    <Compile Include="Text\Printers\ConditionPrinter.cs" />
-    <Compile Include="Text\BeforeTextBuilder.cs" />
-    <Compile Include="Text\ConditionTextBuilder.cs" />
+    <Compile Include="Text\ActionPrinters\BeforeMapPrinter.cs" />
+    <Compile Include="Text\ActionPrinters\ConditionPrinterV2.cs" />
+    <Compile Include="Text\ActionPrinters\ConditionPrinter.cs" />
+    <Compile Include="Text\StorageBuilders\BeforeStorageBuilder.cs" />
+    <Compile Include="Text\StorageBuilders\CodeHelper.cs" />
+    <Compile Include="Text\StorageBuilders\ConditionStorageBuilder.cs" />
     <Compile Include="Text\ImplicitCastChecker.cs" />
     <Compile Include="Text\Coder.cs" />
     <Compile Include="Text\DictionaryEx.cs" />
