@@ -40,7 +40,7 @@ namespace OrdinaryMapper
 
         private static void InitBeforeActionStore(IDictionary<TypePair, TypeMap> typeMaps, Assembly assembly)
         {
-            var type = assembly.GetType("OrdinaryMapper.BeforeActionStore");
+            var type = assembly.GetType("OrdinaryMapper.BeforeMapActionStore");
 
             foreach (var kvp in typeMaps)
             {
@@ -54,7 +54,7 @@ namespace OrdinaryMapper
                         string id = action.Id;
                         var func = action.Delegate;
 
-                        var fieldInfo = type.GetField($"BeforeAction_{id}");
+                        var fieldInfo = type.GetField($"BeforeMapAction_{id}");
 
                         fieldInfo.SetValue(null, func);
                     }

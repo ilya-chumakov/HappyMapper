@@ -38,7 +38,7 @@ namespace OrdinaryMapper
                 }
             }
 
-            var file = CreateCodeFile(methods, "OrdinaryMapper", "BeforeActionStore");
+            var file = CreateCodeFile(methods, "OrdinaryMapper", "BeforeMapActionStore");
 
             return file;
         }
@@ -54,7 +54,7 @@ namespace OrdinaryMapper
 
             var builder = new StringBuilder();
 
-            builder.AppendLine($"public static {type} BeforeAction_{id};                               ");
+            builder.AppendLine($"public static {type} BeforeMapAction_{id};                               ");
 
             return builder.ToString();
         }

@@ -2,6 +2,7 @@
 using System.Linq.Expressions;
 using AutoMapper.ConfigurationAPI;
 using AutoMapper.ConfigurationAPI.Configuration;
+using AutoMapper.Extended.Net4;
 using NUnit.Framework;
 
 namespace OrdinaryMapper.Tests.Text
@@ -23,7 +24,7 @@ namespace OrdinaryMapper.Tests.Text
             var coder = new Coder();
 
             Expression<Func<A, bool>> exp = src => src.P1 != 0;
-            propertyMap.Condition = exp;
+            propertyMap.OriginalCondition = new OriginalStatement(exp);
 
             using (var condition = new ConditionBuilder(context, coder)) { }
 

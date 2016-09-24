@@ -5,13 +5,13 @@
       "type": "project",
       "framework": ".NETFramework,Version=v4.5",
       "compile": {
-        "bin/Release/AutoMapper.Extended.Net4.dll": {}
+        "bin/Debug/AutoMapper.Extended.Net4.dll": {}
       },
       "runtime": {
-        "bin/Release/AutoMapper.Extended.Net4.dll": {}
+        "bin/Debug/AutoMapper.Extended.Net4.dll": {}
       },
       "contentFiles": {
-        "bin/Release/AutoMapper.Extended.Net4.pdb": {
+        "bin/Debug/AutoMapper.Extended.Net4.pdb": {
           "buildAction": "None",
           "codeLanguage": "any",
           "copyToOutput": true

@@ -21,9 +21,7 @@ namespace OrdinaryMapper
             Context = context;
             Coder = coder;
 
-            //var condition = Context.PropertyMap.Condition;
-            var condition = Context.PropertyMap.OriginalCondition.Expression;
-            //var x = Context.PropertyMap.Condition.Body as LambdaExpression;
+            var condition = Context.PropertyMap?.OriginalCondition?.Expression;
 
             IsExist = condition != null;
 

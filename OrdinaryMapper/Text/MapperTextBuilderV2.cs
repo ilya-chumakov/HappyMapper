@@ -64,6 +64,11 @@ namespace OrdinaryMapper
         {
             var coder = new Coder();
 
+            using (var bfm = new BeforeMapActionBuilder(rootMap, coder, srcFieldName, destFieldName))
+            {
+                
+            }
+
             foreach (PropertyMap propertyMap in rootMap.PropertyMaps)
             {
                 RememberTypeLocations(propertyMap);

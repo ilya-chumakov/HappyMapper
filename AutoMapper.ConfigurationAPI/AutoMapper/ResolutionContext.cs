@@ -91,6 +91,11 @@ namespace AutoMapper.ConfigurationAPI
         /// </summary>
         public IDictionary<string, object> Items => Options.Items;
 
+        public ResolutionContext()
+        {
+            
+        }
+
         public ResolutionContext(IMappingOperationOptions options, IRuntimeMapper mapper)
         {
             Options = options;

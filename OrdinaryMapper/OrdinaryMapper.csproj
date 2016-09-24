@@ -141,6 +141,7 @@
     <Compile Include="Obsolete\PropertyMap.cs" />
     <Compile Include="Obsolete\TypeDetails.cs" />
     <Compile Include="Obsolete\TypeExtensions.cs" />
+    <Compile Include="Text\BeforeMapActionBuilder.cs" />
     <Compile Include="Text\ConditionBuilderV2.cs" />
     <Compile Include="Text\ConditionBuilder.cs" />
     <Compile Include="Text\BeforeTextBuilder.cs" />
