@@ -20,19 +20,19 @@ namespace OrdinaryMapper
 
         public string BuildCode()
         {
-            List<string> methods = new List<string>();
+            List<string> members = new List<string>();
 
             IteratePropertyMaps((tm, pm) =>
             {
-                string methodCode = CreateMethodInnerCode(pm);
+                string memberCode = CreateMemberCode(pm);
 
-                methodCode = methodCode.RemoveDoubleBraces();
+                memberCode = memberCode.RemoveDoubleBraces();
 
-                methods.Add(methodCode);
+                members.Add(memberCode);
             }
             );
 
-            string code = CodeHelper.BuildClassCode(methods, Convention.Namespace, Convention.ClassShortName);
+            string code = CodeHelper.BuildClassCode(members, Convention.Namespace, Convention.ClassShortName);
 
             return code;
         }
@@ -70,7 +70,7 @@ namespace OrdinaryMapper
             );
         }
 
-        private string CreateMethodInnerCode(PropertyMap propertyMap)
+        private string CreateMemberCode(PropertyMap propertyMap)
         {
             string id = propertyMap.OriginalCondition.Id;
             string srcTypeName = propertyMap.TypeMap.SourceType.FullName.NormalizeTypeName();

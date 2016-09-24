@@ -22,18 +22,18 @@ namespace OrdinaryMapper
 
         public string BuildCode()
         {
-            List<string> methods = new List<string>();
+            List<string> members = new List<string>();
 
             IterateStatements((tm, statement) =>
             {
-                string methodCode = CreateMethodInnerCode(statement, tm);
+                string memberCode = CreateMemberCode(statement, tm);
 
-                methodCode = methodCode.RemoveDoubleBraces();
+                memberCode = memberCode.RemoveDoubleBraces();
 
-                methods.Add(methodCode);
+                members.Add(memberCode);
             }
             );
-            string code = CodeHelper.BuildClassCode(methods, Convention.Namespace, Convention.ClassShortName);
+            string code = CodeHelper.BuildClassCode(members, Convention.Namespace, Convention.ClassShortName);
 
             return code;
         }
@@ -68,7 +68,7 @@ namespace OrdinaryMapper
             );
         }
 
-        private string CreateMethodInnerCode(OriginalStatement statement, TypeMap map)
+        private string CreateMemberCode(OriginalStatement statement, TypeMap map)
         {
             string id = statement.Id;
             string srcTypeName = map.SourceType.FullName.NormalizeTypeName();

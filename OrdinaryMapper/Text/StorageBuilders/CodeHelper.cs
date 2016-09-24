@@ -13,7 +13,7 @@ namespace OrdinaryMapper
             var builder = new StringBuilder();
 
             builder.AppendLine("using System; ");
-            builder.AppendLine("using OrdinaryMapper; ");
+            builder.AppendLine($"using {NameConventions.Mapper.Namespace}; ");
 
             builder.AppendLine($"namespace {nms}");
             builder.AppendLine("{ ");
