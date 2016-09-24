@@ -43,7 +43,7 @@ namespace AutoMapper.ConfigurationAPI
         /// </summary>
         public LambdaExpression Condition { get; set; }
 
-        public OriginalCondition OriginalCondition { get; set; }
+        public OriginalStatement OriginalCondition { get; set; }
 
         public LambdaExpression PreCondition { get; set; }
         public LambdaExpression CustomExpression { get; private set; }

@@ -3,18 +3,24 @@ using System.Linq.Expressions;
 
 namespace AutoMapper.Extended.Net4
 {
-    public class OriginalCondition
+    public class OriginalStatement
     {
-        public OriginalCondition(object fnc, LambdaExpression expression)
+        public OriginalStatement(object @delegate, LambdaExpression expression)
         {
-            Fnc = fnc;
+            Delegate = @delegate;
+            Expression = expression;
+        }
+
+        public OriginalStatement(LambdaExpression expression)
+        {
+            Delegate = expression.Compile();
             Expression = expression;
         }
 
         /// <summary>
         /// Original compiled (to Func) condition.
         /// </summary>
-        public object Fnc { get; private set; }
+        public object Delegate { get; private set; }
         /// <summary>
         /// Original expression condition (the Condition property stores a changed value).
         /// </summary>

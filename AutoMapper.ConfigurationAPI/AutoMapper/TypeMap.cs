@@ -7,6 +7,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using AutoMapper.ConfigurationAPI.Configuration;
+using AutoMapper.Extended.Net4;
 
 namespace AutoMapper.ConfigurationAPI
 {
@@ -20,6 +21,7 @@ namespace AutoMapper.ConfigurationAPI
 
         private readonly List<LambdaExpression> _afterMapActions = new List<LambdaExpression>();
         private readonly List<LambdaExpression> _beforeMapActions = new List<LambdaExpression>();
+        public List<OriginalStatement> BeforeMapStatements { get; } = new List<OriginalStatement>();
         private readonly HashSet<TypePair> _includedDerivedTypes = new HashSet<TypePair>();
         private readonly HashSet<TypePair> _includedBaseTypes = new HashSet<TypePair>();
         public ConcurrentBag<PropertyMap> PropertyMaps { get; } = new ConcurrentBag<PropertyMap>();
@@ -247,6 +249,7 @@ namespace AutoMapper.ConfigurationAPI
             if(!_beforeMapActions.Contains(beforeMap))
             {
                 _beforeMapActions.Add(beforeMap);
+                BeforeMapStatements.Add(new OriginalStatement(beforeMap));
             }
         }
 

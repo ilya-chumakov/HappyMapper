@@ -45,7 +45,7 @@ namespace AutoMapper.ConfigurationAPI.Configuration
             PropertyMapActions.Add(pm =>
             {
                 //store original Expression cause we need to convert it to code
-                pm.OriginalCondition = new OriginalCondition(expr.Compile(), expr);
+                pm.OriginalCondition = new OriginalStatement(expr.Compile(), expr);
             });
         }
 

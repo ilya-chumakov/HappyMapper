@@ -36,7 +36,7 @@ namespace OrdinaryMapper
             }
         }
 
-        private string ToCode(OriginalCondition condition)
+        private string ToCode(OriginalStatement condition)
         {
             string id = condition.Id;
             string methodName = $"OrdinaryMapper.ConditionStore.Condition_{id}";
@@ -46,7 +46,7 @@ namespace OrdinaryMapper
             return methodCall;
         }
 
-        private string ToTemplate(OriginalCondition condition)
+        private string ToTemplate(OriginalStatement condition)
         {
             string id = condition.Id;
             string methodName = $"OrdinaryMapper.ConditionStore.Condition_{id}";
