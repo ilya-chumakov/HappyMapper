@@ -34,7 +34,7 @@ namespace OrdinaryMapper.Benchmarks
         [Test]
         public void Run_AllMappers_MeasuresTime()
         {
-            int[] exponents = new[] { 7 };
+            int[] exponents = new[] { 6 };
             //int[] exponents = new[] { 5, 6, 7, 8 };
 
             Benchmark.Run(exponents);
