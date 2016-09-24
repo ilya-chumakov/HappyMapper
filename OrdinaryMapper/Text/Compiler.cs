@@ -11,21 +11,30 @@ namespace OrdinaryMapper
 {
     public class Compiler
     {
-        public static Dictionary<TypePair, object> CompileMapsToAssembly(MapperConfigurationExpression config, IDictionary<TypePair, TypeMap> typeMaps)
+        private  List<IStorageBuilder> StorageBuilders { get; set; } = new List<IStorageBuilder>();
+        
+         void RegisterStorageBuilders(IDictionary<TypePair, TypeMap> typeMaps)
         {
+            StorageBuilders.Add(new BeforeStorageBuilder(typeMaps));
+            StorageBuilders.Add(new ConditionStorageBuilder(typeMaps));
+        }
+
+        public  Dictionary<TypePair, object> CompileMapsToAssembly(
+            MapperConfigurationExpression config, 
+            IDictionary<TypePair, TypeMap> typeMaps)
+        {
+            RegisterStorageBuilders(typeMaps);
+
             var textBuilder = new MapperTextBuilderV2(typeMaps, config);
             var files = textBuilder.CreateCodeFiles();
+
             string[] sourceCodes = files.Values.Select(x => x.Code).ToArray();
 
-            var cb = new ConditionStorageBuilder(typeMaps);
-            var conditionStorageClass = cb.CreateCodeFile();
+            var storageCodes = BuildStorageCode();
 
-            var bmb = new BeforeStorageBuilder(typeMaps);
-            var beforeStorageClass = bmb.CreateCodeFile();
+            sourceCodes = sourceCodes.Union(storageCodes).ToArray();
 
-            sourceCodes = sourceCodes.Union(new[] { conditionStorageClass, beforeStorageClass }).ToArray();
-
-            PrintTrees(sourceCodes);
+            PrintSourceCode(sourceCodes);
 
             HashSet<string> locations = textBuilder.DetectedLocations;
 
@@ -41,7 +50,15 @@ namespace OrdinaryMapper
             return delegateCache;
         }
 
-        private static void PrintTrees(string[] trees)
+        private  string[] BuildStorageCode()
+        {
+            return StorageBuilders.Select(builder => builder.BuildCode())
+                .Select(code => code.Trim())
+                .Where(code => !string.IsNullOrEmpty(code))
+                .ToArray();
+        }
+
+        private  void PrintSourceCode(string[] trees)
         {
             foreach (string tree in trees)
             {
@@ -51,7 +68,7 @@ namespace OrdinaryMapper
             }
         }
 
-        private static void InitBeforeActionStore(IDictionary<TypePair, TypeMap> typeMaps, Assembly assembly)
+        private  void InitBeforeActionStore(IDictionary<TypePair, TypeMap> typeMaps, Assembly assembly)
         {
             var conv = NameConventions.BeforeMap;
 
@@ -74,7 +91,7 @@ namespace OrdinaryMapper
             }
         }
 
-        private static void InitConditionStore(IDictionary<TypePair, TypeMap> typeMaps, Assembly assembly)
+        private  void InitConditionStore(IDictionary<TypePair, TypeMap> typeMaps, Assembly assembly)
         {
             var conv = NameConventions.Condition;
 
@@ -100,7 +117,10 @@ namespace OrdinaryMapper
             }
         }
 
-        private static Dictionary<TypePair, object> CreateDelegateCache(IDictionary<TypePair, TypeMap> typeMaps, Dictionary<TypePair, CodeFile> files, Assembly assembly)
+        private  Dictionary<TypePair, object> CreateDelegateCache(
+            IDictionary<TypePair, TypeMap> typeMaps, 
+            Dictionary<TypePair, CodeFile> files, 
+            Assembly assembly)
         {
             Dictionary<TypePair, object> delegateCache = new Dictionary<TypePair, object>();
 

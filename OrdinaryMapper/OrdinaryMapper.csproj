@@ -155,6 +155,7 @@
     <Compile Include="Text\NameConventions\ActionNameConvention.cs" />
     <Compile Include="Text\NameConventions\NameConventions.cs" />
     <Compile Include="Text\PropertyNameContext.cs" />
+    <Compile Include="Text\StorageBuilders\IStorageBuilder.cs" />
     <Compile Include="Text\StringEx.cs" />
     <Compile Include="Obsolete\TypeMap.cs" />
     <Compile Include="Obsolete\TypePair.cs" />

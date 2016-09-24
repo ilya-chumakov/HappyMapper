@@ -19,7 +19,9 @@ namespace OrdinaryMapper.AmcApi
 
         public HappyMapper CompileMapper()
         {
-            var delegates = Compiler.CompileMapsToAssembly(Configuration, TypeMaps);
+            var compiler = new Compiler();
+
+            var delegates = compiler.CompileMapsToAssembly(Configuration, TypeMaps);
 
             return new HappyMapper(delegates);
         }

@@ -108,7 +108,7 @@ namespace OrdinaryMapper
                     return assembly;
                 }
             }
-            return null;
+            throw new OrdinaryMapperException("Can't compile the mappers!");
         }
     }
 }

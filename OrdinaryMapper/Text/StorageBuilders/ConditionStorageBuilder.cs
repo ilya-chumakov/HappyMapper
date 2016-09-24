@@ -5,7 +5,7 @@ using AutoMapper.ConfigurationAPI;
 
 namespace OrdinaryMapper
 {
-    public class ConditionStorageBuilder
+    public class ConditionStorageBuilder : IStorageBuilder
     {
         public ImmutableDictionary<TypePair, TypeMap> ExplicitTypeMaps { get; set; }
         public ActionNameConvention Convention { get; set; }
@@ -16,7 +16,7 @@ namespace OrdinaryMapper
             Convention = NameConventions.Condition;
         }
 
-        public string CreateCodeFile()
+        public string BuildCode()
         {
             List<string> methods = new List<string>();
 

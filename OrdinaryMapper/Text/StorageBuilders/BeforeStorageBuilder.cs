@@ -7,7 +7,7 @@ using AutoMapper.Extended.Net4;
 
 namespace OrdinaryMapper
 {
-    public class BeforeStorageBuilder
+    public class BeforeStorageBuilder : IStorageBuilder
     {
         public ImmutableDictionary<TypePair, TypeMap> ExplicitTypeMaps { get; set; }
         public ActionNameConvention Convention { get; set; }
@@ -18,7 +18,7 @@ namespace OrdinaryMapper
             Convention = NameConventions.BeforeMap;
         }
 
-        public string CreateCodeFile()
+        public string BuildCode()
         {
             List<string> methods = new List<string>();
 
