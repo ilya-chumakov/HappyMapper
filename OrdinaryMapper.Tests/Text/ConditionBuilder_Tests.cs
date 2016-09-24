@@ -26,7 +26,7 @@ namespace OrdinaryMapper.Tests.Text
             Expression<Func<A, bool>> exp = src => src.P1 != 0;
             propertyMap.OriginalCondition = new OriginalStatement(exp);
 
-            using (var condition = new ConditionBuilder(context, coder)) { }
+            using (var condition = new ConditionPrinter(context, coder)) { }
 
             string code = coder.GetAssignment().Code.Replace(Environment.NewLine, "");
             string template = coder.GetAssignment().RelativeTemplate.Replace(Environment.NewLine, "");
@@ -47,7 +47,7 @@ namespace OrdinaryMapper.Tests.Text
             var context = new PropertyNameContext(propertyMap, srcFieldName, destFieldName);
             var coder = new Coder();
 
-            using (var condition = new ConditionBuilder(context, coder)) { }
+            using (var condition = new ConditionPrinter(context, coder)) { }
 
             Assert.IsNullOrEmpty(coder.GetAssignment().Code);
         }

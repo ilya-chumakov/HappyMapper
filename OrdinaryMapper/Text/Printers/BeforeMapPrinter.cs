@@ -9,27 +9,21 @@ namespace OrdinaryMapper
     /// <summary>
     /// Captured variable support!
     /// </summary>
-    public class BeforeMapActionBuilder : IDisposable
+    public class BeforeMapPrinter : IDisposable
     {
-        private string srcFieldName;
-        private string destFieldName;
-
         public bool IsExist { get; set; } = false;
-        protected TypeMap TypeMap { get; set; }
+        protected TypeNameContext Context { get; set; }
         protected Coder Coder { get; set; }
         public ActionNameConvention NameConvention { get; set; }
 
-        public BeforeMapActionBuilder(TypeMap typeMap, Coder coder, string srcFieldName, string destFieldName)
+        public BeforeMapPrinter(TypeNameContext context, Coder coder)
         {
             NameConvention = NameConventions.BeforeMap;
 
-            this.srcFieldName = srcFieldName;
-            this.destFieldName = destFieldName;
-
-            TypeMap = typeMap;
+            Context = context;
             Coder = coder;
 
-            var statements = TypeMap.BeforeMapStatements;
+            var statements = Context.TypeMap.BeforeMapStatements;
 
             IsExist = statements.Any();
 
@@ -55,7 +49,7 @@ namespace OrdinaryMapper
 
         private string ToCode(OriginalStatement condition)
         {
-            string methodCall = ToTemplate(condition).TemplateToCode(srcFieldName, destFieldName);
+            string methodCall = ToTemplate(condition).TemplateToCode(Context.SrcMemberPrefix, Context.DestMemberPrefix);
 
             return methodCall;
         }

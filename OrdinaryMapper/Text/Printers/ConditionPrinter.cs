@@ -10,13 +10,14 @@ namespace OrdinaryMapper
     /// <summary>
     /// Only src and dest - no captured variables!
     /// </summary>
-    public class ConditionBuilder : IDisposable
+    [Obsolete]
+    public class ConditionPrinter : IDisposable
     {
         public bool IsExist { get; set; } = false;
         protected PropertyNameContext Context { get; set; }
         protected Coder Coder { get; set; }
 
-        public ConditionBuilder(PropertyNameContext context, Coder coder)
+        public ConditionPrinter(PropertyNameContext context, Coder coder)
         {
             Context = context;
             Coder = coder;

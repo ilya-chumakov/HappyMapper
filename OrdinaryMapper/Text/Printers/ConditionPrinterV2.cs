@@ -6,14 +6,14 @@ namespace OrdinaryMapper
     /// <summary>
     /// Captured variable support!
     /// </summary>
-    public class ConditionBuilderV2 : IDisposable
+    public class ConditionPrinterV2 : IDisposable
     {
         public bool IsExist { get; set; } = false;
         protected PropertyNameContext Context { get; set; }
         protected Coder Coder { get; set; }
         public ActionNameConvention NameConvention { get; set; }
 
-        public ConditionBuilderV2(PropertyNameContext context, Coder coder)
+        public ConditionPrinterV2(PropertyNameContext context, Coder coder)
         {
             NameConvention = NameConventions.Condition;
             Context = context;

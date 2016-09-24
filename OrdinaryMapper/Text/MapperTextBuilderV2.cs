@@ -64,10 +64,7 @@ namespace OrdinaryMapper
         {
             var coder = new Coder();
 
-            using (var bfm = new BeforeMapActionBuilder(rootMap, coder, srcFieldName, destFieldName))
-            {
-                
-            }
+            using (var bfm = new BeforeMapPrinter(new TypeNameContext(rootMap, srcFieldName, destFieldName), coder)) {}
 
             foreach (PropertyMap propertyMap in rootMap.PropertyMaps)
             {
@@ -77,8 +74,8 @@ namespace OrdinaryMapper
 
                 if (propertyMap.Ignored) continue;
 
-                //using (var condition = new ConditionBuilder(context, coder))
-                using (var condition = new ConditionBuilderV2(context, coder))
+                //using (var condition = new ConditionPrinter(context, coder))
+                using (var condition = new ConditionPrinterV2(context, coder))
                 {
                     //assign without explicit cast
                     if (propertyMap.DestType.IsAssignableFrom(propertyMap.SrcType)
