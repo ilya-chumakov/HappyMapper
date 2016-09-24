@@ -15,7 +15,6 @@ namespace OrdinaryMapper
         public BeforeStorageBuilder(IDictionary<TypePair, TypeMap> explicitTypeMaps)
         {
             ExplicitTypeMaps = explicitTypeMaps.ToImmutableDictionary();
-
             Convention = NameConventions.BeforeMap;
         }
 
@@ -48,6 +47,7 @@ namespace OrdinaryMapper
 
         private string CreateMethodInnerCode(OriginalStatement statement, TypeMap map)
         {
+            string id = statement.Id;
             string srcTypeName = map.SourceType.FullName.NormalizeTypeName();
             string destTypeName = map.DestinationType.FullName.NormalizeTypeName();
             string contextTypeName = typeof (ResolutionContext).FullName;
@@ -55,8 +55,8 @@ namespace OrdinaryMapper
             string type = $"Action<{srcTypeName}, {destTypeName}, {contextTypeName}>";
 
             var builder = new StringBuilder();
-
-            builder.AppendLine($"public static {type} {Convention.MemberPrefix}{statement.Id};");
+            
+            builder.AppendLine($"public static {type} {Convention.MemberPrefix}{id};");
 
             return builder.ToString();
         }

@@ -8,13 +8,15 @@ namespace OrdinaryMapper
     public class ConditionStorageBuilder
     {
         public ImmutableDictionary<TypePair, TypeMap> ExplicitTypeMaps { get; set; }
+        public ActionNameConvention Convention { get; set; }
 
         public ConditionStorageBuilder(IDictionary<TypePair, TypeMap> explicitTypeMaps)
         {
             ExplicitTypeMaps = explicitTypeMaps.ToImmutableDictionary();
+            Convention = NameConventions.Condition;
         }
 
-        public CodeFile CreateCodeFile()
+        public string CreateCodeFile()
         {
             List<string> methods = new List<string>();
 
@@ -36,9 +38,9 @@ namespace OrdinaryMapper
                 }
             }
 
-            var file = CreateCodeFile(methods, "OrdinaryMapper", "ConditionStore");
+            string code = CodeHelper.BuildClassCode(methods, Convention.Namespace, Convention.ClassShortName);
 
-            return file;
+            return code;
         }
 
         private string CreateMethodInnerCode(PropertyMap propertyMap)
@@ -46,40 +48,14 @@ namespace OrdinaryMapper
             string id = propertyMap.OriginalCondition.Id;
             string srcTypeName = propertyMap.TypeMap.SourceType.FullName.NormalizeTypeName();
             string destTypeName = propertyMap.TypeMap.DestinationType.FullName.NormalizeTypeName();
+
             string type = $"Func<{srcTypeName}, {destTypeName}, bool>";
 
             var builder = new StringBuilder();
 
-            builder.AppendLine($"public static {type} Condition_{id};                               ");
+            builder.AppendLine($"public static {type} {Convention.MemberPrefix}{id};");
 
             return builder.ToString();
-        }
-
-        public CodeFile CreateCodeFile(List<string> methods, string NamespaceName, string MapperClassName)
-        {
-            var builder = new StringBuilder();
-
-            builder.AppendLine("using System;                                                       ");
-            builder.AppendLine("using OrdinaryMapper;                                                       ");
-
-            builder.AppendLine($"namespace {NamespaceName}                                ");
-            builder.AppendLine("{                                                                   ");
-            builder.AppendLine($"   public static class {MapperClassName}                  ");
-            builder.AppendLine("    {                                                               ");
-
-            foreach (string method in methods)
-            {
-                builder.AppendLine(method);
-            }
-
-            builder.AppendLine("    }                                                               ");
-            builder.AppendLine("}");
-
-            string code = builder.ToString();
-
-            var file = new CodeFile(code, null, null, new TypePair());
-
-            return file;
         }
     }
 }

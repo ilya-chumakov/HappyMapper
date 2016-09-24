@@ -18,12 +18,12 @@ namespace OrdinaryMapper
             string[] sourceCodes = files.Values.Select(x => x.Code).ToArray();
 
             var cb = new ConditionStorageBuilder(typeMaps);
-            var f2 = cb.CreateCodeFile();
+            var conditionStorageClass = cb.CreateCodeFile();
 
             var bmb = new BeforeStorageBuilder(typeMaps);
-            var f3 = bmb.CreateCodeFile();
+            var beforeStorageClass = bmb.CreateCodeFile();
 
-            sourceCodes = sourceCodes.Union(new[] { f2.Code, f3 }).ToArray();
+            sourceCodes = sourceCodes.Union(new[] { conditionStorageClass, beforeStorageClass }).ToArray();
 
             PrintTrees(sourceCodes);
 

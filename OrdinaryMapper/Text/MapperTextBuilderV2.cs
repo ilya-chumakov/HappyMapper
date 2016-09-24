@@ -37,7 +37,7 @@ namespace OrdinaryMapper
                 TypeMap map = kvp.Value;
 
                 string methodCode = CreateMethodInnerCode(map);
-                methodCode = methodCode.Replace("{{", "").Replace("}}", "");
+                methodCode = methodCode.RemoveDoubleBraces();
                 var fileBuilder = new CodeFileBuilder(typePair);
 
                 var file = fileBuilder.CreateCodeFile(methodCode);
