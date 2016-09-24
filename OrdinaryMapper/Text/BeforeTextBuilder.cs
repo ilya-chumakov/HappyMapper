@@ -3,6 +3,7 @@ using System.Collections.Immutable;
 using System.Linq.Expressions;
 using System.Text;
 using AutoMapper.ConfigurationAPI;
+using AutoMapper.Extended.Net4;
 
 namespace OrdinaryMapper
 {
@@ -24,11 +25,11 @@ namespace OrdinaryMapper
                 TypePair typePair = kvp.Key;
                 TypeMap map = kvp.Value;
 
-                foreach (var action in map.BeforeMapActions)
+                foreach (var action in map.BeforeMapStatements)
                 {
                     if (action != null)
                     {
-                        string methodCode = CreateMethodInnerCode(action);
+                        string methodCode = CreateMethodInnerCode(action, map);
 
                         methodCode = methodCode.Replace("{{", "").Replace("}}", "");
 
@@ -42,16 +43,18 @@ namespace OrdinaryMapper
             return file;
         }
 
-        private string CreateMethodInnerCode(LambdaExpression action)
+        private string CreateMethodInnerCode(OriginalStatement statement, TypeMap map)
         {
-            //string id = action.OriginalCondition.Id;
-            //string srcTypeName = action.TypeMap.SourceType.FullName.NormalizeTypeName();
-            //string destTypeName = action.TypeMap.DestinationType.FullName.NormalizeTypeName();
-            //string type = $"Func<{srcTypeName}, {destTypeName}, bool>";
+            string id = statement.Id;
+            string srcTypeName = map.SourceType.FullName.NormalizeTypeName();
+            string destTypeName = map.DestinationType.FullName.NormalizeTypeName();
+            string contextTypeName = typeof (ResolutionContext).FullName;
+
+            string type = $"Action<{srcTypeName}, {destTypeName}, {contextTypeName}>";
 
             var builder = new StringBuilder();
 
-            //builder.AppendLine($"public static {type} Condition_{id};                               ");
+            builder.AppendLine($"public static {type} BeforeAction_{id};                               ");
 
             return builder.ToString();
         }

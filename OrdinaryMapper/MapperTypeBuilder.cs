@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using AutoMapper.ConfigurationAPI;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Emit;
@@ -58,6 +59,7 @@ namespace OrdinaryMapper
             var references = new List<MetadataReference>();
             references.Add(MetadataReference.CreateFromFile(typeof(object).Assembly.Location));
             references.Add(MetadataReference.CreateFromFile(typeof(OrdinaryMapperException).Assembly.Location));
+            references.Add(MetadataReference.CreateFromFile(typeof(ResolutionContext).Assembly.Location));
 
             foreach (string location in locations)
             {

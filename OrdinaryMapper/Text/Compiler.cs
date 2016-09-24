@@ -22,7 +22,7 @@ namespace OrdinaryMapper
             var bmb = new BeforeTextBuilder(typeMaps);
             var f3 = bmb.CreateCodeFile();
 
-            trees = trees.Union(new[] { f2.Code }).ToArray();
+            trees = trees.Union(new[] { f2.Code, f3.Code }).ToArray();
 
             HashSet<string> locations = textBuilder.DetectedLocations;
 
@@ -31,10 +31,35 @@ namespace OrdinaryMapper
             Assembly assembly = MapperTypeBuilder.CreateAssembly(compilation);
 
             InitConditionStore(typeMaps, assembly);
+            InitBeforeActionStore(typeMaps, assembly);
 
             var delegateCache = CreateDelegateCache(typeMaps, files, assembly);
 
             return delegateCache;
+        }
+
+        private static void InitBeforeActionStore(IDictionary<TypePair, TypeMap> typeMaps, Assembly assembly)
+        {
+            var type = assembly.GetType("OrdinaryMapper.BeforeActionStore");
+
+            foreach (var kvp in typeMaps)
+            {
+                TypePair typePair = kvp.Key;
+                TypeMap map = kvp.Value;
+
+                foreach (var action in map.BeforeMapStatements)
+                {
+                    if (action != null)
+                    {
+                        string id = action.Id;
+                        var func = action.Delegate;
+
+                        var fieldInfo = type.GetField($"BeforeAction_{id}");
+
+                        fieldInfo.SetValue(null, func);
+                    }
+                }
+            }
         }
 
         private static void InitConditionStore(IDictionary<TypePair, TypeMap> typeMaps, Assembly assembly)
