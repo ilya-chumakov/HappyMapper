@@ -11,5 +11,12 @@ namespace OrdinaryMapper
         {
             return typeName.Replace('+', '.');
         }
+
+        public static string TemplateToCode(this string template, string src, string dest)
+        {
+            return template.Replace("{0}", src).Replace("{1}", dest);
+        }
+
+
     }
 }

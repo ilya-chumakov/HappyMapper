@@ -53,7 +53,7 @@ namespace OrdinaryMapper
 
         private static void InitBeforeActionStore(IDictionary<TypePair, TypeMap> typeMaps, Assembly assembly)
         {
-            var conv = NameConventionConfig.BeforeMapActionNameConvention;
+            var conv = NameConventionConfig.BeforeMap;
 
             var type = assembly.GetType(conv.ClassFullName);
 
@@ -76,7 +76,9 @@ namespace OrdinaryMapper
 
         private static void InitConditionStore(IDictionary<TypePair, TypeMap> typeMaps, Assembly assembly)
         {
-            var type = assembly.GetType("OrdinaryMapper.ConditionStore");
+            var conv = NameConventionConfig.Condition;
+
+            var type = assembly.GetType(conv.ClassFullName);
 
             foreach (var kvp in typeMaps)
             {
@@ -90,7 +92,7 @@ namespace OrdinaryMapper
                         string id = propertyMap.OriginalCondition.Id;
                         var func = propertyMap.OriginalCondition.Delegate;
 
-                        var fieldInfo = type.GetField($"Condition_{id}");
+                        var fieldInfo = type.GetField(conv.GetMemberShortName(id));
 
                         fieldInfo.SetValue(null, func);
                     }

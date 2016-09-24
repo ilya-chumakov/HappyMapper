@@ -21,7 +21,7 @@ namespace OrdinaryMapper
 
         public BeforeMapActionBuilder(TypeMap typeMap, Coder coder, string srcFieldName, string destFieldName)
         {
-            NameConvention = NameConventionConfig.BeforeMapActionNameConvention;
+            NameConvention = NameConventionConfig.BeforeMap;
 
             this.srcFieldName = srcFieldName;
             this.destFieldName = destFieldName;
@@ -55,27 +55,19 @@ namespace OrdinaryMapper
 
         private string ToCode(OriginalStatement condition)
         {
-            //string id = condition.Id;
-            //string methodName = $"OrdinaryMapper.BeforeMapActionStore.BeforeMapAction_{id}";
-            //string context = $"new {typeof (ResolutionContext).FullName}()";
-
-            //string methodCall = $"{methodName}({srcFieldName}, {destFieldName}, {context});";
-
-            string methodCall = ToTemplate(condition)
-                .Replace("{0}", srcFieldName)
-                .Replace("{1}", destFieldName);
+            string methodCall = ToTemplate(condition).TemplateToCode(srcFieldName, destFieldName);
 
             return methodCall;
         }
 
         private string ToTemplate(OriginalStatement condition)
         {
-            string methodName = NameConvention.GetMemberFullName(condition.Id);
+            string memberName = NameConvention.GetMemberFullName(condition.Id);
             string context = $"new {typeof(ResolutionContext).FullName}()";
 
-            string methodCall = $"{methodName}({{0}}, {{1}}, {context});";
+            string call = $"{memberName}({{0}}, {{1}}, {context});";
 
-            return methodCall;
+            return call;
         }
 
         public void Dispose()

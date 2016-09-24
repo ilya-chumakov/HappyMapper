@@ -11,9 +11,11 @@ namespace OrdinaryMapper
         public bool IsExist { get; set; } = false;
         protected PropertyNameContext Context { get; set; }
         protected Coder Coder { get; set; }
+        public BeforeMapActionNameConvention NameConvention { get; set; }
 
         public ConditionBuilderV2(PropertyNameContext context, Coder coder)
         {
+            NameConvention = NameConventionConfig.Condition;
             Context = context;
             Coder = coder;
 
@@ -33,10 +35,7 @@ namespace OrdinaryMapper
 
         private string ToCode(OriginalStatement condition)
         {
-            string id = condition.Id;
-            string methodName = $"OrdinaryMapper.ConditionStore.Condition_{id}";
-
-            string methodCall = $"{methodName}({Context.SrcMemberPrefix}, {Context.DestMemberPrefix})";
+            string methodCall = ToTemplate(condition).TemplateToCode(Context.SrcMemberPrefix, Context.DestMemberPrefix);
 
             return methodCall;
         }
@@ -44,11 +43,11 @@ namespace OrdinaryMapper
         private string ToTemplate(OriginalStatement condition)
         {
             string id = condition.Id;
-            string methodName = $"OrdinaryMapper.ConditionStore.Condition_{id}";
+            string memberName = NameConvention.GetMemberFullName(condition.Id);
 
-            string methodCall = $"{methodName}({{0}}, {{1}})";
+            string call = $"{memberName}({{0}}, {{1}})";
 
-            return methodCall;
+            return call;
         }
 
         public void Dispose()

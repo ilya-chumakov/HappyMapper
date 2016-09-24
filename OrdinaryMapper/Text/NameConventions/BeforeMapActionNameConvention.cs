@@ -21,15 +21,20 @@
 
     public static class NameConventionConfig
     {
-        public static BeforeMapActionNameConvention BeforeMapActionNameConvention { get; set; } = new BeforeMapActionNameConvention();
+        public static BeforeMapActionNameConvention BeforeMap { get; set; } = new BeforeMapActionNameConvention();
+        public static BeforeMapActionNameConvention Condition { get; set; } = new BeforeMapActionNameConvention();
         
 
         static NameConventionConfig()
         {
             string nms = "OrdinaryMapper";
-            BeforeMapActionNameConvention.Namespace = nms;
-            BeforeMapActionNameConvention.ClassShortName = "BeforeMapActionStore";
-            BeforeMapActionNameConvention.MemberPrefix = "BeforeMapAction_";
+            BeforeMap.Namespace = nms;
+            BeforeMap.ClassShortName = "BeforeMapActionStore";
+            BeforeMap.MemberPrefix = "BeforeMapAction_";
+
+            Condition.Namespace = nms;
+            Condition.ClassShortName = "ConditionStore";
+            Condition.MemberPrefix = "Condition_";
         }
     }
 }
