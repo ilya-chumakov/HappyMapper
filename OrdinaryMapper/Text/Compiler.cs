@@ -53,7 +53,7 @@ namespace OrdinaryMapper
 
         private static void InitBeforeActionStore(IDictionary<TypePair, TypeMap> typeMaps, Assembly assembly)
         {
-            var conv = NameConventionConfig.BeforeMap;
+            var conv = NameConventions.BeforeMap;
 
             var type = assembly.GetType(conv.ClassFullName);
 
@@ -76,7 +76,7 @@ namespace OrdinaryMapper
 
         private static void InitConditionStore(IDictionary<TypePair, TypeMap> typeMaps, Assembly assembly)
         {
-            var conv = NameConventionConfig.Condition;
+            var conv = NameConventions.Condition;
 
             var type = assembly.GetType(conv.ClassFullName);
 

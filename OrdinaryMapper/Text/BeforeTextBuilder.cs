@@ -38,7 +38,7 @@ namespace OrdinaryMapper
                 }
             }
 
-            var conv = NameConventionConfig.BeforeMap;
+            var conv = NameConventions.BeforeMap;
 
             var file = CreateCodeFile(methods, conv.Namespace, conv.ClassShortName);
 

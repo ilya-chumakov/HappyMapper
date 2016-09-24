@@ -17,11 +17,11 @@ namespace OrdinaryMapper
         public bool IsExist { get; set; } = false;
         protected TypeMap TypeMap { get; set; }
         protected Coder Coder { get; set; }
-        public BeforeMapActionNameConvention NameConvention { get; set; }
+        public ActionNameConvention NameConvention { get; set; }
 
         public BeforeMapActionBuilder(TypeMap typeMap, Coder coder, string srcFieldName, string destFieldName)
         {
-            NameConvention = NameConventionConfig.BeforeMap;
+            NameConvention = NameConventions.BeforeMap;
 
             this.srcFieldName = srcFieldName;
             this.destFieldName = destFieldName;

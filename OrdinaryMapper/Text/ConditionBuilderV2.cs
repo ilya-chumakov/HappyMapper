@@ -11,11 +11,11 @@ namespace OrdinaryMapper
         public bool IsExist { get; set; } = false;
         protected PropertyNameContext Context { get; set; }
         protected Coder Coder { get; set; }
-        public BeforeMapActionNameConvention NameConvention { get; set; }
+        public ActionNameConvention NameConvention { get; set; }
 
         public ConditionBuilderV2(PropertyNameContext context, Coder coder)
         {
-            NameConvention = NameConventionConfig.Condition;
+            NameConvention = NameConventions.Condition;
             Context = context;
             Coder = coder;
 
