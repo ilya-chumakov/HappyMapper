@@ -3,8 +3,6 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
-using System.Reflection;
-using System.Text;
 using AutoMapper.ConfigurationAPI;
 using AutoMapper.ConfigurationAPI.Configuration;
 using OrdinaryMapper.Saved;

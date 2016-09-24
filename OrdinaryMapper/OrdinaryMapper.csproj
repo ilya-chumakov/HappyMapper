@@ -131,6 +131,7 @@
     <Compile Include="Obsolete\Class1.cs" />
     <Compile Include="Obsolete\ExpressionHelper.cs" />
     <Compile Include="Saved\Class1.cs" />
+    <Compile Include="Text\CodeFile.cs" />
     <Compile Include="Text\CodeFileBuilder.cs" />
     <Compile Include="Compilation\Compiler.cs" />
     <Compile Include="Obsolete\TypeMapRegistry.cs" />

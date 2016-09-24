@@ -75,43 +75,43 @@ namespace OrdinaryMapper
 
         public TypeMapFactory TypeMapFactory { get; set; }
         
-        public void Compile()
-        {
-            var texts = new List<string>();
-            var types = new HashSet<Type>();
+        //public void Compile()
+        //{
+        //    var texts = new List<string>();
+        //    var types = new HashSet<Type>();
 
-            foreach (var kvp in TypeMaps)
-            {
-                TypePair typePair = kvp.Key;
-                TypeMap map = kvp.Value;
+        //    foreach (var kvp in TypeMaps)
+        //    {
+        //        TypePair typePair = kvp.Key;
+        //        TypeMap map = kvp.Value;
 
-                var context = new MapContext(typePair.SourceType, typePair.DestinationType);
+        //        var context = new MapContext(typePair.SourceType, typePair.DestinationType);
 
-                string text = MapperTextBuilder.CreateText(context);
+        //        string text = MapperTextBuilder.CreateText(context);
 
-                texts.Add(text);
+        //        texts.Add(text);
 
-                types.Add(typePair.SourceType);
-                types.Add(typePair.DestinationType);
-            }
+        //        types.Add(typePair.SourceType);
+        //        types.Add(typePair.DestinationType);
+        //    }
 
-            CSharpCompilation compilation = MapperTypeBuilder.CreateCompilation(texts.ToArray(), types);
+        //    CSharpCompilation compilation = MapperTypeBuilder.CreateCompilation(texts.ToArray(), types);
 
-            Assembly assembly = MapperTypeBuilder.CreateAssembly(compilation);
+        //    Assembly assembly = MapperTypeBuilder.CreateAssembly(compilation);
 
-            foreach (var kvp in TypeMaps)
-            {
-                TypePair typePair = kvp.Key;
-                TypeMap map = kvp.Value;
+        //    foreach (var kvp in TypeMaps)
+        //    {
+        //        TypePair typePair = kvp.Key;
+        //        TypeMap map = kvp.Value;
 
-                var context = new MapContext(typePair.SourceType, typePair.DestinationType);
+        //        var context = new MapContext(typePair.SourceType, typePair.DestinationType);
 
-                var type = assembly.GetType($"{Convention.ClassFullName}");
+        //        var type = assembly.GetType($"{Convention.ClassFullName}");
 
-                var @delegate = Delegate.CreateDelegate(map.MapDelegateType, type, Convention.GetMapperMethodName(map));
+        //        var @delegate = Delegate.CreateDelegate(map.MapDelegateType, type, Convention.GetMapperMethodName(map));
 
-                DelegateCache.Add(typePair, @delegate);
-            }
-        }
+        //        DelegateCache.Add(typePair, @delegate);
+        //    }
+        //}
     }
 }

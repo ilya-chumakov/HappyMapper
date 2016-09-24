@@ -7,12 +7,8 @@ namespace OrdinaryMapper
     public class CodeFileBuilder
     {
         public TypePair TypePair { get; set; }
+        public MapperNameConvention Convention { get; set; } = NameConventions.Mapper;
 
-        public const string NamespaceName = "RoslynMappers";
-
-        public string MapperClassName { get; private set; }
-        public string MapperMethodName { get; }
-        public string MapperClassFullName { get; }
         public string DestFullName { get; }
         public string SrcFullName { get; }
 
@@ -21,23 +17,7 @@ namespace OrdinaryMapper
             TypePair = typePair;
             SrcFullName = typePair.SourceType.FullName;
             DestFullName = typePair.DestinationType.FullName;
-
-            CreateClassName(typePair);
-            MapperClassFullName = $"{NamespaceName}.{MapperClassName}";
-            MapperMethodName = "Map";
-            //MapperMethodName = $"{NamingTools.ToAlphanumericOnly(SrcFullName)}_{NamingTools.ToAlphanumericOnly(DestFullName)}";
         }
-
-        private void CreateClassName(TypePair typePair)
-        {
-            string guid = Guid.NewGuid().ToString().Replace("-", "");
-
-            string normSrcName = NamingTools.ToAlphanumericOnly(typePair.SourceType.Name);
-            string normDestName = NamingTools.ToAlphanumericOnly(typePair.DestinationType.Name);
-
-            MapperClassName = $"Mapper_{normSrcName}_{normDestName}_{guid}";
-        }
-
 
         public CodeFile CreateCodeFile(string methodCode)
         {
@@ -45,15 +25,19 @@ namespace OrdinaryMapper
 
             string srcParameterName = "src";
             string destParameterName = "dest";
+            string methodName = "Map";
+            string shortClassName = Convention.GetUniqueMapperMethodNameWithGuid(TypePair);
+            string fullClassName = $"{Convention.Namespace}.{shortClassName}";
+
 
             builder.AppendLine("using System;                                                       ");
             builder.AppendLine("using OrdinaryMapper;                                                       ");
 
-            builder.AppendLine($"namespace {NamespaceName}                                ");
+            builder.AppendLine($"namespace {Convention.Namespace}                                ");
             builder.AppendLine("{                                                                   ");
-            builder.AppendLine($"   public static class {MapperClassName}                  ");
+            builder.AppendLine($"   public static class {shortClassName}                  ");
             builder.AppendLine("    {                                                               ");
-            builder.AppendLine($"       public static void {MapperMethodName}");
+            builder.AppendLine($"       public static void {methodName}");
             builder.AppendLine($"({SrcFullName.NormalizeTypeName()} {srcParameterName},");
             builder.AppendLine($" {DestFullName.NormalizeTypeName()} {destParameterName})");
             builder.AppendLine("        {");
@@ -67,25 +51,9 @@ namespace OrdinaryMapper
 
             string code = builder.ToString();
 
-            var file = new CodeFile(code, MapperClassFullName, MapperMethodName, TypePair);
+            var file = new CodeFile(code, fullClassName, methodName, TypePair);
 
             return file;
         }
     }
-
-    public class CodeFile
-    {
-        public string Code { get; }
-        public TypePair TypePair { get; }
-        public string ClassFullName { get; }
-        public string MapperMethodName { get; }
-
-        public CodeFile(string code, string classFullName, string mapperMethodName, TypePair typePair)
-        {
-            Code = code;
-            ClassFullName = classFullName;
-            MapperMethodName = mapperMethodName;
-            TypePair = typePair;
-        }
-   }
 }
