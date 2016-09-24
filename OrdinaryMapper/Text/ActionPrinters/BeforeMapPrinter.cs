@@ -13,15 +13,15 @@ namespace OrdinaryMapper
     {
         public bool IsExist { get; set; } = false;
         protected TypeNameContext Context { get; set; }
-        protected Coder Coder { get; set; }
+        protected Recorder Recorder { get; set; }
         public ActionNameConvention NameConvention { get; set; }
 
-        public BeforeMapPrinter(TypeNameContext context, Coder coder)
+        public BeforeMapPrinter(TypeNameContext context, Recorder recorder)
         {
             NameConvention = NameConventions.BeforeMap;
 
             Context = context;
-            Coder = coder;
+            Recorder = recorder;
 
             var statements = Context.TypeMap.BeforeMapStatements;
 
@@ -41,9 +41,9 @@ namespace OrdinaryMapper
                 string text = string.Join("", texts);
                 string template = string.Join("", texts);
 
-                Coder.AttachRawCode("{{ ");
+                Recorder.AttachRawCode("{{ ");
 
-                Coder.AppendLine(text, text);
+                Recorder.AppendLine(text, text);
             }
         }
 
@@ -68,7 +68,7 @@ namespace OrdinaryMapper
         {
             if (IsExist)
             {
-                Coder.AttachRawCode("}}");
+                Recorder.AttachRawCode("}}");
             }
         }
     }

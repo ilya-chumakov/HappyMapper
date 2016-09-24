@@ -4,9 +4,9 @@ using AutoMapper.ConfigurationAPI;
 
 namespace OrdinaryMapper
 {
-    public class Coder
+    public class Recorder
     {
-        public Coder()
+        public Recorder()
         {
             CodeBuilder = new StringBuilder();
             TemplateBuilder = new StringBuilder();

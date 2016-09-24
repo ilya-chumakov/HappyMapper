@@ -34,39 +34,40 @@ namespace OrdinaryMapper.Tests.MemberConfigurationExpressionTests
             }
 
 
-        //public class When_configuring_before_and_after_methods_multiple_times
-        //{
-        //    public class Source
-        //    {
-        //    }
-        //    public class Destination
-        //    {
-        //    }
+        public class When_configuring_before_and_after_methods_multiple_times
+        {
+            public class Source
+            {
+            }
+            public class Destination
+            {
+            }
 
-        //    [Fact]
-        //    public void Before_and_After_should_be_called()
-        //    {
-        //        var beforeMapCount = 0;
-        //        var afterMapCount = 0;
+            [Test]
+            public void Before_and_After_should_be_called()
+            {
+                var beforeMapCount = 0;
+                var afterMapCount = 0;
 
-        //        var config = new MapperConfiguration(cfg =>
-        //        {
-        //            cfg.CreateMap<Source, Destination>()
-        //                .BeforeMap((src, dest) => beforeMapCount++)
-        //                .BeforeMap((src, dest) => beforeMapCount++)
-        //                .AfterMap((src, dest) => afterMapCount++)
-        //                .AfterMap((src, dest) => afterMapCount++);
-        //        });
+                var config = new HappyConfig(cfg => 
+                {
+                    cfg.CreateMap<Source, Destination>()
+                        .BeforeMap((src, dest) => beforeMapCount++)
+                        .BeforeMap((src, dest) => beforeMapCount++)
+                        //.AfterMap((src, dest) => afterMapCount++)
+                        //.AfterMap((src, dest) => afterMapCount++)
+                        ;
+                });
 
-        //        var mapper = config.CreateMapper();
+                var mapper = config.CompileMapper();
 
-        //        mapper.Map<Source, Destination>(new Source());
+                mapper.Map(new Source(), new Destination());
 
-        //        beforeMapCount.ShouldEqual(2);
-        //        afterMapCount.ShouldEqual(2);
-        //    }
+                Assert.AreEqual(2, beforeMapCount);
+                //afterMapCount.ShouldEqual(2);
+            }
 
-        //}
+        }
 
         //public class When_using_a_class_to_do_before_after_mappings : AutoMapperSpecBase
         //{

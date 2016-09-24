@@ -12,7 +12,7 @@ namespace OrdinaryMapper.Tests.Text
             string srcName = "SrcChild";
             string destName = "DestChild";
 
-            string actual = Coder.ShiftTemplate(template, srcName, destName);
+            string actual = Recorder.ShiftTemplate(template, srcName, destName);
 
             Assert.AreEqual(expected, actual);
         }

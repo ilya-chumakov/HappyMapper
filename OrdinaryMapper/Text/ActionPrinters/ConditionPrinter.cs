@@ -15,12 +15,12 @@ namespace OrdinaryMapper
     {
         public bool IsExist { get; set; } = false;
         protected PropertyNameContext Context { get; set; }
-        protected Coder Coder { get; set; }
+        protected Recorder Recorder { get; set; }
 
-        public ConditionPrinter(PropertyNameContext context, Coder coder)
+        public ConditionPrinter(PropertyNameContext context, Recorder recorder)
         {
             Context = context;
-            Coder = coder;
+            Recorder = recorder;
 
             var condition = Context.PropertyMap?.OriginalCondition?.Expression;
 
@@ -31,8 +31,8 @@ namespace OrdinaryMapper
                 string text = ToCode(condition);
                 string template = ToTemplate(condition);
 
-                Coder.AppendLine($"if ({text})", $"if ({template})");
-                Coder.AttachRawCode("{{");
+                Recorder.AppendLine($"if ({text})", $"if ({template})");
+                Recorder.AttachRawCode("{{");
             }
         }
 
@@ -70,7 +70,7 @@ namespace OrdinaryMapper
         {
             if (IsExist)
             {
-                Coder.AttachRawCode("}}");
+                Recorder.AttachRawCode("}}");
             }
         }
     }

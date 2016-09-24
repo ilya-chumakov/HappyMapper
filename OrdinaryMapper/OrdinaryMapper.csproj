@@ -132,7 +132,7 @@
     <Compile Include="Obsolete\ExpressionHelper.cs" />
     <Compile Include="Saved\Class1.cs" />
     <Compile Include="Text\CodeFileBuilder.cs" />
-    <Compile Include="Text\Compiler.cs" />
+    <Compile Include="Compilation\Compiler.cs" />
     <Compile Include="Obsolete\TypeMapRegistry.cs" />
     <Compile Include="Obsolete\TypeMapFactory.cs" />
     <Compile Include="Obsolete\ReflectionHelper.cs" />
@@ -148,8 +148,7 @@
     <Compile Include="Text\StorageBuilders\CodeHelper.cs" />
     <Compile Include="Text\StorageBuilders\ConditionStorageBuilder.cs" />
     <Compile Include="Text\ImplicitCastChecker.cs" />
-    <Compile Include="Text\Coder.cs" />
-    <Compile Include="Text\DictionaryEx.cs" />
+    <Compile Include="Text\Recorder.cs" />
     <Compile Include="Text\MapperTextBuilderV2.cs" />
     <Compile Include="Text\Assignment.cs" />
     <Compile Include="Text\NameConventions\ActionNameConvention.cs" />
@@ -160,9 +159,8 @@
     <Compile Include="Obsolete\TypeMap.cs" />
     <Compile Include="Obsolete\TypePair.cs" />
     <Compile Include="Text\MapperTextBuilder.cs" />
-    <Compile Include="MapperTypeBuilder.cs" />
+    <Compile Include="Compilation\MapperTypeBuilder.cs" />
     <Compile Include="Mapper.cs" />
-    <Compile Include="NamingTools.cs" />
     <Compile Include="OrdinaryMapperException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SingleMapper.cs" />

@@ -62,7 +62,7 @@ namespace OrdinaryMapper
 
         private Assignment ProcessTypeMap(TypeMap rootMap, string srcFieldName, string destFieldName)
         {
-            var coder = new Coder();
+            var coder = new Recorder();
 
             using (var bfm = new BeforeMapPrinter(new TypeNameContext(rootMap, srcFieldName, destFieldName), coder)) {}
 
@@ -74,7 +74,7 @@ namespace OrdinaryMapper
 
                 if (propertyMap.Ignored) continue;
 
-                //using (var condition = new ConditionPrinter(context, coder))
+                //using (var condition = new ConditionPrinter(context, Recorder))
                 using (var condition = new ConditionPrinterV2(context, coder))
                 {
                     //assign without explicit cast
@@ -127,7 +127,7 @@ namespace OrdinaryMapper
             DetectedLocations.Add(typeMap.DestinationType.Assembly.Location);
         }
 
-        private void ProcessPropertyTypePair(Coder coder, PropertyNameContext context, PropertyMap propertyMap)
+        private void ProcessPropertyTypePair(Recorder recorder, PropertyNameContext context, PropertyMap propertyMap)
         {
             var typePair = propertyMap.GetTypePair();
 
@@ -135,7 +135,7 @@ namespace OrdinaryMapper
             string text;
             if (TemplateCache.TryGetValue(typePair, out text))
             {
-                coder.ApplyTemplate(context, text);
+                recorder.ApplyTemplate(context, text);
                 return;
             }
 
@@ -155,7 +155,7 @@ namespace OrdinaryMapper
             }
 
             var propAssignment = ProcessTypeMap(nodeMap, context.SrcFullMemberName, context.DestFullMemberName);
-            coder.AttachPropertyAssignment(propAssignment, propertyMap);
+            recorder.AttachPropertyAssignment(propAssignment, propertyMap);
             return;
         }
     }
