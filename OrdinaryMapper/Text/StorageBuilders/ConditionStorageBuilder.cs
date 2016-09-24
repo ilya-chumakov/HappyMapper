@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Reflection;
@@ -21,6 +22,23 @@ namespace OrdinaryMapper
         {
             List<string> methods = new List<string>();
 
+            IteratePropertyMaps((tm, pm) =>
+            {
+                string methodCode = CreateMethodInnerCode(pm);
+
+                methodCode = methodCode.RemoveDoubleBraces();
+
+                methods.Add(methodCode);
+            }
+            );
+
+            string code = CodeHelper.BuildClassCode(methods, Convention.Namespace, Convention.ClassShortName);
+
+            return code;
+        }
+
+        public void IteratePropertyMaps(Action<TypeMap, PropertyMap> action)
+        {
             foreach (var kvp in ExplicitTypeMaps)
             {
                 TypePair typePair = kvp.Key;
@@ -30,42 +48,26 @@ namespace OrdinaryMapper
                 {
                     if (propertyMap.OriginalCondition != null)
                     {
-                        string methodCode = CreateMethodInnerCode(propertyMap);
-
-                        methodCode = methodCode.RemoveDoubleBraces();
-
-                        methods.Add(methodCode);
+                        action(map, propertyMap);
                     }
                 }
             }
-
-            string code = CodeHelper.BuildClassCode(methods, Convention.Namespace, Convention.ClassShortName);
-
-            return code;
         }
 
-        public void InitStorage(IDictionary<TypePair, TypeMap> typeMaps, Assembly assembly)
+        public void InitStorage(Assembly assembly)
         {
             var type = assembly.GetType(Convention.ClassFullName);
 
-            foreach (var kvp in typeMaps)
+            IteratePropertyMaps((tm, pm) =>
             {
-                TypePair typePair = kvp.Key;
-                TypeMap map = kvp.Value;
+                string id = pm.OriginalCondition.Id;
+                var func = pm.OriginalCondition.Delegate;
 
-                foreach (PropertyMap propertyMap in map.PropertyMaps)
-                {
-                    if (propertyMap.OriginalCondition != null)
-                    {
-                        string id = propertyMap.OriginalCondition.Id;
-                        var func = propertyMap.OriginalCondition.Delegate;
+                var fieldInfo = type.GetField(Convention.GetMemberShortName(id));
 
-                        var fieldInfo = type.GetField(Convention.GetMemberShortName(id));
-
-                        fieldInfo.SetValue(null, func);
-                    }
-                }
+                fieldInfo.SetValue(null, func);
             }
+            );
         }
 
         private string CreateMethodInnerCode(PropertyMap propertyMap)

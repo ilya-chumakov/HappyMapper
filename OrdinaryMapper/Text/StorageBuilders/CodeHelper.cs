@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace OrdinaryMapper
@@ -7,6 +8,8 @@ namespace OrdinaryMapper
     {
         public static string BuildClassCode(List<string> methods, string nms, string className)
         {
+            if (methods == null || !methods.Any()) return string.Empty;
+
             var builder = new StringBuilder();
 
             builder.AppendLine("using System; ");

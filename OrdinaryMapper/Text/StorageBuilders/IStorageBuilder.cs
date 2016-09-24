@@ -8,6 +8,6 @@ namespace OrdinaryMapper
     {
         string BuildCode();
 
-        void InitStorage(IDictionary<TypePair, TypeMap> typeMaps, Assembly assembly);
+        void InitStorage(Assembly assembly);
     }
 }

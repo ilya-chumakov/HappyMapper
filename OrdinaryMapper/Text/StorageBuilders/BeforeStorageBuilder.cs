@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq.Expressions;
@@ -23,51 +24,50 @@ namespace OrdinaryMapper
         {
             List<string> methods = new List<string>();
 
-            foreach (var kvp in ExplicitTypeMaps)
+            IterateStatements((tm, statement) =>
             {
-                TypePair typePair = kvp.Key;
-                TypeMap map = kvp.Value;
+                string methodCode = CreateMethodInnerCode(statement, tm);
 
-                foreach (var action in map.BeforeMapStatements)
-                {
-                    if (action != null)
-                    {
-                        string methodCode = CreateMethodInnerCode(action, map);
+                methodCode = methodCode.RemoveDoubleBraces();
 
-                        methodCode = methodCode.RemoveDoubleBraces();
-
-                        methods.Add(methodCode);
-                    }
-                }
+                methods.Add(methodCode);
             }
-
+            );
             string code = CodeHelper.BuildClassCode(methods, Convention.Namespace, Convention.ClassShortName);
 
             return code;
         }
 
-        public void InitStorage(IDictionary<TypePair, TypeMap> typeMaps, Assembly assembly)
+        public void IterateStatements(Action<TypeMap, OriginalStatement> action)
         {
-            var conv = NameConventions.BeforeMap;
-
-            var type = assembly.GetType(conv.ClassFullName);
-
-            foreach (var kvp in typeMaps)
+            foreach (var kvp in ExplicitTypeMaps)
             {
                 TypePair typePair = kvp.Key;
                 TypeMap map = kvp.Value;
 
-                foreach (var action in map.BeforeMapStatements)
+                foreach (var statement in map.BeforeMapStatements)
                 {
-                    if (action != null)
+                    if (statement != null)
                     {
-                        var fieldInfo = type.GetField(conv.GetMemberShortName(action.Id));
-
-                        fieldInfo.SetValue(null, action.Delegate);
+                        action(map, statement);
                     }
                 }
             }
         }
+
+        public void InitStorage(Assembly assembly)
+        {
+            var type = assembly.GetType(Convention.ClassFullName);
+
+            IterateStatements((tm, statement) =>
+            {
+                var fieldInfo = type.GetField(Convention.GetMemberShortName(statement.Id));
+
+                fieldInfo.SetValue(null, statement.Delegate);
+            }
+            );
+        }
+
         private string CreateMethodInnerCode(OriginalStatement statement, TypeMap map)
         {
             string id = statement.Id;

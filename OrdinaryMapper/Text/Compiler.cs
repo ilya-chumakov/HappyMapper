@@ -51,7 +51,7 @@ namespace OrdinaryMapper
 
         private void InitStorages(IDictionary<TypePair, TypeMap> typeMaps, Assembly assembly)
         {
-            StorageBuilders.ForEach(b => b.InitStorage(typeMaps, assembly));
+            StorageBuilders.ForEach(b => b.InitStorage(assembly));
         }
 
         private  string[] BuildStorageCode()
