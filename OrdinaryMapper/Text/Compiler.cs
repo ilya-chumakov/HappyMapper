@@ -42,12 +42,16 @@ namespace OrdinaryMapper
 
             Assembly assembly = MapperTypeBuilder.CreateAssembly(compilation);
 
-            InitConditionStore(typeMaps, assembly);
-            InitBeforeActionStore(typeMaps, assembly);
+            InitStorages(typeMaps, assembly);
 
             var delegateCache = CreateDelegateCache(typeMaps, files, assembly);
 
             return delegateCache;
+        }
+
+        private void InitStorages(IDictionary<TypePair, TypeMap> typeMaps, Assembly assembly)
+        {
+            StorageBuilders.ForEach(b => b.InitStorage(typeMaps, assembly));
         }
 
         private  string[] BuildStorageCode()
@@ -58,62 +62,11 @@ namespace OrdinaryMapper
                 .ToArray();
         }
 
-        private  void PrintSourceCode(string[] trees)
+        private  void PrintSourceCode(string[] sourceCodes)
         {
-            foreach (string tree in trees)
+            foreach (string code in sourceCodes)
             {
-                //Console.WriteLine(tree);
-                Debug.WriteLine(tree);
-                //Trace.WriteLine(tree);
-            }
-        }
-
-        private  void InitBeforeActionStore(IDictionary<TypePair, TypeMap> typeMaps, Assembly assembly)
-        {
-            var conv = NameConventions.BeforeMap;
-
-            var type = assembly.GetType(conv.ClassFullName);
-
-            foreach (var kvp in typeMaps)
-            {
-                TypePair typePair = kvp.Key;
-                TypeMap map = kvp.Value;
-
-                foreach (var action in map.BeforeMapStatements)
-                {
-                    if (action != null)
-                    {
-                        var fieldInfo = type.GetField(conv.GetMemberShortName(action.Id));
-
-                        fieldInfo.SetValue(null, action.Delegate);
-                    }
-                }
-            }
-        }
-
-        private  void InitConditionStore(IDictionary<TypePair, TypeMap> typeMaps, Assembly assembly)
-        {
-            var conv = NameConventions.Condition;
-
-            var type = assembly.GetType(conv.ClassFullName);
-
-            foreach (var kvp in typeMaps)
-            {
-                TypePair typePair = kvp.Key;
-                TypeMap map = kvp.Value;
-
-                foreach (PropertyMap propertyMap in map.PropertyMaps)
-                {
-                    if (propertyMap.OriginalCondition != null)
-                    {
-                        string id = propertyMap.OriginalCondition.Id;
-                        var func = propertyMap.OriginalCondition.Delegate;
-
-                        var fieldInfo = type.GetField(conv.GetMemberShortName(id));
-
-                        fieldInfo.SetValue(null, func);
-                    }
-                }
+                Debug.WriteLine(code);
             }
         }
 

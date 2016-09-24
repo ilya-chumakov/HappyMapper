@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq.Expressions;
+using System.Reflection;
 using System.Text;
 using AutoMapper.ConfigurationAPI;
 using AutoMapper.Extended.Net4;
@@ -45,6 +46,28 @@ namespace OrdinaryMapper
             return code;
         }
 
+        public void InitStorage(IDictionary<TypePair, TypeMap> typeMaps, Assembly assembly)
+        {
+            var conv = NameConventions.BeforeMap;
+
+            var type = assembly.GetType(conv.ClassFullName);
+
+            foreach (var kvp in typeMaps)
+            {
+                TypePair typePair = kvp.Key;
+                TypeMap map = kvp.Value;
+
+                foreach (var action in map.BeforeMapStatements)
+                {
+                    if (action != null)
+                    {
+                        var fieldInfo = type.GetField(conv.GetMemberShortName(action.Id));
+
+                        fieldInfo.SetValue(null, action.Delegate);
+                    }
+                }
+            }
+        }
         private string CreateMethodInnerCode(OriginalStatement statement, TypeMap map)
         {
             string id = statement.Id;
