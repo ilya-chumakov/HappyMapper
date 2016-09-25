@@ -22,7 +22,7 @@ namespace OrdinaryMapper.Tests.Text
         {
             Recorder recorder = new Recorder();
 
-            recorder.SimpleAssign("A", "B", "P1", "P2");
+            recorder.AssignAsNoCast("A", "B", "P1", "P2");
 
             Assignment assignment = recorder.GetAssignment();
 
@@ -36,13 +36,27 @@ namespace OrdinaryMapper.Tests.Text
         {
             Recorder recorder = new Recorder();
 
-            recorder.ExplicitCastAssign("A", "B", "P1", "P2", "ulong");
+            recorder.AssignAsExplicitCast("A", "B", "P1", "P2", "ulong");
 
             Assignment assignment = recorder.GetAssignment();
 
             Assert.AreEqual("B.P2 = (ulong) A.P1;\r\n", assignment.Code);
 
             Assert.AreEqual("{1}.P2 = (ulong) {0}.P1;\r\n", assignment.RelativeTemplate);
+        }
+
+        [Test]
+        public void ToStringAssign_Call_ReturnsValidPropertyAssignment()
+        {
+            Recorder recorder = new Recorder();
+
+            recorder.AssignAsToStringCall("A", "B", "P1", "P2");
+
+            Assignment assignment = recorder.GetAssignment();
+
+            Assert.AreEqual("B.P2 = A.P1.ToString();\r\n", assignment.Code);
+
+            Assert.AreEqual("{1}.P2 = {0}.P1.ToString();\r\n", assignment.RelativeTemplate);
         }
     }
 }

@@ -79,15 +79,22 @@ namespace OrdinaryMapper
                     if (propertyMap.DestType.IsAssignableFrom(propertyMap.SrcType)
                         || propertyMap.DestType.IsImplicitCastableFrom(propertyMap.SrcType))
                     {
-                        recorder.SimpleAssign(context);
+                        recorder.AssignAsNoCast(context);
                         continue;
                     }
                     //assign with explicit cast
                     if (propertyMap.DestType.IsExplicitCastableFrom(propertyMap.SrcType))
                     {
-                        recorder.ExplicitCastAssign(context);
+                        recorder.AssignAsExplicitCast(context);
                         continue;
                     }
+
+                    //if (propertyMap.DestType == typeof (string) && propertyMap.SrcType != typeof (string))
+                    //{
+                    //    recorder.AssignAsToStringCall(context);
+                    //    continue;
+                    //}
+
                     else
                     {
                         bool referenceType = propertyMap.DestType.IsClass;

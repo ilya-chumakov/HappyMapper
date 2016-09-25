@@ -29,7 +29,7 @@ namespace OrdinaryMapper
         /// <param name="destPrefix"></param>
         /// <param name="srcMemberName"></param>
         /// <param name="destMemberName"></param>
-        public void SimpleAssign(string srcPrefix, string destPrefix, string srcMemberName, string destMemberName)
+        public void AssignAsNoCast(string srcPrefix, string destPrefix, string srcMemberName, string destMemberName)
         {
             string template = $"{{1}}.{destMemberName} = {{0}}.{srcMemberName};";
 
@@ -45,7 +45,7 @@ namespace OrdinaryMapper
         /// <param name="destPrefix"></param>
         /// <param name="srcMemberName"></param>
         /// <param name="destMemberName"></param>
-        public void ExplicitCastAssign(string srcPrefix, string destPrefix, string srcMemberName, string destMemberName, string typeToCast)
+        public void AssignAsExplicitCast(string srcPrefix, string destPrefix, string srcMemberName, string destMemberName, string typeToCast)
         {
             string template = $"{{1}}.{destMemberName} = ({typeToCast}) {{0}}.{srcMemberName};";
 
@@ -54,19 +54,34 @@ namespace OrdinaryMapper
             AppendLine(compiled, template);
         }
 
-        internal void SimpleAssign(PropertyNameContext context)
+        public void AssignAsToStringCall(string srcPrefix, string destPrefix, string srcMemberName, string destMemberName)
         {
-            SimpleAssign(context.SrcMemberPrefix, context.DestMemberPrefix, 
+            string template = $"{{1}}.{destMemberName} = {{0}}.{srcMemberName}.ToString();";
+
+            string compiled = string.Format(template, srcPrefix, destPrefix);
+
+            AppendLine(compiled, template);
+        }
+
+        public void AssignAsNoCast(PropertyNameContext context)
+        {
+            AssignAsNoCast(context.SrcMemberPrefix, context.DestMemberPrefix, 
                 context.SrcMemberName, context.DestMemberName);
         }
 
-        public void ExplicitCastAssign(PropertyNameContext context)
+        public void AssignAsExplicitCast(PropertyNameContext context)
         {
-            ExplicitCastAssign(context.SrcMemberPrefix, context.DestMemberPrefix, 
+            AssignAsExplicitCast(context.SrcMemberPrefix, context.DestMemberPrefix, 
                 context.SrcMemberName, context.DestMemberName, context.DestTypeFullName);
         }
 
-        internal void ApplyTemplate(PropertyNameContext context, string text)
+        public void AssignAsToStringCall(PropertyNameContext context)
+        {
+            AssignAsToStringCall(context.SrcMemberPrefix, context.DestMemberPrefix,
+                context.SrcMemberName, context.DestMemberName);
+        }
+
+        public void ApplyTemplate(PropertyNameContext context, string text)
         {
             ApplyTemplate(context.SrcMemberName, context.DestMemberName, text);
         }

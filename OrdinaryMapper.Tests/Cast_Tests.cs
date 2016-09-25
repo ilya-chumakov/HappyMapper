@@ -23,6 +23,9 @@ namespace OrdinaryMapper.Tests
         public void Int_To_Double_Success() { Fixture<SrcInt, DestDouble>(); }
 
         [Test]
+        public void Int_To_String_Success() { Fixture<SrcInt, DestStr>(); }
+
+        [Test]
         public void Byte_To_Int_Success() { Fixture<SrcByte, DestInt>(); }
 
         [Test]
