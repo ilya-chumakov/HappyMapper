@@ -88,10 +88,16 @@ namespace OrdinaryMapper
                         recorder.AssignAsExplicitCast(context);
                         continue;
                     }
-
+                    //assign with src.ToString() call
                     if (propertyMap.DestType == typeof(string) && propertyMap.SrcType != typeof(string))
                     {
                         recorder.AssignAsToStringCall(context);
+                        continue;
+                    }
+                    //assign with Convert call
+                    if (propertyMap.SrcType == typeof(string) && propertyMap.DestType.IsValueType)
+                    {
+                        recorder.AssignAsStringToValueTypeConvert(context);
                         continue;
                     }
 

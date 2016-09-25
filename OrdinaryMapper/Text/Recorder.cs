@@ -71,7 +71,7 @@ namespace OrdinaryMapper
 
             ApplyTemplate(template, srcPrefix, destPrefix);
         }
-
+        //TODO IAssignContext type
         public void AssignAsNoCast(PropertyNameContext context)
         {
             AssignAsNoCast(context.SrcMemberPrefix, context.DestMemberPrefix, 
@@ -88,6 +88,12 @@ namespace OrdinaryMapper
         {
             AssignAsToStringCall(context.SrcMemberPrefix, context.DestMemberPrefix,
                 context.SrcMemberName, context.DestMemberName);
+        }
+
+        internal void AssignAsStringToValueTypeConvert(PropertyNameContext context)
+        {
+            AssignAsStringToValueTypeConvert(context.SrcMemberPrefix, context.DestMemberPrefix,
+                context.SrcMemberName, context.DestMemberName, context.DestTypeFullName);
         }
 
         public void ApplyTemplate(PropertyNameContext context, string text)
