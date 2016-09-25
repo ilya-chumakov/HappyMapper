@@ -18,7 +18,7 @@ namespace OrdinaryMapper.Tests.Text
         }
 
         [Test]
-        public void Recorder_SimpleAssign_ReturnsValidPropertyAssignment()
+        public void SimpleAssign_Call_ReturnsValidPropertyAssignment()
         {
             Recorder recorder = new Recorder();
 
@@ -32,7 +32,7 @@ namespace OrdinaryMapper.Tests.Text
         }
 
         [Test]
-        public void Recorder_ExplicitCastAssign_ReturnsValidPropertyAssignment()
+        public void ExplicitCastAssign_Call_ReturnsValidPropertyAssignment()
         {
             Recorder recorder = new Recorder();
 

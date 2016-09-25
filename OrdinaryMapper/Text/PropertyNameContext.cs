@@ -14,6 +14,8 @@ namespace OrdinaryMapper
             DestMemberName = propertyMap.DestMember.Name;
             SrcFullMemberName = Combine(SrcMemberPrefix, SrcMemberName);
             DestFullMemberName = Combine(DestMemberPrefix, DestMemberName);
+
+            DestTypeFullName = propertyMap.DestType.FullName;
         }
 
         public PropertyMap PropertyMap { get; }
@@ -29,6 +31,8 @@ namespace OrdinaryMapper
         public string DestFullMemberName { get; }
 
         public string SrcMemberPrefix { get; }
+
+        public string DestTypeFullName { get; set; }
 
         private string Combine(string left, string right)
         {

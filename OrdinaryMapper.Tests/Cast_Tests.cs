@@ -17,16 +17,17 @@ namespace OrdinaryMapper.Tests
         public class DestDt { public DateTime Value { get; set; } }
 
         [Test]
-        public void Map_IntToByte_Success() { Fixture<SrcInt, DestByte>(); }
+        public void Int_To_Byte_Success() { Fixture<SrcInt, DestByte>(); }
 
         [Test]
-        public void Map_IntToDouble_Success() { Fixture<SrcInt, DestDouble>(); }
+        public void Int_To_Double_Success() { Fixture<SrcInt, DestDouble>(); }
 
         [Test]
-        public void Map_ByteToInt_Success() { Fixture<SrcByte, DestInt>(); }
+        public void Byte_To_Int_Success() { Fixture<SrcByte, DestInt>(); }
 
         [Test]
-        public void Map_DoubleToInt_Success() { Fixture<SrcDouble, DestInt>(); }
+        public void Double_To_Int_Success() { Fixture<SrcDouble, DestInt>(); }
+
 
         public void Fixture<TSrc, TDest>()
             where TSrc : new()

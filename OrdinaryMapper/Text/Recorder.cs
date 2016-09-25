@@ -56,7 +56,14 @@ namespace OrdinaryMapper
 
         internal void SimpleAssign(PropertyNameContext context)
         {
-            SimpleAssign(context.SrcMemberPrefix, context.DestMemberPrefix, context.SrcMemberName, context.DestMemberName);
+            SimpleAssign(context.SrcMemberPrefix, context.DestMemberPrefix, 
+                context.SrcMemberName, context.DestMemberName);
+        }
+
+        public void ExplicitCastAssign(PropertyNameContext context)
+        {
+            ExplicitCastAssign(context.SrcMemberPrefix, context.DestMemberPrefix, 
+                context.SrcMemberName, context.DestMemberName, context.DestTypeFullName);
         }
 
         internal void ApplyTemplate(PropertyNameContext context, string text)
@@ -128,6 +135,5 @@ namespace OrdinaryMapper
                 AppendLine(code, template);
             }
         }
-
     }
 }

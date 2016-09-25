@@ -85,7 +85,7 @@ namespace OrdinaryMapper
                     //assign with explicit cast
                     if (propertyMap.DestType.IsExplicitCastableFrom(propertyMap.SrcType))
                     {
-                        recorder.SimpleAssign(context);
+                        recorder.ExplicitCastAssign(context);
                         continue;
                     }
                     else
