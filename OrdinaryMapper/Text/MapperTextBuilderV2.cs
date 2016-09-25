@@ -89,11 +89,11 @@ namespace OrdinaryMapper
                         continue;
                     }
 
-                    //if (propertyMap.DestType == typeof (string) && propertyMap.SrcType != typeof (string))
-                    //{
-                    //    recorder.AssignAsToStringCall(context);
-                    //    continue;
-                    //}
+                    if (propertyMap.DestType == typeof(string) && propertyMap.SrcType != typeof(string))
+                    {
+                        recorder.AssignAsToStringCall(context);
+                        continue;
+                    }
 
                     else
                     {

@@ -23,7 +23,7 @@ namespace OrdinaryMapper.Tests
         public void Int_To_Double_Success() { Fixture<SrcInt, DestDouble>(); }
 
         [Test]
-        public void Int_To_String_Success() { Fixture<SrcInt, DestStr>(); }
+        public void Int_To_String_Success() { Fixture<SrcInt, DestStr>(s => s.Value.ToString()); }
 
         [Test]
         public void Byte_To_Int_Success() { Fixture<SrcByte, DestInt>(); }
@@ -32,7 +32,7 @@ namespace OrdinaryMapper.Tests
         public void Double_To_Int_Success() { Fixture<SrcDouble, DestInt>(); }
 
 
-        public void Fixture<TSrc, TDest>()
+        public void Fixture<TSrc, TDest>(Func<TSrc, object> srcValueGetter = null)
             where TSrc : new()
             where TDest : new()
         {
@@ -41,7 +41,7 @@ namespace OrdinaryMapper.Tests
 
             dynamic dest = Map<TSrc, TDest>(src);
 
-            Assert.AreEqual(src.Value, dest.Value);
+            Assert.AreEqual(srcValueGetter == null ? src.Value : srcValueGetter(src), dest.Value);
         }
 
         public TDest Map<TSrc, TDest>(TSrc src) where TDest : new()
