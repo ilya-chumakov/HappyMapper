@@ -141,7 +141,7 @@
     <Compile Include="Mapper_SingleMapper_Tests.cs" />
     <Compile Include="MapperConfiguration_Tests.cs" />
     <Compile Include="Mapper_Tests.cs" />
-    <Compile Include="Text\Coder_Tests.cs" />
+    <Compile Include="Text\Recorder_Tests.cs" />
     <Compile Include="Text\ImplicitCastChecker_Tests.cs" />
     <Compile Include="Text\MapperTextBuilderV2_SmokeTests.cs" />
     <Compile Include="PropertyMapsPrint.cs" />

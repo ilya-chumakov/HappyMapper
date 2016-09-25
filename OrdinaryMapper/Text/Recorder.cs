@@ -38,6 +38,22 @@ namespace OrdinaryMapper
             AppendLine(compiled, template);
         }
 
+        /// <summary>
+        /// destPrefix.Foo = srcPrefix.Foo;
+        /// </summary>
+        /// <param name="srcPrefix"></param>
+        /// <param name="destPrefix"></param>
+        /// <param name="srcMemberName"></param>
+        /// <param name="destMemberName"></param>
+        public void ExplicitCastAssign(string srcPrefix, string destPrefix, string srcMemberName, string destMemberName, string typeToCast)
+        {
+            string template = $"{{1}}.{destMemberName} = ({typeToCast}) {{0}}.{srcMemberName};";
+
+            string compiled = string.Format(template, srcPrefix, destPrefix);
+
+            AppendLine(compiled, template);
+        }
+
         internal void SimpleAssign(PropertyNameContext context)
         {
             SimpleAssign(context.SrcMemberPrefix, context.DestMemberPrefix, context.SrcMemberName, context.DestMemberName);

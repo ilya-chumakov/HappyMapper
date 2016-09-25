@@ -60,9 +60,9 @@ namespace OrdinaryMapper
 
         private Assignment ProcessTypeMap(TypeMap rootMap, string srcFieldName, string destFieldName)
         {
-            var coder = new Recorder();
+            var recorder = new Recorder();
 
-            using (var bfm = new BeforeMapPrinter(new TypeNameContext(rootMap, srcFieldName, destFieldName), coder)) {}
+            using (var bfm = new BeforeMapPrinter(new TypeNameContext(rootMap, srcFieldName, destFieldName), recorder)) {}
 
             foreach (PropertyMap propertyMap in rootMap.PropertyMaps)
             {
@@ -73,41 +73,41 @@ namespace OrdinaryMapper
                 if (propertyMap.Ignored) continue;
 
                 //using (var condition = new ConditionPrinter(context, Recorder))
-                using (var condition = new ConditionPrinterV2(context, coder))
+                using (var condition = new ConditionPrinterV2(context, recorder))
                 {
                     //assign without explicit cast
                     if (propertyMap.DestType.IsAssignableFrom(propertyMap.SrcType)
                         || propertyMap.DestType.IsImplicitCastableFrom(propertyMap.SrcType))
                     {
-                        coder.SimpleAssign(context);
+                        recorder.SimpleAssign(context);
                         continue;
                     }
-                    ////assign with explicit cast
-                    //if (propertyMap.DestType.IsExplicitCastableFrom(propertyMap.SrcType))
-                    //{
-                    //    coder.SimpleAssign(context);
-                    //    continue;
-                    //}
+                    //assign with explicit cast
+                    if (propertyMap.DestType.IsExplicitCastableFrom(propertyMap.SrcType))
+                    {
+                        recorder.SimpleAssign(context);
+                        continue;
+                    }
                     else
                     {
                         bool referenceType = propertyMap.DestType.IsClass;
                         //TODO: perfomance degrades on each null check! Try to avoid it if possible!
                         if (referenceType)
                         {
-                            coder.NullCheck(context);
-                            coder.AttachRawCode(" else {{");
+                            recorder.NullCheck(context);
+                            recorder.AttachRawCode(" else {{");
 
-                            coder.AppendNoParameterlessCtorException(context, propertyMap.DestType);
+                            recorder.AppendNoParameterlessCtorException(context, propertyMap.DestType);
                         }
 
-                        ProcessPropertyTypePair(coder, context, propertyMap);
+                        ProcessPropertyTypePair(recorder, context, propertyMap);
 
-                        if (referenceType) coder.AttachRawCode("}}");
+                        if (referenceType) recorder.AttachRawCode("}}");
                     }
                 }
             }
 
-            var assignment = coder.GetAssignment();
+            var assignment = recorder.GetAssignment();
 
             TemplateCache.AddIfNotExist(rootMap.TypePair, assignment.RelativeTemplate);
 
