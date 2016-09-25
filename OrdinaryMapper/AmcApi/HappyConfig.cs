@@ -28,7 +28,14 @@ namespace OrdinaryMapper.AmcApi
 
         public void AssertConfigurationIsValid()
         {
-            AutoMapperCfg.AssertConfigurationIsValid();
+            try
+            {
+                AutoMapperCfg.AssertConfigurationIsValid();
+            }
+            catch (AutoMapperConfigurationException amce)
+            {
+                throw new HappyMapperConfigurationException(amce);
+            }
         }
     }
 }
