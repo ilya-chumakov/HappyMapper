@@ -79,25 +79,25 @@ namespace OrdinaryMapper
                     if (propertyMap.DestType.IsAssignableFrom(propertyMap.SrcType)
                         || propertyMap.DestType.IsImplicitCastableFrom(propertyMap.SrcType))
                     {
-                        recorder.AssignAsNoCast(context);
+                        recorder.Assign(Assign.AsNoCast, context);
                         continue;
                     }
                     //assign with explicit cast
                     if (propertyMap.DestType.IsExplicitCastableFrom(propertyMap.SrcType))
                     {
-                        recorder.AssignAsExplicitCast(context);
+                        recorder.Assign(Assign.AsExplicitCast, context);
                         continue;
                     }
                     //assign with src.ToString() call
                     if (propertyMap.DestType == typeof(string) && propertyMap.SrcType != typeof(string))
                     {
-                        recorder.AssignAsToStringCall(context);
+                        recorder.Assign(Assign.AsToStringCall, context);
                         continue;
                     }
                     //assign with Convert call
                     if (propertyMap.SrcType == typeof(string) && propertyMap.DestType.IsValueType)
                     {
-                        recorder.AssignAsStringToValueTypeConvert(context);
+                        recorder.Assign(Assign.AsStringToValueTypeConvert, context);
                         continue;
                     }
 
@@ -151,7 +151,7 @@ namespace OrdinaryMapper
             string text;
             if (TemplateCache.TryGetValue(typePair, out text))
             {
-                recorder.ApplyTemplate(context, text);
+                recorder.ApplyTemplate(text, context.SrcMemberName, context.DestMemberName);
                 return;
             }
 

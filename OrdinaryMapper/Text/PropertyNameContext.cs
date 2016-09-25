@@ -3,7 +3,16 @@ using AutoMapper.ConfigurationAPI;
 
 namespace OrdinaryMapper
 {
-    public class PropertyNameContext
+    public interface IAssignContext
+    {
+        string DestMemberPrefix { get; }
+        string DestMemberName { get; }
+        string SrcMemberName { get; }
+        string SrcMemberPrefix { get; }
+        string DestTypeFullName { get; set; }
+    }
+
+    public class PropertyNameContext : IAssignContext
     {
         public PropertyNameContext(PropertyMap propertyMap, string srcPrefix, string destPrefix)
         {

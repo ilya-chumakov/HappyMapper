@@ -4,6 +4,14 @@ using AutoMapper.ConfigurationAPI;
 
 namespace OrdinaryMapper
 {
+    public enum Assign
+    {
+        AsNoCast,
+        AsExplicitCast,
+        AsToStringCall,
+        AsStringToValueTypeConvert
+    }
+
     public class Recorder
     {
         public Recorder()
@@ -21,84 +29,31 @@ namespace OrdinaryMapper
             CodeBuilder.AppendLine(code);
             TemplateBuilder.AppendLine(template);
         }
-
-        /// <summary>
-        /// destPrefix.Foo = srcPrefix.Foo;
-        /// </summary>
-        /// <param name="srcPrefix"></param>
-        /// <param name="destPrefix"></param>
-        /// <param name="srcMemberName"></param>
-        /// <param name="destMemberName"></param>
-        public void AssignAsNoCast(string srcPrefix, string destPrefix, string srcMemberName, string destMemberName)
+        public string GetAssignTemplate(Assign assignType, IAssignContext context)
         {
-            string template = $"{{1}}.{destMemberName} = {{0}}.{srcMemberName};";
+            switch (assignType)
+            {
+                case OrdinaryMapper.Assign.AsNoCast:
+                    return $"{{1}}.{context.DestMemberName} = {{0}}.{context.SrcMemberName};";
 
-            ApplyTemplate(template, srcPrefix, destPrefix);
+                case OrdinaryMapper.Assign.AsExplicitCast:
+                    return $"{{1}}.{context.DestMemberName} = ({context.DestTypeFullName}) {{0}}.{context.SrcMemberName};";
+
+                case OrdinaryMapper.Assign.AsToStringCall:
+                    return $"{{1}}.{context.DestMemberName} = {{0}}.{context.SrcMemberName}.ToString();";
+
+                case OrdinaryMapper.Assign.AsStringToValueTypeConvert:
+                    return $"{{1}}.{context.DestMemberName} = ({context.DestTypeFullName}) Convert.ChangeType({{0}}.{context.SrcMemberName}, typeof({context.DestTypeFullName}));";
+
+                default: throw new NotSupportedException(assignType.ToString());
+            }
         }
 
-        /// <summary>
-        /// destPrefix.Foo = (typeToCast) srcPrefix.Foo;
-        /// </summary>
-        /// <param name="srcPrefix"></param>
-        /// <param name="destPrefix"></param>
-        /// <param name="srcMemberName"></param>
-        /// <param name="destMemberName"></param>
-        public void AssignAsExplicitCast(string srcPrefix, string destPrefix, string srcMemberName, string destMemberName, string typeToCast)
+        public void Assign(Assign assignType, IAssignContext context)
         {
-            string template = $"{{1}}.{destMemberName} = ({typeToCast}) {{0}}.{srcMemberName};";
+            string template = GetAssignTemplate(assignType, context);
 
-            ApplyTemplate(template, srcPrefix, destPrefix);
-        }
-
-        public void AssignAsToStringCall(string srcPrefix, string destPrefix, string srcMemberName, string destMemberName)
-        {
-            string template = $"{{1}}.{destMemberName} = {{0}}.{srcMemberName}.ToString();";
-
-            ApplyTemplate(template, srcPrefix, destPrefix);
-        }
-
-        /// <summary>
-        /// destPrefix.Foo = (typeToCast) Convert.ChangeType(srcPrefix.Foo, typeof(typeToCast));
-        /// </summary>
-        /// <param name="srcPrefix"></param>
-        /// <param name="destPrefix"></param>
-        /// <param name="srcMemberName"></param>
-        /// <param name="destMemberName"></param>
-        /// <param name="typeToCast"></param>
-        public void AssignAsStringToValueTypeConvert(string srcPrefix, string destPrefix, string srcMemberName, string destMemberName, string typeToCast)
-        {
-            string template = $"{{1}}.{destMemberName} = ({typeToCast}) Convert.ChangeType({{0}}.{srcMemberName}, typeof({typeToCast}));";
-
-            ApplyTemplate(template, srcPrefix, destPrefix);
-        }
-        //TODO IAssignContext type
-        public void AssignAsNoCast(PropertyNameContext context)
-        {
-            AssignAsNoCast(context.SrcMemberPrefix, context.DestMemberPrefix, 
-                context.SrcMemberName, context.DestMemberName);
-        }
-
-        public void AssignAsExplicitCast(PropertyNameContext context)
-        {
-            AssignAsExplicitCast(context.SrcMemberPrefix, context.DestMemberPrefix, 
-                context.SrcMemberName, context.DestMemberName, context.DestTypeFullName);
-        }
-
-        public void AssignAsToStringCall(PropertyNameContext context)
-        {
-            AssignAsToStringCall(context.SrcMemberPrefix, context.DestMemberPrefix,
-                context.SrcMemberName, context.DestMemberName);
-        }
-
-        internal void AssignAsStringToValueTypeConvert(PropertyNameContext context)
-        {
-            AssignAsStringToValueTypeConvert(context.SrcMemberPrefix, context.DestMemberPrefix,
-                context.SrcMemberName, context.DestMemberName, context.DestTypeFullName);
-        }
-
-        public void ApplyTemplate(PropertyNameContext context, string text)
-        {
-            ApplyTemplate(text, context.SrcMemberName, context.DestMemberName);
+            ApplyTemplate(template, context.SrcMemberPrefix, context.DestMemberPrefix);
         }
 
         public void ApplyTemplate(string template, string src, string dest)

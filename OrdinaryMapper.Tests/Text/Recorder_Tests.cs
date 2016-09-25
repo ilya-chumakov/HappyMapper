@@ -2,8 +2,34 @@
 
 namespace OrdinaryMapper.Tests.Text
 {
+    public class FakeAssignContext : IAssignContext
+    {
+        public string DestMemberPrefix { get; }
+        public string DestMemberName { get; }
+        public string SrcMemberName { get; }
+        public string SrcMemberPrefix { get; }
+        public string DestTypeFullName { get; set; }
+
+        public FakeAssignContext(string srcMemberPrefix, string destMemberPrefix, string srcMemberName, string destMemberName, string destTypeFullName)
+        {
+            DestMemberPrefix = destMemberPrefix;
+            DestMemberName = destMemberName;
+            SrcMemberName = srcMemberName;
+            SrcMemberPrefix = srcMemberPrefix;
+            DestTypeFullName = destTypeFullName;
+        }
+    }
+
     public class Recorder_Tests
     {
+        public FakeAssignContext Context { get; set; }
+
+        [SetUp]
+        public void SetUp()
+        {
+            Context = new FakeAssignContext("A", "B", "P1", "P2", "ulong");
+        }
+
         [Test]
         public void ShiftTemplate_Call_InsertsPropertyNames()
         {
@@ -22,7 +48,7 @@ namespace OrdinaryMapper.Tests.Text
         {
             Recorder recorder = new Recorder();
 
-            recorder.AssignAsNoCast("A", "B", "P1", "P2");
+            recorder.Assign(Assign.AsNoCast, Context);
 
             Assignment assignment = recorder.GetAssignment();
 
@@ -36,7 +62,7 @@ namespace OrdinaryMapper.Tests.Text
         {
             Recorder recorder = new Recorder();
 
-            recorder.AssignAsExplicitCast("A", "B", "P1", "P2", "ulong");
+            recorder.Assign(Assign.AsExplicitCast, Context);
 
             Assignment assignment = recorder.GetAssignment();
 
@@ -50,7 +76,7 @@ namespace OrdinaryMapper.Tests.Text
         {
             Recorder recorder = new Recorder();
 
-            recorder.AssignAsToStringCall("A", "B", "P1", "P2");
+            recorder.Assign(Assign.AsToStringCall, Context);
 
             Assignment assignment = recorder.GetAssignment();
 
@@ -64,7 +90,7 @@ namespace OrdinaryMapper.Tests.Text
         {
             Recorder recorder = new Recorder();
 
-            recorder.AssignAsStringToValueTypeConvert("A", "B", "P1", "P2", "ulong");
+            recorder.Assign(Assign.AsStringToValueTypeConvert, Context);
 
             Assignment assignment = recorder.GetAssignment();
 
