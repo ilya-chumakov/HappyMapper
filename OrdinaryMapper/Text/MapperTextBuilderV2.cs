@@ -34,11 +34,11 @@ namespace OrdinaryMapper
                 TypePair typePair = kvp.Key;
                 TypeMap map = kvp.Value;
 
-                string methodCode = CreateMethodInnerCode(map);
-                methodCode = methodCode.RemoveDoubleBraces();
+                string methodInnerCode = CreateMethodInnerCode(map).RemoveDoubleBraces();
+
                 var fileBuilder = new CodeFileBuilder(typePair);
 
-                var file = fileBuilder.CreateCodeFile(methodCode);
+                var file = fileBuilder.CreateCodeFile(methodInnerCode);
 
                 files.Add(typePair, file);
             }

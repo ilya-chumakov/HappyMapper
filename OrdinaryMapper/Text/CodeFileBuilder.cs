@@ -1,4 +1,3 @@
-using System;
 using System.Text;
 using AutoMapper.ConfigurationAPI;
 
@@ -19,41 +18,36 @@ namespace OrdinaryMapper
             DestFullName = typePair.DestinationType.FullName;
         }
 
-        public CodeFile CreateCodeFile(string methodCode)
+        public CodeFile CreateCodeFile(string methodInnerCode)
+        {
+            string methodName = "Map";
+            string shortClassName = Convention.GetUniqueMapperMethodNameWithGuid(TypePair);
+            string fullClassName = $"{Convention.Namespace}.{shortClassName}";
+
+            string methodCode = WrapMethodCode(methodInnerCode, methodName);
+
+            string classCode = CodeHelper.BuildClassCode(methodCode, Convention.Namespace, shortClassName);
+
+            return new CodeFile(classCode, fullClassName, methodName, TypePair);
+        }
+
+        public string WrapMethodCode(string inner, string methodName)
         {
             var builder = new StringBuilder();
 
             string srcParameterName = "src";
             string destParameterName = "dest";
-            string methodName = "Map";
-            string shortClassName = Convention.GetUniqueMapperMethodNameWithGuid(TypePair);
-            string fullClassName = $"{Convention.Namespace}.{shortClassName}";
 
-
-            builder.AppendLine("using System;                                                       ");
-            builder.AppendLine("using OrdinaryMapper;                                                       ");
-
-            builder.AppendLine($"namespace {Convention.Namespace}                                ");
-            builder.AppendLine("{                                                                   ");
-            builder.AppendLine($"   public static class {shortClassName}                  ");
-            builder.AppendLine("    {                                                               ");
             builder.AppendLine($"       public static void {methodName}");
             builder.AppendLine($"({SrcFullName.NormalizeTypeName()} {srcParameterName},");
             builder.AppendLine($" {DestFullName.NormalizeTypeName()} {destParameterName})");
             builder.AppendLine("        {");
 
-            builder.AppendLine(methodCode);
+            builder.AppendLine(inner);
 
             builder.AppendLine("        }");
 
-            builder.AppendLine("    }                                                               ");
-            builder.AppendLine("}");
-
-            string code = builder.ToString();
-
-            var file = new CodeFile(code, fullClassName, methodName, TypePair);
-
-            return file;
+            return builder.ToString();
         }
     }
 }

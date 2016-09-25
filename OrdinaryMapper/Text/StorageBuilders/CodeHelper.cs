@@ -6,6 +6,11 @@ namespace OrdinaryMapper
 {
     public static class CodeHelper
     {
+        public static string BuildClassCode(string method, string nms, string className)
+        {
+            return BuildClassCode(new List<string>(new[] { method }), nms, className);
+        }
+
         public static string BuildClassCode(List<string> methods, string nms, string className)
         {
             if (methods == null || !methods.Any()) return string.Empty;
