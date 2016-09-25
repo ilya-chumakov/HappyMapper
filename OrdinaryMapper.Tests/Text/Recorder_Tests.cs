@@ -18,7 +18,7 @@ namespace OrdinaryMapper.Tests.Text
         }
 
         [Test]
-        public void SimpleAssign_Call_ReturnsValidPropertyAssignment()
+        public void AssignAsNoCast_Call_ReturnsValidPropertyAssignment()
         {
             Recorder recorder = new Recorder();
 
@@ -26,13 +26,13 @@ namespace OrdinaryMapper.Tests.Text
 
             Assignment assignment = recorder.GetAssignment();
 
-            Assert.AreEqual("B.P2 = A.P1;\r\n", assignment.Code);
-
-            Assert.AreEqual("{1}.P2 = {0}.P1;\r\n", assignment.RelativeTemplate);
+            string expected = "{1}.P2 = {0}.P1;\r\n";
+            Assert.AreEqual(expected, assignment.RelativeTemplate);
+            Assert.AreEqual(expected.Apply("A", "B"), assignment.Code);
         }
 
         [Test]
-        public void ExplicitCastAssign_Call_ReturnsValidPropertyAssignment()
+        public void AssignAsExplicitCast_Call_ReturnsValidPropertyAssignment()
         {
             Recorder recorder = new Recorder();
 
@@ -40,13 +40,13 @@ namespace OrdinaryMapper.Tests.Text
 
             Assignment assignment = recorder.GetAssignment();
 
-            Assert.AreEqual("B.P2 = (ulong) A.P1;\r\n", assignment.Code);
-
-            Assert.AreEqual("{1}.P2 = (ulong) {0}.P1;\r\n", assignment.RelativeTemplate);
+            string expected = "{1}.P2 = (ulong) {0}.P1;\r\n";
+            Assert.AreEqual(expected, assignment.RelativeTemplate);
+            Assert.AreEqual(expected.Apply("A", "B"), assignment.Code);
         }
 
         [Test]
-        public void ToStringAssign_Call_ReturnsValidPropertyAssignment()
+        public void AssignAsToStringCall_Call_ReturnsValidPropertyAssignment()
         {
             Recorder recorder = new Recorder();
 
@@ -54,9 +54,31 @@ namespace OrdinaryMapper.Tests.Text
 
             Assignment assignment = recorder.GetAssignment();
 
-            Assert.AreEqual("B.P2 = A.P1.ToString();\r\n", assignment.Code);
+            string expected = "{1}.P2 = {0}.P1.ToString();\r\n";
+            Assert.AreEqual(expected, assignment.RelativeTemplate);
+            Assert.AreEqual(expected.Apply("A", "B"), assignment.Code);
+        }
 
-            Assert.AreEqual("{1}.P2 = {0}.P1.ToString();\r\n", assignment.RelativeTemplate);
+        [Test]
+        public void AssignAsStringToValueTypeConvert_Call_ReturnsValidPropertyAssignment()
+        {
+            Recorder recorder = new Recorder();
+
+            recorder.AssignAsStringToValueTypeConvert("A", "B", "P1", "P2", "ulong");
+
+            Assignment assignment = recorder.GetAssignment();
+
+            string expected = "{1}.P2 = (ulong) Convert.ChangeType({0}.P1, typeof(ulong));\r\n";
+            Assert.AreEqual(expected, assignment.RelativeTemplate);
+            Assert.AreEqual(expected.Apply("A", "B"), assignment.Code);
+        }
+    }
+
+    public static class StringEx
+    {
+        public static string Apply(this string template, string a, string b)
+        {
+            return string.Format(template, a, b);
         }
     }
 }

@@ -33,13 +33,11 @@ namespace OrdinaryMapper
         {
             string template = $"{{1}}.{destMemberName} = {{0}}.{srcMemberName};";
 
-            string compiled = string.Format(template, srcPrefix, destPrefix);
-
-            AppendLine(compiled, template);
+            ApplyTemplate(template, srcPrefix, destPrefix);
         }
 
         /// <summary>
-        /// destPrefix.Foo = srcPrefix.Foo;
+        /// destPrefix.Foo = (typeToCast) srcPrefix.Foo;
         /// </summary>
         /// <param name="srcPrefix"></param>
         /// <param name="destPrefix"></param>
@@ -49,18 +47,29 @@ namespace OrdinaryMapper
         {
             string template = $"{{1}}.{destMemberName} = ({typeToCast}) {{0}}.{srcMemberName};";
 
-            string compiled = string.Format(template, srcPrefix, destPrefix);
-
-            AppendLine(compiled, template);
+            ApplyTemplate(template, srcPrefix, destPrefix);
         }
 
         public void AssignAsToStringCall(string srcPrefix, string destPrefix, string srcMemberName, string destMemberName)
         {
             string template = $"{{1}}.{destMemberName} = {{0}}.{srcMemberName}.ToString();";
 
-            string compiled = string.Format(template, srcPrefix, destPrefix);
+            ApplyTemplate(template, srcPrefix, destPrefix);
+        }
 
-            AppendLine(compiled, template);
+        /// <summary>
+        /// destPrefix.Foo = (typeToCast) Convert.ChangeType(srcPrefix.Foo, typeof(typeToCast));
+        /// </summary>
+        /// <param name="srcPrefix"></param>
+        /// <param name="destPrefix"></param>
+        /// <param name="srcMemberName"></param>
+        /// <param name="destMemberName"></param>
+        /// <param name="typeToCast"></param>
+        public void AssignAsStringToValueTypeConvert(string srcPrefix, string destPrefix, string srcMemberName, string destMemberName, string typeToCast)
+        {
+            string template = $"{{1}}.{destMemberName} = ({typeToCast}) Convert.ChangeType({{0}}.{srcMemberName}, typeof({typeToCast}));";
+
+            ApplyTemplate(template, srcPrefix, destPrefix);
         }
 
         public void AssignAsNoCast(PropertyNameContext context)
@@ -83,10 +92,10 @@ namespace OrdinaryMapper
 
         public void ApplyTemplate(PropertyNameContext context, string text)
         {
-            ApplyTemplate(context.SrcMemberName, context.DestMemberName, text);
+            ApplyTemplate(text, context.SrcMemberName, context.DestMemberName);
         }
 
-        public void ApplyTemplate(string src, string dest, string template)
+        public void ApplyTemplate(string template, string src, string dest)
         {
             string formattedText = string.Format(template, src, dest);
             AppendLine(formattedText, template);
