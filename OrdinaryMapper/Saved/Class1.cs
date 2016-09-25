@@ -20,6 +20,11 @@ namespace OrdinaryMapper.Saved
         {
             return ImplicitCastChecker.CanCast(src, dest);
         }
+
+        public static bool IsExplicitCastableFrom(this Type dest, Type src)
+        {
+            return ExplicitCastChecker.CanCast(src, dest);
+        }
     }
 
     public static class DictionaryEx

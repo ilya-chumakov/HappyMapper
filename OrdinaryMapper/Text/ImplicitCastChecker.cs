@@ -6,6 +6,7 @@ using System.Reflection;
 namespace OrdinaryMapper
 {
     //http://stackoverflow.com/a/32026590/5112433
+    //https://msdn.microsoft.com/ru-ru/library/y5b434w4.aspx 
     public class ImplicitCastChecker
     {
         /// <summary>

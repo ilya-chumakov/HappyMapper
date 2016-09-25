@@ -145,6 +145,7 @@
     <Compile Include="Text\ActionPrinters\BeforeMapPrinter.cs" />
     <Compile Include="Text\ActionPrinters\ConditionPrinterV2.cs" />
     <Compile Include="Text\ActionPrinters\ConditionPrinter.cs" />
+    <Compile Include="Text\ExplicitCastChecker.cs" />
     <Compile Include="Text\NameConventions\MapperNameConvention.cs" />
     <Compile Include="Text\StorageBuilders\BeforeStorageBuilder.cs" />
     <Compile Include="Text\StorageBuilders\CodeHelper.cs" />
