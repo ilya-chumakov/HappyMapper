@@ -28,11 +28,18 @@ namespace OrdinaryMapper
             var textBuilder = new MapperTextBuilderV2(typeMaps, config);
             var files = textBuilder.CreateCodeFiles();
 
+            var ctb = new CollectionTextBuilder(typeMaps, config);
+            var collectionFiles = ctb.CreateCodeFiles(files);
+
             string[] sourceCodes = files.Values.Select(x => x.Code).ToArray();
+            string[] collectionSourceCodes = collectionFiles.Values.Select(x => x.Code).ToArray();
 
             var storageCodes = BuildStorageCode();
 
-            sourceCodes = sourceCodes.Union(storageCodes).ToArray();
+            sourceCodes = sourceCodes
+                .Union(storageCodes)
+                .Union(collectionSourceCodes)
+                .ToArray();
 
             PrintSourceCode(sourceCodes);
 

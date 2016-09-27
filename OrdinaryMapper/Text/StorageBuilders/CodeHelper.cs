@@ -19,6 +19,7 @@ namespace OrdinaryMapper
             var builder = new StringBuilder();
 
             builder.AppendLine("using System; ");
+            builder.AppendLine("using System.Collections.Generic; "); //TODO: only for CollectionTextBuilder
             builder.AppendLine($"using {NameConventions.Mapper.Namespace}; ");
 
             builder.AppendLine($"namespace {nms}");
@@ -56,6 +57,11 @@ namespace OrdinaryMapper
             builder.AppendLine("        }");
 
             return builder.ToString();
+        }
+
+        public static string WrapCollectionCode(string inner, string methodName, string srcType, string destType)
+        {
+            return null;
         }
     }
 }

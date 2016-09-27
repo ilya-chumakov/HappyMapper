@@ -9,12 +9,15 @@ namespace OrdinaryMapper
         public string ClassFullName { get; }
         public string MapperMethodName { get; }
 
-        public CodeFile(string code, string classFullName, string mapperMethodName, TypePair typePair)
+        public Assignment InnerMethodAssignment { get; set; }
+
+        public CodeFile(string code, string classFullName, string mapperMethodName, TypePair typePair, Assignment assignment)
         {
             Code = code;
             ClassFullName = classFullName;
             MapperMethodName = mapperMethodName;
             TypePair = typePair;
+            InnerMethodAssignment = assignment;
         }
     }
 }

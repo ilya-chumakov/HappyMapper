@@ -124,6 +124,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AmcApi\HappyConfig.cs" />
+    <Compile Include="Compilation\CollectionTextBuilder.cs" />
     <Compile Include="ErrorMessages.cs" />
     <Compile Include="ITestableMapper.cs" />
     <Compile Include="MapContext.cs" />

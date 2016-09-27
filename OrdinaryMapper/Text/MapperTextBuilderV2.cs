@@ -51,7 +51,7 @@ namespace OrdinaryMapper
 
                 string classCode = CodeHelper.BuildClassCode(methodCode, Convention.Namespace, shortClassName);
 
-                var file = new CodeFile(classCode, fullClassName, methodName, typePair);
+                var file = new CodeFile(classCode, fullClassName, methodName, typePair, assignment);
 
                 files.Add(typePair, file);
             }
