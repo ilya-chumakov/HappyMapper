@@ -17,7 +17,6 @@ namespace OrdinaryMapper
 
         public Dictionary<TypePair, CodeFile> CreateCodeFiles(Dictionary<TypePair, CodeFile> files)
         {
-            return new Dictionary<TypePair, CodeFile>();
             return CreateCodeFiles(files.ToImmutableDictionary());
         }
 

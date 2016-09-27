@@ -41,11 +41,15 @@ namespace OrdinaryMapper
             return trees;
         }
 
+        //TODO: remove duplicate method
         private static List<MetadataReference> GetMetadataReferences(HashSet<Type> types)
         {
             var references = new List<MetadataReference>();
             references.Add(MetadataReference.CreateFromFile(typeof(object).Assembly.Location));
             references.Add(MetadataReference.CreateFromFile(typeof(OrdinaryMapperException).Assembly.Location));
+            references.Add(MetadataReference.CreateFromFile(typeof(ResolutionContext).Assembly.Location));
+            references.Add(MetadataReference.CreateFromFile(typeof(System.Linq.Enumerable).Assembly.Location)); //only for CollectionBuilder
+            references.Add(MetadataReference.CreateFromFile(typeof(System.Linq.Queryable).Assembly.Location)); //only for CollectionBuilder
 
             foreach (Type type in types)
             {
@@ -60,6 +64,8 @@ namespace OrdinaryMapper
             references.Add(MetadataReference.CreateFromFile(typeof(object).Assembly.Location));
             references.Add(MetadataReference.CreateFromFile(typeof(OrdinaryMapperException).Assembly.Location));
             references.Add(MetadataReference.CreateFromFile(typeof(ResolutionContext).Assembly.Location));
+            references.Add(MetadataReference.CreateFromFile(typeof(System.Linq.Enumerable).Assembly.Location)); //only for CollectionBuilder
+            references.Add(MetadataReference.CreateFromFile(typeof(System.Linq.Queryable).Assembly.Location)); //only for CollectionBuilder
 
             foreach (string location in locations)
             {

@@ -20,6 +20,7 @@ namespace OrdinaryMapper
 
             builder.AppendLine("using System; ");
             builder.AppendLine("using System.Collections.Generic; "); //TODO: only for CollectionTextBuilder
+            builder.AppendLine("using System.Linq; "); //TODO: only for CollectionTextBuilder
             builder.AppendLine($"using {NameConventions.Mapper.Namespace}; ");
 
             builder.AppendLine($"namespace {nms}");
@@ -61,7 +62,25 @@ namespace OrdinaryMapper
 
         public static string WrapCollectionCode(string inner, string methodName, string srcType, string destType)
         {
-            return null;
+            var builder = new StringBuilder();
+
+            string srcParameterName = "srcList";
+            string destParameterName = "destList";
+
+            builder.AppendLine($"       public static void {methodName}");
+            builder.AppendLine($"       ({srcType.NormalizeTypeName()} {srcParameterName},");
+            builder.AppendLine($"        {destType.NormalizeTypeName()} {destParameterName})");
+            builder.AppendLine("        {");
+            builder.AppendLine(@"           if (srcList.Count != destList.Count) throw new NotImplementedException(""srcList.Count != destList.Count"");");
+            builder.AppendLine("            for (int i = 0; i < srcList.Count; i++)");
+            builder.AppendLine("            {");
+            builder.AppendLine("                var src = srcList.ElementAt(i);");
+            builder.AppendLine("                var dest = destList.ElementAt(i);");
+            builder.AppendLine(inner);
+            builder.AppendLine("            }");
+            builder.AppendLine("        }");
+
+            return builder.ToString();
         }
     }
 }

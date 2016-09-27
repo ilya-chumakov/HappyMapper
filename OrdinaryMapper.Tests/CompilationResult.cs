@@ -1,35 +1,45 @@
-﻿                                                    
-using System;
-
-namespace RoslynMappers
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using OrdinaryMapper;
+namespace OrdinaryMapper
 {
-    public static class Mapper_A_B_441ad7a1a2ce441abb7bb5f36f570580
+    public static class Mapper_Src_Dest_df88dc4c4a6d49e199754eb3c3ee7bb8
     {
         public static void Map
- (OrdinaryMapper.Tests.MemberConfigurationExpressionTests.Condition_Tests.A src,
-  OrdinaryMapper.Tests.MemberConfigurationExpressionTests.Condition_Tests.B dest)
+ (OrdinaryMapper.Benchmarks.Types.Src src,
+  OrdinaryMapper.Benchmarks.Types.Dest dest)
         {
-            if (OrdinaryMapper.ConditionStore.Condition_0b3e91967c48467ea50c5ad6f072180e(src, dest))
-
-                dest.P1 = src.P1;
-
+            dest.DateTime = src.DateTime;
+            dest.Float = src.Float;
+            dest.Number = src.Number;
+            dest.Name = src.Name;
 
         }
+
     }
 }
 
 namespace OrdinaryMapper
 {
-    public static class BeforeMapActionStore
+    public static class Mapper_Src_Dest_63c3433ac1d042bba300c59e40ff6a56
     {
-    }
-}
+        public static void Map
+        (ICollection<OrdinaryMapper.Benchmarks.Types.Src> srcList,
+         ICollection<OrdinaryMapper.Benchmarks.Types.Dest> destList)
+        {
+            if (srcList.Count != destList.Count) throw new NotImplementedException("srcList.Count != destList.Count");
+            for (int i = 0; i < srcList.Count; i++)
+            {
+                var src = srcList.ElementAt(i);
+                var dest = destList.ElementAt(i);
+                dest.DateTime = src.DateTime;
+                dest.Float = src.Float;
+                dest.Number = src.Number;
+                dest.Name = src.Name;
 
-namespace OrdinaryMapper
-{
-    public static class ConditionStore
-    {
-        public static Func<OrdinaryMapper.Tests.MemberConfigurationExpressionTests.Condition_Tests.A, OrdinaryMapper.Tests.MemberConfigurationExpressionTests.Condition_Tests.B, bool> Condition_0b3e91967c48467ea50c5ad6f072180e;
+            }
+        }
 
     }
 }
