@@ -8,7 +8,7 @@ using OrdinaryMapperAmcApi.Tests;
 
 namespace OrdinaryMapper.Tests.Text
 {
-    public class MapperTextBuilderV2_SmokeTests
+    public class MethodInnerCodeBuilder_SmokeTests
     {
         public class A
         {
@@ -60,14 +60,14 @@ namespace OrdinaryMapper.Tests.Text
             });
 
             var typeMaps = config.TypeMaps;
-            var mtb = new MapperTextBuilderV2(typeMaps, config.Configuration);
+            var mtb = new MethodInnerCodeBuilder(typeMaps, config.Configuration);
 
             foreach (var kvp in typeMaps)
             {
                 TypePair typePair = kvp.Key;
                 TypeMap map = kvp.Value;
 
-                string text = mtb.CreateMethodInnerCode(map);
+                string text = mtb.CreateMethodInnerCode(map).Code;
 
                 Console.WriteLine(typePair.ToString());
                 Console.WriteLine(text);
@@ -92,8 +92,8 @@ namespace OrdinaryMapper.Tests.Text
                 TypePair typePair = kvp.Key;
                 TypeMap map = kvp.Value;
 
-                var mtb = new MapperTextBuilderV2(typeMaps, config.Configuration);
-                string text = mtb.CreateMethodInnerCode(map);
+                var mtb = new MethodInnerCodeBuilder(typeMaps, config.Configuration);
+                string text = mtb.CreateMethodInnerCode(map).Code;
 
                 Console.WriteLine(typePair.ToString());
                 Console.WriteLine(text);
@@ -116,8 +116,8 @@ namespace OrdinaryMapper.Tests.Text
                 TypePair typePair = kvp.Key;
                 TypeMap map = kvp.Value;
 
-                var mtb = new MapperTextBuilderV2(typeMaps, config.Configuration);
-                string text = mtb.CreateMethodInnerCode(map);
+                var mtb = new MethodInnerCodeBuilder(typeMaps, config.Configuration);
+                string text = mtb.CreateMethodInnerCode(map).Code;
 
                 Console.WriteLine(typePair.ToString());
                 Console.WriteLine(text);
@@ -128,7 +128,7 @@ namespace OrdinaryMapper.Tests.Text
         [Test]
         public void NestedType_Test()
         {
-            var x = new OrdinaryMapper.Tests.Text.MapperTextBuilderV2_SmokeTests.B1();
+            var x = new OrdinaryMapper.Tests.Text.MethodInnerCodeBuilder_SmokeTests.B1();
             Assert.IsNotNull(x);
         }
     }

@@ -36,7 +36,7 @@ namespace OrdinaryMapper
 
             PrintSourceCode(sourceCodes);
 
-            HashSet<string> locations = textBuilder.DetectedLocations;
+            HashSet<string> locations = textBuilder.MethodInnerCodeBuilder.DetectedLocations; //TODO: REFACTOR!!!!
 
             CSharpCompilation compilation = MapperTypeBuilder.CreateCompilation(sourceCodes, locations);
 

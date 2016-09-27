@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
@@ -13,7 +14,7 @@ namespace OrdinaryMapper
 
         public static string BuildClassCode(List<string> methods, string nms, string className)
         {
-            if (methods == null || !methods.Any()) return string.Empty;
+            if (methods == null || !methods.Any()) return String.Empty;
 
             var builder = new StringBuilder();
 
@@ -36,6 +37,25 @@ namespace OrdinaryMapper
             string code = builder.ToString();
 
             return code;
+        }
+
+        public static string WrapMethodCode(string inner, string methodName, string srcType, string destType)
+        {
+            var builder = new StringBuilder();
+
+            string srcParameterName = "src";
+            string destParameterName = "dest";
+
+            builder.AppendLine($"       public static void {methodName}");
+            builder.AppendLine($"({srcType.NormalizeTypeName()} {srcParameterName},");
+            builder.AppendLine($" {destType.NormalizeTypeName()} {destParameterName})");
+            builder.AppendLine("        {");
+
+            builder.AppendLine(inner);
+
+            builder.AppendLine("        }");
+
+            return builder.ToString();
         }
     }
 }
