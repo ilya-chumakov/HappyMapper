@@ -127,6 +127,7 @@
     <Compile Include="AutoMapperMigrated\ConfigurationValidation.cs" />
     <Compile Include="AutoMapperMigrated\AutoMapperSpecBase.cs" />
     <Compile Include="Cast_Tests.cs" />
+    <Compile Include="MapCollections_Tests.cs" />
     <Compile Include="CompilationResult.cs" />
     <Compile Include="MemberConfigurationExpressionTests\BeforeAfter_Tests.cs" />
     <Compile Include="MemberConfigurationExpressionTests\Condition_Tests.cs" />
