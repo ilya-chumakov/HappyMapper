@@ -19,7 +19,7 @@ namespace OrdinaryMapper
             StorageBuilders.Add(new ConditionStorageBuilder(typeMaps));
         }
 
-        public  Dictionary<TypePair, object> CompileMapsToAssembly(
+        public  Dictionary<TypePair, CompiledDelegate> CompileMapsToAssembly(
             MapperConfigurationExpression config, 
             IDictionary<TypePair, TypeMap> typeMaps)
         {
@@ -51,7 +51,7 @@ namespace OrdinaryMapper
 
             InitStorages(typeMaps, assembly);
 
-            var delegateCache = CreateDelegateCache(typeMaps, files, assembly);
+            var delegateCache = CreateDelegateCache(typeMaps, files, collectionFiles, assembly);
 
             return delegateCache;
         }
@@ -77,26 +77,55 @@ namespace OrdinaryMapper
             }
         }
 
-        private  Dictionary<TypePair, object> CreateDelegateCache(
+        private  Dictionary<TypePair, CompiledDelegate> CreateDelegateCache(
             IDictionary<TypePair, TypeMap> typeMaps, 
             Dictionary<TypePair, CodeFile> files, 
+            Dictionary<TypePair, CodeFile> collectionFiles, 
             Assembly assembly)
         {
-            Dictionary<TypePair, object> delegateCache = new Dictionary<TypePair, object>();
+            var cache = new Dictionary<TypePair, CompiledDelegate>();
 
             foreach (var kvp in typeMaps)
             {
-                TypePair typePair = kvp.Key;
+                var @delegate = new CompiledDelegate();
+
                 TypeMap map = kvp.Value;
-                CodeFile codeFile = files[typePair];
+                TypePair typePair = kvp.Key;
 
-                var type = assembly.GetType(codeFile.ClassFullName);
+                @delegate.Single = CreateDelegate(map.MapDelegateType, assembly, files[typePair]);
+                @delegate.Collection = CreateDelegate(ToCollectionDelegateType(map), assembly, collectionFiles[typePair]);
 
-                var @delegate = Delegate.CreateDelegate(map.MapDelegateType, type, codeFile.MapperMethodName);
-
-                delegateCache.Add(typePair, @delegate);
+                cache.Add(typePair, @delegate);
             }
-            return delegateCache;
+            return cache;
         }
+
+        private static Type ToCollectionDelegateType(TypeMap map)
+        {
+            var singleDelegateType = map.MapDelegateType;
+
+            var srcType = singleDelegateType.GenericTypeArguments[0];
+            var destType = singleDelegateType.GenericTypeArguments[1];
+
+            var srcCollType = typeof(ICollection<>).MakeGenericType(srcType);
+            var destCollType = typeof(ICollection<>).MakeGenericType(destType);
+
+            return typeof(Action<,>).MakeGenericType(srcCollType, destCollType);
+        }
+
+        private static Delegate CreateDelegate(Type mapDelegateType, Assembly assembly, CodeFile codeFile)
+        {
+            var type = assembly.GetType(codeFile.ClassFullName);
+
+            var @delegate = Delegate.CreateDelegate(mapDelegateType, type, codeFile.MapperMethodName);
+
+            return @delegate;
+        }
+    }
+
+    public class CompiledDelegate
+    {
+        public object Single { get; set; }
+        public object Collection { get; set; }
     }
 }
