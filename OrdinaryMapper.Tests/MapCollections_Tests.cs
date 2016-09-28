@@ -43,26 +43,26 @@ namespace OrdinaryMapper.Tests
             Assert.AreEqual(srcList[0].Value1, destList[0].Value1);
         }
 
-        [Test]
-        public void MapList_ListIsMappedProperty_Success()
-        {
-            var config = new HappyConfig(cfg =>
-            {
-                cfg.CreateMap<Src, Dest>();
-                cfg.CreateMap<SrcWrap, DestWrap>();
-            });
-            config.AssertConfigurationIsValid();
-            var mapper = config.CompileMapper();
+        //[Test]
+        //public void MapList_ListIsMappedProperty_Success()
+        //{
+        //    var config = new HappyConfig(cfg =>
+        //    {
+        //        cfg.CreateMap<Src, Dest>();
+        //        cfg.CreateMap<SrcWrap, DestWrap>();
+        //    });
+        //    config.AssertConfigurationIsValid();
+        //    var mapper = config.CompileMapper();
 
-            var srcList = new List<Src>();
-            srcList.Add(new Src { Value1 = 1 });
+        //    var srcList = new List<Src>();
+        //    srcList.Add(new Src { Value1 = 1 });
 
-            SrcWrap srcWrap = new SrcWrap() { P1 = srcList };
+        //    SrcWrap srcWrap = new SrcWrap() { P1 = srcList };
 
-            DestWrap destWrap = new DestWrap();
-            mapper.Map<SrcWrap, DestWrap>(srcWrap, destWrap);
+        //    DestWrap destWrap = new DestWrap();
+        //    mapper.Map<SrcWrap, DestWrap>(srcWrap, destWrap);
 
-            Assert.AreEqual(srcWrap.P1[0].Value1, destWrap.P1[0].Value1);
-        }
+        //    Assert.AreEqual(srcWrap.P1[0].Value1, destWrap.P1[0].Value1);
+        //}
     }
 }

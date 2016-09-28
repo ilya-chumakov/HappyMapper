@@ -46,8 +46,8 @@ namespace OrdinaryMapper
 
                 string methodInnerCode = assignment.Code.RemoveDoubleBraces();
 
-                //TODO: insert field names
-                string methodCode = CodeHelper.WrapMethodCode(methodInnerCode, methodName, SrcTypeFullName, DestTypeFullName);
+                string methodCode = CodeHelper.WrapMethodCode(methodInnerCode, 
+                    new MethodDeclarationContext(methodName, SrcTypeFullName, DestTypeFullName, srcFieldName, destFieldName));
 
                 string classCode = CodeHelper.BuildClassCode(methodCode, Convention.Namespace, shortClassName);
 
@@ -59,4 +59,22 @@ namespace OrdinaryMapper
             return files;
         }
     }
+
+    public class MethodDeclarationContext
+    {
+        public string DestParam { get; }
+        public string DestType { get; }
+        public string MethodName { get; }
+        public string SrcParam { get; }
+        public string SrcType { get; }
+
+        public MethodDeclarationContext(string methodName, string srcType, string destType, string srcParam, string destFieldName)
+        {
+            this.MethodName = methodName;
+            this.SrcType = srcType.NormalizeTypeName();
+            this.DestType = destType.NormalizeTypeName();
+            this.SrcParam = srcParam;
+            this.DestParam = destFieldName;
+        }
     }
+}

@@ -26,9 +26,12 @@ namespace OrdinaryMapper
             var Convention = NameConventions.Mapper;
 
             //TODO: move to convention
-            string srcFieldName = "src";
-            string destFieldName = "dest";
+            string srcParamName = "src";
+            string destParamName = "dest";
+            string srcCollectionName = "srcList";
+            string destCollectionName = "destList";
             string methodName = "Map";
+            string template = "ICollection<{0}>";
 
             foreach (var kvp in ExplicitTypeMaps)
             {
@@ -37,20 +40,21 @@ namespace OrdinaryMapper
 
                 var mapCodeFile = xfiles[typePair];
 
-
-                string template = "ICollection<{0}>";
-
                 var SrcTypeFullName = string.Format(template, typePair.SourceType.FullName);
                 var DestTypeFullName = string.Format(template, typePair.DestinationType.FullName);
 
                 string shortClassName = Convention.GetUniqueMapperMethodNameWithGuid(typePair);
                 string fullClassName = $"{Convention.Namespace}.{shortClassName}";
 
-                string methodInnerCode = mapCodeFile.InnerMethodAssignment.Code.RemoveDoubleBraces();
+                string methodInnerCode = mapCodeFile.InnerMethodAssignment
+                    .RelativeTemplate.TemplateToCode(srcParamName, destParamName)
+                    .RemoveDoubleBraces();
 
-                //TODO: insert field names
-                //string methodCode = CodeHelper.WrapMethodCode(methodInnerCode, methodName, SrcTypeFullName, DestTypeFullName);
-                string methodCode = CodeHelper.WrapCollectionCode(methodInnerCode, methodName, SrcTypeFullName, DestTypeFullName);
+                var forCode = CodeHelper.WrapForCode(methodInnerCode,
+                    new ForDeclarationContext(srcParamName, srcCollectionName, destParamName, destCollectionName));
+
+                string methodCode = CodeHelper.WrapMethodCode(forCode, 
+                    new MethodDeclarationContext(methodName, SrcTypeFullName, DestTypeFullName, srcCollectionName, destCollectionName));
 
                 string classCode = CodeHelper.BuildClassCode(methodCode, Convention.Namespace, shortClassName);
 

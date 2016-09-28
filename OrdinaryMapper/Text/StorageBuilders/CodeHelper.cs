@@ -41,46 +41,53 @@ namespace OrdinaryMapper
             return code;
         }
 
-        public static string WrapMethodCode(string inner, string methodName, string srcType, string destType)
+        public static string WrapMethodCode(string methodInnerCode, MethodDeclarationContext ctx)
         {
             var builder = new StringBuilder();
 
-            string srcParameterName = "src";
-            string destParameterName = "dest";
+            builder.AppendLine($"       public static void {ctx.MethodName}");
+            builder.AppendLine($"({ctx.SrcType} {ctx.SrcParam},");
+            builder.AppendLine($" {ctx.DestType} {ctx.DestParam})");
 
-            builder.AppendLine($"       public static void {methodName}");
-            builder.AppendLine($"({srcType.NormalizeTypeName()} {srcParameterName},");
-            builder.AppendLine($" {destType.NormalizeTypeName()} {destParameterName})");
             builder.AppendLine("        {");
-
-            builder.AppendLine(inner);
-
+            builder.AppendLine(methodInnerCode);
             builder.AppendLine("        }");
 
             return builder.ToString();
         }
 
-        public static string WrapCollectionCode(string inner, string methodName, string srcType, string destType)
+        public static string WrapForCode(string methodInnerCode, ForDeclarationContext ctx)
         {
             var builder = new StringBuilder();
 
-            string srcParameterName = "srcList";
-            string destParameterName = "destList";
+            builder.AppendLine($@"if ({ctx.SrcCollection}.Count != {ctx.DestCollection}.Count)");
+            builder.AppendLine($@"throw new NotImplementedException(""{ctx.SrcCollection}.Count != {ctx.DestCollection}.Count"");");
 
-            builder.AppendLine($"       public static void {methodName}");
-            builder.AppendLine($"       ({srcType.NormalizeTypeName()} {srcParameterName},");
-            builder.AppendLine($"        {destType.NormalizeTypeName()} {destParameterName})");
-            builder.AppendLine("        {");
-            builder.AppendLine(@"           if (srcList.Count != destList.Count) throw new NotImplementedException(""srcList.Count != destList.Count"");");
-            builder.AppendLine("            for (int i = 0; i < srcList.Count; i++)");
+            builder.AppendLine($"            for (int i = 0; i < {ctx.SrcCollection}.Count; i++)");
             builder.AppendLine("            {");
-            builder.AppendLine("                var src = srcList.ElementAt(i);");
-            builder.AppendLine("                var dest = destList.ElementAt(i);");
-            builder.AppendLine(inner);
+            builder.AppendLine($"                var {ctx.SrcVariable} = {ctx.SrcCollection}.ElementAt(i);");
+            builder.AppendLine($"                var {ctx.DestVariable} = {ctx.DestCollection}.ElementAt(i);");
+            builder.AppendLine(methodInnerCode);
             builder.AppendLine("            }");
-            builder.AppendLine("        }");
 
-            return builder.ToString();
+            string forCode = builder.ToString();
+            return forCode;
+        }
+    }
+
+    public class ForDeclarationContext
+    {
+        public string SrcVariable { get; set; }
+        public string SrcCollection { get; set; }
+        public string DestVariable { get; set; }
+        public string DestCollection { get; set; }
+
+        public ForDeclarationContext(string srcVariable, string srcCollection, string destVariable, string destCollection)
+        {
+            SrcVariable = srcVariable;
+            SrcCollection = srcCollection;
+            DestVariable = destVariable;
+            DestCollection = destCollection;
         }
     }
 }

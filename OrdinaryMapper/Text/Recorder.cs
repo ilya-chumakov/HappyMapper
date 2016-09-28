@@ -104,9 +104,10 @@ namespace OrdinaryMapper
             {
                 //create new Dest() object
                 string fullName = destPropType.FullName.NormalizeTypeName();
-                string template = $"{{0}}.{context.DestMemberName} = new {fullName}();";
+                string template = $"{{1}}.{context.DestMemberName} = new {fullName}();";
 
-                string code = string.Format(template, context.DestMemberPrefix);
+                //string code = string.Format(template, context.DestMemberPrefix);
+                string code = template.TemplateToCode("", context.DestMemberPrefix);
                 AppendLine(code, template);
             }
             else
@@ -114,8 +115,8 @@ namespace OrdinaryMapper
                 string exMessage =
                     ErrorMessages.NoParameterlessCtor($"{context.SrcMemberName}", $"{context.DestMemberName}", destPropType);
 
-                string template = $@"if ({{0}}.{context.DestMemberName} == null) throw new OrdinaryMapperException(""{exMessage}"");";
-                string code = string.Format(template, context.DestMemberPrefix);
+                string template = $@"if ({{1}}.{context.DestMemberName} == null) throw new OrdinaryMapperException(""{exMessage}"");";
+                string code = template.TemplateToCode("", context.DestMemberPrefix);
 
                 AppendLine(code, template);
             }
