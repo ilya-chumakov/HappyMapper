@@ -38,7 +38,9 @@ namespace OrdinaryMapper.Tests
             srcList.Add(new Src { Value1 = 1 });
 
             List<Dest> destList = new List<Dest>();
-            mapper.Map(srcList, destList);
+            destList.Add(new Dest());
+
+            mapper.MapCollection(srcList, destList);
 
             Assert.AreEqual(srcList[0].Value1, destList[0].Value1);
         }
