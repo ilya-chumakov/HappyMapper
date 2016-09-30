@@ -48,9 +48,9 @@ namespace OrdinaryMapper.Tests.Text
         {
             Recorder recorder = new Recorder();
 
-            recorder.Assign(Assign.AsNoCast, Context);
+            recorder.AppendAssignment(Assign.AsNoCast, Context);
 
-            Assignment assignment = recorder.GetAssignment();
+            Assignment assignment = recorder.ToAssignment();
 
             string expected = "{1}.P2 = {0}.P1;\r\n";
             Assert.AreEqual(expected, assignment.RelativeTemplate);
@@ -62,9 +62,9 @@ namespace OrdinaryMapper.Tests.Text
         {
             Recorder recorder = new Recorder();
 
-            recorder.Assign(Assign.AsExplicitCast, Context);
+            recorder.AppendAssignment(Assign.AsExplicitCast, Context);
 
-            Assignment assignment = recorder.GetAssignment();
+            Assignment assignment = recorder.ToAssignment();
 
             string expected = "{1}.P2 = (ulong) {0}.P1;\r\n";
             Assert.AreEqual(expected, assignment.RelativeTemplate);
@@ -76,9 +76,9 @@ namespace OrdinaryMapper.Tests.Text
         {
             Recorder recorder = new Recorder();
 
-            recorder.Assign(Assign.AsToStringCall, Context);
+            recorder.AppendAssignment(Assign.AsToStringCall, Context);
 
-            Assignment assignment = recorder.GetAssignment();
+            Assignment assignment = recorder.ToAssignment();
 
             string expected = "{1}.P2 = {0}.P1.ToString();\r\n";
             Assert.AreEqual(expected, assignment.RelativeTemplate);
@@ -90,9 +90,9 @@ namespace OrdinaryMapper.Tests.Text
         {
             Recorder recorder = new Recorder();
 
-            recorder.Assign(Assign.AsStringToValueTypeConvert, Context);
+            recorder.AppendAssignment(Assign.AsStringToValueTypeConvert, Context);
 
-            Assignment assignment = recorder.GetAssignment();
+            Assignment assignment = recorder.ToAssignment();
 
             string expected = "{1}.P2 = (ulong) Convert.ChangeType({0}.P1, typeof(ulong));\r\n";
             Assert.AreEqual(expected, assignment.RelativeTemplate);

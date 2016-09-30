@@ -52,25 +52,25 @@ namespace OrdinaryMapper
                     if (propertyMap.DestType.IsAssignableFrom(propertyMap.SrcType)
                         || propertyMap.DestType.IsImplicitCastableFrom(propertyMap.SrcType))
                     {
-                        recorder.Assign(Assign.AsNoCast, context);
+                        recorder.AppendAssignment(Assign.AsNoCast, context);
                         continue;
                     }
                     //assign with explicit cast
                     if (propertyMap.DestType.IsExplicitCastableFrom(propertyMap.SrcType))
                     {
-                        recorder.Assign(Assign.AsExplicitCast, context);
+                        recorder.AppendAssignment(Assign.AsExplicitCast, context);
                         continue;
                     }
                     //assign with src.ToString() call
                     if (propertyMap.DestType == typeof(string) && propertyMap.SrcType != typeof(string))
                     {
-                        recorder.Assign(Assign.AsToStringCall, context);
+                        recorder.AppendAssignment(Assign.AsToStringCall, context);
                         continue;
                     }
                     //assign with Convert call
                     if (propertyMap.SrcType == typeof(string) && propertyMap.DestType.IsValueType)
                     {
-                        recorder.Assign(Assign.AsStringToValueTypeConvert, context);
+                        recorder.AppendAssignment(Assign.AsStringToValueTypeConvert, context);
                         continue;
                     }
 
@@ -81,19 +81,19 @@ namespace OrdinaryMapper
                         if (referenceType)
                         {
                             recorder.NullCheck(context);
-                            recorder.AttachRawCode(" else {{");
+                            recorder.AppendRawCode(" else {{");
 
                             recorder.AppendNoParameterlessCtorException(context, propertyMap.DestType);
                         }
 
                         ProcessPropertyTypePair(recorder, context, propertyMap);
 
-                        if (referenceType) recorder.AttachRawCode("}}");
+                        if (referenceType) recorder.AppendRawCode("}}");
                     }
                 }
             }
 
-            var assignment = recorder.GetAssignment();
+            var assignment = recorder.ToAssignment();
 
             TemplateCache.AddIfNotExist(rootMap.TypePair, assignment.RelativeTemplate);
 
@@ -144,7 +144,7 @@ namespace OrdinaryMapper
             }
 
             var propAssignment = ProcessTypeMap(nodeMap, context.SrcFullMemberName, context.DestFullMemberName);
-            recorder.AttachPropertyAssignment(propAssignment, propertyMap);
+            recorder.AppendPropertyAssignment(propAssignment, propertyMap);
             return;
         }
     }

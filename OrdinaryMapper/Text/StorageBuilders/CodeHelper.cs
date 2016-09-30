@@ -63,7 +63,7 @@ namespace OrdinaryMapper
             builder.AppendLine($@"if ({ctx.SrcCollection}.Count != {ctx.DestCollection}.Count)");
             builder.AppendLine($@"throw new NotImplementedException(""{ctx.SrcCollection}.Count != {ctx.DestCollection}.Count"");");
 
-            builder.AppendLine($"            for (int i = 0; i < {ctx.SrcCollection}.Count; i++)");
+            builder.AppendLine($"           for (int i = 0; i < {ctx.SrcCollection}.Count; i++)");
             builder.AppendLine("            {");
             builder.AppendLine($"                var {ctx.SrcVariable} = {ctx.SrcCollection}.ElementAt(i);");
             builder.AppendLine($"                var {ctx.DestVariable} = {ctx.DestCollection}.ElementAt(i);");

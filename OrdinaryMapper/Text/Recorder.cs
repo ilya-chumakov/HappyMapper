@@ -49,7 +49,7 @@ namespace OrdinaryMapper
             }
         }
 
-        public void Assign(Assign assignType, IAssignContext context)
+        public void AppendAssignment(Assign assignType, IAssignContext context)
         {
             string template = GetAssignTemplate(assignType, context);
 
@@ -62,7 +62,7 @@ namespace OrdinaryMapper
             AppendLine(formattedText, template);
         }
 
-        public Assignment GetAssignment()
+        public Assignment ToAssignment()
         {
             var assignment = new Assignment();
             assignment.Code = CodeBuilder.ToString();
@@ -70,7 +70,12 @@ namespace OrdinaryMapper
             return assignment;
         }
 
-        public void AttachPropertyAssignment(Assignment assignment, PropertyMap propertyMap)
+        /// <summary>
+        /// Shift template and append.
+        /// </summary>
+        /// <param name="assignment"></param>
+        /// <param name="propertyMap"></param>
+        public void AppendPropertyAssignment(Assignment assignment, PropertyMap propertyMap)
         {
             string shiftedTemplate = ShiftTemplate(
                 assignment.RelativeTemplate, propertyMap.SrcMember.Name, propertyMap.DestMember.Name);
@@ -91,7 +96,7 @@ namespace OrdinaryMapper
             AppendLine(text, text);
         }
 
-        public void AttachRawCode(string raw)
+        public void AppendRawCode(string raw)
         {
             AppendLine(raw, raw);
         }

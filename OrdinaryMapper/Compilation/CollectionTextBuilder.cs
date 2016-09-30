@@ -30,7 +30,7 @@ namespace OrdinaryMapper
             string destParamName = "dest";
             string srcCollectionName = "srcList";
             string destCollectionName = "destList";
-            string methodName = "Map";
+            string methodName = "MapCollection";
             string template = "ICollection<{0}>";
 
             foreach (var kvp in ExplicitTypeMaps)

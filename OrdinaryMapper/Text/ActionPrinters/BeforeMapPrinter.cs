@@ -41,7 +41,7 @@ namespace OrdinaryMapper
                 string text = string.Join("", texts);
                 string template = string.Join("", texts);
 
-                Recorder.AttachRawCode("{{ ");
+                Recorder.AppendRawCode("{{ ");
 
                 Recorder.AppendLine(text, text);
             }
@@ -68,7 +68,7 @@ namespace OrdinaryMapper
         {
             if (IsExist)
             {
-                Recorder.AttachRawCode("}}");
+                Recorder.AppendRawCode("}}");
             }
         }
     }
