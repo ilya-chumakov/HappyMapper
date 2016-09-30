@@ -51,7 +51,7 @@ namespace OrdinaryMapper
                     .RemoveDoubleBraces();
 
                 var forCode = CodeHelper.WrapForCode(methodInnerCode,
-                    new ForDeclarationContext(srcParamName, srcCollectionName, destParamName, destCollectionName));
+                    new ForDeclarationContext(srcCollectionName, destCollectionName, srcParamName, destParamName));
 
                 string methodCode = CodeHelper.WrapMethodCode(forCode, 
                     new MethodDeclarationContext(methodName, SrcTypeFullName, DestTypeFullName, srcCollectionName, destCollectionName));

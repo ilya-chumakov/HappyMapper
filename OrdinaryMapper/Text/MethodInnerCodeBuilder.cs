@@ -78,18 +78,47 @@ namespace OrdinaryMapper
                         continue;
                     }
 
-                    //if (st.IsCollectionType() && dt.IsCollectionType())
-                    //{
-                    //    var srcItemType = st.GenericTypeArguments[0];
-                    //    var destItemType = dt.GenericTypeArguments[0];
+                    if (st.IsCollectionType() && dt.IsCollectionType())
+                    {
+                        var itemSrcType = st.GenericTypeArguments[0];
+                        var itemDestType = dt.GenericTypeArguments[0];
 
-                    //    var nodeMap = TypeMapFactory.CreateTypeMap(st, dt, Options);
+                        //inner cycle variables (on each iteration itemSrcName is mapped to itemDestName).
+                        string itemSrcName = "src_" + NamingTools.NewGuid(2);
+                        string itemDestName = "dest_" + NamingTools.NewGuid(2);
 
-                    //    string srcItemName = NamingTools.NewGuid();
-                    //    string destItemName = NamingTools.NewGuid();
+                        var typePair = new TypePair(itemSrcType, itemDestType);
 
-                    //    ProcessTypeMap(nodeMap, srcItemName, destItemName);
-                    //}
+                        Assignment itemAssignment = new Assignment();
+
+                        string cachedTemplate;
+                        if (TemplateCache.TryGetValue(typePair, out cachedTemplate))
+                        {
+                            itemAssignment.Code = cachedTemplate.TemplateToCode(itemSrcName, itemDestName);
+                            itemAssignment.RelativeTemplate = cachedTemplate;
+                        }
+                        else
+                        {
+                            var nodeMap = TypeMapFactory.CreateTypeMap(itemSrcType, itemDestType, Options);
+
+                            itemAssignment = ProcessTypeMap(nodeMap, itemSrcName, itemDestName);
+                        }
+
+                        string code = CodeHelper.WrapForCode(itemAssignment.Code, 
+                            new ForDeclarationContext(
+                                context.SrcFullMemberName, context.DestFullMemberName, itemSrcName, itemDestName));
+
+                        string template = CodeHelper.WrapForCode(itemAssignment.RelativeTemplate, 
+                            new ForDeclarationContext(
+                                "{0}", "{1}", itemSrcName, itemDestName));
+
+                        Console.WriteLine("-----------------------------");
+                        Console.WriteLine(code);
+                        Console.WriteLine(template);
+                        Console.WriteLine("-----------------------------");
+
+                        recorder.AppendLine(code, template);
+                    }
 
                     else
                     {
@@ -138,10 +167,10 @@ namespace OrdinaryMapper
             var typePair = propertyMap.GetTypePair();
 
             //typepair already in template cache
-            string text;
-            if (TemplateCache.TryGetValue(typePair, out text))
+            string template;
+            if (TemplateCache.TryGetValue(typePair, out template))
             {
-                recorder.ApplyTemplate(text, context.SrcMemberName, context.DestMemberName);
+                recorder.ApplyTemplate(template, context.SrcMemberName, context.DestMemberName);
                 return;
             }
 

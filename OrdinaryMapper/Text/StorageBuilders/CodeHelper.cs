@@ -82,7 +82,7 @@ namespace OrdinaryMapper
         public string DestVariable { get; set; }
         public string DestCollection { get; set; }
 
-        public ForDeclarationContext(string srcVariable, string srcCollection, string destVariable, string destCollection)
+        public ForDeclarationContext(string srcCollection, string destCollection, string srcVariable, string destVariable)
         {
             SrcVariable = srcVariable;
             SrcCollection = srcCollection;

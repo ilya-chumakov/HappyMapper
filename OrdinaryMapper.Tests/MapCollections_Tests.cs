@@ -59,9 +59,12 @@ namespace OrdinaryMapper.Tests
             var srcList = new List<Src>();
             srcList.Add(new Src { Value1 = 1 });
 
-            SrcWrap srcWrap = new SrcWrap() { P1 = srcList };
+            List<Dest> destList = new List<Dest>();
+            destList.Add(new Dest());
 
-            DestWrap destWrap = new DestWrap();
+            SrcWrap srcWrap = new SrcWrap() { P1 = srcList };
+            DestWrap destWrap = new DestWrap() { P1 = destList };
+
             mapper.Map<SrcWrap, DestWrap>(srcWrap, destWrap);
 
             Assert.AreEqual(srcWrap.P1[0].Value1, destWrap.P1[0].Value1);

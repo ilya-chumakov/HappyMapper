@@ -15,9 +15,13 @@ namespace AutoMapper.Extended.Net4
             return Regex.Replace(typeName, @"[^a-zA-Z0-9 -]", string.Empty);
         }
 
-        public static string NewGuid()
+        public static string NewGuid(int? max = null)
         {
-            return Guid.NewGuid().ToString().Replace("-", "");
+            string guid = Guid.NewGuid().ToString().Replace("-", "");
+
+            if (max == null) return guid;
+
+            return guid.Substring(0, max.Value);
         }
     }
 }

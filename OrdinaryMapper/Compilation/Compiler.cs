@@ -28,8 +28,9 @@ namespace OrdinaryMapper
             var textBuilder = new MapperTextBuilderV2(typeMaps, config);
             var files = textBuilder.CreateCodeFiles();
 
-            var ctb = new CollectionTextBuilder(typeMaps, config);
-            var collectionFiles = ctb.CreateCodeFiles(files);
+            //var ctb = new CollectionTextBuilder(typeMaps, config);
+            //var collectionFiles = ctb.CreateCodeFiles(files);
+            var collectionFiles = new Dictionary<TypePair, CodeFile>();
 
             string[] sourceCodes = files.Values.Select(x => x.Code).ToArray();
             string[] collectionSourceCodes = collectionFiles.Values.Select(x => x.Code).ToArray();
@@ -93,7 +94,7 @@ namespace OrdinaryMapper
                 TypePair typePair = kvp.Key;
 
                 @delegate.Single = CreateDelegate(map.MapDelegateType, assembly, files[typePair]);
-                @delegate.Collection = CreateDelegate(ToCollectionDelegateType(map), assembly, collectionFiles[typePair]);
+                //@delegate.Collection = CreateDelegate(ToCollectionDelegateType(map), assembly, collectionFiles[typePair]);
 
                 cache.Add(typePair, @delegate);
             }
