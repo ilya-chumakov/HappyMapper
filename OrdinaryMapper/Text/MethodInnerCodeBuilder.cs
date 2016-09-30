@@ -1,7 +1,9 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using AutoMapper.ConfigurationAPI;
 using AutoMapper.ConfigurationAPI.Configuration;
+using AutoMapper.Extended.Net4;
 using OrdinaryMapper.Saved;
 
 namespace OrdinaryMapper
@@ -49,41 +51,56 @@ namespace OrdinaryMapper
                 using (var condition = new ConditionPrinterV2(context, recorder))
                 {
                     //assign without explicit cast
-                    if (propertyMap.DestType.IsAssignableFrom(propertyMap.SrcType)
-                        || propertyMap.DestType.IsImplicitCastableFrom(propertyMap.SrcType))
+                    var st = propertyMap.SrcType;
+                    var dt = propertyMap.DestType;
+
+                    if (dt.IsAssignableFrom(st) || dt.IsImplicitCastableFrom(st))
                     {
                         recorder.AppendAssignment(Assign.AsNoCast, context);
                         continue;
                     }
                     //assign with explicit cast
-                    if (propertyMap.DestType.IsExplicitCastableFrom(propertyMap.SrcType))
+                    if (dt.IsExplicitCastableFrom(st))
                     {
                         recorder.AppendAssignment(Assign.AsExplicitCast, context);
                         continue;
                     }
                     //assign with src.ToString() call
-                    if (propertyMap.DestType == typeof(string) && propertyMap.SrcType != typeof(string))
+                    if (dt == typeof(string) && st != typeof(string))
                     {
                         recorder.AppendAssignment(Assign.AsToStringCall, context);
                         continue;
                     }
                     //assign with Convert call
-                    if (propertyMap.SrcType == typeof(string) && propertyMap.DestType.IsValueType)
+                    if (st == typeof(string) && dt.IsValueType)
                     {
                         recorder.AppendAssignment(Assign.AsStringToValueTypeConvert, context);
                         continue;
                     }
 
+                    //if (st.IsCollectionType() && dt.IsCollectionType())
+                    //{
+                    //    var srcItemType = st.GenericTypeArguments[0];
+                    //    var destItemType = dt.GenericTypeArguments[0];
+
+                    //    var nodeMap = TypeMapFactory.CreateTypeMap(st, dt, Options);
+
+                    //    string srcItemName = NamingTools.NewGuid();
+                    //    string destItemName = NamingTools.NewGuid();
+
+                    //    ProcessTypeMap(nodeMap, srcItemName, destItemName);
+                    //}
+
                     else
                     {
-                        bool referenceType = propertyMap.DestType.IsClass;
+                        bool referenceType = dt.IsClass;
                         //TODO: perfomance degrades on each null check! Try to avoid it if possible!
                         if (referenceType)
                         {
                             recorder.NullCheck(context);
                             recorder.AppendRawCode(" else {{");
 
-                            recorder.AppendNoParameterlessCtorException(context, propertyMap.DestType);
+                            recorder.AppendNoParameterlessCtorException(context, dt);
                         }
 
                         ProcessPropertyTypePair(recorder, context, propertyMap);

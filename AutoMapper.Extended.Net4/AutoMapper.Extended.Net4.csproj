@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="NamingTools.cs" />
     <Compile Include="OriginalStatement.cs" />
     <Compile Include="UnsupportedTypeBlocker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -6,7 +6,7 @@ using System.Reflection;
 
 namespace AutoMapper.ConfigurationAPI.Configuration
 {
-    internal static class PrimitiveExtensions
+    public static class PrimitiveExtensions
     {
         public static TValue GetOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key)
         {

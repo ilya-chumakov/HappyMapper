@@ -1,5 +1,6 @@
 ﻿using System;
 using AutoMapper.ConfigurationAPI;
+using AutoMapper.Extended.Net4;
 
 namespace OrdinaryMapper
 {
@@ -28,7 +29,7 @@ namespace OrdinaryMapper
 
         public string GetUniqueMapperMethodNameWithGuid(TypePair typePair)
         {
-            string guid = Guid.NewGuid().ToString().Replace("-", "");
+            string guid = NamingTools.NewGuid();
 
             string normSrcName = NamingTools.ToAlphanumericOnly(typePair.SourceType.Name);
             string normDestName = NamingTools.ToAlphanumericOnly(typePair.DestinationType.Name);

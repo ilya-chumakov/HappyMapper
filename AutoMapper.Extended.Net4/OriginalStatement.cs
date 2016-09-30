@@ -26,6 +26,6 @@ namespace AutoMapper.Extended.Net4
         /// </summary>
         public LambdaExpression Expression { get; private set; }
 
-        public string Id { get; } = Guid.NewGuid().ToString().Replace("-", "");
+        public string Id { get; } = NamingTools.NewGuid();
     }
 }

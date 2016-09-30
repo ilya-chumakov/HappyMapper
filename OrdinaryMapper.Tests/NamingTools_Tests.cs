@@ -1,4 +1,5 @@
 ﻿using System;
+using AutoMapper.Extended.Net4;
 using NUnit.Framework;
 
 namespace OrdinaryMapper.Tests
