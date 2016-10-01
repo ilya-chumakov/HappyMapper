@@ -33,7 +33,7 @@ namespace OrdinaryMapper
                 members.Add(memberCode);
             }
             );
-            string code = CodeHelper.BuildClassCode(members, Convention.Namespace, Convention.ClassShortName);
+            string code = CodeTemplates.Class(members, Convention.Namespace, Convention.ClassShortName);
 
             return code;
         }

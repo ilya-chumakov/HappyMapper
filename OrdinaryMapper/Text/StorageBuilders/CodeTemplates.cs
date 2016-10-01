@@ -5,14 +5,14 @@ using System.Text;
 
 namespace OrdinaryMapper
 {
-    public static class CodeHelper
+    public static class CodeTemplates
     {
-        public static string BuildClassCode(string method, string nms, string className)
+        public static string Class(string method, string nms, string className)
         {
-            return BuildClassCode(new List<string>(new[] { method }), nms, className);
+            return Class(new List<string>(new[] { method }), nms, className);
         }
 
-        public static string BuildClassCode(List<string> methods, string nms, string className)
+        public static string Class(List<string> methods, string nms, string className)
         {
             if (methods == null || !methods.Any()) return String.Empty;
 
@@ -41,7 +41,7 @@ namespace OrdinaryMapper
             return code;
         }
 
-        public static string WrapMethodCode(string methodInnerCode, MethodDeclarationContext ctx)
+        public static string Method(string innerCode, MethodDeclarationContext ctx)
         {
             var builder = new StringBuilder();
 
@@ -50,13 +50,13 @@ namespace OrdinaryMapper
             builder.AppendLine($" {ctx.DestType} {ctx.DestParam})");
 
             builder.AppendLine("        {");
-            builder.AppendLine(methodInnerCode);
+            builder.AppendLine(innerCode);
             builder.AppendLine("        }");
 
             return builder.ToString();
         }
 
-        public static string WrapForCode(string methodInnerCode, ForDeclarationContext ctx)
+        public static string For(string innerCode, ForDeclarationContext ctx)
         {
             var builder = new StringBuilder();
 
@@ -67,27 +67,11 @@ namespace OrdinaryMapper
             builder.AppendLine("            {");
             builder.AppendLine($"                var {ctx.SrcVariable} = {ctx.SrcCollection}.ElementAt(i);");
             builder.AppendLine($"                var {ctx.DestVariable} = {ctx.DestCollection}.ElementAt(i);");
-            builder.AppendLine(methodInnerCode);
+            builder.AppendLine(innerCode);
             builder.AppendLine("            }");
 
             string forCode = builder.ToString();
             return forCode;
-        }
-    }
-
-    public class ForDeclarationContext
-    {
-        public string SrcVariable { get; set; }
-        public string SrcCollection { get; set; }
-        public string DestVariable { get; set; }
-        public string DestCollection { get; set; }
-
-        public ForDeclarationContext(string srcCollection, string destCollection, string srcVariable, string destVariable)
-        {
-            SrcVariable = srcVariable;
-            SrcCollection = srcCollection;
-            DestVariable = destVariable;
-            DestCollection = destCollection;
         }
     }
 }

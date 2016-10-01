@@ -147,10 +147,11 @@
     <Compile Include="Text\ActionPrinters\ConditionPrinterV2.cs" />
     <Compile Include="Text\ActionPrinters\ConditionPrinter.cs" />
     <Compile Include="Text\ExplicitCastChecker.cs" />
+    <Compile Include="Text\NameContexts\MethodDeclarationContext.cs" />
     <Compile Include="Text\MethodInnerCodeBuilder.cs" />
     <Compile Include="Text\NameConventions\MapperNameConvention.cs" />
     <Compile Include="Text\StorageBuilders\BeforeStorageBuilder.cs" />
-    <Compile Include="Text\StorageBuilders\CodeHelper.cs" />
+    <Compile Include="Text\StorageBuilders\CodeTemplates.cs" />
     <Compile Include="Text\StorageBuilders\ConditionStorageBuilder.cs" />
     <Compile Include="Text\ImplicitCastChecker.cs" />
     <Compile Include="Text\Recorder.cs" />
@@ -159,6 +160,7 @@
     <Compile Include="Text\NameConventions\ActionNameConvention.cs" />
     <Compile Include="Text\NameConventions\NameConventions.cs" />
     <Compile Include="Text\PropertyNameContext.cs" />
+    <Compile Include="Text\NameContexts\ForDeclarationContext.cs" />
     <Compile Include="Text\StorageBuilders\IStorageBuilder.cs" />
     <Compile Include="Text\StringEx.cs" />
     <Compile Include="Obsolete\TypeMap.cs" />

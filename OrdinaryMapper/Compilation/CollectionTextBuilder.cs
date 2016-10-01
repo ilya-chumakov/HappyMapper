@@ -50,13 +50,13 @@ namespace OrdinaryMapper
                     .RelativeTemplate.TemplateToCode(srcParamName, destParamName)
                     .RemoveDoubleBraces();
 
-                var forCode = CodeHelper.WrapForCode(methodInnerCode,
+                var forCode = CodeTemplates.For(methodInnerCode,
                     new ForDeclarationContext(srcCollectionName, destCollectionName, srcParamName, destParamName));
 
-                string methodCode = CodeHelper.WrapMethodCode(forCode, 
+                string methodCode = CodeTemplates.Method(forCode, 
                     new MethodDeclarationContext(methodName, SrcTypeFullName, DestTypeFullName, srcCollectionName, destCollectionName));
 
-                string classCode = CodeHelper.BuildClassCode(methodCode, Convention.Namespace, shortClassName);
+                string classCode = CodeTemplates.Class(methodCode, Convention.Namespace, shortClassName);
 
                 var file = new CodeFile(classCode, fullClassName, methodName, typePair, default(Assignment));
 

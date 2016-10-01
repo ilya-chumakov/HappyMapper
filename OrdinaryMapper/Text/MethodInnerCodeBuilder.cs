@@ -41,14 +41,14 @@ namespace OrdinaryMapper
 
             foreach (PropertyMap propertyMap in rootMap.PropertyMaps)
             {
-                RememberTypeLocations(propertyMap);
-
-                var context = new PropertyNameContext(propertyMap, srcFieldName, destFieldName);
-
                 if (propertyMap.Ignored) continue;
 
+                RememberTypeLocations(propertyMap);
+
+                var ctx = new PropertyNameContext(propertyMap, srcFieldName, destFieldName);
+
                 //using (var condition = new ConditionPrinter(context, Recorder))
-                using (var condition = new ConditionPrinterV2(context, recorder))
+                using (var condition = new ConditionPrinterV2(ctx, recorder))
                 {
                     //assign without explicit cast
                     var st = propertyMap.SrcType;
@@ -56,25 +56,25 @@ namespace OrdinaryMapper
 
                     if (dt.IsAssignableFrom(st) || dt.IsImplicitCastableFrom(st))
                     {
-                        recorder.AppendAssignment(Assign.AsNoCast, context);
+                        recorder.AppendAssignment(Assign.AsNoCast, ctx);
                         continue;
                     }
                     //assign with explicit cast
                     if (dt.IsExplicitCastableFrom(st))
                     {
-                        recorder.AppendAssignment(Assign.AsExplicitCast, context);
+                        recorder.AppendAssignment(Assign.AsExplicitCast, ctx);
                         continue;
                     }
                     //assign with src.ToString() call
                     if (dt == typeof(string) && st != typeof(string))
                     {
-                        recorder.AppendAssignment(Assign.AsToStringCall, context);
+                        recorder.AppendAssignment(Assign.AsToStringCall, ctx);
                         continue;
                     }
                     //assign with Convert call
                     if (st == typeof(string) && dt.IsValueType)
                     {
-                        recorder.AppendAssignment(Assign.AsStringToValueTypeConvert, context);
+                        recorder.AppendAssignment(Assign.AsStringToValueTypeConvert, ctx);
                         continue;
                     }
 
@@ -104,11 +104,11 @@ namespace OrdinaryMapper
                             itemAssignment = ProcessTypeMap(nodeMap, itemSrcName, itemDestName);
                         }
 
-                        string code = CodeHelper.WrapForCode(itemAssignment.Code, 
+                        string code = CodeTemplates.For(itemAssignment.Code, 
                             new ForDeclarationContext(
-                                context.SrcFullMemberName, context.DestFullMemberName, itemSrcName, itemDestName));
+                                ctx.SrcFullMemberName, ctx.DestFullMemberName, itemSrcName, itemDestName));
 
-                        string template = CodeHelper.WrapForCode(itemAssignment.RelativeTemplate, 
+                        string template = CodeTemplates.For(itemAssignment.RelativeTemplate, 
                             new ForDeclarationContext(
                                 "{0}", "{1}", itemSrcName, itemDestName));
 
@@ -126,13 +126,13 @@ namespace OrdinaryMapper
                         //TODO: perfomance degrades on each null check! Try to avoid it if possible!
                         if (referenceType)
                         {
-                            recorder.NullCheck(context);
+                            recorder.NullCheck(ctx);
                             recorder.AppendRawCode(" else {{");
 
-                            recorder.AppendNoParameterlessCtorException(context, dt);
+                            recorder.AppendNoParameterlessCtorException(ctx, dt);
                         }
 
-                        ProcessPropertyTypePair(recorder, context, propertyMap);
+                        ProcessPropertyMap(recorder, ctx, propertyMap);
 
                         if (referenceType) recorder.AppendRawCode("}}");
                     }
@@ -162,7 +162,7 @@ namespace OrdinaryMapper
             DetectedLocations.Add(typeMap.DestinationType.Assembly.Location);
         }
 
-        private void ProcessPropertyTypePair(Recorder recorder, PropertyNameContext context, PropertyMap propertyMap)
+        private void ProcessPropertyMap(Recorder recorder, PropertyNameContext context, PropertyMap propertyMap)
         {
             var typePair = propertyMap.GetTypePair();
 
