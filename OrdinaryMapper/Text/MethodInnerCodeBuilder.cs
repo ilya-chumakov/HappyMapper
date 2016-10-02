@@ -108,9 +108,12 @@ namespace OrdinaryMapper
                             new ForDeclarationContext(
                                 ctx.SrcFullMemberName, ctx.DestFullMemberName, itemSrcName, itemDestName));
 
-                        string template = CodeTemplates.For(itemAssignment.RelativeTemplate, 
+                        string template = CodeTemplates.For(itemAssignment.Code, 
                             new ForDeclarationContext(
                                 "{0}", "{1}", itemSrcName, itemDestName));
+
+                        template = Recorder.AddPropertyNamesToTemplate(
+                            template, ctx.SrcMemberName, ctx.DestMemberName);
 
                         Console.WriteLine("-----------------------------");
                         Console.WriteLine(code);
@@ -190,7 +193,11 @@ namespace OrdinaryMapper
             }
 
             var propAssignment = ProcessTypeMap(nodeMap, context.SrcFullMemberName, context.DestFullMemberName);
-            recorder.AppendPropertyAssignment(propAssignment, propertyMap);
+
+            string shiftedTemplate = Recorder.AddPropertyNamesToTemplate(
+                propAssignment.RelativeTemplate, propertyMap.SrcMember.Name, propertyMap.DestMember.Name);
+
+            recorder.AppendLine(propAssignment.Code, shiftedTemplate);
             return;
         }
     }

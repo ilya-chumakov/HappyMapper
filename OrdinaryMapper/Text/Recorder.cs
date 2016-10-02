@@ -70,24 +70,14 @@ namespace OrdinaryMapper
             return assignment;
         }
 
-        /// <summary>
-        /// Shift template and append.
-        /// </summary>
-        /// <param name="assignment"></param>
-        /// <param name="propertyMap"></param>
-        public void AppendPropertyAssignment(Assignment assignment, PropertyMap propertyMap)
+        public static string AddPropertyNamesToTemplate(string template, string srcName, string destName)
         {
-            string shiftedTemplate = ShiftTemplate(
-                assignment.RelativeTemplate, propertyMap.SrcMember.Name, propertyMap.DestMember.Name);
-
-            AppendLine(assignment.Code, shiftedTemplate);
-        }
-
-        public static string ShiftTemplate(string template, string srcName, string destName)
-        {
-            return string.Format(template,
-                "{0}." + srcName,
-                "{1}." + destName);
+            return template
+                .Replace("{0}", "{0}." + srcName)
+                .Replace("{1}", "{1}." + destName);
+    //        return string.Format(template,
+    //"{0}." + srcName,
+    //"{1}." + destName);
         }
 
         public void NullCheck(PropertyNameContext context)

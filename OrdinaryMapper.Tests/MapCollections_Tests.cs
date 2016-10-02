@@ -27,7 +27,7 @@ namespace OrdinaryMapper.Tests
         }
 
         [Test]
-        public void MapList_ListIsTarget_Success()
+        public void Map_ListIsTarget_Success()
         {
             var config = new HappyConfig(cfg => cfg.CreateMap<Src, Dest>());
             config.AssertConfigurationIsValid();
@@ -46,7 +46,7 @@ namespace OrdinaryMapper.Tests
         }
 
         [Test]
-        public void MapList_ListIsMappedProperty_Success()
+        public void Map_ListIsMappedProperty_Success()
         {
             var config = new HappyConfig(cfg =>
             {
