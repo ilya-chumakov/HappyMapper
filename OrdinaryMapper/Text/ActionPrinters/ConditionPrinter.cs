@@ -28,28 +28,11 @@ namespace OrdinaryMapper
 
             if (IsExist)
             {
-                string text = ToCode(condition);
                 string template = ToTemplate(condition);
 
                 Recorder.AppendLine($"if ({template})");
                 Recorder.AppendRawCode("{{");
             }
-        }
-
-        private string ToCode(LambdaExpression condition)
-        {
-            var visitor = new ParameterNameReplaceVisitor(
-                Context.PropertyMap.TypeMap.SourceType,
-                Context.PropertyMap.TypeMap.DestinationType,
-                Context.SrcMemberPrefix,
-                Context.DestMemberPrefix,
-                condition.Parameters);
-
-            var visited = visitor.Visit(condition);
-
-            var modifiedCondition = visited as LambdaExpression;
-
-            return ExpressionToCode.ToCode(modifiedCondition.Body);
         }
 
         private string ToTemplate(LambdaExpression condition)

@@ -20,7 +20,7 @@ namespace OrdinaryMapper.Tests.Text
 
             var propertyMap = CreatePropertyMap<A, B>("P1", "P1");
 
-            var context = new PropertyNameContext(propertyMap, srcFieldName, destFieldName);
+            var context = new PropertyNameContext(propertyMap);
             var coder = new Recorder();
 
             Expression<Func<A, bool>> exp = src => src.P1 != 0;
@@ -45,7 +45,7 @@ namespace OrdinaryMapper.Tests.Text
 
             var propertyMap = CreatePropertyMap<A, B>("P1", "P1");
 
-            var context = new PropertyNameContext(propertyMap, srcFieldName, destFieldName);
+            var context = new PropertyNameContext(propertyMap);
             var coder = new Recorder();
 
             using (var condition = new ConditionPrinter(context, coder)) { }

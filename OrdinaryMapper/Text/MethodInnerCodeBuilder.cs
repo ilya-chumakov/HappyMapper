@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Diagnostics;
 using AutoMapper.ConfigurationAPI;
 using AutoMapper.ConfigurationAPI.Configuration;
 using AutoMapper.Extended.Net4;
@@ -24,20 +25,20 @@ namespace OrdinaryMapper
             Options = mce;
         }
 
-        public Assignment CreateMethodInnerCode(TypeMap map, string srcFieldName ="src", string destFieldName = "dest")
+        public Assignment GetCode(TypeMap map)
         {
             RememberTypeLocations(map);
 
-            var assignment = ProcessTypeMap(map, srcFieldName, destFieldName);
+            var assignment = ProcessTypeMap(map);
 
             return assignment;
         }
 
-        private Assignment ProcessTypeMap(TypeMap rootMap, string srcFieldName, string destFieldName)
+        private Assignment ProcessTypeMap(TypeMap rootMap)
         {
             var recorder = new Recorder();
 
-            using (var bfm = new BeforeMapPrinter(new TypeNameContext(rootMap, srcFieldName, destFieldName), recorder)) {}
+            using (var bfm = new BeforeMapPrinter(new TypeNameContext(rootMap), recorder)) {}
 
             foreach (PropertyMap propertyMap in rootMap.PropertyMaps)
             {
@@ -45,7 +46,7 @@ namespace OrdinaryMapper
 
                 RememberTypeLocations(propertyMap);
 
-                var ctx = new PropertyNameContext(propertyMap, srcFieldName, destFieldName);
+                var ctx = new PropertyNameContext(propertyMap);
 
                 //using (var condition = new ConditionPrinter(context, Recorder))
                 using (var condition = new ConditionPrinterV2(ctx, recorder))
@@ -84,8 +85,8 @@ namespace OrdinaryMapper
                         var itemDestType = dt.GenericTypeArguments[0];
 
                         //inner cycle variables (on each iteration itemSrcName is mapped to itemDestName).
-                        string itemSrcName = "src_" + NamingTools.NewGuid(2);
-                        string itemDestName = "dest_" + NamingTools.NewGuid(2);
+                        string itemSrcName = "src_" + NamingTools.NewGuid(4);
+                        string itemDestName = "dest_" + NamingTools.NewGuid(4);
 
                         var typePair = new TypePair(itemSrcType, itemDestType);
 
@@ -94,14 +95,13 @@ namespace OrdinaryMapper
                         string cachedTemplate;
                         if (TemplateCache.TryGetValue(typePair, out cachedTemplate))
                         {
-                            //itemAssignment.Code = cachedTemplate.TemplateToCode(itemSrcName, itemDestName);
                             itemAssignment.RelativeTemplate = cachedTemplate;
                         }
                         else
                         {
                             var nodeMap = TypeMapFactory.CreateTypeMap(itemSrcType, itemDestType, Options);
 
-                            itemAssignment = ProcessTypeMap(nodeMap, itemSrcName, itemDestName);
+                            itemAssignment = ProcessTypeMap(nodeMap);
                         }
 
                         string iterationCode = itemAssignment.RelativeTemplate.TemplateToCode(itemSrcName, itemDestName);
@@ -113,9 +113,9 @@ namespace OrdinaryMapper
                         template = Recorder.AddPropertyNamesToTemplate(
                             template, ctx.SrcMemberName, ctx.DestMemberName);
 
-                        Console.WriteLine("-----------------------------");
-                        Console.WriteLine(template);
-                        Console.WriteLine("-----------------------------");
+                        Debug.WriteLine("-----------------------------");
+                        Debug.WriteLine(template);
+                        Debug.WriteLine("-----------------------------");
 
                         recorder.AppendLine(template);
                     }
@@ -171,8 +171,6 @@ namespace OrdinaryMapper
             string template;
             if (TemplateCache.TryGetValue(typePair, out template))
             {
-                string src = context.SrcMemberName;
-                string dest = context.DestMemberName;
                 recorder.AppendLine(template);
                 return;
             }
@@ -192,7 +190,7 @@ namespace OrdinaryMapper
                 }
             }
 
-            var assignment = ProcessTypeMap(nodeMap, context.SrcFullMemberName, context.DestFullMemberName);
+            var assignment = ProcessTypeMap(nodeMap);
 
             string shiftedTemplate = Recorder.AddPropertyNamesToTemplate(
                 assignment.RelativeTemplate, propertyMap.SrcMember.Name, propertyMap.DestMember.Name);
