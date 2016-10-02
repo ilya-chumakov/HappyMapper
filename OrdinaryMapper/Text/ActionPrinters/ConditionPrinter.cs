@@ -31,7 +31,7 @@ namespace OrdinaryMapper
                 string text = ToCode(condition);
                 string template = ToTemplate(condition);
 
-                Recorder.AppendLine($"if ({text})", $"if ({template})");
+                Recorder.AppendLine($"if ({template})");
                 Recorder.AppendRawCode("{{");
             }
         }

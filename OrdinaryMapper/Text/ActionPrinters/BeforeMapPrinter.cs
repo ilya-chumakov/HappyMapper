@@ -43,7 +43,7 @@ namespace OrdinaryMapper
 
                 Recorder.AppendRawCode("{{ ");
 
-                Recorder.AppendLine(text, text);
+                Recorder.AppendLine(text);
             }
         }
 

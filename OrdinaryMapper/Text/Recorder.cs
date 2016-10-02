@@ -1,6 +1,5 @@
 using System;
 using System.Text;
-using AutoMapper.ConfigurationAPI;
 
 namespace OrdinaryMapper
 {
@@ -16,33 +15,29 @@ namespace OrdinaryMapper
     {
         public Recorder()
         {
-            CodeBuilder = new StringBuilder();
             TemplateBuilder = new StringBuilder();
         }
 
         public StringBuilder TemplateBuilder { get; set; }
 
-        public StringBuilder CodeBuilder { get; set; }
-
-        public void AppendLine(string code, string template)
+        public void AppendLine(string template)
         {
-            CodeBuilder.AppendLine(code);
             TemplateBuilder.AppendLine(template);
         }
         public string GetAssignTemplate(Assign assignType, IAssignContext context)
         {
             switch (assignType)
             {
-                case OrdinaryMapper.Assign.AsNoCast:
+                case Assign.AsNoCast:
                     return $"{{1}}.{context.DestMemberName} = {{0}}.{context.SrcMemberName};";
 
-                case OrdinaryMapper.Assign.AsExplicitCast:
+                case Assign.AsExplicitCast:
                     return $"{{1}}.{context.DestMemberName} = ({context.DestTypeFullName}) {{0}}.{context.SrcMemberName};";
 
-                case OrdinaryMapper.Assign.AsToStringCall:
+                case Assign.AsToStringCall:
                     return $"{{1}}.{context.DestMemberName} = {{0}}.{context.SrcMemberName}.ToString();";
 
-                case OrdinaryMapper.Assign.AsStringToValueTypeConvert:
+                case Assign.AsStringToValueTypeConvert:
                     return $"{{1}}.{context.DestMemberName} = ({context.DestTypeFullName}) Convert.ChangeType({{0}}.{context.SrcMemberName}, typeof({context.DestTypeFullName}));";
 
                 default: throw new NotSupportedException(assignType.ToString());
@@ -53,19 +48,12 @@ namespace OrdinaryMapper
         {
             string template = GetAssignTemplate(assignType, context);
 
-            ApplyTemplate(template, context.SrcMemberPrefix, context.DestMemberPrefix);
-        }
-
-        public void ApplyTemplate(string template, string src, string dest)
-        {
-            string formattedText = string.Format(template, src, dest);
-            AppendLine(formattedText, template);
+            AppendLine(template);
         }
 
         public Assignment ToAssignment()
         {
             var assignment = new Assignment();
-            assignment.Code = CodeBuilder.ToString();
             assignment.RelativeTemplate = TemplateBuilder.ToString();
             return assignment;
         }
@@ -75,20 +63,17 @@ namespace OrdinaryMapper
             return template
                 .Replace("{0}", "{0}." + srcName)
                 .Replace("{1}", "{1}." + destName);
-    //        return string.Format(template,
-    //"{0}." + srcName,
-    //"{1}." + destName);
         }
 
         public void NullCheck(PropertyNameContext context)
         {
             string text = $"if ({context.SrcFullMemberName} == null) {context.DestFullMemberName} = null;";
-            AppendLine(text, text);
+            AppendLine(text);
         }
 
         public void AppendRawCode(string raw)
         {
-            AppendLine(raw, raw);
+            AppendLine(raw);
         }
 
         //TODO refactor
@@ -101,9 +86,7 @@ namespace OrdinaryMapper
                 string fullName = destPropType.FullName.NormalizeTypeName();
                 string template = $"{{1}}.{context.DestMemberName} = new {fullName}();";
 
-                //string code = string.Format(template, context.DestMemberPrefix);
-                string code = template.TemplateToCode("", context.DestMemberPrefix);
-                AppendLine(code, template);
+                AppendLine(template);
             }
             else
             {
@@ -111,9 +94,8 @@ namespace OrdinaryMapper
                     ErrorMessages.NoParameterlessCtor($"{context.SrcMemberName}", $"{context.DestMemberName}", destPropType);
 
                 string template = $@"if ({{1}}.{context.DestMemberName} == null) throw new OrdinaryMapperException(""{exMessage}"");";
-                string code = template.TemplateToCode("", context.DestMemberPrefix);
 
-                AppendLine(code, template);
+                AppendLine(template);
             }
         }
     }

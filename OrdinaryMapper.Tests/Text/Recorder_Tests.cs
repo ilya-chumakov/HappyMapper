@@ -54,7 +54,6 @@ namespace OrdinaryMapper.Tests.Text
 
             string expected = "{1}.P2 = {0}.P1;\r\n";
             Assert.AreEqual(expected, assignment.RelativeTemplate);
-            Assert.AreEqual(expected.Apply("A", "B"), assignment.Code);
         }
 
         [Test]
@@ -68,7 +67,6 @@ namespace OrdinaryMapper.Tests.Text
 
             string expected = "{1}.P2 = (ulong) {0}.P1;\r\n";
             Assert.AreEqual(expected, assignment.RelativeTemplate);
-            Assert.AreEqual(expected.Apply("A", "B"), assignment.Code);
         }
 
         [Test]
@@ -82,7 +80,6 @@ namespace OrdinaryMapper.Tests.Text
 
             string expected = "{1}.P2 = {0}.P1.ToString();\r\n";
             Assert.AreEqual(expected, assignment.RelativeTemplate);
-            Assert.AreEqual(expected.Apply("A", "B"), assignment.Code);
         }
 
         [Test]
@@ -96,7 +93,6 @@ namespace OrdinaryMapper.Tests.Text
 
             string expected = "{1}.P2 = (ulong) Convert.ChangeType({0}.P1, typeof(ulong));\r\n";
             Assert.AreEqual(expected, assignment.RelativeTemplate);
-            Assert.AreEqual(expected.Apply("A", "B"), assignment.Code);
         }
     }
 

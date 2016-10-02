@@ -25,24 +25,15 @@ namespace OrdinaryMapper
 
             if (IsExist)
             {
-                string text = ToCode(condition);
                 string template = ToTemplate(condition);
 
-                Recorder.AppendLine($"if ({text})", $"if ({template})");
+                Recorder.AppendLine($"if ({template})");
                 Recorder.AppendRawCode("{{");
             }
         }
 
-        private string ToCode(OriginalStatement condition)
-        {
-            string methodCall = ToTemplate(condition).TemplateToCode(Context.SrcMemberPrefix, Context.DestMemberPrefix);
-
-            return methodCall;
-        }
-
         private string ToTemplate(OriginalStatement condition)
         {
-            string id = condition.Id;
             string memberName = NameConvention.GetMemberFullName(condition.Id);
 
             string call = $"{memberName}({{0}}, {{1}})";

@@ -44,7 +44,9 @@ namespace OrdinaryMapper
 
                 var assignment = MethodInnerCodeBuilder.CreateMethodInnerCode(map, srcFieldName, destFieldName);
 
-                string methodInnerCode = assignment.Code.RemoveDoubleBraces();
+                string methodInnerCode = assignment.RelativeTemplate
+                    .TemplateToCode(srcFieldName, destFieldName)
+                    .RemoveDoubleBraces();
 
                 string methodCode = CodeTemplates.Method(methodInnerCode, 
                     new MethodDeclarationContext(methodName, SrcTypeFullName, DestTypeFullName, srcFieldName, destFieldName));

@@ -28,8 +28,9 @@ namespace OrdinaryMapper.Tests.Text
 
             using (var condition = new ConditionPrinter(context, coder)) { }
 
-            string code = coder.ToAssignment().Code.Replace(Environment.NewLine, "");
             string template = coder.ToAssignment().RelativeTemplate.Replace(Environment.NewLine, "");
+            string code = template.TemplateToCode("x", null);
+
 
             Assert.IsNotNullOrEmpty(code);
             Assert.AreEqual("if (x.P1 != 0){{}}", code);
@@ -49,7 +50,7 @@ namespace OrdinaryMapper.Tests.Text
 
             using (var condition = new ConditionPrinter(context, coder)) { }
 
-            Assert.IsNullOrEmpty(coder.ToAssignment().Code);
+            Assert.IsNullOrEmpty(coder.ToAssignment().RelativeTemplate);
         }
 
         private static PropertyMap CreatePropertyMap<TSrc, TDest>(string srcPropertyName, string destPropertyName)

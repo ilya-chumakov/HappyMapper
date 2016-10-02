@@ -94,7 +94,7 @@ namespace OrdinaryMapper
                         string cachedTemplate;
                         if (TemplateCache.TryGetValue(typePair, out cachedTemplate))
                         {
-                            itemAssignment.Code = cachedTemplate.TemplateToCode(itemSrcName, itemDestName);
+                            //itemAssignment.Code = cachedTemplate.TemplateToCode(itemSrcName, itemDestName);
                             itemAssignment.RelativeTemplate = cachedTemplate;
                         }
                         else
@@ -104,11 +104,13 @@ namespace OrdinaryMapper
                             itemAssignment = ProcessTypeMap(nodeMap, itemSrcName, itemDestName);
                         }
 
-                        string code = CodeTemplates.For(itemAssignment.Code, 
+                        string iterationCode = itemAssignment.RelativeTemplate.TemplateToCode(itemSrcName, itemDestName);
+
+                        string code = CodeTemplates.For(iterationCode, 
                             new ForDeclarationContext(
                                 ctx.SrcFullMemberName, ctx.DestFullMemberName, itemSrcName, itemDestName));
 
-                        string template = CodeTemplates.For(itemAssignment.Code, 
+                        string template = CodeTemplates.For(iterationCode, 
                             new ForDeclarationContext(
                                 "{0}", "{1}", itemSrcName, itemDestName));
 
@@ -120,7 +122,7 @@ namespace OrdinaryMapper
                         Console.WriteLine(template);
                         Console.WriteLine("-----------------------------");
 
-                        recorder.AppendLine(code, template);
+                        recorder.AppendLine(template);
                     }
 
                     else
@@ -173,7 +175,9 @@ namespace OrdinaryMapper
             string template;
             if (TemplateCache.TryGetValue(typePair, out template))
             {
-                recorder.ApplyTemplate(template, context.SrcMemberName, context.DestMemberName);
+                string src = context.SrcMemberName;
+                string dest = context.DestMemberName;
+                recorder.AppendLine(template);
                 return;
             }
 
@@ -197,7 +201,7 @@ namespace OrdinaryMapper
             string shiftedTemplate = Recorder.AddPropertyNamesToTemplate(
                 propAssignment.RelativeTemplate, propertyMap.SrcMember.Name, propertyMap.DestMember.Name);
 
-            recorder.AppendLine(propAssignment.Code, shiftedTemplate);
+            recorder.AppendLine(shiftedTemplate);
             return;
         }
     }
