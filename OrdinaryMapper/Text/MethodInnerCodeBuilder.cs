@@ -81,48 +81,14 @@ namespace OrdinaryMapper
 
                     if (st.IsCollectionType() && dt.IsCollectionType())
                     {
-                        var itemSrcType = st.GenericTypeArguments[0];
-                        var itemDestType = dt.GenericTypeArguments[0];
-
-                        //inner cycle variables (on each iteration itemSrcName is mapped to itemDestName).
-                        string itemSrcName = "src_" + NamingTools.NewGuid(4);
-                        string itemDestName = "dest_" + NamingTools.NewGuid(4);
-
-                        var typePair = new TypePair(itemSrcType, itemDestType);
-
-                        Assignment itemAssignment = new Assignment();
-
-                        string cachedTemplate;
-                        if (TemplateCache.TryGetValue(typePair, out cachedTemplate))
-                        {
-                            itemAssignment.RelativeTemplate = cachedTemplate;
-                        }
-                        else
-                        {
-                            var nodeMap = GetTypeMap(propertyMap, typePair);
-
-                            itemAssignment = ProcessTypeMap(nodeMap);
-                        }
-
-                        string iterationCode = itemAssignment.GetCode(itemSrcName, itemDestName);
-
-                        string template = CodeTemplates.For(iterationCode,
-                            new ForDeclarationContext(
-                                "{0}", "{1}", itemSrcName, itemDestName));
-
-                        template = template.AddPropertyNamesToTemplate(ctx.SrcMemberName, ctx.DestMemberName);
-
-                        Debug.WriteLine("-----------------------------");
-                        Debug.WriteLine(template);
-                        Debug.WriteLine("-----------------------------");
+                        string template = AssignCollections(ctx);
 
                         recorder.AppendLine(template);
                     }
 
                     else
                     {
-
-                        string template = AssignReferenceTypes(dt, ctx, propertyMap);
+                        string template = AssignReferenceTypes(ctx);
 
                         recorder.AppendLine(template);
                     }
@@ -136,16 +102,56 @@ namespace OrdinaryMapper
             return assignment;
         }
 
-        private string AssignReferenceTypes(Type destType, PropertyNameContext ctx, PropertyMap propertyMap)
+        private string AssignCollections(PropertyNameContext ctx)
+        {
+            var itemSrcType = ctx.PropertyMap.SrcType.GenericTypeArguments[0];
+            var itemDestType = ctx.PropertyMap.DestType.GenericTypeArguments[0];
+
+            //inner cycle variables (on each iteration itemSrcName is mapped to itemDestName).
+            string itemSrcName = "src_" + NamingTools.NewGuid(4);
+            string itemDestName = "dest_" + NamingTools.NewGuid(4);
+
+            var typePair = new TypePair(itemSrcType, itemDestType);
+
+            Assignment itemAssignment = new Assignment();
+
+            string cachedTemplate;
+            if (TemplateCache.TryGetValue(typePair, out cachedTemplate))
+            {
+                itemAssignment.RelativeTemplate = cachedTemplate;
+            }
+            else
+            {
+                var nodeMap = GetTypeMap(typePair);
+
+                itemAssignment = ProcessTypeMap(nodeMap);
+            }
+
+            string iterationCode = itemAssignment.GetCode(itemSrcName, itemDestName);
+
+            string template = CodeTemplates.For(iterationCode,
+                new ForDeclarationContext(
+                    "{0}", "{1}", itemSrcName, itemDestName));
+
+            template = template.AddPropertyNamesToTemplate(ctx.SrcMemberName, ctx.DestMemberName);
+
+            Debug.WriteLine("-----------------------------");
+            Debug.WriteLine(template);
+            Debug.WriteLine("-----------------------------");
+
+            return template;
+        }
+
+        private string AssignReferenceTypes(PropertyNameContext ctx)
         {
             Recorder recorder = new Recorder();
 
             recorder.AppendLine(CodeTemplates.NullCheck("{0}", "{1}"));
             recorder.AppendRawCode(" else {{");
 
-            recorder.AppendNoParameterlessCtorException(ctx, destType);
+            recorder.AppendNoParameterlessCtorException(ctx, ctx.PropertyMap.DestType);
 
-            var typePair = propertyMap.GetTypePair();
+            var typePair = ctx.PropertyMap.GetTypePair();
 
             string template;
             //typepair already in template cache
@@ -154,7 +160,7 @@ namespace OrdinaryMapper
             }
             else
             {
-                var nodeMap = GetTypeMap(propertyMap, typePair);
+                var nodeMap = GetTypeMap(typePair);
 
                 var assignment = ProcessTypeMap(nodeMap);
 
@@ -184,7 +190,7 @@ namespace OrdinaryMapper
             DetectedLocations.Add(typeMap.DestinationType.Assembly.Location);
         }
 
-        private TypeMap GetTypeMap(PropertyMap propertyMap, TypePair typePair)
+        private TypeMap GetTypeMap(TypePair typePair)
         {
             TypeMap nodeMap;
 
@@ -196,7 +202,7 @@ namespace OrdinaryMapper
                 if (!ImplicitTypeMaps.TryGetValue(typePair, out nodeMap))
                 {
                     //create implicit map 
-                    nodeMap = TypeMapFactory.CreateTypeMap(propertyMap.SrcType, propertyMap.DestType, Options);
+                    nodeMap = TypeMapFactory.CreateTypeMap(typePair.SourceType, typePair.DestinationType, Options);
                     ImplicitTypeMaps.AddIfNotExist(nodeMap);
                 }
             }

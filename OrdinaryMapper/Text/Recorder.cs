@@ -64,23 +64,23 @@ namespace OrdinaryMapper
         }
 
         //TODO refactor
-        public void AppendNoParameterlessCtorException(PropertyNameContext context, Type destPropType)
+        public void AppendNoParameterlessCtorException(PropertyNameContext ctx, Type destPropType)
         {
             //has parameterless ctor
             if (destPropType.GetConstructor(Type.EmptyTypes) != null)
             {
                 //create new Dest() object
                 string fullName = destPropType.FullName.NormalizeTypeName();
-                string template = $"{{1}}.{context.DestMemberName} = new {fullName}();";
+                string template = $"{{1}}.{ctx.DestMemberName} = new {fullName}();";
 
                 AppendLine(template);
             }
             else
             {
                 string exMessage =
-                    ErrorMessages.NoParameterlessCtor($"{context.SrcMemberName}", $"{context.DestMemberName}", destPropType);
+                    ErrorMessages.NoParameterlessCtor($"{ctx.SrcMemberName}", $"{ctx.DestMemberName}", destPropType);
 
-                string template = $@"if ({{1}}.{context.DestMemberName} == null) throw new OrdinaryMapperException(""{exMessage}"");";
+                string template = $@"if ({{1}}.{ctx.DestMemberName} == null) throw new OrdinaryMapperException(""{exMessage}"");";
 
                 AppendLine(template);
             }
