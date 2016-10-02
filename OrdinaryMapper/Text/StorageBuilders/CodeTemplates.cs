@@ -76,5 +76,8 @@ namespace OrdinaryMapper
             string forCode = builder.ToString();
             return forCode;
         }
+
+
+        public static string NullCheck(string src, string dest) => $"if ({src} == null) {dest} = null;";
     }
 }

@@ -106,10 +106,6 @@ namespace OrdinaryMapper
 
                         string iterationCode = itemAssignment.RelativeTemplate.TemplateToCode(itemSrcName, itemDestName);
 
-                        string code = CodeTemplates.For(iterationCode, 
-                            new ForDeclarationContext(
-                                ctx.SrcFullMemberName, ctx.DestFullMemberName, itemSrcName, itemDestName));
-
                         string template = CodeTemplates.For(iterationCode, 
                             new ForDeclarationContext(
                                 "{0}", "{1}", itemSrcName, itemDestName));
@@ -118,7 +114,6 @@ namespace OrdinaryMapper
                             template, ctx.SrcMemberName, ctx.DestMemberName);
 
                         Console.WriteLine("-----------------------------");
-                        Console.WriteLine(code);
                         Console.WriteLine(template);
                         Console.WriteLine("-----------------------------");
 
@@ -131,7 +126,8 @@ namespace OrdinaryMapper
                         //TODO: perfomance degrades on each null check! Try to avoid it if possible!
                         if (referenceType)
                         {
-                            recorder.NullCheck(ctx);
+                            string template = CodeTemplates.NullCheck("{0}", "{1}");
+                            recorder.AppendLine(template);
                             recorder.AppendRawCode(" else {{");
 
                             recorder.AppendNoParameterlessCtorException(ctx, dt);
@@ -196,10 +192,10 @@ namespace OrdinaryMapper
                 }
             }
 
-            var propAssignment = ProcessTypeMap(nodeMap, context.SrcFullMemberName, context.DestFullMemberName);
+            var assignment = ProcessTypeMap(nodeMap, context.SrcFullMemberName, context.DestFullMemberName);
 
             string shiftedTemplate = Recorder.AddPropertyNamesToTemplate(
-                propAssignment.RelativeTemplate, propertyMap.SrcMember.Name, propertyMap.DestMember.Name);
+                assignment.RelativeTemplate, propertyMap.SrcMember.Name, propertyMap.DestMember.Name);
 
             recorder.AppendLine(shiftedTemplate);
             return;

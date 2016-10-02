@@ -65,12 +65,6 @@ namespace OrdinaryMapper
                 .Replace("{1}", "{1}." + destName);
         }
 
-        public void NullCheck(PropertyNameContext context)
-        {
-            string text = $"if ({context.SrcFullMemberName} == null) {context.DestFullMemberName} = null;";
-            AppendLine(text);
-        }
-
         public void AppendRawCode(string raw)
         {
             AppendLine(raw);

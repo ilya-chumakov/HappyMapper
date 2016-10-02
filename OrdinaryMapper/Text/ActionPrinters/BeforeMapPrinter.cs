@@ -29,29 +29,14 @@ namespace OrdinaryMapper
 
             if (IsExist)
             {
-                List<string> texts = new List<string>();
-                List<string> templates = new List<string>();
+                List<string> templates = statements.Select(ToTemplate).ToList();
 
-                foreach (var statement in statements)
-                {
-                    texts.Add(ToCode(statement));
-                    templates.Add(ToTemplate(statement));
-                }
-
-                string text = string.Join("", texts);
-                string template = string.Join("", texts);
+                string template = string.Join("", templates);
 
                 Recorder.AppendRawCode("{{ ");
 
-                Recorder.AppendLine(text);
+                Recorder.AppendLine(template);
             }
-        }
-
-        private string ToCode(OriginalStatement condition)
-        {
-            string methodCall = ToTemplate(condition).TemplateToCode(Context.SrcMemberPrefix, Context.DestMemberPrefix);
-
-            return methodCall;
         }
 
         private string ToTemplate(OriginalStatement condition)
