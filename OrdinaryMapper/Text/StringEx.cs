@@ -21,5 +21,14 @@ namespace OrdinaryMapper
         {
             return str.Replace("{{", "").Replace("}}", "");
         }
+
+
+        public static string AddPropertyNamesToTemplate(this string template, string srcName, string destName)
+        {
+            return template
+                .Replace("{0}", "{0}." + srcName)
+                .Replace("{1}", "{1}." + destName);
+        }
+
     }
 }

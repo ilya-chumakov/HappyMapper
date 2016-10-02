@@ -29,11 +29,7 @@ namespace OrdinaryMapper.Tests.Text
             using (var condition = new ConditionPrinter(context, coder)) { }
 
             string template = coder.ToAssignment().RelativeTemplate.Replace(Environment.NewLine, "");
-            string code = template.TemplateToCode("x", null);
 
-
-            Assert.IsNotNullOrEmpty(code);
-            Assert.AreEqual("if (x.P1 != 0){{}}", code);
             Assert.AreEqual("if ({0}.P1 != 0){{}}", template);
         }
 

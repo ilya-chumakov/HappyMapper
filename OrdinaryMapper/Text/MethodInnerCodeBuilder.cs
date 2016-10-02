@@ -25,7 +25,7 @@ namespace OrdinaryMapper
             Options = mce;
         }
 
-        public Assignment GetCode(TypeMap map)
+        public Assignment GetAssignment(TypeMap map)
         {
             RememberTypeLocations(map);
 
@@ -104,14 +104,13 @@ namespace OrdinaryMapper
                             itemAssignment = ProcessTypeMap(nodeMap);
                         }
 
-                        string iterationCode = itemAssignment.RelativeTemplate.TemplateToCode(itemSrcName, itemDestName);
+                        string iterationCode = itemAssignment.GetCode(itemSrcName, itemDestName);
 
                         string template = CodeTemplates.For(iterationCode, 
                             new ForDeclarationContext(
                                 "{0}", "{1}", itemSrcName, itemDestName));
 
-                        template = Recorder.AddPropertyNamesToTemplate(
-                            template, ctx.SrcMemberName, ctx.DestMemberName);
+                        template = template.AddPropertyNamesToTemplate(ctx.SrcMemberName, ctx.DestMemberName);
 
                         Debug.WriteLine("-----------------------------");
                         Debug.WriteLine(template);
@@ -192,8 +191,8 @@ namespace OrdinaryMapper
 
             var assignment = ProcessTypeMap(nodeMap);
 
-            string shiftedTemplate = Recorder.AddPropertyNamesToTemplate(
-                assignment.RelativeTemplate, propertyMap.SrcMember.Name, propertyMap.DestMember.Name);
+            string shiftedTemplate = assignment.RelativeTemplate.AddPropertyNamesToTemplate(
+                propertyMap.SrcMember.Name, propertyMap.DestMember.Name);
 
             recorder.AppendLine(shiftedTemplate);
             return;

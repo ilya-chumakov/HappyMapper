@@ -67,7 +67,7 @@ namespace OrdinaryMapper.Tests.Text
                 TypePair typePair = kvp.Key;
                 TypeMap map = kvp.Value;
 
-                string text = mtb.GetCode(map).RelativeTemplate;
+                string text = mtb.GetAssignment(map).RelativeTemplate;
 
                 Console.WriteLine(typePair.ToString());
                 Console.WriteLine(text);
@@ -93,7 +93,7 @@ namespace OrdinaryMapper.Tests.Text
                 TypeMap map = kvp.Value;
 
                 var mtb = new MethodInnerCodeBuilder(typeMaps, config.Configuration);
-                string text = mtb.GetCode(map).RelativeTemplate;
+                string text = mtb.GetAssignment(map).RelativeTemplate;
 
                 Console.WriteLine(typePair.ToString());
                 Console.WriteLine(text);
@@ -117,7 +117,7 @@ namespace OrdinaryMapper.Tests.Text
                 TypeMap map = kvp.Value;
 
                 var mtb = new MethodInnerCodeBuilder(typeMaps, config.Configuration);
-                string text = mtb.GetCode(map).RelativeTemplate;
+                string text = mtb.GetAssignment(map).RelativeTemplate;
 
                 Console.WriteLine(typePair.ToString());
                 Console.WriteLine(text);

@@ -42,11 +42,9 @@ namespace OrdinaryMapper
                 string shortClassName = Convention.GetUniqueMapperMethodNameWithGuid(typePair);
                 string fullClassName = $"{Convention.Namespace}.{shortClassName}";
 
-                var assignment = MethodInnerCodeBuilder.GetCode(map);
+                var assignment = MethodInnerCodeBuilder.GetAssignment(map);
 
-                string methodInnerCode = assignment.RelativeTemplate
-                    .TemplateToCode(srcFieldName, destFieldName)
-                    .RemoveDoubleBraces();
+                string methodInnerCode = assignment.GetCode(srcFieldName, destFieldName);
 
                 string methodCode = CodeTemplates.Method(methodInnerCode, 
                     new MethodDeclarationContext(methodName, SrcTypeFullName, DestTypeFullName, srcFieldName, destFieldName));

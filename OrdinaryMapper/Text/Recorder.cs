@@ -58,13 +58,6 @@ namespace OrdinaryMapper
             return assignment;
         }
 
-        public static string AddPropertyNamesToTemplate(string template, string srcName, string destName)
-        {
-            return template
-                .Replace("{0}", "{0}." + srcName)
-                .Replace("{1}", "{1}." + destName);
-        }
-
         public void AppendRawCode(string raw)
         {
             AppendLine(raw);

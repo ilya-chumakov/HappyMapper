@@ -38,7 +38,7 @@ namespace OrdinaryMapper.Tests.Text
             string srcName = "SrcChild";
             string destName = "DestChild";
 
-            string actual = Recorder.AddPropertyNamesToTemplate(template, srcName, destName);
+            string actual = template.AddPropertyNamesToTemplate(srcName, destName);
 
             Assert.AreEqual(expected, actual);
         }

@@ -47,7 +47,7 @@ namespace OrdinaryMapper
                 string fullClassName = $"{Convention.Namespace}.{shortClassName}";
 
                 string methodInnerCode = mapCodeFile.InnerMethodAssignment
-                    .RelativeTemplate.TemplateToCode(srcParamName, destParamName)
+                    .GetCode(srcParamName, destParamName)
                     .RemoveDoubleBraces();
 
                 var forCode = CodeTemplates.For(methodInnerCode,
