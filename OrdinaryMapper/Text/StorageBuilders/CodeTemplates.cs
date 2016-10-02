@@ -77,7 +77,12 @@ namespace OrdinaryMapper
             return forCode;
         }
 
-
+        /// <summary>
+        /// TODO: perfomance degrades on each null check! Try to avoid it if possible!
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="dest"></param>
+        /// <returns></returns>
         public static string NullCheck(string src, string dest) => $"if ({src} == null) {dest} = null;";
     }
 }

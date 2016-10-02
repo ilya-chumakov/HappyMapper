@@ -38,7 +38,7 @@ namespace OrdinaryMapper
         {
             var recorder = new Recorder();
 
-            using (var bfm = new BeforeMapPrinter(new TypeNameContext(rootMap), recorder)) {}
+            using (var bfm = new BeforeMapPrinter(new TypeNameContext(rootMap), recorder)) { }
 
             foreach (PropertyMap propertyMap in rootMap.PropertyMaps)
             {
@@ -99,14 +99,14 @@ namespace OrdinaryMapper
                         }
                         else
                         {
-                            var nodeMap = TypeMapFactory.CreateTypeMap(itemSrcType, itemDestType, Options);
+                            var nodeMap = GetTypeMap(propertyMap, typePair);
 
                             itemAssignment = ProcessTypeMap(nodeMap);
                         }
 
                         string iterationCode = itemAssignment.GetCode(itemSrcName, itemDestName);
 
-                        string template = CodeTemplates.For(iterationCode, 
+                        string template = CodeTemplates.For(iterationCode,
                             new ForDeclarationContext(
                                 "{0}", "{1}", itemSrcName, itemDestName));
 
@@ -121,20 +121,10 @@ namespace OrdinaryMapper
 
                     else
                     {
-                        bool referenceType = dt.IsClass;
-                        //TODO: perfomance degrades on each null check! Try to avoid it if possible!
-                        if (referenceType)
-                        {
-                            string template = CodeTemplates.NullCheck("{0}", "{1}");
-                            recorder.AppendLine(template);
-                            recorder.AppendRawCode(" else {{");
 
-                            recorder.AppendNoParameterlessCtorException(ctx, dt);
-                        }
+                        string template = AssignReferenceTypes(dt, ctx, propertyMap);
 
-                        ProcessPropertyMap(recorder, ctx, propertyMap);
-
-                        if (referenceType) recorder.AppendRawCode("}}");
+                        recorder.AppendLine(template);
                     }
                 }
             }
@@ -144,6 +134,38 @@ namespace OrdinaryMapper
             TemplateCache.AddIfNotExist(rootMap.TypePair, assignment.RelativeTemplate);
 
             return assignment;
+        }
+
+        private string AssignReferenceTypes(Type destType, PropertyNameContext ctx, PropertyMap propertyMap)
+        {
+            Recorder recorder = new Recorder();
+
+            recorder.AppendLine(CodeTemplates.NullCheck("{0}", "{1}"));
+            recorder.AppendRawCode(" else {{");
+
+            recorder.AppendNoParameterlessCtorException(ctx, destType);
+
+            var typePair = propertyMap.GetTypePair();
+
+            string template;
+            //typepair already in template cache
+            if (TemplateCache.TryGetValue(typePair, out template))
+            {
+            }
+            else
+            {
+                var nodeMap = GetTypeMap(propertyMap, typePair);
+
+                var assignment = ProcessTypeMap(nodeMap);
+
+                template = assignment.RelativeTemplate.AddPropertyNamesToTemplate(
+                    ctx.SrcMemberName, ctx.DestMemberName);
+            }
+
+            recorder.AppendLine(template);
+            recorder.AppendRawCode("}}");
+
+            return recorder.ToAssignment().RelativeTemplate;
         }
 
         /// <summary>
@@ -162,18 +184,8 @@ namespace OrdinaryMapper
             DetectedLocations.Add(typeMap.DestinationType.Assembly.Location);
         }
 
-        private void ProcessPropertyMap(Recorder recorder, PropertyNameContext context, PropertyMap propertyMap)
+        private TypeMap GetTypeMap(PropertyMap propertyMap, TypePair typePair)
         {
-            var typePair = propertyMap.GetTypePair();
-
-            //typepair already in template cache
-            string template;
-            if (TemplateCache.TryGetValue(typePair, out template))
-            {
-                recorder.AppendLine(template);
-                return;
-            }
-
             TypeMap nodeMap;
 
             //typepair explicitly mapped by user
@@ -188,14 +200,7 @@ namespace OrdinaryMapper
                     ImplicitTypeMaps.AddIfNotExist(nodeMap);
                 }
             }
-
-            var assignment = ProcessTypeMap(nodeMap);
-
-            string shiftedTemplate = assignment.RelativeTemplate.AddPropertyNamesToTemplate(
-                propertyMap.SrcMember.Name, propertyMap.DestMember.Name);
-
-            recorder.AppendLine(shiftedTemplate);
-            return;
+            return nodeMap;
         }
     }
 }
