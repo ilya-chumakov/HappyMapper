@@ -12,8 +12,9 @@ namespace OrdinaryMapper
     public class Compiler
     {
         private  List<IStorageBuilder> StorageBuilders { get; set; } = new List<IStorageBuilder>();
+        private bool CreateCollectionMaps { get; } = false;
         
-         void RegisterStorageBuilders(IDictionary<TypePair, TypeMap> typeMaps)
+        void RegisterStorageBuilders(IDictionary<TypePair, TypeMap> typeMaps)
         {
             StorageBuilders.Add(new BeforeStorageBuilder(typeMaps));
             StorageBuilders.Add(new ConditionStorageBuilder(typeMaps));
@@ -27,9 +28,13 @@ namespace OrdinaryMapper
 
             var textBuilder = new MapperTextBuilderV2(typeMaps, config);
             var files = textBuilder.CreateCodeFiles();
+            Dictionary<TypePair, CodeFile> collectionFiles = new Dictionary<TypePair, CodeFile>();
 
-            var ctb = new CollectionTextBuilder(typeMaps, config);
-            var collectionFiles = ctb.CreateCodeFiles(files);
+            if (CreateCollectionMaps)
+            {
+                var ctb = new CollectionTextBuilder(typeMaps, config);
+                collectionFiles = ctb.CreateCodeFiles(files);
+            }
 
             string[] sourceCodes = files.Values.Select(x => x.Code).ToArray();
             string[] collectionSourceCodes = collectionFiles.Values.Select(x => x.Code).ToArray();
@@ -93,7 +98,9 @@ namespace OrdinaryMapper
                 TypePair typePair = kvp.Key;
 
                 @delegate.Single = CreateDelegate(map.MapDelegateType, assembly, singleFiles[typePair]);
-                @delegate.Collection = CreateDelegate(ToCollectionDelegateType(map), assembly, collectionFiles[typePair]);
+
+                if (CreateCollectionMaps)
+                    @delegate.Collection = CreateDelegate(ToCollectionDelegateType(map), assembly, collectionFiles[typePair]);
 
                 cache.Add(typePair, @delegate);
             }

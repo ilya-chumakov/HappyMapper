@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 
 namespace OrdinaryMapper.Benchmarks
 {
@@ -61,6 +62,14 @@ namespace OrdinaryMapper.Benchmarks
                     Console.Write(stopwatch.ElapsedMilliseconds + " ");
                 }
                 Console.WriteLine();
+
+                GC.Collect();
+                Thread.Sleep(10);
+                Thread.Sleep(10);
+                Thread.Sleep(10);
+                Thread.Sleep(10);
+                Thread.Sleep(10);
+                GC.Collect();
             }
             Console.WriteLine("--------------------------");
         }
