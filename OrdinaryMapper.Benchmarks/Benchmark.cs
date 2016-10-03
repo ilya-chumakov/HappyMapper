@@ -64,11 +64,7 @@ namespace OrdinaryMapper.Benchmarks
                 Console.WriteLine();
 
                 GC.Collect();
-                Thread.Sleep(10);
-                Thread.Sleep(10);
-                Thread.Sleep(10);
-                Thread.Sleep(10);
-                Thread.Sleep(10);
+                Thread.Sleep(TimeSpan.FromSeconds(5));
                 GC.Collect();
             }
             Console.WriteLine("--------------------------");

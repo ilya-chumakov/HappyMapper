@@ -6,11 +6,14 @@ namespace OrdinaryMapper.Benchmarks
     {
         public static void Main(string[] args)
         {
-            var benchmark = new Benchmark_Tests();
-            benchmark.SetUp();
-            benchmark.Run_AllMappers_MeasuresTime();
+            while (true)
+            {
+                var benchmark = new Benchmark_Tests();
+                benchmark.SetUp();
+                benchmark.Run_AllMappers_MeasuresTime();
 
-            Console.Read();
+                Console.Read(); 
+            }
         }
     }
 }
