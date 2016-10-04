@@ -11,17 +11,6 @@ namespace OrdinaryMapper
 
         public string ClassFullName => $"{Namespace}.{ClassShortName}";
 
-        public string GetMapperMethodName(Type srcType, Type destType)
-        {
-            return $"{NamingTools.ToAlphanumericOnly(srcType.FullName)}_{NamingTools.ToAlphanumericOnly(destType.FullName)}";
-        }
-
-        public string GetMapperMethodName(AutoMapper.ConfigurationAPI.TypeMap tm)
-        {
-            return GetMapperMethodName(tm.SourceType, tm.DestinationType);
-        }
-
-
         public string GetUniqueMapperMethodNameWithGuid(TypePair typePair)
         {
             string guid = NamingTools.NewGuid();

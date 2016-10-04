@@ -1,6 +1,6 @@
 namespace OrdinaryMapper
 {
-    public static class StringEx
+    public static class StringExtensions
     {
         /// <summary>
         /// Remove +

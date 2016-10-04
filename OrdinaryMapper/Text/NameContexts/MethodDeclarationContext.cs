@@ -10,11 +10,11 @@ namespace OrdinaryMapper
 
         public MethodDeclarationContext(string methodName, string srcType, string destType, string srcParam, string destFieldName)
         {
-            this.MethodName = methodName;
-            this.SrcType = srcType.NormalizeTypeName();
-            this.DestType = destType.NormalizeTypeName();
-            this.SrcParam = srcParam;
-            this.DestParam = destFieldName;
+            MethodName = methodName;
+            SrcType = srcType.NormalizeTypeName();
+            DestType = destType.NormalizeTypeName();
+            SrcParam = srcParam;
+            DestParam = destFieldName;
         }
     }
 }

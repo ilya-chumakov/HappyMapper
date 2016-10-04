@@ -1,8 +1,7 @@
-﻿using System;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using OrdinaryMapper.AmcApi;
 
-namespace OrdinaryMapper.Tests.Cases.ChildWithoutParameterlessCtor
+namespace OrdinaryMapper.Tests.Cases
 {
     public class Src
     {
@@ -55,16 +54,5 @@ namespace OrdinaryMapper.Tests.Cases.ChildWithoutParameterlessCtor
                     mapper.Map(src, dest);
                 });
         }
-
-        [Test]
-        public void GetText()
-        {
-            MapContext context = new MapContext(typeof(Src), typeof(Dest));
-            string text = MapperTextBuilder.CreateText(context);
-            Console.WriteLine(text);
-            Assert.IsNotEmpty(text);
-        }
     }
-
-
 }

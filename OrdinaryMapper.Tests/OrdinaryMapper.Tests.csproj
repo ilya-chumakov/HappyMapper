@@ -138,7 +138,7 @@
     <Compile Include="Tools\TypeExtentions.cs" />
     <Compile Include="Cases\ChildWithoutParameterlessCtor_Test.cs" />
     <Compile Include="Comparer_Tests.cs" />
-    <Compile Include="MapperTextBuilder_Tests.cs" />
+    <Compile Include="LegacyTextBuilder_Tests.cs" />
     <Compile Include="Mapper_SingleMapper_Tests.cs" />
     <Compile Include="MapperConfiguration_Tests.cs" />
     <Compile Include="Mapper_Tests.cs" />

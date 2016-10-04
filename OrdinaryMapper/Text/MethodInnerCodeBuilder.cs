@@ -5,7 +5,7 @@ using System.Diagnostics;
 using AutoMapper.ConfigurationAPI;
 using AutoMapper.ConfigurationAPI.Configuration;
 using AutoMapper.Extended.Net4;
-using OrdinaryMapper.Saved;
+using OrdinaryMapper;
 
 namespace OrdinaryMapper
 {

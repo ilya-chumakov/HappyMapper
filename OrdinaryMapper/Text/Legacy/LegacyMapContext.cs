@@ -3,12 +3,12 @@ using System.Collections.Generic;
 
 namespace OrdinaryMapper
 {
-    public class MapContext
+    public class LegacyMapContext
     {
         public Type SrcType { get; }
         public Type DestType { get; }
 
-        public MapContext(Type srcType, Type destType)
+        public LegacyMapContext(Type srcType, Type destType)
         {
             SrcType = srcType;
             DestType = destType;
@@ -19,9 +19,9 @@ namespace OrdinaryMapper
             return srcType.GetHashCode() + destType.GetHashCode();
         }
 
-        public static MapContext Create<TSrc, TDest>()
+        public static LegacyMapContext Create<TSrc, TDest>()
         {
-            return new MapContext(typeof(TSrc), typeof(TDest));
+            return new LegacyMapContext(typeof(TSrc), typeof(TDest));
         }
 
         public HashSet<Type> ToHashSet()

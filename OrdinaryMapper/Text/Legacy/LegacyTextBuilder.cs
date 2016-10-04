@@ -2,16 +2,46 @@ using System;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using AutoMapper.ConfigurationAPI;
+using AutoMapper.Extended.Net4;
 
 namespace OrdinaryMapper
 {
-    public static class MapperTextBuilder
+    public static class LegacyTextBuilder
     {
+        public class MapperNameConvention
+        {
+            public string Namespace { get; set; }
+            public string ClassShortName { get; set; }
+
+            public string ClassFullName => $"{Namespace}.{ClassShortName}";
+
+            public string GetMapperMethodName(Type srcType, Type destType)
+            {
+                return $"{NamingTools.ToAlphanumericOnly(srcType.FullName)}_{NamingTools.ToAlphanumericOnly(destType.FullName)}";
+            }
+
+            public string GetMapperMethodName(TypeMap tm)
+            {
+                return GetMapperMethodName(tm.SourceType, tm.DestinationType);
+            }
+        }
+
+        public static MapperNameConvention CreateConvention()
+        {
+            var convention = new MapperNameConvention();
+
+            convention.Namespace = "LegacyTextBuilder";
+            convention.ClassShortName = "Mapper";
+
+            return convention;
+        }
+
         public static MapperNameConvention Convention { get; set; }
 
-        public static string CreateText(MapContext context)
+        public static string CreateText(LegacyMapContext context)
         {
-            Convention = NameConventions.Mapper;
+            Convention = CreateConvention();
 
             var srcProperties = context.SrcType.GetProperties();
             var destProperties = context.DestType.GetProperties();

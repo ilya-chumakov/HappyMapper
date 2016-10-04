@@ -123,15 +123,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AmcApi\HappyConfig.cs" />
+    <Compile Include="PublicAPI\HappyConfig.cs" />
     <Compile Include="Compilation\CollectionTextBuilder.cs" />
-    <Compile Include="ErrorMessages.cs" />
-    <Compile Include="ITestableMapper.cs" />
-    <Compile Include="MapContext.cs" />
-    <Compile Include="AmcApi\HappyMapper.cs" />
-    <Compile Include="Saved\Class1.cs" />
+    <Compile Include="PublicAPI\ErrorMessages.cs" />
+    <Compile Include="Text\Legacy\LegacyMapContext.cs" />
+    <Compile Include="PublicAPI\HappyMapper.cs" />
+    <Compile Include="Extensions\DictionaryExtensions.cs" />
+    <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="Text\CodeFile.cs" />
-    <Compile Include="Text\CodeFileBuilder.cs" />
     <Compile Include="Compilation\Compiler.cs" />
     <Compile Include="Text\ActionPrinters\BeforeMapPrinter.cs" />
     <Compile Include="Text\ActionPrinters\ConditionPrinterV2.cs" />
@@ -149,16 +148,16 @@
     <Compile Include="Text\Assignment.cs" />
     <Compile Include="Text\NameConventions\ActionNameConvention.cs" />
     <Compile Include="Text\NameConventions\NameConventions.cs" />
-    <Compile Include="Text\PropertyNameContext.cs" />
+    <Compile Include="Text\NameContexts\PropertyNameContext.cs" />
     <Compile Include="Text\NameContexts\ForDeclarationContext.cs" />
     <Compile Include="Text\StorageBuilders\IStorageBuilder.cs" />
-    <Compile Include="Text\StringEx.cs" />
-    <Compile Include="Text\MapperTextBuilder.cs" />
+    <Compile Include="Extensions\StringEx.cs" />
+    <Compile Include="Text\Legacy\LegacyTextBuilder.cs" />
     <Compile Include="Compilation\MapperTypeBuilder.cs" />
-    <Compile Include="OrdinaryMapperException.cs" />
+    <Compile Include="PublicAPI\OrdinaryMapperException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SingleMapper.cs" />
-    <Compile Include="Text\TypeNameContext.cs" />
+    <Compile Include="PublicAPI\SingleMapper.cs" />
+    <Compile Include="Text\NameContexts\TypeNameContext.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -178,6 +177,7 @@
       <Name>AutoMapper.Extended.Net4</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

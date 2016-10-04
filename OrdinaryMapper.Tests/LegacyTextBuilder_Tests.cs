@@ -4,13 +4,13 @@ using OrdinaryMapper.Benchmarks.Types;
 
 namespace OrdinaryMapper.Tests
 {
-    public class MapperTextBuilder_Tests
+    public class LegacyTextBuilder_Tests
     {
         [Test]
         public void CreateText_SimpleTypes_ProducesText()
         {
-            MapContext context = new MapContext(typeof(Src), typeof(Dest));
-            string text = MapperTextBuilder.CreateText(context);
+            LegacyMapContext context = new LegacyMapContext(typeof(Src), typeof(Dest));
+            string text = LegacyTextBuilder.CreateText(context);
             Console.WriteLine(text);
             Assert.IsNotEmpty(text);
         }
@@ -18,8 +18,8 @@ namespace OrdinaryMapper.Tests
         [Test]
         public void CreateText_NestedTypes_ProducesText()
         {
-            MapContext context = new MapContext(typeof(NestedSrc), typeof(NestedDest));
-            string text = MapperTextBuilder.CreateText(context);
+            LegacyMapContext context = new LegacyMapContext(typeof(NestedSrc), typeof(NestedDest));
+            string text = LegacyTextBuilder.CreateText(context);
             Console.WriteLine(text);
             Assert.IsNotEmpty(text);
         }
