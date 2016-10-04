@@ -6,7 +6,7 @@ using System.Text;
 using AutoMapper.ConfigurationAPI;
 using AutoMapper.Extended.Net4;
 
-namespace OrdinaryMapper.Text
+namespace HappyMapper.Text
 {
     public class BeforeStorageBuilder : IStorageBuilder
     {

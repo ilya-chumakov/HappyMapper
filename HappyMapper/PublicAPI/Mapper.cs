@@ -1,23 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using AutoMapper.ConfigurationAPI;
-using OrdinaryMapper.Compilation;
-using OrdinaryMapper.Text;
+using HappyMapper.Compilation;
+using HappyMapper.Text;
 
-namespace OrdinaryMapper
+namespace HappyMapper
 {
-    public class HappyMapper
+    public class Mapper
     {
         public Dictionary<TypePair, CompiledDelegate> DelegateCache { get; private set; }
         public Dictionary<TypePair, TypeMap> TypeMaps { get; } = new Dictionary<TypePair, TypeMap>();
         public MapperNameConvention Convention { get; set; } = NameConventionsStorage.Mapper;
 
-        public HappyMapper()
+        public Mapper()
         {
             DelegateCache = new Dictionary<TypePair, CompiledDelegate>();
         }
 
-        public HappyMapper(Dictionary<TypePair, CompiledDelegate> delegates)
+        public Mapper(Dictionary<TypePair, CompiledDelegate> delegates)
         {
             DelegateCache = delegates;
         }
@@ -31,7 +31,7 @@ namespace OrdinaryMapper
 
             var mapMethod = @delegate?.Single as Action<TSrc, TDest>;
 
-            if (mapMethod == null) throw new OrdinaryMapperException(ErrorMessages.MissingMapping(key.SourceType, key.DestinationType));
+            if (mapMethod == null) throw new HappyMapperException(ErrorMessages.MissingMapping(key.SourceType, key.DestinationType));
 
             var mapper = new SingleMapper<TSrc, TDest>(mapMethod);
 
@@ -46,7 +46,7 @@ namespace OrdinaryMapper
             DelegateCache.TryGetValue(key, out @delegate);
             var mapMethod = @delegate.Single as Action<TSrc, TDest>;
 
-            if (mapMethod == null) throw new OrdinaryMapperException(ErrorMessages.MissingMapping(key.SourceType, key.DestinationType));
+            if (mapMethod == null) throw new HappyMapperException(ErrorMessages.MissingMapping(key.SourceType, key.DestinationType));
 
             mapMethod(src, dest);
         }
@@ -59,7 +59,7 @@ namespace OrdinaryMapper
             DelegateCache.TryGetValue(key, out @delegate);
             var mapMethod = @delegate.Collection as Action<ICollection<TSrc>, ICollection<TDest>>;
 
-            if (mapMethod == null) throw new OrdinaryMapperException(ErrorMessages.MissingMapping(key.SourceType, key.DestinationType));
+            if (mapMethod == null) throw new HappyMapperException(ErrorMessages.MissingMapping(key.SourceType, key.DestinationType));
 
             mapMethod(src, dest);
         }

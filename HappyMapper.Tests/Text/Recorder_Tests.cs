@@ -1,7 +1,7 @@
-﻿using NUnit.Framework;
-using OrdinaryMapper.Text;
+﻿using HappyMapper.Text;
+using NUnit.Framework;
 
-namespace OrdinaryMapper.Tests.Text
+namespace HappyMapper.Tests.Text
 {
     public class FakeAssignContext : IAssignContext
     {

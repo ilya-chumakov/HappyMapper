@@ -1,7 +1,7 @@
 ﻿using System;
 using NUnit.Framework;
 
-namespace OrdinaryMapper.Tests.PublicAPI
+namespace HappyMapper.Tests.PublicAPI
 {
     public class Cast_Tests
     {

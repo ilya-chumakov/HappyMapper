@@ -1,6 +1,6 @@
 using AutoMapper.ConfigurationAPI;
 
-namespace OrdinaryMapper.Text
+namespace HappyMapper.Text
 {
     public class TypeNameContext
     {

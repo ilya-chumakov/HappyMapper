@@ -5,7 +5,7 @@ using System.Text;
 using AutoMapper.ConfigurationAPI;
 using AutoMapper.Extended.Net4;
 
-namespace OrdinaryMapper.Text.Legacy
+namespace HappyMapper.Text.Legacy
 {
     public static class LegacyTextBuilder
     {
@@ -54,7 +54,7 @@ namespace OrdinaryMapper.Text.Legacy
             string methodName = Convention.GetMapperMethodName(context.SrcType, context.DestType);
 
             builder.AppendLine("using System;                                                       ");
-            builder.AppendLine("using OrdinaryMapper;                                                       ");
+            builder.AppendLine("using HappyMapper;                                                       ");
 
             builder.AppendLine($"namespace {Convention.Namespace}                                ");
             builder.AppendLine("{                                                                   ");
@@ -114,7 +114,7 @@ namespace OrdinaryMapper.Text.Legacy
                             string exMessage =
                                 ErrorMessages.NoParameterlessCtor($"{name}", $"{name}", destPropType);
 
-                            builder.AppendLine($@"if ({destPrefix}.{name} == null) throw new OrdinaryMapperException(""{exMessage}"");");
+                            builder.AppendLine($@"if ({destPrefix}.{name} == null) throw new HappyMapperException(""{exMessage}"");");
                         }
 
                         string text = CreatePropertiesAssignments(

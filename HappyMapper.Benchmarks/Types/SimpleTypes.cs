@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace OrdinaryMapper.Benchmarks.Types
+namespace HappyMapper.Benchmarks.Types
 {
     public class Src
     {

@@ -3,10 +3,10 @@ using System.Linq.Expressions;
 using AutoMapper.ConfigurationAPI;
 using AutoMapper.ConfigurationAPI.Configuration;
 using AutoMapper.Extended.Net4;
+using HappyMapper.Text;
 using NUnit.Framework;
-using OrdinaryMapper.Text;
 
-namespace OrdinaryMapper.Tests.Text
+namespace HappyMapper.Tests.Text
 {
     public class ConditionBuilder_Tests
     {

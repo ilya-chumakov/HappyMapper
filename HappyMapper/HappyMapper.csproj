@@ -129,7 +129,7 @@
     <Compile Include="Text\CollectionTextBuilder.cs" />
     <Compile Include="PublicAPI\ErrorMessages.cs" />
     <Compile Include="Text\Legacy\LegacyMapContext.cs" />
-    <Compile Include="PublicAPI\HappyMapper.cs" />
+    <Compile Include="PublicAPI\Mapper.cs" />
     <Compile Include="Extensions\DictionaryExtensions.cs" />
     <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="Text\CodeFile.cs" />
@@ -156,7 +156,7 @@
     <Compile Include="Extensions\StringEx.cs" />
     <Compile Include="Text\Legacy\LegacyTextBuilder.cs" />
     <Compile Include="Compilation\MapperTypeBuilder.cs" />
-    <Compile Include="PublicAPI\OrdinaryMapperException.cs" />
+    <Compile Include="PublicAPI\HappyMapperException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PublicAPI\SingleMapper.cs" />
     <Compile Include="Text\NameContexts\TypeNameContext.cs" />

@@ -1,7 +1,7 @@
 using System;
-using OrdinaryMapper.Benchmarks.Types;
+using HappyMapper.Benchmarks.Types;
 
-namespace OrdinaryMapper.Benchmarks
+namespace HappyMapper.Benchmarks
 {
     public class HandwrittenMapper : ITestableMapper
     {

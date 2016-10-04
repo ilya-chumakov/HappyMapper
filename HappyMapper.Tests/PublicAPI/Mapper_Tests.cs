@@ -1,9 +1,9 @@
 ﻿using System;
+using HappyMapper.Benchmarks.Types;
+using HappyMapper.Tests.Tools;
 using NUnit.Framework;
-using OrdinaryMapper.Benchmarks.Types;
-using OrdinaryMapper.Tests.Tools;
 
-namespace OrdinaryMapper.Tests.PublicAPI
+namespace HappyMapper.Tests.PublicAPI
 {
     public class Mapper_Tests
     {

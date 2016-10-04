@@ -5,7 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using ExpressionToCodeLib;
 
-namespace OrdinaryMapper.Text
+namespace HappyMapper.Text
 {
     /// <summary>
     /// Only src and dest - no captured variables!

@@ -8,7 +8,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Emit;
 
-namespace OrdinaryMapper.Compilation
+namespace HappyMapper.Compilation
 {
     public static class MapperTypeBuilder
     {
@@ -46,7 +46,7 @@ namespace OrdinaryMapper.Compilation
         {
             var references = new List<MetadataReference>();
             references.Add(MetadataReference.CreateFromFile(typeof(object).Assembly.Location));
-            references.Add(MetadataReference.CreateFromFile(typeof(OrdinaryMapperException).Assembly.Location));
+            references.Add(MetadataReference.CreateFromFile(typeof(HappyMapperException).Assembly.Location));
             references.Add(MetadataReference.CreateFromFile(typeof(ResolutionContext).Assembly.Location));
             references.Add(MetadataReference.CreateFromFile(typeof(System.Linq.Enumerable).Assembly.Location)); //only for CollectionBuilder
             references.Add(MetadataReference.CreateFromFile(typeof(System.Linq.Queryable).Assembly.Location)); //only for CollectionBuilder
@@ -62,7 +62,7 @@ namespace OrdinaryMapper.Compilation
         {
             var references = new List<MetadataReference>();
             references.Add(MetadataReference.CreateFromFile(typeof(object).Assembly.Location));
-            references.Add(MetadataReference.CreateFromFile(typeof(OrdinaryMapperException).Assembly.Location));
+            references.Add(MetadataReference.CreateFromFile(typeof(HappyMapperException).Assembly.Location));
             references.Add(MetadataReference.CreateFromFile(typeof(ResolutionContext).Assembly.Location));
             references.Add(MetadataReference.CreateFromFile(typeof(System.Linq.Enumerable).Assembly.Location)); //only for CollectionBuilder
             references.Add(MetadataReference.CreateFromFile(typeof(System.Linq.Queryable).Assembly.Location)); //only for CollectionBuilder
@@ -114,7 +114,7 @@ namespace OrdinaryMapper.Compilation
                     return assembly;
                 }
             }
-            throw new OrdinaryMapperException("Can't compile the mappers!");
+            throw new HappyMapperException("Can't compile the mappers!");
         }
     }
 }

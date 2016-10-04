@@ -1,4 +1,4 @@
-namespace OrdinaryMapper
+namespace HappyMapper
 {
     public static class StringExtensions
     {

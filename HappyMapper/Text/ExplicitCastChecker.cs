@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace OrdinaryMapper.Text
+namespace HappyMapper.Text
 {
     //https://msdn.microsoft.com/en-us/library/yht2cx7b.aspx
     public class ExplicitCastChecker

@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 
-namespace OrdinaryMapper.Tests.Issues
+namespace HappyMapper.Tests.Issues
 {
     public class Src
     {
@@ -36,7 +36,7 @@ namespace OrdinaryMapper.Tests.Issues
         [Test]
         public void Map_NoDestChildCtor_ThrowsEx()
         {
-            Assert.Throws(Is.TypeOf<OrdinaryMapperException>()
+            Assert.Throws(Is.TypeOf<HappyMapperException>()
                          .And.Message.ContainsSubstring("parameterless ctor"),
                          //.And.Property("MyParam").EqualTo(42),
                 delegate

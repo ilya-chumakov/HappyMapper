@@ -1,7 +1,7 @@
 using System;
 using EmitMapper;
 
-namespace OrdinaryMapper.Benchmarks
+namespace HappyMapper.Benchmarks
 {
     /// <summary>
     /// Mapping without cache search

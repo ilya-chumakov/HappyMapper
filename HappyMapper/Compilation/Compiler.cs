@@ -5,10 +5,10 @@ using System.Linq;
 using System.Reflection;
 using AutoMapper.ConfigurationAPI;
 using AutoMapper.ConfigurationAPI.Configuration;
+using HappyMapper.Text;
 using Microsoft.CodeAnalysis.CSharp;
-using OrdinaryMapper.Text;
 
-namespace OrdinaryMapper.Compilation
+namespace HappyMapper.Compilation
 {
     public class Compiler
     {

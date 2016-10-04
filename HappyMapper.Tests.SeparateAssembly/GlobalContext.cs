@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace OrdinaryMapper.Tests.SeparateAssembly
+﻿namespace HappyMapper.Tests.SeparateAssembly
 {
     public static class GlobalContext
     {

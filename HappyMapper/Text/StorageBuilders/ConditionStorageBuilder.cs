@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Text;
 using AutoMapper.ConfigurationAPI;
 
-namespace OrdinaryMapper.Text
+namespace HappyMapper.Text
 {
     public class ConditionStorageBuilder : IStorageBuilder
     {

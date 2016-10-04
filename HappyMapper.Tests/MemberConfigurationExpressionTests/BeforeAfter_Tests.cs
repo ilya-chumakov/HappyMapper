@@ -1,10 +1,8 @@
 ﻿using NUnit.Framework;
 
-namespace OrdinaryMapper.Tests.MemberConfigurationExpressionTests
+namespace HappyMapper.Tests.MemberConfigurationExpressionTests
 {
-    using System;
-
-        public class When_configuring_before_and_after_methods
+    public class When_configuring_before_and_after_methods
         {
             public class Source
             {

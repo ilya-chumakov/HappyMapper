@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
 
-namespace OrdinaryMapper.Tests.PublicAPI
+namespace HappyMapper.Tests.PublicAPI
 {
     public class MapCollections_Tests
     {

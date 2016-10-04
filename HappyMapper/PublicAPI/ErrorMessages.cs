@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace OrdinaryMapper
+namespace HappyMapper
 {
     public static class ErrorMessages
     {

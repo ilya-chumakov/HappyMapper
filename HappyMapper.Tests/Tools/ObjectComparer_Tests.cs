@@ -1,8 +1,8 @@
 ﻿using System;
+using HappyMapper.Benchmarks.Types;
 using NUnit.Framework;
-using OrdinaryMapper.Benchmarks.Types;
 
-namespace OrdinaryMapper.Tests.Tools
+namespace HappyMapper.Tests.Tools
 {
     public class ObjectComparer_Tests
     {

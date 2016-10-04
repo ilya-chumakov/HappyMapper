@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace OrdinaryMapper.Text
+namespace HappyMapper.Text
 {
     //http://stackoverflow.com/a/32026590/5112433
     //https://msdn.microsoft.com/ru-ru/library/y5b434w4.aspx 

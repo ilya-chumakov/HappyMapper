@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 
-namespace OrdinaryMapper.Benchmarks
+namespace HappyMapper.Benchmarks
 {
     public class Benchmark<TSrc, TDest> 
         where TSrc: new()

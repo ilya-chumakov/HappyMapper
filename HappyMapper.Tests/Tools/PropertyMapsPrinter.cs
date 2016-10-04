@@ -2,7 +2,7 @@
 using System.Linq;
 using NUnit.Framework;
 
-namespace OrdinaryMapper.Tests.Tools
+namespace HappyMapper.Tests.Tools
 {
     public class PropertyMapsPrinter
     {

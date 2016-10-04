@@ -1,7 +1,7 @@
 ﻿using System;
-using OrdinaryMapper.Text;
+using HappyMapper.Text;
 
-namespace OrdinaryMapper
+namespace HappyMapper
 {
     public static class TypeExtensions
     {

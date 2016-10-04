@@ -1,4 +1,4 @@
-﻿namespace OrdinaryMapper.Text
+﻿namespace HappyMapper.Text
 {
     public static class NameConventionsStorage
     {
@@ -9,7 +9,7 @@
 
         static NameConventionsStorage()
         {
-            string nms = "OrdinaryMapper";
+            string nms = "HappyMapper";
 
             Mapper.Namespace = nms;
             Mapper.ClassShortName = "Mapper";

@@ -1,8 +1,8 @@
-﻿using NUnit.Framework;
-using OrdinaryMapper.Benchmarks.Types;
-using OrdinaryMapper.Tests.Tools;
+﻿using HappyMapper.Benchmarks.Types;
+using HappyMapper.Tests.Tools;
+using NUnit.Framework;
 
-namespace OrdinaryMapper.Tests.PublicAPI
+namespace HappyMapper.Tests.PublicAPI
 {
     public class SingleMapper_Tests
     {
@@ -24,7 +24,7 @@ namespace OrdinaryMapper.Tests.PublicAPI
         [Test]
         public void GetSingleMapper_NoMap_ThrowsEx()
         {
-            Assert.Throws(Is.TypeOf<OrdinaryMapperException>()
+            Assert.Throws(Is.TypeOf<HappyMapperException>()
                 , () => 
                 {
                     var config = new HappyConfig(cfg =>

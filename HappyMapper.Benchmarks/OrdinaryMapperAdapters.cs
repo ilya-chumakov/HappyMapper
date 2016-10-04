@@ -1,13 +1,13 @@
 ﻿using System;
 
-namespace OrdinaryMapper.Benchmarks
+namespace HappyMapper.Benchmarks
 {
     /// <summary>
     /// Mapper search + mapping.
     /// New API and text engine.
     /// Perfomance a bit degraded due to 'if' statements added by new text engine (runtime null checks etc.).
     /// </summary>
-    public class OrdinaryMapperCachedV3 : ITestableMapper
+    public class HappyMapperCached : ITestableMapper
     {
         public Action<TInput, TOutput> CreateMapMethod<TInput, TOutput>()
         {
@@ -27,7 +27,7 @@ namespace OrdinaryMapper.Benchmarks
     /// <summary>
     /// Mapping without cache search
     /// </summary>
-    public class OrdinaryMapperSingleV2 : ITestableMapper
+    public class HappyMapperSingle : ITestableMapper
     {
         public Action<TInput, TOutput> CreateMapMethod<TInput, TOutput>()
         {

@@ -1,7 +1,7 @@
 using System;
 using NUnit.Framework;
 
-namespace OrdinaryMapper.Tests.Tools
+namespace HappyMapper.Tests.Tools
 {
     public static class TypeExtentions
     {

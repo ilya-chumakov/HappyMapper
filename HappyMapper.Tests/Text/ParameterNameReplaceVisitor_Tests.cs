@@ -2,7 +2,7 @@
 //using System.Linq.Expressions;
 //using NUnit.Framework;
 
-//namespace OrdinaryMapper.Tests.Text
+//namespace HappyMapper.Tests.Text
 //{
 //    public class ParameterNameReplaceVisitor_Tests
 //    {

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.IO;
+using HappyMapper.Benchmarks.Types;
 using NUnit.Framework;
-using OrdinaryMapper.Benchmarks.Types;
 
-namespace OrdinaryMapper.Tests.AutoMapper.Extended
+namespace HappyMapper.Tests.AutoMapper.Extended
 {
     public class UnsupportedTypeBlocker_Tests
     {

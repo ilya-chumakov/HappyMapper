@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using AutoMapper.Extended.Net4;
 
-namespace OrdinaryMapper.Text
+namespace HappyMapper.Text
 {
     public static class CodeTemplates
     {

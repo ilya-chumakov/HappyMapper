@@ -1,6 +1,6 @@
 using System;
 
-namespace OrdinaryMapper.Benchmarks
+namespace HappyMapper.Benchmarks
 {
     public interface ITestableMapper
     {

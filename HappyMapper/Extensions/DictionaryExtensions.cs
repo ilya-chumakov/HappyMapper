@@ -2,7 +2,7 @@
 using System.Linq;
 using AutoMapper.ConfigurationAPI;
 
-namespace OrdinaryMapper
+namespace HappyMapper
 {
     public static class DictionaryExtensions
     {

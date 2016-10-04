@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using AutoMapper.ConfigurationAPI;
 using AutoMapper.ConfigurationAPI.Configuration;
-using OrdinaryMapper.Compilation;
+using HappyMapper.Compilation;
 
-namespace OrdinaryMapper
+namespace HappyMapper
 {
     public class HappyConfig
     {
@@ -18,13 +18,13 @@ namespace OrdinaryMapper
             AutoMapperCfg = new MapperConfiguration(configurationExpression); 
         }
 
-        public HappyMapper CompileMapper()
+        public Mapper CompileMapper()
         {
             var compiler = new Compiler();
 
             var delegates = compiler.CompileMapsToAssembly(Configuration, TypeMaps);
 
-            return new HappyMapper(delegates);
+            return new Mapper(delegates);
         }
 
         public void AssertConfigurationIsValid()

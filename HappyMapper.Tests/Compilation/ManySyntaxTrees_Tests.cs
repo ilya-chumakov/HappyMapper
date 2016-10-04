@@ -1,10 +1,10 @@
 ﻿using System.IO;
+using HappyMapper.Compilation;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using NUnit.Framework;
-using OrdinaryMapper.Compilation;
 
-namespace OrdinaryMapper.Tests.Compilation
+namespace HappyMapper.Tests.Compilation
 {
     public class ManySyntaxTrees_Tests
     {

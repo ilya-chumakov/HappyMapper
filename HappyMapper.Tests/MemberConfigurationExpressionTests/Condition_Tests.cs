@@ -1,8 +1,7 @@
-﻿using System;
+﻿using HappyMapper.Tests.SeparateAssembly;
 using NUnit.Framework;
-using OrdinaryMapper.Tests.SeparateAssembly;
 
-namespace OrdinaryMapper.Tests.MemberConfigurationExpressionTests
+namespace HappyMapper.Tests.MemberConfigurationExpressionTests
 {
     public class Condition_Tests
     {

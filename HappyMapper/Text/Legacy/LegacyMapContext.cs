@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace OrdinaryMapper.Text.Legacy
+namespace HappyMapper.Text.Legacy
 {
     public class LegacyMapContext
     {

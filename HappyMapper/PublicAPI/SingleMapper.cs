@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace OrdinaryMapper
+namespace HappyMapper
 {
     public class SingleMapper<TSrc, TDest>
     {

@@ -1,7 +1,7 @@
 using System;
 using System.Text;
 
-namespace OrdinaryMapper.Text
+namespace HappyMapper.Text
 {
     public class Recorder
     {
@@ -67,7 +67,7 @@ namespace OrdinaryMapper.Text
                 string exMessage =
                     ErrorMessages.NoParameterlessCtor($"{ctx.SrcMemberName}", $"{ctx.DestMemberName}", destPropType);
 
-                string template = $@"if ({{1}}.{ctx.DestMemberName} == null) throw new OrdinaryMapperException(""{exMessage}"");";
+                string template = $@"if ({{1}}.{ctx.DestMemberName} == null) throw new HappyMapperException(""{exMessage}"");";
 
                 AppendLine(template);
             }

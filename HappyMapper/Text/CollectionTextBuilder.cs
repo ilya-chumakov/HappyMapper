@@ -3,7 +3,7 @@ using System.Collections.Immutable;
 using AutoMapper.ConfigurationAPI;
 using AutoMapper.ConfigurationAPI.Configuration;
 
-namespace OrdinaryMapper.Text
+namespace HappyMapper.Text
 {
     public class CollectionTextBuilder
     {

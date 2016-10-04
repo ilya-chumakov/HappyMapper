@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using AutoMapper;
 using AutoMapper.ConfigurationAPI;
+using HappyMapper.Text;
 using NUnit.Framework;
-using OrdinaryMapper.Text;
 
-namespace OrdinaryMapper.Tests.Text
+namespace HappyMapper.Tests.Text
 {
     public class MethodInnerCodeBuilder_SmokeTests
     {
@@ -127,7 +125,7 @@ namespace OrdinaryMapper.Tests.Text
         [Test]
         public void NestedType_Test()
         {
-            var x = new OrdinaryMapper.Tests.Text.MethodInnerCodeBuilder_SmokeTests.B1();
+            var x = new MethodInnerCodeBuilder_SmokeTests.B1();
             Assert.IsNotNull(x);
         }
     }

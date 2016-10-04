@@ -1,4 +1,4 @@
-﻿namespace OrdinaryMapper.Text
+﻿namespace HappyMapper.Text
 {
     public class ActionNameConvention
     {

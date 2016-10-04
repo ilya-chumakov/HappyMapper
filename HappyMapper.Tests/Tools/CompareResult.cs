@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace OrdinaryMapper.Tests.Tools
+namespace HappyMapper.Tests.Tools
 {
     public class CompareResult
     {

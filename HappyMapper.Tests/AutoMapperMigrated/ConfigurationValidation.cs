@@ -1,9 +1,8 @@
-﻿using AutoMapper;
-using AutoMapper.ConfigurationAPI;
+﻿using AutoMapper.ConfigurationAPI;
+using HappyMapper.Tests.Tools;
 using NUnit.Framework;
-using OrdinaryMapper.Tests.Tools;
 
-namespace OrdinaryMapper.Tests.AutoMapperMigrated
+namespace HappyMapper.Tests.AutoMapperMigrated
 {
     public class When_constructor_does_not_match : NonValidatingSpecBase
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace OrdinaryMapper.Benchmarks
+namespace HappyMapper.Benchmarks
 {
     internal class Program
     {

@@ -1,7 +1,7 @@
 using System;
 using AutoMapper.ConfigurationAPI;
 
-namespace OrdinaryMapper
+namespace HappyMapper
 {
     /// <summary>
     /// Re-branding to avoid AutoMapperConfigurationException.

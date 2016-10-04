@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 
-namespace OrdinaryMapper.Tests.MemberConfigurationExpressionTests
+namespace HappyMapper.Tests.MemberConfigurationExpressionTests
 {
     public class MapFrom_Tests
     {
