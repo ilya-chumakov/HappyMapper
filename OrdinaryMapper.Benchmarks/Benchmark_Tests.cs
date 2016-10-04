@@ -26,7 +26,7 @@ namespace OrdinaryMapper.Benchmarks
 
         public Benchmark<Src, Dest> Benchmark { get; set; }
 
-        [Test]
+        //[Test]
         public void Run_AllMappers_MeasuresTime()
         {
             int[] exponents = new[] { 6 };

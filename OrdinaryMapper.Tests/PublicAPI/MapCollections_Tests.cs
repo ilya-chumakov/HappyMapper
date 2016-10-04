@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
-using OrdinaryMapper.AmcApi;
 
-namespace OrdinaryMapper.Tests
+namespace OrdinaryMapper.Tests.PublicAPI
 {
     public class MapCollections_Tests
     {

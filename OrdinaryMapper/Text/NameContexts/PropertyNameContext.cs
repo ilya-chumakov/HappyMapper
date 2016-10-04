@@ -1,7 +1,7 @@
 
 using AutoMapper.ConfigurationAPI;
 
-namespace OrdinaryMapper
+namespace OrdinaryMapper.Text
 {
     public interface IAssignContext
     {

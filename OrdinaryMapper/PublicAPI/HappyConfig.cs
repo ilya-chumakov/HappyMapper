@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using AutoMapper.ConfigurationAPI;
 using AutoMapper.ConfigurationAPI.Configuration;
+using OrdinaryMapper.Compilation;
 
-namespace OrdinaryMapper.AmcApi
+namespace OrdinaryMapper
 {
     public class HappyConfig
     {

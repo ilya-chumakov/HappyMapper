@@ -1,4 +1,4 @@
-namespace OrdinaryMapper
+namespace OrdinaryMapper.Text
 {
     public class MethodDeclarationContext
     {

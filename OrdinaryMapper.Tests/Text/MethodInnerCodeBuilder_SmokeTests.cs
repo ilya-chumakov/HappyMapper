@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using AutoMapper;
 using AutoMapper.ConfigurationAPI;
 using NUnit.Framework;
-using OrdinaryMapper.AmcApi;
-using OrdinaryMapperAmcApi.Tests;
+using OrdinaryMapper.Text;
 
 namespace OrdinaryMapper.Tests.Text
 {
@@ -37,7 +36,7 @@ namespace OrdinaryMapper.Tests.Text
             });
 
             var typeMaps = config.TypeMaps;
-            var mtb = new MapperTextBuilderV2(typeMaps, config.Configuration);
+            var mtb = new TextBuilder(typeMaps, config.Configuration);
 
             var files = mtb.CreateCodeFiles();
 

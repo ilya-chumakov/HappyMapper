@@ -4,6 +4,7 @@ using AutoMapper.ConfigurationAPI;
 using AutoMapper.ConfigurationAPI.Configuration;
 using AutoMapper.Extended.Net4;
 using NUnit.Framework;
+using OrdinaryMapper.Text;
 
 namespace OrdinaryMapper.Tests.Text
 {

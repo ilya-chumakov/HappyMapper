@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 
-namespace OrdinaryMapper
+namespace OrdinaryMapper.Text
 {
     //https://msdn.microsoft.com/en-us/library/yht2cx7b.aspx
     public class ExplicitCastChecker

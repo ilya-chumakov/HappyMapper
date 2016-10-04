@@ -1,11 +1,10 @@
 ﻿using NUnit.Framework;
-using OrdinaryMapper.AmcApi;
 using OrdinaryMapper.Benchmarks.Types;
 using OrdinaryMapper.Tests.Tools;
 
-namespace OrdinaryMapper.Tests
+namespace OrdinaryMapper.Tests.PublicAPI
 {
-    public class Mapper_SingleMapper_Tests
+    public class SingleMapper_Tests
     {
         [Test]
         public void GetSingleMapper_Map_Success()

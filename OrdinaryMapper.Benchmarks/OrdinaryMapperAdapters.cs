@@ -1,5 +1,4 @@
 ﻿using System;
-using OrdinaryMapper.AmcApi;
 
 namespace OrdinaryMapper.Benchmarks
 {

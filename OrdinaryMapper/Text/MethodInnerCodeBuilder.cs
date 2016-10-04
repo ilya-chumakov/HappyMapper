@@ -1,13 +1,11 @@
-using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics;
 using AutoMapper.ConfigurationAPI;
 using AutoMapper.ConfigurationAPI.Configuration;
 using AutoMapper.Extended.Net4;
-using OrdinaryMapper;
 
-namespace OrdinaryMapper
+namespace OrdinaryMapper.Text
 {
     public class MethodInnerCodeBuilder
     {

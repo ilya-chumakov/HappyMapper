@@ -1,8 +1,7 @@
-﻿using System;
-using AutoMapper.ConfigurationAPI;
+﻿using AutoMapper.ConfigurationAPI;
 using AutoMapper.Extended.Net4;
 
-namespace OrdinaryMapper
+namespace OrdinaryMapper.Text
 {
     public class MapperNameConvention
     {

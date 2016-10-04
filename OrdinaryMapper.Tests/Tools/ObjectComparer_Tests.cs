@@ -1,12 +1,10 @@
 ﻿using System;
 using NUnit.Framework;
-using OrdinaryMapper.Benchmarks;
 using OrdinaryMapper.Benchmarks.Types;
-using OrdinaryMapper.Tests.Tools;
 
-namespace OrdinaryMapper.Tests
+namespace OrdinaryMapper.Tests.Tools
 {
-    public class Comparer_Tests
+    public class ObjectComparer_Tests
     {
         [Test]
         public void AreEqual_EqualSimpleObjects_ReturnsTrue()

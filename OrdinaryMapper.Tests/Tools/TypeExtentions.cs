@@ -1,8 +1,7 @@
 using System;
-using AutoMapper;
 using NUnit.Framework;
 
-namespace OrdinaryMapper.Tests.AutoMapperMigrated
+namespace OrdinaryMapper.Tests.Tools
 {
     public static class TypeExtentions
     {

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Reflection;
 using AutoMapper.ConfigurationAPI;
 using Microsoft.CodeAnalysis.CSharp;
+using OrdinaryMapper.Compilation;
+using OrdinaryMapper.Text;
 
 namespace OrdinaryMapper
 {

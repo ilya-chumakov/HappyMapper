@@ -2,7 +2,7 @@
 using AutoMapper.ConfigurationAPI;
 using NUnit.Framework;
 
-namespace AutoMapper.UnitTests
+namespace OrdinaryMapper.Tests.AutoMapperMigrated
 {
     public abstract class AutoMapperSpecBase : NonValidatingSpecBase
     {

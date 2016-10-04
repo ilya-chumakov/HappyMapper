@@ -1,7 +1,6 @@
 ﻿using NUnit.Framework;
-using OrdinaryMapper.AmcApi;
 
-namespace OrdinaryMapper.Tests.Cases
+namespace OrdinaryMapper.Tests.Issues
 {
     public class Src
     {

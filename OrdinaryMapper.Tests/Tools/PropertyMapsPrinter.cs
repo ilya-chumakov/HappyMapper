@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
-using OrdinaryMapper.AmcApi;
-using OrdinaryMapperAmcApi.Tests;
 
-namespace OrdinaryMapper.Tests.New
+namespace OrdinaryMapper.Tests.Tools
 {
-    public class PropertyMapsPrint
+    public class PropertyMapsPrinter
     {
         public class A { public string MyProperty { get; set; } }
         public class B { public string MyProperty { get; set; } }

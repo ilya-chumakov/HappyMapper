@@ -5,7 +5,7 @@ using System.Text;
 using AutoMapper.ConfigurationAPI;
 using AutoMapper.Extended.Net4;
 
-namespace OrdinaryMapper
+namespace OrdinaryMapper.Text.Legacy
 {
     public static class LegacyTextBuilder
     {

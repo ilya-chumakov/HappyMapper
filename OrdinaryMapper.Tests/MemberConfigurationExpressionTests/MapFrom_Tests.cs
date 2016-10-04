@@ -1,5 +1,4 @@
 ﻿using NUnit.Framework;
-using OrdinaryMapper.AmcApi;
 
 namespace OrdinaryMapper.Tests.MemberConfigurationExpressionTests
 {

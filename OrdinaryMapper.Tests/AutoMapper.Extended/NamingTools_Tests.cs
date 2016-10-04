@@ -2,7 +2,7 @@
 using AutoMapper.Extended.Net4;
 using NUnit.Framework;
 
-namespace OrdinaryMapper.Tests
+namespace OrdinaryMapper.Tests.AutoMapper.Extended
 {
     public class NamingTools_Tests
     {

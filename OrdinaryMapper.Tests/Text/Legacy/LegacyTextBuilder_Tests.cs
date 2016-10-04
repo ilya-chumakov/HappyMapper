@@ -1,8 +1,9 @@
 ﻿using System;
 using NUnit.Framework;
 using OrdinaryMapper.Benchmarks.Types;
+using OrdinaryMapper.Text.Legacy;
 
-namespace OrdinaryMapper.Tests
+namespace OrdinaryMapper.Tests.Text.Legacy
 {
     public class LegacyTextBuilder_Tests
     {

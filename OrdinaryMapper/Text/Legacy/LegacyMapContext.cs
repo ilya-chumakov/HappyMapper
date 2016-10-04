@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace OrdinaryMapper
+namespace OrdinaryMapper.Text.Legacy
 {
     public class LegacyMapContext
     {

@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Reflection;
-using AutoMapper.ConfigurationAPI;
+﻿using System.Reflection;
 
-namespace OrdinaryMapper
+namespace OrdinaryMapper.Text
 {
     public interface IStorageBuilder
     {

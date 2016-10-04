@@ -122,12 +122,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AmcApi\HappyConfig_Tests.cs" />
     <Compile Include="AutoMapper.Extended\UnsupportedTypeBlocker_Tests.cs" />
     <Compile Include="AutoMapperMigrated\ConfigurationValidation.cs" />
     <Compile Include="AutoMapperMigrated\AutoMapperSpecBase.cs" />
-    <Compile Include="Cast_Tests.cs" />
-    <Compile Include="MapCollections_Tests.cs" />
+    <Compile Include="PublicAPI\Cast_Tests.cs" />
+    <Compile Include="PublicAPI\MapCollections_Tests.cs" />
     <Compile Include="CompilationResult.cs" />
     <Compile Include="MemberConfigurationExpressionTests\BeforeAfter_Tests.cs" />
     <Compile Include="MemberConfigurationExpressionTests\Condition_Tests.cs" />
@@ -136,19 +135,18 @@
     <Compile Include="Text\ParameterNameReplaceVisitor_Tests.cs" />
     <Compile Include="Text\ConditionBuilder_Tests.cs" />
     <Compile Include="Tools\TypeExtentions.cs" />
-    <Compile Include="Cases\ChildWithoutParameterlessCtor_Test.cs" />
-    <Compile Include="Comparer_Tests.cs" />
-    <Compile Include="LegacyTextBuilder_Tests.cs" />
-    <Compile Include="Mapper_SingleMapper_Tests.cs" />
-    <Compile Include="MapperConfiguration_Tests.cs" />
-    <Compile Include="Mapper_Tests.cs" />
+    <Compile Include="Issues\ChildWithoutParameterlessCtor_Test.cs" />
+    <Compile Include="Tools\ObjectComparer_Tests.cs" />
+    <Compile Include="Text\Legacy\LegacyTextBuilder_Tests.cs" />
+    <Compile Include="PublicAPI\SingleMapper_Tests.cs" />
+    <Compile Include="PublicAPI\Mapper_Tests.cs" />
     <Compile Include="Text\Recorder_Tests.cs" />
     <Compile Include="Text\ImplicitCastChecker_Tests.cs" />
     <Compile Include="Text\MethodInnerCodeBuilder_SmokeTests.cs" />
-    <Compile Include="PropertyMapsPrint.cs" />
+    <Compile Include="Tools\PropertyMapsPrinter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="NamingTools_Tests.cs" />
-    <Compile Include="Roslyn\ManySyntaxTrees_Tests.cs" />
+    <Compile Include="AutoMapper.Extended\NamingTools_Tests.cs" />
+    <Compile Include="Compilation\ManySyntaxTrees_Tests.cs" />
     <Compile Include="Tools\CompareResult.cs" />
     <Compile Include="Tools\ObjectComparer.cs" />
   </ItemGroup>

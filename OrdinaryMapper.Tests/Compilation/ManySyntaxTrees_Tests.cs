@@ -1,10 +1,10 @@
 ﻿using System.IO;
-using System.Reflection;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using NUnit.Framework;
+using OrdinaryMapper.Compilation;
 
-namespace OrdinaryMapper.Tests.Roslyn
+namespace OrdinaryMapper.Tests.Compilation
 {
     public class ManySyntaxTrees_Tests
     {

@@ -6,8 +6,9 @@ using System.Reflection;
 using AutoMapper.ConfigurationAPI;
 using AutoMapper.ConfigurationAPI.Configuration;
 using Microsoft.CodeAnalysis.CSharp;
+using OrdinaryMapper.Text;
 
-namespace OrdinaryMapper
+namespace OrdinaryMapper.Compilation
 {
     public class Compiler
     {
@@ -26,7 +27,7 @@ namespace OrdinaryMapper
         {
             RegisterStorageBuilders(typeMaps);
 
-            var textBuilder = new MapperTextBuilderV2(typeMaps, config);
+            var textBuilder = new TextBuilder(typeMaps, config);
             var files = textBuilder.CreateCodeFiles();
             Dictionary<TypePair, CodeFile> collectionFiles = new Dictionary<TypePair, CodeFile>();
 

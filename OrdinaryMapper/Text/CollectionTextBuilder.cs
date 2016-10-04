@@ -1,10 +1,9 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Linq;
 using AutoMapper.ConfigurationAPI;
 using AutoMapper.ConfigurationAPI.Configuration;
 
-namespace OrdinaryMapper
+namespace OrdinaryMapper.Text
 {
     public class CollectionTextBuilder
     {

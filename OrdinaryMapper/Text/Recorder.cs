@@ -1,7 +1,7 @@
 using System;
 using System.Text;
 
-namespace OrdinaryMapper
+namespace OrdinaryMapper.Text
 {
     public enum Assign
     {

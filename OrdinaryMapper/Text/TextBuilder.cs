@@ -1,18 +1,15 @@
-using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Linq;
 using AutoMapper.ConfigurationAPI;
 using AutoMapper.ConfigurationAPI.Configuration;
 
-namespace OrdinaryMapper
+namespace OrdinaryMapper.Text
 {
-    public class MapperTextBuilderV2
+    public class TextBuilder
     {
         public ImmutableDictionary<TypePair, TypeMap> ExplicitTypeMaps { get; }
 
-        public MapperTextBuilderV2(IDictionary<TypePair, TypeMap> explicitTypeMaps, MapperConfigurationExpression mce)
+        public TextBuilder(IDictionary<TypePair, TypeMap> explicitTypeMaps, MapperConfigurationExpression mce)
         {
             ExplicitTypeMaps = explicitTypeMaps.ToImmutableDictionary();
 

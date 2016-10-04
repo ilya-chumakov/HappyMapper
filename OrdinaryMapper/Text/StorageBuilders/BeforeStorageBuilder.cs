@@ -1,13 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 using AutoMapper.ConfigurationAPI;
 using AutoMapper.Extended.Net4;
 
-namespace OrdinaryMapper
+namespace OrdinaryMapper.Text
 {
     public class BeforeStorageBuilder : IStorageBuilder
     {

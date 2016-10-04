@@ -4,7 +4,7 @@ using System.Linq;
 using AutoMapper.ConfigurationAPI;
 using AutoMapper.Extended.Net4;
 
-namespace OrdinaryMapper
+namespace OrdinaryMapper.Text
 {
     /// <summary>
     /// Captured variable support!

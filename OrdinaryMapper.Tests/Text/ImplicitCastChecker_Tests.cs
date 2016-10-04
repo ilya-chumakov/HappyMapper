@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using OrdinaryMapper.Text;
 
 namespace OrdinaryMapper.Tests.Text
 {

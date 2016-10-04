@@ -1,8 +1,7 @@
 ﻿using System;
 using NUnit.Framework;
-using OrdinaryMapper.AmcApi;
 
-namespace OrdinaryMapper.Tests
+namespace OrdinaryMapper.Tests.PublicAPI
 {
     public class Cast_Tests
     {
