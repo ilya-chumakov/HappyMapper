@@ -22,7 +22,7 @@ namespace OrdinaryMapper.Text
         public Dictionary<TypePair, CodeFile> CreateCodeFiles(ImmutableDictionary<TypePair, CodeFile> xfiles)
         {
             var collectionFiles = new Dictionary<TypePair, CodeFile>();
-            var Convention = NameConventions.Mapper;
+            var Convention = NameConventionsStorage.Mapper;
 
             //TODO: move to convention
             string srcParamName = "src";

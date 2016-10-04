@@ -15,7 +15,7 @@ namespace OrdinaryMapper.Text
         public ConditionStorageBuilder(IDictionary<TypePair, TypeMap> explicitTypeMaps)
         {
             ExplicitTypeMaps = explicitTypeMaps.ToImmutableDictionary();
-            Convention = NameConventions.Condition;
+            Convention = NameConventionsStorage.Condition;
         }
 
         public string BuildCode()

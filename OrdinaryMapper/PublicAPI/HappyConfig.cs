@@ -8,7 +8,7 @@ namespace OrdinaryMapper
 {
     public class HappyConfig
     {
-        private MapperConfiguration AutoMapperCfg = null;
+        private readonly MapperConfiguration AutoMapperCfg = null;
 
         public IDictionary<TypePair, TypeMap> TypeMaps => AutoMapperCfg.TypeMapRegistry.TypeMapsDictionary;
         public MapperConfigurationExpression Configuration => (MapperConfigurationExpression)AutoMapperCfg.Configuration;

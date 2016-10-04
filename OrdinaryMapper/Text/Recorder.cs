@@ -3,14 +3,6 @@ using System.Text;
 
 namespace OrdinaryMapper.Text
 {
-    public enum Assign
-    {
-        AsNoCast,
-        AsExplicitCast,
-        AsToStringCall,
-        AsStringToValueTypeConvert
-    }
-
     public class Recorder
     {
         public Recorder()
@@ -56,11 +48,6 @@ namespace OrdinaryMapper.Text
             var assignment = new Assignment();
             assignment.RelativeTemplate = TemplateBuilder.ToString();
             return assignment;
-        }
-
-        public void AppendRawCode(string raw)
-        {
-            AppendLine(raw);
         }
 
         //TODO refactor

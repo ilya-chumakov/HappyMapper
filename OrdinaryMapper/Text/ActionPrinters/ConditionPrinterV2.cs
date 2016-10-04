@@ -15,7 +15,7 @@ namespace OrdinaryMapper.Text
 
         public ConditionPrinterV2(PropertyNameContext context, Recorder recorder)
         {
-            NameConvention = NameConventions.Condition;
+            NameConvention = NameConventionsStorage.Condition;
             Context = context;
             Recorder = recorder;
 
@@ -28,7 +28,7 @@ namespace OrdinaryMapper.Text
                 string template = ToTemplate(condition);
 
                 Recorder.AppendLine($"if ({template})");
-                Recorder.AppendRawCode("{{");
+                Recorder.AppendLine("{{");
             }
         }
 
@@ -45,7 +45,7 @@ namespace OrdinaryMapper.Text
         {
             if (IsExist)
             {
-                Recorder.AppendRawCode("}}");
+                Recorder.AppendLine("}}");
             }
         }
     }

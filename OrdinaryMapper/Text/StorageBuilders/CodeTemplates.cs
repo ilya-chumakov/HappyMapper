@@ -22,7 +22,7 @@ namespace OrdinaryMapper.Text
             builder.AppendLine("using System; ");
             builder.AppendLine("using System.Collections.Generic; "); //TODO: only for CollectionTextBuilder
             builder.AppendLine("using System.Linq; "); //TODO: only for CollectionTextBuilder
-            builder.AppendLine($"using {NameConventions.Mapper.Namespace}; ");
+            builder.AppendLine($"using {NameConventionsStorage.Mapper.Namespace}; ");
 
             builder.AppendLine($"namespace {nms}");
             builder.AppendLine("{ ");

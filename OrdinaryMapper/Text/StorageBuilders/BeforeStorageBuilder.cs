@@ -16,7 +16,7 @@ namespace OrdinaryMapper.Text
         public BeforeStorageBuilder(IDictionary<TypePair, TypeMap> explicitTypeMaps)
         {
             ExplicitTypeMaps = explicitTypeMaps.ToImmutableDictionary();
-            Convention = NameConventions.BeforeMap;
+            Convention = NameConventionsStorage.BeforeMap;
         }
 
         public string BuildCode()

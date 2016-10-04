@@ -1,13 +1,13 @@
 ﻿namespace OrdinaryMapper.Text
 {
-    public static class NameConventions
+    public static class NameConventionsStorage
     {
         public static ActionNameConvention BeforeMap { get; set; } = new ActionNameConvention();
         public static ActionNameConvention Condition { get; set; } = new ActionNameConvention();
         public static MapperNameConvention Mapper { get; set; } = new MapperNameConvention();
         
 
-        static NameConventions()
+        static NameConventionsStorage()
         {
             string nms = "OrdinaryMapper";
 

@@ -124,6 +124,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="PublicAPI\HappyConfig.cs" />
+    <Compile Include="PublicAPI\HappyMapperConfigurationException.cs" />
+    <Compile Include="Text\Assign.cs" />
     <Compile Include="Text\CollectionTextBuilder.cs" />
     <Compile Include="PublicAPI\ErrorMessages.cs" />
     <Compile Include="Text\Legacy\LegacyMapContext.cs" />
@@ -147,7 +149,7 @@
     <Compile Include="Text\TextBuilder.cs" />
     <Compile Include="Text\Assignment.cs" />
     <Compile Include="Text\NameConventions\ActionNameConvention.cs" />
-    <Compile Include="Text\NameConventions\NameConventions.cs" />
+    <Compile Include="Text\NameConventions\NameConventionsStorage.cs" />
     <Compile Include="Text\NameContexts\PropertyNameContext.cs" />
     <Compile Include="Text\NameContexts\ForDeclarationContext.cs" />
     <Compile Include="Text\StorageBuilders\IStorageBuilder.cs" />

@@ -31,7 +31,7 @@ namespace OrdinaryMapper.Text
                 string template = ToTemplate(condition);
 
                 Recorder.AppendLine($"if ({template})");
-                Recorder.AppendRawCode("{{");
+                Recorder.AppendLine("{{");
             }
         }
 
@@ -53,7 +53,7 @@ namespace OrdinaryMapper.Text
         {
             if (IsExist)
             {
-                Recorder.AppendRawCode("}}");
+                Recorder.AppendLine("}}");
             }
         }
     }

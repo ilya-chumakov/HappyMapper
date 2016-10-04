@@ -145,7 +145,7 @@ namespace OrdinaryMapper.Text
             Recorder recorder = new Recorder();
 
             recorder.AppendLine(CodeTemplates.NullCheck("{0}", "{1}"));
-            recorder.AppendRawCode(" else {{");
+            recorder.AppendLine(" else {{");
 
             recorder.AppendNoParameterlessCtorException(ctx, ctx.PropertyMap.DestType);
 
@@ -167,7 +167,7 @@ namespace OrdinaryMapper.Text
             }
 
             recorder.AppendLine(template);
-            recorder.AppendRawCode("}}");
+            recorder.AppendLine("}}");
 
             return recorder.ToAssignment().RelativeTemplate;
         }

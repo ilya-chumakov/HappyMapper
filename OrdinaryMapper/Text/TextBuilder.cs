@@ -21,7 +21,7 @@ namespace OrdinaryMapper.Text
         public Dictionary<TypePair, CodeFile> CreateCodeFiles()
         {
             var files = new Dictionary<TypePair, CodeFile>();
-            var Convention = NameConventions.Mapper;
+            var Convention = NameConventionsStorage.Mapper;
 
             //TODO: move to convention
             string srcFieldName = "src";

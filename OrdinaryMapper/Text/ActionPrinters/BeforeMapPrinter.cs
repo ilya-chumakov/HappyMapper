@@ -18,7 +18,7 @@ namespace OrdinaryMapper.Text
 
         public BeforeMapPrinter(TypeNameContext context, Recorder recorder)
         {
-            NameConvention = NameConventions.BeforeMap;
+            NameConvention = NameConventionsStorage.BeforeMap;
 
             Context = context;
             Recorder = recorder;
@@ -33,7 +33,7 @@ namespace OrdinaryMapper.Text
 
                 string template = string.Join("", templates);
 
-                Recorder.AppendRawCode("{{ ");
+                Recorder.AppendLine("{{ ");
 
                 Recorder.AppendLine(template);
             }
@@ -53,7 +53,7 @@ namespace OrdinaryMapper.Text
         {
             if (IsExist)
             {
-                Recorder.AppendRawCode("}}");
+                Recorder.AppendLine("}}");
             }
         }
     }
