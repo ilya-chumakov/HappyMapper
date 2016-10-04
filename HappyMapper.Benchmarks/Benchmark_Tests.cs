@@ -15,13 +15,13 @@ namespace OrdinaryMapper.Benchmarks
         {
             Benchmark = new Benchmark<Src, Dest>();
 
+            Benchmark.Register<HandwrittenMapper>();
+
             Benchmark.Register<OrdinaryMapperSingleV2>();
             Benchmark.Register<OrdinaryMapperCachedV3>();
 
             Benchmark.Register<EmitMapperCached>();
             Benchmark.Register<EmitMapperSingle>();
-
-            Benchmark.Register<HandwrittenMapper>();
         }
 
         public Benchmark<Src, Dest> Benchmark { get; set; }

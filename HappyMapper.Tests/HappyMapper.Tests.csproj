@@ -7,8 +7,8 @@
     <ProjectGuid>{FBF7EEB5-C0AE-4F73-BC7C-7D5C657836D5}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OrdinaryMapper.Tests</RootNamespace>
-    <AssemblyName>OrdinaryMapper.Tests</AssemblyName>
+    <RootNamespace>HappyMapper.Tests</RootNamespace>
+    <AssemblyName>HappyMapper.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -159,17 +159,17 @@
       <Project>{2c5f3563-c2b8-4cc5-87b6-82adfcd3cb57}</Project>
       <Name>AutoMapper.Extended.Net4</Name>
     </ProjectReference>
-    <ProjectReference Include="..\OrdinaryMapper.Benchmarks\OrdinaryMapper.Benchmarks.csproj">
+    <ProjectReference Include="..\HappyMapper.Benchmarks\HappyMapper.Benchmarks.csproj">
       <Project>{a7e947d4-e356-43f4-949e-87bad4fe6f8e}</Project>
-      <Name>OrdinaryMapper.Benchmarks</Name>
+      <Name>HappyMapper.Benchmarks</Name>
     </ProjectReference>
-    <ProjectReference Include="..\OrdinaryMapper.Tests.SeparateAssembly\OrdinaryMapper.Tests.SeparateAssembly.csproj">
+    <ProjectReference Include="..\HappyMapper.Tests.SeparateAssembly\HappyMapper.Tests.SeparateAssembly.csproj">
       <Project>{c1c8b73f-e3cb-433e-a5ec-ea12c8712243}</Project>
-      <Name>OrdinaryMapper.Tests.SeparateAssembly</Name>
+      <Name>HappyMapper.Tests.SeparateAssembly</Name>
     </ProjectReference>
-    <ProjectReference Include="..\OrdinaryMapper\OrdinaryMapper.csproj">
+    <ProjectReference Include="..\HappyMapper\HappyMapper.csproj">
       <Project>{79dea2c2-0084-417d-af75-6156c41eb32b}</Project>
-      <Name>OrdinaryMapper</Name>
+      <Name>HappyMapper</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

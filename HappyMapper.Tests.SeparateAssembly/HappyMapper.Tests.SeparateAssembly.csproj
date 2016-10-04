@@ -7,8 +7,8 @@
     <ProjectGuid>{C1C8B73F-E3CB-433E-A5EC-EA12C8712243}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OrdinaryMapper.Tests.SeparateAssembly</RootNamespace>
-    <AssemblyName>OrdinaryMapper.Tests.SeparateAssembly</AssemblyName>
+    <RootNamespace>HappyMapper.Tests.SeparateAssembly</RootNamespace>
+    <AssemblyName>HappyMapper.Tests.SeparateAssembly</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
