@@ -12,7 +12,7 @@ namespace OrdinaryMapper
     public class Compiler
     {
         private  List<IStorageBuilder> StorageBuilders { get; set; } = new List<IStorageBuilder>();
-        private bool CreateCollectionMaps { get; } = false;
+        private bool CreateCollectionMaps { get; } = true;
         
         void RegisterStorageBuilders(IDictionary<TypePair, TypeMap> typeMaps)
         {

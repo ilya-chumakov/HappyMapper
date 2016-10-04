@@ -16,7 +16,6 @@ namespace OrdinaryMapper.Benchmarks
             Benchmark = new Benchmark<Src, Dest>();
 
             Benchmark.Register<OrdinaryMapperSingleV2>();
-            Benchmark.Register<OrdinaryMapperSingle>();
             Benchmark.Register<OrdinaryMapperCachedV3>();
 
             Benchmark.Register<EmitMapperCached>();

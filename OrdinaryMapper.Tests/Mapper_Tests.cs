@@ -1,5 +1,7 @@
 ﻿using System;
+using AutoMapper.ConfigurationAPI;
 using NUnit.Framework;
+using OrdinaryMapper.AmcApi;
 using OrdinaryMapper.Benchmarks;
 using OrdinaryMapper.Benchmarks.Types;
 using OrdinaryMapper.Tests.Tools;
@@ -11,9 +13,11 @@ namespace OrdinaryMapper.Tests
         [Test]
         public void Mapper_MapSimpleReferenceTypes_Success()
         {
-            Mapper mapper = new Mapper();
-            mapper.CreateMap<Src, Dest>();
-            mapper.Compile();
+            var config = new HappyConfig(cfg =>
+            {
+                cfg.CreateMap<Src, Dest>();
+            });
+            var mapper = config.CompileMapper();
 
             var src = new Src();
             var dest = new Dest();
@@ -28,9 +32,11 @@ namespace OrdinaryMapper.Tests
         [Test]
         public void Mapper_MapNestedReferenceTypes_Success()
         {
-            Mapper mapper = new Mapper();
-            mapper.CreateMap<NestedSrc, NestedDest>();
-            mapper.Compile();
+            var config = new HappyConfig(cfg =>
+            {
+                cfg.CreateMap<NestedSrc, NestedDest>();
+            });
+            var mapper = config.CompileMapper();
 
             var src = new NestedSrc();
             var dest = new NestedDest();

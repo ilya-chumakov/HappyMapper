@@ -1,5 +1,6 @@
 ﻿using System;
 using NUnit.Framework;
+using OrdinaryMapper.AmcApi;
 
 namespace OrdinaryMapper.Tests.Cases.ChildWithoutParameterlessCtor
 {
@@ -42,9 +43,11 @@ namespace OrdinaryMapper.Tests.Cases.ChildWithoutParameterlessCtor
                          //.And.Property("MyParam").EqualTo(42),
                 delegate
                 {
-                    Mapper mapper = Mapper.Instance;
-                    mapper.CreateMap<Src, Dest>();
-                    mapper.Compile();
+                    var config = new HappyConfig(cfg =>
+                    {
+                        cfg.CreateMap<Src, Dest>();
+                    });
+                    var mapper = config.CompileMapper();
 
                     var src = new Src();
                     var dest = new Dest();

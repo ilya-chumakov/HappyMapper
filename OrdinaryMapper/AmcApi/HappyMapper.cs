@@ -8,8 +8,6 @@ namespace OrdinaryMapper
 {
     public class HappyMapper
     {
-        public static Mapper Instance { get; } = new Mapper();
-
         public Dictionary<TypePair, CompiledDelegate> DelegateCache { get; private set; }
         public Dictionary<TypePair, TypeMap> TypeMaps { get; } = new Dictionary<TypePair, TypeMap>();
         public MapperNameConvention Convention { get; set; } = NameConventions.Mapper;
@@ -31,7 +29,7 @@ namespace OrdinaryMapper
             var key = new TypePair(typeof(TSrc), typeof(TDest));
             DelegateCache.TryGetValue(key, out @delegate);
 
-            var mapMethod = @delegate.Single as Action<TSrc, TDest>;
+            var mapMethod = @delegate?.Single as Action<TSrc, TDest>;
 
             if (mapMethod == null) throw new OrdinaryMapperException(ErrorMessages.MissingMapping(key.SourceType, key.DestinationType));
 

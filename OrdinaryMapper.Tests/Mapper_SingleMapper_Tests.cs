@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using OrdinaryMapper.AmcApi;
 using OrdinaryMapper.Benchmarks.Types;
 using OrdinaryMapper.Tests.Tools;
 
@@ -27,8 +28,11 @@ namespace OrdinaryMapper.Tests
             Assert.Throws(Is.TypeOf<OrdinaryMapperException>()
                 , () => 
                 {
-                    Mapper mapper = new Mapper();
-                    mapper.Compile();
+                    var config = new HappyConfig(cfg =>
+                    {
+                        cfg.CreateMap<NestedSrc, NestedDest>();
+                    });
+                    var mapper = config.CompileMapper();
                     var singleMapper = mapper.GetSingleMapper<Src, Dest>();
                 });
         }
@@ -43,9 +47,12 @@ namespace OrdinaryMapper.Tests
 
         private static SingleMapper<Src, Dest> CreateSingleMapper()
         {
-            Mapper mapper = new Mapper();
-            mapper.CreateMap<Src, Dest>();
-            mapper.Compile();
+            var config = new HappyConfig(cfg =>
+            {
+                cfg.CreateMap<Src, Dest>();
+            });
+            var mapper = config.CompileMapper();
+
             var singleMapper = mapper.GetSingleMapper<Src, Dest>();
             return singleMapper;
         }
