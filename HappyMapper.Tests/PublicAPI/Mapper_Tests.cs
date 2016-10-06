@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using AutoMapper.ConfigurationAPI;
 using HappyMapper.Benchmarks.Types;
+using HappyMapper.Compilation;
 using HappyMapper.Tests.Tools;
 using NUnit.Framework;
 
@@ -45,32 +48,60 @@ namespace HappyMapper.Tests.PublicAPI
             result.Errors.ForEach(Console.WriteLine);
             Assert.IsTrue(result.Success);
         }
-    }
-
-    public class Mapper_InitDestPropertyWithNewObject_Tests
-    {
-        public class Src { public SrcChild Child { get; set; } }
-        public class Dest { public DestChild Child { get; set; } }
-        public class SrcChild { public int P1 { get; set; } }
-        public class DestChild { public int P1 { get; set; } }
 
         [Test]
-        public void Mapper_MapNullDestChild_CreatesDestChild()
+        public void Mapper_EmptyDelegateCache_ThrowsExOnMap()
         {
-            var config = new HappyConfig(cfg =>
+            Assert.Throws(Is.TypeOf<HappyMapperException>()
+                .And.Message.ContainsSubstring("Missing mapping"),
+                delegate
+                {
+                    var mapper = new Mapper(new Dictionary<TypePair, CompiledDelegate>());
+
+                    mapper.Map(new Src(), new Dest());
+                });
+        }
+
+        public class Mapper_InitDestPropertyWithNewObject_Tests
+        {
+            public class Src
             {
-                cfg.CreateMap<Src, Dest>();
-            });
-            var mapper = config.CompileMapper();
+                public SrcChild Child { get; set; }
+            }
 
-            var src = new Src { Child = new SrcChild() };
-            var dest = new Dest();
+            public class Dest
+            {
+                public DestChild Child { get; set; }
+            }
 
-            Assert.IsNull(dest.Child);
+            public class SrcChild
+            {
+                public int P1 { get; set; }
+            }
 
-            mapper.Map(src, dest);
+            public class DestChild
+            {
+                public int P1 { get; set; }
+            }
 
-            Assert.IsNotNull(dest.Child);
+            [Test]
+            public void Mapper_MapNullDestChild_CreatesDestChild()
+            {
+                var config = new HappyConfig(cfg =>
+                {
+                    cfg.CreateMap<Src, Dest>();
+                });
+                var mapper = config.CompileMapper();
+
+                var src = new Src { Child = new SrcChild() };
+                var dest = new Dest();
+
+                Assert.IsNull(dest.Child);
+
+                mapper.Map(src, dest);
+
+                Assert.IsNotNull(dest.Child);
+            }
         }
     }
 }

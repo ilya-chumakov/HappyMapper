@@ -12,12 +12,13 @@ namespace HappyMapper
         public Dictionary<TypePair, TypeMap> TypeMaps { get; } = new Dictionary<TypePair, TypeMap>();
         public MapperNameConvention Convention { get; set; } = NameConventionsStorage.Mapper;
 
+        [Obsolete("Call HappyConfig.CompileMapper to create a mapper instance.")]
         public Mapper()
         {
             DelegateCache = new Dictionary<TypePair, CompiledDelegate>();
         }
 
-        public Mapper(Dictionary<TypePair, CompiledDelegate> delegates)
+        internal Mapper(Dictionary<TypePair, CompiledDelegate> delegates)
         {
             DelegateCache = delegates;
         }
@@ -40,28 +41,40 @@ namespace HappyMapper
 
         public void Map<TSrc, TDest>(TSrc src, TDest dest)
         {
-            CompiledDelegate @delegate = null;
-
             var key = new TypePair(typeof(TSrc), typeof(TDest));
-            DelegateCache.TryGetValue(key, out @delegate);
-            var mapMethod = @delegate.Single as Action<TSrc, TDest>;
 
-            if (mapMethod == null) throw new HappyMapperException(ErrorMessages.MissingMapping(key.SourceType, key.DestinationType));
+            var mapMethod = GetMapMethod<TSrc, TDest>(key, @delegate => @delegate?.Single);
 
             mapMethod(src, dest);
         }
 
         public void MapCollection<TSrc, TDest>(ICollection<TSrc> src, ICollection<TDest> dest)
         {
-            CompiledDelegate @delegate = null;
-
             var key = new TypePair(typeof(TSrc), typeof(TDest));
-            DelegateCache.TryGetValue(key, out @delegate);
-            var mapMethod = @delegate.Collection as Action<ICollection<TSrc>, ICollection<TDest>>;
 
-            if (mapMethod == null) throw new HappyMapperException(ErrorMessages.MissingMapping(key.SourceType, key.DestinationType));
+            var mapMethod = GetMapMethod<ICollection<TSrc>, ICollection<TDest>>(key, @delegate => @delegate?.Collection);
 
             mapMethod(src, dest);
         }
+
+        private Action<TSrc, TDest> GetMapMethod<TSrc, TDest>(TypePair key, Func<CompiledDelegate, object> propertyAccessor)
+        {
+            CompiledDelegate @delegate = null;
+
+            DelegateCache.TryGetValue(key, out @delegate);
+            var mapMethod = propertyAccessor(@delegate) as Action<TSrc, TDest>;
+
+            if (mapMethod == null)
+                throw new HappyMapperException(ErrorMessages.MissingMapping(key.SourceType, key.DestinationType));
+
+            return mapMethod;
+        }
+
+        //public void Map<TDest>(object src)
+        //{
+        //    return Map<TDest>()
+        //}
+
+
     }
 }
