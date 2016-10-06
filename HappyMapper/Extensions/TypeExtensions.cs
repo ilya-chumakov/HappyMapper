@@ -14,5 +14,10 @@ namespace HappyMapper
         {
             return ExplicitCastChecker.CanCast(src, dest);
         }
+
+        public static bool HasParameterlessCtor(this Type type)
+        {
+            return type.GetConstructor(Type.EmptyTypes) != null;
+        }
     }
 }

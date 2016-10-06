@@ -15,9 +15,9 @@ namespace HappyMapper.Text
         public PropertyNameContext(PropertyMap propertyMap)
         {
             PropertyMap = propertyMap;
-            SrcMemberName = propertyMap.SrcMember.Name;
-            DestMemberName = propertyMap.DestMember.Name;
-            DestTypeFullName = propertyMap.DestType.FullName;
+            SrcMemberName = propertyMap.SrcMember.Name.NormalizeTypeName();
+            DestMemberName = propertyMap.DestMember.Name.NormalizeTypeName();
+            DestTypeFullName = propertyMap.DestType.FullName.NormalizeTypeName();
         }
 
         public PropertyMap PropertyMap { get; }

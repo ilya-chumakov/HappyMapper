@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics;
@@ -147,16 +148,27 @@ namespace HappyMapper.Text
             recorder.AppendLine(CodeTemplates.NullCheck("{0}", "{1}"));
             recorder.AppendLine(" else {{");
 
-            recorder.AppendNoParameterlessCtorException(ctx, ctx.PropertyMap.DestType);
+            //has parameterless ctor
+            if (ctx.PropertyMap.DestType.HasParameterlessCtor())
+            {
+                //create new Dest() object
+                string ass = $"{{1}}.{ctx.DestMemberName} = new {ctx.DestTypeFullName}();";
+
+                recorder.AppendLine(ass);
+            }
+            else
+            {
+                string exMessage = ErrorMessages.NoParameterlessCtor(
+                    ctx.SrcMemberName, ctx.DestMemberName, ctx.PropertyMap.DestType);
+
+                throw new HappyMapperException(exMessage);
+            }
 
             var typePair = ctx.PropertyMap.GetTypePair();
 
             string template;
-            //typepair already in template cache
-            if (TemplateCache.TryGetValue(typePair, out template))
-            {
-            }
-            else
+            //typepair isn't in template cache
+            if (!TemplateCache.TryGetValue(typePair, out template))
             {
                 var nodeMap = GetTypeMap(typePair);
 

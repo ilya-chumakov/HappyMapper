@@ -49,30 +49,5 @@ namespace HappyMapper.Text
             assignment.RelativeTemplate = TemplateBuilder.ToString();
             return assignment;
         }
-
-        //TODO refactor
-        public void AppendNoParameterlessCtorException(PropertyNameContext ctx, Type destPropType)
-        {
-            //has parameterless ctor
-            if (destPropType.GetConstructor(Type.EmptyTypes) != null)
-            {
-                //create new Dest() object
-                string fullName = destPropType.FullName.NormalizeTypeName();
-                string template = $"{{1}}.{ctx.DestMemberName} = new {fullName}();";
-
-                AppendLine(template);
-            }
-            else
-            {
-                string exMessage =
-                    ErrorMessages.NoParameterlessCtor($"{ctx.SrcMemberName}", $"{ctx.DestMemberName}", destPropType);
-
-                throw new HappyMapperException(exMessage);
-
-                string template = $@"if ({{1}}.{ctx.DestMemberName} == null) throw new HappyMapperException(""{exMessage}"");";
-
-                AppendLine(template);
-            }
-        }
     }
 }
