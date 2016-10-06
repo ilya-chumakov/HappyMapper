@@ -4,56 +4,60 @@ using NUnit.Framework;
 
 namespace HappyMapper.Tests.AutoMapperMigrated
 {
-    public class When_constructor_does_not_match : NonValidatingSpecBase
-    {
-        public class Source
-        {
-            public int Value { get; set; }
-        }
+    /// <summary>
+    /// For now, compile-time generic stricts are used.
+    /// </summary>
 
-        public class Dest
-        {
-            public Dest(int blarg)
-            {
-                Value = blarg;
-            }
-            public int Value { get; set; }
-        }
+    //public class When_constructor_does_not_match : NonValidatingSpecBase
+    //{
+    //    public class Source
+    //    {
+    //        public int Value { get; set; }
+    //    }
 
-        protected override MapperConfiguration Configuration { get; } = new MapperConfiguration(cfg => cfg.CreateMap<Source, Dest>());
+    //    public class Dest
+    //    {
+    //        public Dest(int blarg)
+    //        {
+    //            Value = blarg;
+    //        }
+    //        public int Value { get; set; }
+    //    }
 
-        [Test]
-        public void Should_throw()
-        {
-            typeof(AutoMapperConfigurationException).ShouldBeThrownBy(() => Configuration.AssertConfigurationIsValid());
-        }
-    }
+    //    protected override MapperConfiguration Configuration { get; } = new MapperConfiguration(cfg => cfg.CreateMap<Source, Dest>());
 
-    public class When_constructor_partially_matches : NonValidatingSpecBase
-    {
-        public class Source
-        {
-            public int Value { get; set; }
-        }
+    //    [Test]
+    //    public void Should_throw()
+    //    {
+    //        typeof(AutoMapperConfigurationException).ShouldBeThrownBy(() => Configuration.AssertConfigurationIsValid());
+    //    }
+    //}
 
-        public class Dest
-        {
-            public Dest(int value, int blarg)
-            {
-                Value = blarg;
-            }
+    //public class When_constructor_partially_matches : NonValidatingSpecBase
+    //{
+    //    public class Source
+    //    {
+    //        public int Value { get; set; }
+    //    }
 
-            public int Value { get; }
-        }
+    //    public class Dest
+    //    {
+    //        public Dest(int value, int blarg)
+    //        {
+    //            Value = blarg;
+    //        }
 
-        protected override MapperConfiguration Configuration { get; } = new MapperConfiguration(cfg => cfg.CreateMap<Source, Dest>());
+    //        public int Value { get; }
+    //    }
 
-        [Test]
-        public void Should_throw()
-        {
-            typeof(AutoMapperConfigurationException).ShouldBeThrownBy(() => Configuration.AssertConfigurationIsValid());
-        }
-    }
+    //    protected override MapperConfiguration Configuration { get; } = new MapperConfiguration(cfg => cfg.CreateMap<Source, Dest>());
+
+    //    [Test]
+    //    public void Should_throw()
+    //    {
+    //        typeof(AutoMapperConfigurationException).ShouldBeThrownBy(() => Configuration.AssertConfigurationIsValid());
+    //    }
+    //}
 
     public class When_testing_a_dto_with_mismatched_members : NonValidatingSpecBase
     {

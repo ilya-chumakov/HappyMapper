@@ -16,7 +16,8 @@ namespace AutoMapper.ConfigurationAPI
         /// <typeparam name="TSource">Source type</typeparam>
         /// <typeparam name="TDestination">Destination type</typeparam>
         /// <returns>Mapping expression for more configuration options</returns>
-        IMappingExpression<TSource, TDestination> CreateMap<TSource, TDestination>();
+        IMappingExpression<TSource, TDestination> CreateMap<TSource, TDestination>()
+            where TSource : class, new() where TDestination : class, new();
 
         /// <summary>
         /// Creates a mapping configuration from the <typeparamref name="TSource"/> type to the <typeparamref name="TDestination"/> type.

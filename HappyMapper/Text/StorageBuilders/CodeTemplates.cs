@@ -78,6 +78,7 @@ namespace HappyMapper.Text
         }
 
         /// <summary>
+        /// if ({src} == null) {dest} = null;
         /// TODO: perfomance degrades on each null check! Try to avoid it if possible!
         /// </summary>
         /// <param name="src"></param>

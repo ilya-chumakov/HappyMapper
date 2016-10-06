@@ -10,11 +10,12 @@ namespace HappyMapper.Benchmarks
     {
         public static ITestableMapper Instance => new EmitMapperSingle();
 
-        public Action<TInput, TOutput> CreateMapMethod<TInput, TOutput>()
+        public Action<TSrc, TDest> CreateMapMethod<TSrc, TDest>()
+            where TSrc : class, new() where TDest : class, new()
         {
-            var mapper = ObjectMapperManager.DefaultInstance.GetMapper<TInput, TOutput>();
+            var mapper = ObjectMapperManager.DefaultInstance.GetMapper<TSrc, TDest>();
 
-            Action<TInput, TOutput> action = (src, dest) => mapper.Map(src, dest);
+            Action<TSrc, TDest> action = (src, dest) => mapper.Map(src, dest);
 
             return action;
         }
@@ -27,11 +28,12 @@ namespace HappyMapper.Benchmarks
     {
         public static ITestableMapper Instance => new EmitMapperCached();
 
-        public Action<TInput, TOutput> CreateMapMethod<TInput, TOutput>()
+        public Action<TSrc, TDest> CreateMapMethod<TSrc, TDest>()
+            where TSrc : class, new() where TDest : class, new()
         {
-            Action<TInput, TOutput> action = (src, dest) =>
+            Action<TSrc, TDest> action = (src, dest) =>
             {
-                var mapper = ObjectMapperManager.DefaultInstance.GetMapper<TInput, TOutput>();
+                var mapper = ObjectMapperManager.DefaultInstance.GetMapper<TSrc, TDest>();
                 mapper.Map(src, dest);
             };
 

@@ -42,8 +42,7 @@ namespace HappyMapper.Tests.PublicAPI
         public void String_To_Decimal_Success() { Fixture_MapFromString<SrcStr, DestDecimal>(); }
 
         public void Fixture_MapFromValueType<TSrc, TDest>(Func<TSrc, object> srcValueGetter = null)
-            where TSrc : new()
-            where TDest : new()
+             where TSrc : class, new() where TDest : class, new()
         {
             dynamic src = new TSrc();
             src.Value = 13;
@@ -54,8 +53,7 @@ namespace HappyMapper.Tests.PublicAPI
         }
 
         public void Fixture_MapFromString<TSrc, TDest>()
-            where TSrc : new()
-            where TDest : new()
+             where TSrc : class, new() where TDest : class, new()
         {
             dynamic src = new TSrc();
             src.Value = 13.ToString();
@@ -65,7 +63,7 @@ namespace HappyMapper.Tests.PublicAPI
             Assert.AreEqual(src.Value, dest.Value.ToString());
         }
 
-        public TDest Map<TSrc, TDest>(TSrc src) where TDest : new()
+        public TDest Map<TSrc, TDest>(TSrc src) where TSrc : class, new() where TDest : class, new()
         {
             var config = new HappyConfig(cfg =>
                 cfg.CreateMap<TSrc, TDest>());

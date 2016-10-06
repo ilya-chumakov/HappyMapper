@@ -9,16 +9,17 @@ namespace HappyMapper.Benchmarks
     /// </summary>
     public class HappyMapperCached : ITestableMapper
     {
-        public Action<TInput, TOutput> CreateMapMethod<TInput, TOutput>()
+        public Action<TSrc, TDest> CreateMapMethod<TSrc, TDest>()
+            where TSrc : class, new() where TDest : class, new()
         {
             var config = new HappyConfig(cfg =>
             {
-                cfg.CreateMap<TInput, TOutput>();
+                cfg.CreateMap<TSrc, TDest>();
             });
 
             var mapper = config.CompileMapper();
 
-            Action<TInput, TOutput> action = (src, dest) => mapper.Map(src, dest);
+            Action<TSrc, TDest> action = (src, dest) => mapper.Map(src, dest);
 
             return action;
         }
@@ -29,18 +30,19 @@ namespace HappyMapper.Benchmarks
     /// </summary>
     public class HappyMapperSingle : ITestableMapper
     {
-        public Action<TInput, TOutput> CreateMapMethod<TInput, TOutput>()
+        public Action<TSrc, TDest> CreateMapMethod<TSrc, TDest>()
+            where TSrc : class, new() where TDest : class, new()
         {
             var config = new HappyConfig(cfg =>
             {
-                cfg.CreateMap<TInput, TOutput>();
+                cfg.CreateMap<TSrc, TDest>();
             });
 
             var mapper = config.CompileMapper();
 
-            var singleMapper = mapper.GetSingleMapper<TInput, TOutput>();
+            var singleMapper = mapper.GetSingleMapper<TSrc, TDest>();
 
-            Action<TInput, TOutput> action = (src, dest) => singleMapper.Map(src, dest);
+            Action<TSrc, TDest> action = (src, dest) => singleMapper.Map(src, dest);
 
             return action;
         }

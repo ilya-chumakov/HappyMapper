@@ -67,6 +67,8 @@ namespace HappyMapper.Text
                 string exMessage =
                     ErrorMessages.NoParameterlessCtor($"{ctx.SrcMemberName}", $"{ctx.DestMemberName}", destPropType);
 
+                throw new HappyMapperException(exMessage);
+
                 string template = $@"if ({{1}}.{ctx.DestMemberName} == null) throw new HappyMapperException(""{exMessage}"");";
 
                 AppendLine(template);

@@ -5,42 +5,45 @@ using NUnit.Framework;
 
 namespace HappyMapper.Tests.AutoMapper.Extended
 {
+    /// <summary>
+    /// For now, compile-time generic stricts are used instead of UnsupportedTypeBlocker.
+    /// </summary>
     public class UnsupportedTypeBlocker_Tests
     {
-        [Test]
-        public void CreateMap_AbstractType_Throws()
-        {
-            Assert.Throws<NotSupportedException>(() =>
-            {
-                var config = new HappyConfig(cfg =>
-                {
-                    cfg.CreateMap<Src, Stream>();
-                });
-            });
-        }
+        //[Test]
+        //public void CreateMap_AbstractType_Throws()
+        //{
+        //    Assert.Throws<NotSupportedException>(() =>
+        //    {
+        //        var config = new HappyConfig(cfg =>
+        //        {
+        //            cfg.CreateMap<Src, Stream>();
+        //        });
+        //    });
+        //}
 
-        [Test]
-        public void CreateMap_Interface_Throws()
-        {
-            Assert.Throws<NotSupportedException>(() =>
-            {
-                var config = new HappyConfig(cfg =>
-                {
-                    cfg.CreateMap<ICloneable, Dest>();
-                });
-            });
-        }
+        //[Test]
+        //public void CreateMap_Interface_Throws()
+        //{
+        //    Assert.Throws<NotSupportedException>(() =>
+        //    {
+        //        var config = new HappyConfig(cfg =>
+        //        {
+        //            cfg.CreateMap<ICloneable, Dest>();
+        //        });
+        //    });
+        //}
 
-        [Test]
-        public void CreateMap_Primitive_Throws()
-        {
-            Assert.Throws<NotSupportedException>(() =>
-            {
-                var config = new HappyConfig(cfg =>
-                {
-                    cfg.CreateMap<byte, Dest>();
-                });
-            });
-        }
+        //[Test]
+        //public void CreateMap_Primitive_Throws()
+        //{
+        //    Assert.Throws<NotSupportedException>(() =>
+        //    {
+        //        var config = new HappyConfig(cfg =>
+        //        {
+        //            cfg.CreateMap<byte, Dest>();
+        //        });
+        //    });
+        //}
     }
 }

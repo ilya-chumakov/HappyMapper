@@ -4,6 +4,7 @@ namespace HappyMapper.Benchmarks
 {
     public interface ITestableMapper
     {
-        Action<TInput, TOutput> CreateMapMethod<TInput, TOutput>();
+        Action<TSrc, TDest> CreateMapMethod<TSrc, TDest>()
+            where TSrc : class, new() where TDest : class, new();
     }
 }

@@ -7,8 +7,7 @@ using System.Threading;
 namespace HappyMapper.Benchmarks
 {
     public class Benchmark<TSrc, TDest> 
-        where TSrc: new()
-        where TDest : new ()
+        where TSrc : class, new() where TDest : class, new()
     {
         public int NameMaxLength { get; private set; }
         public Dictionary<string, Action<TSrc, TDest>> Mappers { get; set; }

@@ -122,6 +122,7 @@ namespace AutoMapper.ConfigurationAPI
         }
 
         public IMappingExpression<TSource, TDestination> CreateMap<TSource, TDestination>()
+            where TSource : class, new() where TDestination : class, new()
         {
             return CreateMap<TSource, TDestination>(MemberList.Destination);
         }

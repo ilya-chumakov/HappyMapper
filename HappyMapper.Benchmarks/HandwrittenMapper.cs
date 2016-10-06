@@ -15,9 +15,10 @@ namespace HappyMapper.Benchmarks
             dest.Number = src.Number;
         }
 
-        public Action<TInput, TOutput> CreateMapMethod<TInput, TOutput>()
+        public Action<TSrc, TDest> CreateMapMethod<TSrc, TDest>()
+            where TSrc : class, new() where TDest : class, new()
         {
-            return (Action<Src, Dest>) Map as Action<TInput, TOutput>;
+            return (Action<Src, Dest>) Map as Action<TSrc, TDest>;
         }
     }
 }

@@ -6,10 +6,10 @@ namespace AutoMapper.Extended.Net4
     {
         public static bool IsValid(Type type)
         {
-            bool isStruct = type.IsValueType && !type.IsPrimitive;
+            //bool isStruct = type.IsValueType && !type.IsPrimitive;
             bool isClass = type.IsClass && !type.IsAbstract;
 
-            return isStruct || isClass;
+            return isClass;
 
         }
 
