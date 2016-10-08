@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using HappyMapper.Tests.Tools;
 using NUnit.Framework;
 
@@ -63,6 +64,36 @@ namespace HappyMapper.Tests.PublicAPI
             var result = ObjectComparer.AreEqual(src, dest);
             result.Errors.ForEach(Console.WriteLine);
             Assert.IsTrue(result.Success);
+        }
+    }
+
+    public class Mapper_CreateDestCollection_Tests
+    {
+        public class Src
+        {
+            public int Id { get; set; }
+        }
+
+        public class Dest
+        {
+            public int Id { get; set; }
+        }
+
+
+        [Test]
+        public void Map_ListIsTarget_Success()
+        {
+            var config = new HappyConfig(cfg => cfg.CreateMap<Src, Dest>());
+            config.AssertConfigurationIsValid();
+            var mapper = config.CompileMapper();
+
+
+            var srcList = new List<Src>();
+            srcList.Add(new Src { Id = 1 });
+
+            var destList = mapper.MapCollection2<List<Src>, List<Dest>>(srcList);
+
+            Assert.AreEqual(srcList[0].Id, destList[0].Id);
         }
     }
 }

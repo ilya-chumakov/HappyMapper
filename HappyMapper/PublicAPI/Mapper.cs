@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using AutoMapper.ConfigurationAPI;
 using HappyMapper.Compilation;
 using HappyMapper.Text;
@@ -94,6 +96,45 @@ namespace HappyMapper
                 throw new HappyMapperException(ErrorMessages.MissingMapping(key.SourceType, key.DestinationType));
 
             return mapMethod(src);
+        }
+
+        public TDest MapCollection2<TSrc, TDest>(TSrc src)
+            where TSrc : class, IEnumerable, new() 
+            where TDest : class, IEnumerable, new()
+        {
+            if (src == null) throw new ArgumentNullException(nameof(src));
+
+            var srcType = GetCollectionGenericTypeArgument<TSrc>();
+            var destType = GetCollectionGenericTypeArgument<TDest>();
+
+            var key = new TypePair(srcType, destType);
+
+            CompiledDelegate @delegate = null;
+
+            DelegateCache.TryGetValue(key, out @delegate);
+            var mapMethod = @delegate?.SingleOneArg as Func<object, object, object>;
+
+            if (mapMethod == null)
+                throw new HappyMapperException(ErrorMessages.MissingMapping(key.SourceType, key.DestinationType));
+
+            var dest = new TDest();
+
+            //obj, obj wrapper is needed.
+            mapMethod(src, dest);
+
+            return dest;
+        }
+
+        private Type GetCollectionGenericTypeArgument<TCollection>()
+        {
+            var collectionType = typeof (TCollection);
+
+            if (collectionType.GenericTypeArguments.Count() != 1) 
+                throw new NotSupportedException($"The type {collectionType.FullName} is not supported.");
+
+            var type = collectionType.GenericTypeArguments[0];
+
+            return type;
         }
     }
 }
