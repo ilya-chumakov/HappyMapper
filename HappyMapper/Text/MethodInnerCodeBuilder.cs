@@ -152,8 +152,8 @@ namespace HappyMapper.Text
             if (ctx.PropertyMap.DestType.HasParameterlessCtor())
             {
                 //create new Dest() object
-                string ass = $"{{1}}.{ctx.DestMemberName} = new {ctx.DestTypeFullName}();";
-
+                string ass = $"{{1}}.{ctx.DestMemberName} = {CodeTemplates.New(ctx.DestTypeFullName)};";
+                ;
                 recorder.AppendLine(ass);
             }
             else

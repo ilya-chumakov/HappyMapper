@@ -5,11 +5,11 @@ using AutoMapper.ConfigurationAPI.Configuration;
 
 namespace HappyMapper.Text
 {
-    public class CollectionTextBuilder
+    public class OneArgTextBuilder
     {
         public ImmutableDictionary<TypePair, TypeMap> ExplicitTypeMaps { get; }
 
-        public CollectionTextBuilder(IDictionary<TypePair, TypeMap> explicitTypeMaps, MapperConfigurationExpression config)
+        public OneArgTextBuilder(IDictionary<TypePair, TypeMap> explicitTypeMaps, MapperConfigurationExpression config)
         {
             ExplicitTypeMaps = explicitTypeMaps.ToImmutableDictionary();
         }
@@ -27,10 +27,7 @@ namespace HappyMapper.Text
             //TODO: move to convention
             string srcParamName = "src";
             string destParamName = "dest";
-            string srcCollectionName = "srcList";
-            string destCollectionName = "destList";
-            string methodName = "MapCollection";
-            string template = "ICollection<{0}>";
+            string methodName = "Map";
 
             foreach (var kvp in ExplicitTypeMaps)
             {
@@ -39,8 +36,8 @@ namespace HappyMapper.Text
 
                 var mapCodeFile = files[typePair];
 
-                var SrcTypeFullName = string.Format(template, typePair.SourceType.FullName);
-                var DestTypeFullName = string.Format(template, typePair.DestinationType.FullName);
+                var SrcTypeFullName = typePair.SourceType.FullName;
+                var DestTypeFullName = typePair.DestinationType.FullName;
 
                 string shortClassName = Convention.GetUniqueMapperMethodNameWithGuid(typePair);
                 string fullClassName = $"{Convention.Namespace}.{shortClassName}";
@@ -49,14 +46,15 @@ namespace HappyMapper.Text
                     .GetCode(srcParamName, destParamName)
                     .RemoveDoubleBraces();
 
-                var forCode = CodeTemplates.For(methodInnerCode,
-                    new ForDeclarationContext(srcCollectionName, destCollectionName, srcParamName, destParamName));
+                string arg1 = $"{srcParamName} as {SrcTypeFullName}";
+                string arg2 = $"{srcParamName} as {SrcTypeFullName}";
 
-                string methodCode = CodeTemplates.Method(forCode, 
+                var forCode = CodeTemplates.MethodCall(methodName, arg1, arg2);
+
+                string methodCode = CodeTemplates.Method(string.Empty, 
                     new MethodDeclarationContext(methodName,
-                        new VariableContext(DestTypeFullName, destCollectionName), 
-                        new VariableContext(SrcTypeFullName, srcCollectionName),
-                        new VariableContext(DestTypeFullName, destCollectionName)));
+                        new VariableContext(DestTypeFullName, forCode),
+                        new VariableContext(srcParamName, SrcTypeFullName)));
 
                 string classCode = CodeTemplates.Class(methodCode, Convention.Namespace, shortClassName);
 

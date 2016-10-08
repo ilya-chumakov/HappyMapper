@@ -2,45 +2,31 @@ using System;
 
 namespace HappyMapper.Text
 {
-    public enum MethodReturnTypeEnum
+    public class VariableContext
     {
-        Void,
-        Dest
+        public VariableContext(string type, string name)
+        {
+            Name = name;
+            Type = type.NormalizeTypeName();
+        }
+
+        public string Name { get; }
+        public string Type { get; }
     }
 
     public class MethodDeclarationContext
     {
-        public string DestParam { get; }
-        public string DestType { get; }
         public string MethodName { get; }
-        public string SrcParam { get; }
-        public string SrcType { get; }
-        public MethodReturnTypeEnum ReturnTypeEnum { get; set; }
-        public string ReturnType
-        {
-            get
-            {
-                switch (ReturnTypeEnum)
-                {
-                    case MethodReturnTypeEnum.Void: return "void";
-                    case MethodReturnTypeEnum.Dest: return DestType;
-                    default:  throw new NotSupportedException(ReturnTypeEnum.ToString());
-                }
-            }
-        }
+        public VariableContext Return { get; set; }
+        public VariableContext[] Arguments { get; set; }
 
-        public MethodDeclarationContext(
-            string methodName,
-            string srcType, string destType,
-            string srcParam, string destFieldName,
-            MethodReturnTypeEnum returnTypeEnum = MethodReturnTypeEnum.Dest)
+        public MethodDeclarationContext(string methodName, 
+            VariableContext @return, 
+            params VariableContext[] arguments)
         {
             MethodName = methodName;
-            SrcType = srcType.NormalizeTypeName();
-            DestType = destType.NormalizeTypeName();
-            SrcParam = srcParam;
-            DestParam = destFieldName;
-            ReturnTypeEnum = returnTypeEnum;
+            Arguments = arguments;
+            Return = @return;
         }
     }
 }

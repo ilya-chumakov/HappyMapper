@@ -46,16 +46,21 @@ namespace HappyMapper.Text
         {
             var builder = new StringBuilder();
 
-            builder.AppendLine($"       public static {ctx.ReturnType} ");
+            builder.AppendLine($"       public static {ctx.Return.Type} ");
             builder.AppendLine($"       {ctx.MethodName}");
-            builder.AppendLine($"       ({ctx.SrcType} {ctx.SrcParam},");
-            builder.AppendLine($"        {ctx.DestType} {ctx.DestParam})");
+            builder.AppendLine("        (");
 
+            string arguments = string.Join(
+                "," + Environment.NewLine, 
+                ctx.Arguments.Select(arg => $"{arg.Type} {arg.Name}"));
+
+            builder.AppendLine("        " + arguments);
+            builder.AppendLine("        )");
             builder.AppendLine("        {");
             builder.AppendLine(innerCode);
 
-            if (ctx.ReturnTypeEnum == MethodReturnTypeEnum.Dest)
-                builder.AppendLine($"        return {ctx.DestParam};");
+            if (ctx.Return != null)
+                builder.AppendLine($"        return {ctx.Return.Name};");
 
             builder.AppendLine("        }");
 
@@ -90,5 +95,12 @@ namespace HappyMapper.Text
         /// <param name="dest"></param>
         /// <returns></returns>
         public static string NullCheck(string src, string dest) => $"if ({src} == null) {dest} = null;";
+
+        public static string New(string type) => $"new {type}()";
+
+        public static string MethodCall(string methodName, string s, string s1)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
