@@ -19,7 +19,7 @@ namespace HappyMapper.Text
             return CreateCodeFiles(files.ToImmutableDictionary());
         }
 
-        public Dictionary<TypePair, CodeFile> CreateCodeFiles(ImmutableDictionary<TypePair, CodeFile> xfiles)
+        public Dictionary<TypePair, CodeFile> CreateCodeFiles(ImmutableDictionary<TypePair, CodeFile> files)
         {
             var collectionFiles = new Dictionary<TypePair, CodeFile>();
             var Convention = NameConventionsStorage.Mapper;
@@ -37,7 +37,7 @@ namespace HappyMapper.Text
                 TypePair typePair = kvp.Key;
                 TypeMap map = kvp.Value;
 
-                var mapCodeFile = xfiles[typePair];
+                var mapCodeFile = files[typePair];
 
                 var SrcTypeFullName = string.Format(template, typePair.SourceType.FullName);
                 var DestTypeFullName = string.Format(template, typePair.DestinationType.FullName);

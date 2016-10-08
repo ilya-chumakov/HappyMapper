@@ -30,7 +30,7 @@ namespace HappyMapper
             var key = new TypePair(typeof(TSrc), typeof(TDest));
             DelegateCache.TryGetValue(key, out @delegate);
 
-            var mapMethod = @delegate?.Single as Action<TSrc, TDest>;
+            var mapMethod = @delegate?.Single as Func<TSrc, TDest, TDest>;
 
             if (mapMethod == null) throw new HappyMapperException(ErrorMessages.MissingMapping(key.SourceType, key.DestinationType));
 
@@ -57,12 +57,12 @@ namespace HappyMapper
             mapMethod(src, dest);
         }
 
-        private Action<TSrc, TDest> GetMapMethod<TSrc, TDest>(TypePair key, Func<CompiledDelegate, object> propertyAccessor)
+        private Func<TSrc, TDest, TDest> GetMapMethod<TSrc, TDest>(TypePair key, Func<CompiledDelegate, object> propertyAccessor)
         {
             CompiledDelegate @delegate = null;
 
             DelegateCache.TryGetValue(key, out @delegate);
-            var mapMethod = propertyAccessor(@delegate) as Action<TSrc, TDest>;
+            var mapMethod = propertyAccessor(@delegate) as Func<TSrc, TDest, TDest>;
 
             if (mapMethod == null)
                 throw new HappyMapperException(ErrorMessages.MissingMapping(key.SourceType, key.DestinationType));

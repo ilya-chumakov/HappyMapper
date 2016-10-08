@@ -118,7 +118,7 @@ namespace HappyMapper.Compilation
             var srcCollType = typeof(ICollection<>).MakeGenericType(srcType);
             var destCollType = typeof(ICollection<>).MakeGenericType(destType);
 
-            return typeof(Action<,>).MakeGenericType(srcCollType, destCollType);
+            return typeof(Func<,,>).MakeGenericType(srcCollType, destCollType, destCollType);
         }
 
         private static Delegate CreateDelegate(Type mapDelegateType, Assembly assembly, CodeFile codeFile)

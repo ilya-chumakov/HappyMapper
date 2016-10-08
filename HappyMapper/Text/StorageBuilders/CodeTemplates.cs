@@ -46,12 +46,17 @@ namespace HappyMapper.Text
         {
             var builder = new StringBuilder();
 
-            builder.AppendLine($"       public static void {ctx.MethodName}");
-            builder.AppendLine($"({ctx.SrcType} {ctx.SrcParam},");
-            builder.AppendLine($" {ctx.DestType} {ctx.DestParam})");
+            builder.AppendLine($"       public static {ctx.ReturnType} ");
+            builder.AppendLine($"       {ctx.MethodName}");
+            builder.AppendLine($"       ({ctx.SrcType} {ctx.SrcParam},");
+            builder.AppendLine($"        {ctx.DestType} {ctx.DestParam})");
 
             builder.AppendLine("        {");
             builder.AppendLine(innerCode);
+
+            if (ctx.ReturnTypeEnum == MethodReturnTypeEnum.Dest)
+                builder.AppendLine($"        return {ctx.DestParam};");
+
             builder.AppendLine("        }");
 
             return builder.ToString();

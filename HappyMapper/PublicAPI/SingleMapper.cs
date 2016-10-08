@@ -4,11 +4,11 @@ namespace HappyMapper
 {
     public class SingleMapper<TSrc, TDest>
     {
-        public SingleMapper(Action<TSrc, TDest> mapMethod)
+        public SingleMapper(Func<TSrc, TDest, TDest> mapMethod)
         {
             Map = mapMethod;
         }
 
-        public Action<TSrc, TDest> Map { get; set; }
+        public Func<TSrc, TDest, TDest> Map { get; set; }
     }
 }
