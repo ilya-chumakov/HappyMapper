@@ -133,6 +133,8 @@
     <Compile Include="MemberConfigurationExpressionTests\MapFrom_Tests.cs" />
     <Compile Include="MemberConfigurationExpressionTests\Ignore_Tests.cs" />
     <Compile Include="PublicAPI\HappyConfig_Tests.cs" />
+    <Compile Include="PublicAPI\Mapper_CreateDest_Tests.cs" />
+    <Compile Include="PublicAPI\Mapper_InitDestPropertyWithNewObject_Tests.cs" />
     <Compile Include="Text\ParameterNameReplaceVisitor_Tests.cs" />
     <Compile Include="Text\ConditionBuilder_Tests.cs" />
     <Compile Include="Text\TextBuilder_SmokeTests.cs" />

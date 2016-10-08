@@ -145,16 +145,16 @@ namespace HappyMapper.Text
         {
             Recorder recorder = new Recorder();
 
-            recorder.AppendLine(CodeTemplates.NullCheck("{0}", "{1}"));
-            recorder.AppendLine(" else {{");
+            recorder.AppendLine(CodeTemplates.IfNull("{0}", "{1}"));
+            recorder.AppendLine(" else {");
 
             //has parameterless ctor
             if (ctx.PropertyMap.DestType.HasParameterlessCtor())
             {
                 //create new Dest() object
-                string ass = $"{{1}}.{ctx.DestMemberName} = {CodeTemplates.New(ctx.DestTypeFullName)};";
-                ;
-                recorder.AppendLine(ass);
+                string newDest = $"{{1}}.{ctx.DestMemberName} = {CodeTemplates.New(ctx.DestTypeFullName)};";
+
+                recorder.AppendLine(newDest);
             }
             else
             {
@@ -179,7 +179,7 @@ namespace HappyMapper.Text
             }
 
             recorder.AppendLine(template);
-            recorder.AppendLine("}}");
+            recorder.AppendLine("}");
 
             return recorder.ToAssignment().RelativeTemplate;
         }

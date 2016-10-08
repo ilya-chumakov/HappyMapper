@@ -94,7 +94,7 @@ namespace HappyMapper.Text
         /// <param name="src"></param>
         /// <param name="dest"></param>
         /// <returns></returns>
-        public static string NullCheck(string src, string dest) => $"if ({src} == null) {dest} = null;";
+        public static string IfNull(string src, string dest) => $"if ({src} == null) {dest} = null;";
 
         public static string New(string type) => $"new {type}()";
 
@@ -102,7 +102,7 @@ namespace HappyMapper.Text
         {
             string joinedArguments = string.Join("," + Environment.NewLine, arguments);
 
-            return $"{methodName}({joinedArguments})";
+            return $"{methodName}(\n{joinedArguments}\n)";
         }
     }
 }

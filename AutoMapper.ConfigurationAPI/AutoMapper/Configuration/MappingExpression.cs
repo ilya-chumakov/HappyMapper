@@ -526,7 +526,7 @@ namespace AutoMapper.ConfigurationAPI.Configuration
         public void Configure(IProfileConfiguration profile, TypeMap typeMap)
         {
             typeMap.MapDelegateType = typeof(Func<TSource, TDestination, TDestination>);
-            typeMap.MapDelegateType2 = typeof(Func<TSource, TDestination>);
+            typeMap.MapDelegateTypeOneArg = typeof(Func<object, TDestination>);
 
             foreach (var destProperty in typeMap.DestinationTypeDetails.PublicWriteAccessors)
             {

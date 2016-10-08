@@ -30,6 +30,7 @@ namespace HappyMapper.Compilation
             var textBuilder = new TextBuilder(typeMaps, config);
             var files = textBuilder.CreateCodeFiles();
             Dictionary<TypePair, CodeFile> collectionFiles = new Dictionary<TypePair, CodeFile>();
+            Dictionary<TypePair, CodeFile> oneArgFiles = new Dictionary<TypePair, CodeFile>();
 
             if (CreateCollectionMaps)
             {
@@ -37,14 +38,19 @@ namespace HappyMapper.Compilation
                 collectionFiles = ctb.CreateCodeFiles(files);
             }
 
+            var oatb = new OneArgTextBuilder(typeMaps, config);
+            oneArgFiles = oatb.CreateCodeFiles(files);
+
             string[] sourceCodes = files.Values.Select(x => x.Code).ToArray();
             string[] collectionSourceCodes = collectionFiles.Values.Select(x => x.Code).ToArray();
+            string[] oneArgSourceCodes = oneArgFiles.Values.Select(x => x.Code).ToArray();
 
             var storageCodes = BuildStorageCode();
 
             sourceCodes = sourceCodes
                 .Union(storageCodes)
                 .Union(collectionSourceCodes)
+                .Union(oneArgSourceCodes)
                 .ToArray();
 
             PrintSourceCode(sourceCodes);
@@ -57,7 +63,7 @@ namespace HappyMapper.Compilation
 
             InitStorages(typeMaps, assembly);
 
-            var delegateCache = CreateDelegateCache(typeMaps, files, collectionFiles, assembly);
+            var delegateCache = CreateDelegateCache(typeMaps, files, collectionFiles, oneArgFiles, assembly);
 
             return delegateCache;
         }
@@ -83,11 +89,10 @@ namespace HappyMapper.Compilation
             }
         }
 
-        private  Dictionary<TypePair, CompiledDelegate> CreateDelegateCache(
-            IDictionary<TypePair, TypeMap> typeMaps, 
+        private  Dictionary<TypePair, CompiledDelegate> CreateDelegateCache(IDictionary<TypePair, TypeMap> typeMaps, 
             Dictionary<TypePair, CodeFile> singleFiles, 
             Dictionary<TypePair, CodeFile> collectionFiles, 
-            Assembly assembly)
+            Dictionary<TypePair, CodeFile> oneArgFiles, Assembly assembly)
         {
             var cache = new Dictionary<TypePair, CompiledDelegate>();
 
@@ -102,6 +107,8 @@ namespace HappyMapper.Compilation
 
                 if (CreateCollectionMaps)
                     @delegate.Collection = CreateDelegate(ToCollectionDelegateType(map), assembly, collectionFiles[typePair]);
+
+                @delegate.SingleOneArg = CreateDelegate(map.MapDelegateTypeOneArg, assembly, oneArgFiles[typePair]);
 
                 cache.Add(typePair, @delegate);
             }
@@ -135,5 +142,6 @@ namespace HappyMapper.Compilation
     {
         public object Single { get; set; }
         public object Collection { get; set; }
+        public object SingleOneArg { get; set; }
     }
 }

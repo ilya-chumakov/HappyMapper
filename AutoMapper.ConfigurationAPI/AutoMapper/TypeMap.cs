@@ -18,7 +18,7 @@ namespace AutoMapper.ConfigurationAPI
     public class TypeMap
     {
         public Type MapDelegateType { get; set; }
-        public Type MapDelegateType2 { get; set; }
+        public Type MapDelegateTypeOneArg { get; set; }
 
         private readonly List<LambdaExpression> _afterMapActions = new List<LambdaExpression>();
         private readonly List<LambdaExpression> _beforeMapActions = new List<LambdaExpression>();

@@ -70,11 +70,19 @@ namespace HappyMapper
             return mapMethod;
         }
 
-        //public void Map<TDest>(object src)
-        //{
-        //    return Map<TDest>()
-        //}
+        public TDest Map<TDest>(object src)
+        {
+            var key = new TypePair(src.GetType(), typeof(TDest));
 
+            CompiledDelegate @delegate = null;
 
+            DelegateCache.TryGetValue(key, out @delegate);
+            var mapMethod = @delegate.SingleOneArg as Func<object, TDest>;
+
+            if (mapMethod == null)
+                throw new HappyMapperException(ErrorMessages.MissingMapping(key.SourceType, key.DestinationType));
+
+            return mapMethod(src);
+        }
     }
 }
