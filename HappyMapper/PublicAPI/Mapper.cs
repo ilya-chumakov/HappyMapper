@@ -70,6 +70,7 @@ namespace HappyMapper
             return mapMethod;
         }
 
+        //TODO: null check
         public TDest Map<TDest>(object src)
         {
             var key = new TypePair(src.GetType(), typeof(TDest));

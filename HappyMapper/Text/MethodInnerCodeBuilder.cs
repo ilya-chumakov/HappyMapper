@@ -145,7 +145,7 @@ namespace HappyMapper.Text
         {
             Recorder recorder = new Recorder();
 
-            recorder.AppendLine(CodeTemplates.IfNull("{0}", "{1}"));
+            recorder.AppendLine(CodeTemplates.IfNull($"{{0}}.{ctx.SrcMemberName}", $"{{1}}.{ctx.DestMemberName}"));
             recorder.AppendLine(" else {");
 
             //has parameterless ctor
