@@ -19,5 +19,10 @@ namespace HappyMapper.Text
             TypePair = typePair;
             InnerMethodAssignment = assignment;
         }
+
+        public string GetClassAndMethodName()
+        {
+            return $"{ClassFullName}.{MapperMethodName}";
+        }
     }
 }

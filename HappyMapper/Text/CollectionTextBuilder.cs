@@ -42,7 +42,7 @@ namespace HappyMapper.Text
                 var SrcTypeFullName = string.Format(template, typePair.SourceType.FullName);
                 var DestTypeFullName = string.Format(template, typePair.DestinationType.FullName);
 
-                string shortClassName = Convention.GetUniqueMapperMethodNameWithGuid(typePair);
+                string shortClassName = Convention.CreateUniqueMapperMethodNameWithGuid(typePair);
                 string fullClassName = $"{Convention.Namespace}.{shortClassName}";
 
                 string methodInnerCode = mapCodeFile.InnerMethodAssignment

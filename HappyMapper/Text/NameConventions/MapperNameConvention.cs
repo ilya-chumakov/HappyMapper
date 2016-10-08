@@ -10,7 +10,7 @@ namespace HappyMapper.Text
 
         public string ClassFullName => $"{Namespace}.{ClassShortName}";
 
-        public string GetUniqueMapperMethodNameWithGuid(TypePair typePair)
+        public string CreateUniqueMapperMethodNameWithGuid(TypePair typePair)
         {
             string guid = NamingTools.NewGuid();
 

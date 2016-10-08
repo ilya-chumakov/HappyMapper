@@ -98,9 +98,11 @@ namespace HappyMapper.Text
 
         public static string New(string type) => $"new {type}()";
 
-        public static string MethodCall(string methodName, string s, string s1)
+        public static string MethodCall(string methodName, params string[] arguments)
         {
-            throw new NotImplementedException();
+            string joinedArguments = string.Join("," + Environment.NewLine, arguments);
+
+            return $"{methodName}({joinedArguments})";
         }
     }
 }

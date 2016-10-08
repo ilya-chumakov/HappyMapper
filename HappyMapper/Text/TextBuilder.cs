@@ -36,7 +36,7 @@ namespace HappyMapper.Text
                 var SrcTypeFullName = typePair.SourceType.FullName;
                 var DestTypeFullName = typePair.DestinationType.FullName;
 
-                string shortClassName = Convention.GetUniqueMapperMethodNameWithGuid(typePair);
+                string shortClassName = Convention.CreateUniqueMapperMethodNameWithGuid(typePair);
                 string fullClassName = $"{Convention.Namespace}.{shortClassName}";
 
                 var assignment = MethodInnerCodeBuilder.GetAssignment(map);

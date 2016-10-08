@@ -36,25 +36,21 @@ namespace HappyMapper.Text
 
                 var mapCodeFile = files[typePair];
 
-                var SrcTypeFullName = typePair.SourceType.FullName;
-                var DestTypeFullName = typePair.DestinationType.FullName;
+                var SrcTypeFullName = typePair.SourceType.FullName.NormalizeTypeName();
+                var DestTypeFullName = typePair.DestinationType.FullName.NormalizeTypeName();
 
-                string shortClassName = Convention.GetUniqueMapperMethodNameWithGuid(typePair);
+                string shortClassName = Convention.CreateUniqueMapperMethodNameWithGuid(typePair);
                 string fullClassName = $"{Convention.Namespace}.{shortClassName}";
 
-                string methodInnerCode = mapCodeFile.InnerMethodAssignment
-                    .GetCode(srcParamName, destParamName)
-                    .RemoveDoubleBraces();
-
                 string arg1 = $"{srcParamName} as {SrcTypeFullName}";
-                string arg2 = $"{srcParamName} as {SrcTypeFullName}";
+                string arg2 = CodeTemplates.New(DestTypeFullName);
 
-                var forCode = CodeTemplates.MethodCall(methodName, arg1, arg2);
+                var methodCall = CodeTemplates.MethodCall(mapCodeFile.GetClassAndMethodName(), arg1, arg2);
 
                 string methodCode = CodeTemplates.Method(string.Empty, 
                     new MethodDeclarationContext(methodName,
-                        new VariableContext(DestTypeFullName, forCode),
-                        new VariableContext(srcParamName, SrcTypeFullName)));
+                        new VariableContext(DestTypeFullName, methodCall),
+                        new VariableContext(typeof(object).Name, srcParamName)));
 
                 string classCode = CodeTemplates.Class(methodCode, Convention.Namespace, shortClassName);
 

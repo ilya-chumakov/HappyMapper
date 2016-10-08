@@ -24,29 +24,6 @@ namespace HappyMapper.Tests.Text
         public class B2 { public DateTime Date { get; set; } }
 
         [Test]
-        public void CreateCodeFiles_Success()
-        {
-            var config = new HappyConfig(cfg =>
-            {
-                cfg.CreateMap<A, B>();
-                cfg.CreateMap<A1, B1>().ForMember(d => d.Id, opt => opt.Ignore());
-                cfg.CreateMap<A2, B2>();
-            });
-
-            var typeMaps = config.TypeMaps;
-            var mtb = new TextBuilder(typeMaps, config.Configuration);
-
-            var files = mtb.CreateCodeFiles();
-
-            foreach (var file in files.Values)
-            {
-                Console.WriteLine(file.Code);
-                Console.WriteLine("--------------------------------------");
-                Console.WriteLine();
-            }
-        }
-
-        [Test]
         public void CreateText_IgnoreAtSubLevel()
         {
             var config = new HappyConfig(cfg =>
