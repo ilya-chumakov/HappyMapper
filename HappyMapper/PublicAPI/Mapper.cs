@@ -40,7 +40,11 @@ namespace HappyMapper
         }
 
         public void Map<TSrc, TDest>(TSrc src, TDest dest)
+            where TSrc : class , new() where TDest : class , new()
         {
+            if (src == null) throw new ArgumentNullException(nameof(src));
+            if (dest == null) throw new ArgumentNullException(nameof(dest));
+
             var key = new TypePair(typeof(TSrc), typeof(TDest));
 
             var mapMethod = GetMapMethod<TSrc, TDest>(key, @delegate => @delegate?.Single);
@@ -49,7 +53,11 @@ namespace HappyMapper
         }
 
         public void MapCollection<TSrc, TDest>(ICollection<TSrc> src, ICollection<TDest> dest)
+            where TSrc : class, new() where TDest : class, new()
         {
+            if (src == null) throw new ArgumentNullException(nameof(src));
+            if (dest == null) throw new ArgumentNullException(nameof(dest));
+
             var key = new TypePair(typeof(TSrc), typeof(TDest));
 
             var mapMethod = GetMapMethod<ICollection<TSrc>, ICollection<TDest>>(key, @delegate => @delegate?.Collection);
@@ -70,15 +78,17 @@ namespace HappyMapper
             return mapMethod;
         }
 
-        //TODO: null check
         public TDest Map<TDest>(object src)
+            where TDest : class, new()
         {
+            if (src == null) throw new ArgumentNullException(nameof(src));
+
             var key = new TypePair(src.GetType(), typeof(TDest));
 
             CompiledDelegate @delegate = null;
 
             DelegateCache.TryGetValue(key, out @delegate);
-            var mapMethod = @delegate.SingleOneArg as Func<object, TDest>;
+            var mapMethod = @delegate?.SingleOneArg as Func<object, TDest>;
 
             if (mapMethod == null)
                 throw new HappyMapperException(ErrorMessages.MissingMapping(key.SourceType, key.DestinationType));
