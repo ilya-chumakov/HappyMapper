@@ -123,6 +123,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Compilation\CompiledDelegate.cs" />
+    <Compile Include="Compilation\Rule.cs" />
+    <Compile Include="Compilation\TextResult.cs" />
+    <Compile Include="Compilation\TextBuilderRegistry.cs" />
+    <Compile Include="Compilation\Tools.cs" />
     <Compile Include="PublicAPI\HappyConfig.cs" />
     <Compile Include="PublicAPI\HappyMapperConfigurationException.cs" />
     <Compile Include="Text\Assign.cs" />

@@ -1,15 +1,14 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Reflection;
 using AutoMapper.ConfigurationAPI;
 using AutoMapper.ConfigurationAPI.Configuration;
+using HappyMapper.Compilation;
 
 namespace HappyMapper.Text
 {
-    public interface IDependentTextBuilder {
-        Dictionary<TypePair, CodeFile> CreateCodeFiles(ImmutableDictionary<TypePair, CodeFile> files);
-    }
-
-    public class CollectionTextBuilder : IDependentTextBuilder
+    public class CollectionTextBuilder : ITextBuilder
     {
         public ImmutableDictionary<TypePair, TypeMap> ExplicitTypeMaps { get; }
 
@@ -70,6 +69,16 @@ namespace HappyMapper.Text
             }
 
             return collectionFiles;
+        }
+
+        public HashSet<string> GetLocations()
+        {
+            return null;
+        }
+
+        public void VisitDelegate(CompiledDelegate @delegate, TypeMap map, Assembly assembly, CodeFile file)
+        {
+            @delegate.Collection = Tools.CreateDelegate(Tools.ToCollectionDelegateType(map), assembly, file);
         }
     }
 }

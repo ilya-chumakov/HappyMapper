@@ -1,11 +1,14 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Reflection;
 using AutoMapper.ConfigurationAPI;
 using AutoMapper.ConfigurationAPI.Configuration;
+using HappyMapper.Compilation;
 
 namespace HappyMapper.Text
 {
-    public class OneArgTextBuilder : IDependentTextBuilder
+    public class OneArgTextBuilder : ITextBuilder
     {
         public ImmutableDictionary<TypePair, TypeMap> ExplicitTypeMaps { get; }
 
@@ -60,6 +63,16 @@ namespace HappyMapper.Text
             }
 
             return collectionFiles;
+        }
+
+        public HashSet<string> GetLocations()
+        {
+            return null;
+        }
+
+        public void VisitDelegate(CompiledDelegate @delegate, TypeMap map, Assembly assembly, CodeFile file)
+        {
+            @delegate.SingleOneArg = Tools.CreateDelegate(map.MapDelegateTypeOneArg, assembly, file);
         }
     }
 }

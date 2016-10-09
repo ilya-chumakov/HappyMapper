@@ -1,7 +1,10 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Reflection;
 using AutoMapper.ConfigurationAPI;
 using AutoMapper.ConfigurationAPI.Configuration;
+using HappyMapper.Compilation;
 
 namespace HappyMapper.Text
 {
@@ -23,7 +26,12 @@ namespace HappyMapper.Text
             return MethodInnerCodeBuilder.DetectedLocations;
         }
 
-        public Dictionary<TypePair, CodeFile> CreateCodeFiles()
+        public void VisitDelegate(CompiledDelegate @delegate, TypeMap map, Assembly assembly, CodeFile file)
+        {
+            @delegate.Single = Tools.CreateDelegate(map.MapDelegateType, assembly, file);
+        }
+
+        public Dictionary<TypePair, CodeFile> CreateCodeFiles(ImmutableDictionary<TypePair, CodeFile> parentFiles = null)
         {
             var files = new Dictionary<TypePair, CodeFile>();
             var Convention = NameConventionsStorage.Mapper;

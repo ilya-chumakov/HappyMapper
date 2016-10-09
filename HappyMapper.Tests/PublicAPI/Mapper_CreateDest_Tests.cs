@@ -80,20 +80,20 @@ namespace HappyMapper.Tests.PublicAPI
         }
 
 
-        [Test]
-        public void Map_ListIsTarget_Fail()
-        {
-            var config = new HappyConfig(cfg => cfg.CreateMap<Src, Dest>());
-            config.AssertConfigurationIsValid();
-            var mapper = config.CompileMapper();
+        //[Test]
+        //public void Map_ListIsTarget_Fail()
+        //{
+        //    var config = new HappyConfig(cfg => cfg.CreateMap<Src, Dest>());
+        //    config.AssertConfigurationIsValid();
+        //    var mapper = config.CompileMapper();
 
 
-            var srcList = new List<Src>();
-            srcList.Add(new Src { Id = 1 });
+        //    var srcList = new List<Src>();
+        //    srcList.Add(new Src { Id = 1 });
 
-            var destList = mapper.MapCollection2<List<Src>, List<Dest>>(srcList);
+        //    var destList = mapper.MapCollection2<List<Src>, List<Dest>>(srcList);
 
-            Assert.AreNotEqual(srcList[0].Id, destList[0].Id);
-        }
+        //    Assert.AreNotEqual(srcList[0].Id, destList[0].Id);
+        //}
     }
 }
