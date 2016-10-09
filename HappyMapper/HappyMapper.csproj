@@ -126,6 +126,7 @@
     <Compile Include="PublicAPI\HappyConfig.cs" />
     <Compile Include="PublicAPI\HappyMapperConfigurationException.cs" />
     <Compile Include="Text\Assign.cs" />
+    <Compile Include="Text\ITextBuilder.cs" />
     <Compile Include="Text\OneArgTextBuilder.cs" />
     <Compile Include="Text\CollectionTextBuilder.cs" />
     <Compile Include="PublicAPI\ErrorMessages.cs" />

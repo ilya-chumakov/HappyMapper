@@ -81,7 +81,7 @@ namespace HappyMapper.Tests.PublicAPI
 
 
         [Test]
-        public void Map_ListIsTarget_Success()
+        public void Map_ListIsTarget_Fail()
         {
             var config = new HappyConfig(cfg => cfg.CreateMap<Src, Dest>());
             config.AssertConfigurationIsValid();
@@ -93,7 +93,7 @@ namespace HappyMapper.Tests.PublicAPI
 
             var destList = mapper.MapCollection2<List<Src>, List<Dest>>(srcList);
 
-            Assert.AreEqual(srcList[0].Id, destList[0].Id);
+            Assert.AreNotEqual(srcList[0].Id, destList[0].Id);
         }
     }
 }

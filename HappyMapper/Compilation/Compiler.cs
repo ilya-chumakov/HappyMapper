@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
@@ -10,15 +11,34 @@ using Microsoft.CodeAnalysis.CSharp;
 
 namespace HappyMapper.Compilation
 {
+
+
     public class Compiler
     {
+        private TextBuilderRegistry TextBuilderRegistry { get; set; } = new TextBuilderRegistry();
+        
         private  List<IStorageBuilder> StorageBuilders { get; set; } = new List<IStorageBuilder>();
         private bool CreateCollectionMaps { get; } = true;
         
+
         void RegisterStorageBuilders(IDictionary<TypePair, TypeMap> typeMaps)
         {
             StorageBuilders.Add(new BeforeStorageBuilder(typeMaps));
             StorageBuilders.Add(new ConditionStorageBuilder(typeMaps));
+        }
+
+
+
+        private void RegisterTextBuilders(IDictionary<TypePair, TypeMap> typeMaps, MapperConfigurationExpression config)
+        {
+            //r.Add(x).With(y.With(a), z);
+
+            TextBuilderRegistry
+                .Add(new TextBuilder(typeMaps, config))
+                .With(new CollectionTextBuilder(typeMaps, config), 
+                    n => n.With(new OneArgTextBuilder(typeMaps, config))
+                    )
+                .With(new OneArgTextBuilder(typeMaps, config));
         }
 
         public  Dictionary<TypePair, CompiledDelegate> CompileMapsToAssembly(
@@ -26,6 +46,8 @@ namespace HappyMapper.Compilation
             IDictionary<TypePair, TypeMap> typeMaps)
         {
             RegisterStorageBuilders(typeMaps);
+
+            RegisterTextBuilders(typeMaps, config);
 
             var textBuilder = new TextBuilder(typeMaps, config);
             var files = textBuilder.CreateCodeFiles();

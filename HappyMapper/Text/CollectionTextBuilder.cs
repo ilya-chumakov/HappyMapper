@@ -5,7 +5,11 @@ using AutoMapper.ConfigurationAPI.Configuration;
 
 namespace HappyMapper.Text
 {
-    public class CollectionTextBuilder
+    public interface IDependentTextBuilder {
+        Dictionary<TypePair, CodeFile> CreateCodeFiles(ImmutableDictionary<TypePair, CodeFile> files);
+    }
+
+    public class CollectionTextBuilder : IDependentTextBuilder
     {
         public ImmutableDictionary<TypePair, TypeMap> ExplicitTypeMaps { get; }
 

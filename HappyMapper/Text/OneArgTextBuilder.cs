@@ -5,7 +5,7 @@ using AutoMapper.ConfigurationAPI.Configuration;
 
 namespace HappyMapper.Text
 {
-    public class OneArgTextBuilder
+    public class OneArgTextBuilder : IDependentTextBuilder
     {
         public ImmutableDictionary<TypePair, TypeMap> ExplicitTypeMaps { get; }
 
