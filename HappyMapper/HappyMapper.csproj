@@ -124,22 +124,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Compilation\CompiledDelegate.cs" />
-    <Compile Include="Compilation\Rule.cs" />
-    <Compile Include="Compilation\TextResult.cs" />
-    <Compile Include="Compilation\TextBuilderRunner.cs" />
+    <Compile Include="Text\Runners\Rule.cs" />
+    <Compile Include="Text\Runners\TextResult.cs" />
+    <Compile Include="Text\Runners\FileBuilderRunner.cs" />
     <Compile Include="Compilation\Tools.cs" />
     <Compile Include="PublicAPI\HappyConfig.cs" />
     <Compile Include="PublicAPI\HappyMapperConfigurationException.cs" />
     <Compile Include="Text\Assign.cs" />
-    <Compile Include="Text\ITextBuilder.cs" />
-    <Compile Include="Text\OneArgTextBuilder.cs" />
-    <Compile Include="Text\CollectionTextBuilder.cs" />
+    <Compile Include="Text\FileBuilders\IFileBuilder.cs" />
+    <Compile Include="Text\FileBuilders\OneArgFileBuilder.cs" />
+    <Compile Include="Text\FileBuilders\CollectionFileBuilder.cs" />
     <Compile Include="PublicAPI\ErrorMessages.cs" />
     <Compile Include="Text\Legacy\LegacyMapContext.cs" />
     <Compile Include="PublicAPI\Mapper.cs" />
     <Compile Include="Extensions\DictionaryExtensions.cs" />
     <Compile Include="Extensions\TypeExtensions.cs" />
-    <Compile Include="Text\CodeFile.cs" />
+    <Compile Include="Text\Runners\CodeFile.cs" />
     <Compile Include="Compilation\Compiler.cs" />
     <Compile Include="Text\ActionPrinters\BeforeMapPrinter.cs" />
     <Compile Include="Text\ActionPrinters\ConditionPrinterV2.cs" />
@@ -153,7 +153,7 @@
     <Compile Include="Text\StorageBuilders\ConditionStorageBuilder.cs" />
     <Compile Include="Text\ImplicitCastChecker.cs" />
     <Compile Include="Text\Recorder.cs" />
-    <Compile Include="Text\TextBuilder.cs" />
+    <Compile Include="Text\FileBuilders\FileBuilder.cs" />
     <Compile Include="Text\Assignment.cs" />
     <Compile Include="Text\NameConventions\ActionNameConvention.cs" />
     <Compile Include="Text\NameConventions\NameConventionsStorage.cs" />

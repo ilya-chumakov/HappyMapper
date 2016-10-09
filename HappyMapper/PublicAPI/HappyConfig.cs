@@ -20,9 +20,9 @@ namespace HappyMapper
 
         public Mapper CompileMapper()
         {
-            var compiler = new Compiler();
+            var compiler = new Compiler(Configuration, TypeMaps);
 
-            var delegates = compiler.CompileMapsToAssembly(Configuration, TypeMaps);
+            var delegates = compiler.CompileMapsToAssembly();
 
             return new Mapper(delegates);
         }

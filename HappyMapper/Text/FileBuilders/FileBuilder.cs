@@ -8,11 +8,11 @@ using HappyMapper.Compilation;
 
 namespace HappyMapper.Text
 {
-    public class TextBuilder : ITextBuilder
+    public class FileBuilder : IFileBuilder
     {
         public ImmutableDictionary<TypePair, TypeMap> ExplicitTypeMaps { get; }
 
-        public TextBuilder(IDictionary<TypePair, TypeMap> explicitTypeMaps, MapperConfigurationExpression mce)
+        public FileBuilder(IDictionary<TypePair, TypeMap> explicitTypeMaps, MapperConfigurationExpression mce)
         {
             ExplicitTypeMaps = explicitTypeMaps.ToImmutableDictionary();
 
@@ -31,7 +31,14 @@ namespace HappyMapper.Text
             @delegate.Single = Tools.CreateDelegate(map.MapDelegateType, assembly, file);
         }
 
-        public Dictionary<TypePair, CodeFile> CreateCodeFiles(ImmutableDictionary<TypePair, CodeFile> parentFiles = null)
+        public TextResult Build(ImmutableDictionary<TypePair, CodeFile> parentFiles = null)
+        {
+            var files = CreateCodeFilesDictionary();
+
+            return new TextResult(files, MethodInnerCodeBuilder.DetectedLocations);
+        }
+
+        private ImmutableDictionary<TypePair, CodeFile> CreateCodeFilesDictionary()
         {
             var files = new Dictionary<TypePair, CodeFile>();
             var Convention = NameConventionsStorage.Mapper;
@@ -69,7 +76,7 @@ namespace HappyMapper.Text
                 files.Add(typePair, file);
             }
 
-            return files;
+            return files.ToImmutableDictionary();
         }
     }
 }

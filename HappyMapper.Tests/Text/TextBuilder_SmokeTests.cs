@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using AutoMapper.ConfigurationAPI;
+using HappyMapper.Compilation;
 using HappyMapper.Text;
 using NUnit.Framework;
 
@@ -35,10 +37,9 @@ namespace HappyMapper.Tests.Text
             });
 
             var typeMaps = config.TypeMaps;
-            var mtb = new TextBuilder(typeMaps, config.Configuration);
+            var mtb = new FileBuilder(typeMaps, config.Configuration);
 
-            var files1 = mtb.CreateCodeFiles();
-            var files = files1;
+            var files = mtb.Build().Files;
 
             Print(files);
         }
@@ -54,18 +55,18 @@ namespace HappyMapper.Tests.Text
             });
 
             var typeMaps = config.TypeMaps;
-            var mtb = new TextBuilder(typeMaps, config.Configuration);
+            var mtb = new FileBuilder(typeMaps, config.Configuration);
 
-            var files = mtb.CreateCodeFiles();
+            var files = mtb.Build().Files;
 
-            var a1tb = new OneArgTextBuilder(typeMaps, config.Configuration);
+            var a1tb = new OneArgFileBuilder(typeMaps, config.Configuration);
 
-            var a1files = a1tb.CreateCodeFiles(files);
+            var a1files = a1tb.Build(files).Files;
 
             Print(a1files);
         }
 
-        private static void Print(Dictionary<TypePair, CodeFile> files)
+        private static void Print(ImmutableDictionary<TypePair, CodeFile> files)
         {
             foreach (var file in files.Values)
             {

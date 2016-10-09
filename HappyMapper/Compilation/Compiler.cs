@@ -13,47 +13,48 @@ namespace HappyMapper.Compilation
 {
     public class Compiler
     {
-        private TextBuilderRunner TextBuilderRunner { get; set; } = new TextBuilderRunner();
-
+        public IDictionary<TypePair, TypeMap> TypeMaps { get; private set; }
+        public MapperConfigurationExpression Config { get; private set; }
+        private FileBuilderRunner FileBuilderRunner { get; set; } = new FileBuilderRunner();
         private List<IStorageBuilder> StorageBuilders { get; set; } = new List<IStorageBuilder>();
         private bool CreateCollectionMaps { get; } = true;
 
-
-        void RegisterStorageBuilders(IDictionary<TypePair, TypeMap> typeMaps)
-        {
-            StorageBuilders.Add(new BeforeStorageBuilder(typeMaps));
-            StorageBuilders.Add(new ConditionStorageBuilder(typeMaps));
-        }
-
-        private void RegisterTextBuilders(IDictionary<TypePair, TypeMap> typeMaps, MapperConfigurationExpression config)
-        {
-            //r.Add(x).With(y.With(a), z);
-
-            TextBuilderRunner
-                .Add(new TextBuilder(typeMaps, config))
-                .With(new CollectionTextBuilder(typeMaps, config)
-                    //, n => n.With(new OneArgTextBuilder(typeMaps, config))
-                    )
-                .With(new OneArgTextBuilder(typeMaps, config));
-        }
-
-        public Dictionary<TypePair, CompiledDelegate> CompileMapsToAssembly(
+        public Compiler(
             MapperConfigurationExpression config,
             IDictionary<TypePair, TypeMap> typeMaps)
         {
-            RegisterStorageBuilders(typeMaps);
+            Config = config;
+            TypeMaps = typeMaps;
 
-            RegisterTextBuilders(typeMaps, config);
+            RegisterFileBuilders();
+            RegisterStorageBuilders();
+        }
 
+        void RegisterStorageBuilders()
+        {
+            StorageBuilders.Add(new BeforeStorageBuilder(TypeMaps));
+            StorageBuilders.Add(new ConditionStorageBuilder(TypeMaps));
+        }
+
+        private void RegisterFileBuilders()
+        {
+            FileBuilderRunner
+                .Add(new FileBuilder(TypeMaps, Config))
+                .With(new CollectionFileBuilder(TypeMaps, Config)
+                    //, n => n.With(new OneArgFileBuilder(TypeMaps, config))
+                    )
+                .With(new OneArgFileBuilder(TypeMaps, Config));
+        }
+
+        public Dictionary<TypePair, CompiledDelegate> CompileMapsToAssembly()
+        {
             List<string> sourceCodes;
             HashSet<string> locations;
-            TextBuilderRunner.GetCode(out sourceCodes, out locations);
+            FileBuilderRunner.BuildCode(out sourceCodes, out locations);
 
             var storageCodes = BuildStorageCode();
 
-            sourceCodes = sourceCodes
-                .Union(storageCodes)
-                .ToList();
+            sourceCodes = sourceCodes.Union(storageCodes).ToList();
 
             PrintSourceCode(sourceCodes);
 
@@ -61,14 +62,14 @@ namespace HappyMapper.Compilation
 
             Assembly assembly = MapperTypeBuilder.CreateAssembly(compilation);
 
-            InitStorages(typeMaps, assembly);
+            InitStorages(TypeMaps, assembly);
 
-            var delegateCache = CreateDelegateCache(typeMaps, assembly);
+            var delegateCache = CreateDelegateCache(TypeMaps, assembly);
 
             return delegateCache;
         }
 
-        private void InitStorages(IDictionary<TypePair, TypeMap> typeMaps, Assembly assembly)
+        private void InitStorages(IDictionary<TypePair, TypeMap> TypeMaps, Assembly assembly)
         {
             StorageBuilders.ForEach(b => b.InitStorage(assembly));
         }
@@ -89,30 +90,22 @@ namespace HappyMapper.Compilation
             }
         }
 
-        private Dictionary<TypePair, CompiledDelegate> CreateDelegateCache(IDictionary<TypePair, TypeMap> typeMaps, Assembly assembly)
+        private Dictionary<TypePair, CompiledDelegate> CreateDelegateCache(IDictionary<TypePair, TypeMap> TypeMaps, Assembly assembly)
         {
             var cache = new Dictionary<TypePair, CompiledDelegate>();
 
-            foreach (var kvp in typeMaps)
+            foreach (var kvp in TypeMaps)
             {
                 var @delegate = new CompiledDelegate();
 
                 TypeMap map = kvp.Value;
-                TypePair typePair = kvp.Key;
 
-                foreach (var node in TextBuilderRunner.AllRules.Select(node => node))
+                foreach (var rule in FileBuilderRunner.AllRules)
                 {
-                    node.Builder.VisitDelegate(@delegate, map, assembly, node.Result.Files[typePair]);
+                    rule.VisitDelegate(@delegate, map, assembly);
                 }
 
-                //@delegate.Single = CreateDelegate(map.MapDelegateType, assembly, singleFiles[typePair]);
-
-                //if (CreateCollectionMaps)
-                //    @delegate.Collection = CreateDelegate(ToCollectionDelegateType(map), assembly, collectionFiles[typePair]);
-
-                //@delegate.SingleOneArg = CreateDelegate(map.MapDelegateTypeOneArg, assembly, oneArgFiles[typePair]);
-
-                cache.Add(typePair, @delegate);
+                cache.Add(map.TypePair, @delegate);
             }
             return cache;
         }

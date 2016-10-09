@@ -8,21 +8,29 @@ using HappyMapper.Compilation;
 
 namespace HappyMapper.Text
 {
-    public class CollectionTextBuilder : ITextBuilder
+    public class CollectionFileBuilder : IFileBuilder
     {
         public ImmutableDictionary<TypePair, TypeMap> ExplicitTypeMaps { get; }
 
-        public CollectionTextBuilder(IDictionary<TypePair, TypeMap> explicitTypeMaps, MapperConfigurationExpression config)
+        public CollectionFileBuilder(IDictionary<TypePair, TypeMap> explicitTypeMaps, MapperConfigurationExpression config)
         {
             ExplicitTypeMaps = explicitTypeMaps.ToImmutableDictionary();
         }
 
-        public Dictionary<TypePair, CodeFile> CreateCodeFiles(Dictionary<TypePair, CodeFile> files)
+        public TextResult Build(ImmutableDictionary<TypePair, CodeFile> parentFiles = null)
         {
-            return CreateCodeFiles(files.ToImmutableDictionary());
+            var files = CreateCodeFilesDictionary(parentFiles);
+
+            return new TextResult(files, new HashSet<string>());
         }
 
-        public Dictionary<TypePair, CodeFile> CreateCodeFiles(ImmutableDictionary<TypePair, CodeFile> files)
+        public void VisitDelegate(CompiledDelegate @delegate, TypeMap map, Assembly assembly, CodeFile file)
+        {
+            @delegate.Collection = Tools.CreateDelegate(Tools.ToCollectionDelegateType(map), assembly, file);
+        }
+
+        public ImmutableDictionary<TypePair, CodeFile> CreateCodeFilesDictionary(
+            ImmutableDictionary<TypePair, CodeFile> files)
         {
             var collectionFiles = new Dictionary<TypePair, CodeFile>();
             var Convention = NameConventionsStorage.Mapper;
@@ -68,17 +76,7 @@ namespace HappyMapper.Text
                 collectionFiles.Add(typePair, file);
             }
 
-            return collectionFiles;
-        }
-
-        public HashSet<string> GetLocations()
-        {
-            return new HashSet<string>();
-        }
-
-        public void VisitDelegate(CompiledDelegate @delegate, TypeMap map, Assembly assembly, CodeFile file)
-        {
-            @delegate.Collection = Tools.CreateDelegate(Tools.ToCollectionDelegateType(map), assembly, file);
+            return collectionFiles.ToImmutableDictionary();
         }
     }
 }

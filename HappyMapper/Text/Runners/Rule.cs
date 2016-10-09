@@ -1,16 +1,17 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Reflection;
 using AutoMapper.ConfigurationAPI;
-using HappyMapper.Text;
+using HappyMapper.Compilation;
 
-namespace HappyMapper.Compilation
+namespace HappyMapper.Text
 {
     public class Rule
     {
         private TextResult _result;
-        public TextBuilderRunner Runner { get; set; }
-        public ITextBuilder Builder { get; set; }
+        public FileBuilderRunner Runner { get; set; }
+        public IFileBuilder Builder { get; set; }
         public List<Rule> Childs { get; set; } = new List<Rule>();
 
         public TextResult Result
@@ -22,13 +23,13 @@ namespace HappyMapper.Compilation
             }
         }
 
-        public Rule(TextBuilderRunner runner, ITextBuilder builder)
+        public Rule(FileBuilderRunner runner, IFileBuilder builder)
         {
             Runner = runner;
             Builder = builder;
         }
 
-        public Rule With(ITextBuilder builder, Action<Rule> setChild = null)
+        public Rule With(IFileBuilder builder, Action<Rule> setChild = null)
         {
             var rule = new Rule(Runner, builder);
 
@@ -42,16 +43,17 @@ namespace HappyMapper.Compilation
 
         public void Build(ImmutableDictionary<TypePair, CodeFile> parentFiles = null)
         {
-            var files = (Builder?.CreateCodeFiles(parentFiles)).ToImmutableDictionary();
+            _result = Builder.Build(parentFiles);
 
-            var locations = Builder.GetLocations();
-
-            _result = new TextResult() { DetectedLocations = locations, Files = files };
-            
             foreach (var rule in Childs)
             {
-                rule.Build(files);
+                rule.Build(_result.Files);
             }
+        }
+
+        public void VisitDelegate(CompiledDelegate @delegate, TypeMap map, Assembly assembly)
+        {
+            Builder.VisitDelegate(@delegate, map, assembly, Result.Files[map.TypePair]);
         }
     }
 }

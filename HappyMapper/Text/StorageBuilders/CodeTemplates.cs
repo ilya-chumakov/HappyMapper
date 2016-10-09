@@ -20,8 +20,8 @@ namespace HappyMapper.Text
             var builder = new StringBuilder();
 
             builder.AppendLine("using System; ");
-            builder.AppendLine("using System.Collections.Generic; "); //TODO: only for CollectionTextBuilder
-            builder.AppendLine("using System.Linq; "); //TODO: only for CollectionTextBuilder
+            builder.AppendLine("using System.Collections.Generic; "); //TODO: only for CollectionFileBuilder
+            builder.AppendLine("using System.Linq; "); //TODO: only for CollectionFileBuilder
             builder.AppendLine($"using {NameConventionsStorage.Mapper.Namespace}; ");
 
             builder.AppendLine($"namespace {nms}");

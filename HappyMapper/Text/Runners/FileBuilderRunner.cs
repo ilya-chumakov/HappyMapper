@@ -1,12 +1,14 @@
 using System.Collections.Generic;
 using System.Linq;
-using HappyMapper.Text;
 
-namespace HappyMapper.Compilation
+namespace HappyMapper.Text
 {
-    public class TextBuilderRunner
+    public class FileBuilderRunner
     {
-        public Rule Add(ITextBuilder builder)
+        public List<Rule> RootRules { get; set; } = new List<Rule>();
+        public List<Rule> AllRules { get; set; } = new List<Rule>();
+
+        public Rule Add(IFileBuilder builder)
         {
             var rule = new Rule(this, builder);
 
@@ -16,10 +18,7 @@ namespace HappyMapper.Compilation
             return rule;
         }
 
-        public List<Rule> RootRules { get; set; } = new List<Rule>();
-        public List<Rule> AllRules { get; set; } = new List<Rule>();
-
-        public void GetCode(out List<string> sources, out HashSet<string> locations)
+        public void BuildCode(out List<string> sources, out HashSet<string> locations)
         {
             RootRules.ForEach(rule => rule.Build());
 
@@ -30,7 +29,7 @@ namespace HappyMapper.Compilation
             {
                 sources.AddRange(result.SelectSourceCode());
 
-                locations.UnionWith(result.DetectedLocations);
+                locations.UnionWith(result.Locations);
             }
         }
     }
