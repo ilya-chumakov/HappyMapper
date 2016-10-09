@@ -13,7 +13,7 @@ namespace HappyMapper.Compilation
 {
     public class Compiler
     {
-        private TextBuilderRegistry TextBuilderRegistry { get; set; } = new TextBuilderRegistry();
+        private TextBuilderRunner TextBuilderRunner { get; set; } = new TextBuilderRunner();
 
         private List<IStorageBuilder> StorageBuilders { get; set; } = new List<IStorageBuilder>();
         private bool CreateCollectionMaps { get; } = true;
@@ -29,7 +29,7 @@ namespace HappyMapper.Compilation
         {
             //r.Add(x).With(y.With(a), z);
 
-            TextBuilderRegistry
+            TextBuilderRunner
                 .Add(new TextBuilder(typeMaps, config))
                 .With(new CollectionTextBuilder(typeMaps, config)
                     //, n => n.With(new OneArgTextBuilder(typeMaps, config))
@@ -47,7 +47,7 @@ namespace HappyMapper.Compilation
 
             List<string> sourceCodes;
             HashSet<string> locations;
-            TextBuilderRegistry.GetCode(out sourceCodes, out locations);
+            TextBuilderRunner.GetCode(out sourceCodes, out locations);
 
             var storageCodes = BuildStorageCode();
 
@@ -100,7 +100,7 @@ namespace HappyMapper.Compilation
                 TypeMap map = kvp.Value;
                 TypePair typePair = kvp.Key;
 
-                foreach (var node in TextBuilderRegistry.AllNodes.Select(node => node))
+                foreach (var node in TextBuilderRunner.AllRules.Select(node => node))
                 {
                     node.Builder.VisitDelegate(@delegate, map, assembly, node.Result.Files[typePair]);
                 }

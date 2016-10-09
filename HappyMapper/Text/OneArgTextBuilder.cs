@@ -67,7 +67,7 @@ namespace HappyMapper.Text
 
         public HashSet<string> GetLocations()
         {
-            return null;
+            return new HashSet<string>();
         }
 
         public void VisitDelegate(CompiledDelegate @delegate, TypeMap map, Assembly assembly, CodeFile file)

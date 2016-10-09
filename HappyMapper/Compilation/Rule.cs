@@ -8,49 +8,50 @@ namespace HappyMapper.Compilation
 {
     public class Rule
     {
-        public TextBuilderRegistry Registry { get; set; }
+        private TextResult _result;
+        public TextBuilderRunner Runner { get; set; }
         public ITextBuilder Builder { get; set; }
         public List<Rule> Childs { get; set; } = new List<Rule>();
-        public TextResult Result { get; set; }
 
-        public Rule(TextBuilderRegistry registry, ITextBuilder builder)
+        public TextResult Result
         {
-            Registry = registry;
+            get
+            {
+                if (_result == null) throw new NotSupportedException("Rule wasn't built to retrieve the result!");
+                return _result;
+            }
+        }
+
+        public Rule(TextBuilderRunner runner, ITextBuilder builder)
+        {
+            Runner = runner;
             Builder = builder;
         }
 
         public Rule With(ITextBuilder builder, Action<Rule> setChild = null)
         {
-            var rule = new Rule(Registry, builder);
+            var rule = new Rule(Runner, builder);
 
             Childs.Add(rule);
-            Registry.AllNodes.Add(rule);
+            Runner.AllRules.Add(rule);
 
             if (setChild != null) setChild(rule);
 
             return this;
         }
 
-        public List<TextResult> Build(ImmutableDictionary<TypePair, CodeFile> parentFiles = null)
+        public void Build(ImmutableDictionary<TypePair, CodeFile> parentFiles = null)
         {
             var files = (Builder?.CreateCodeFiles(parentFiles)).ToImmutableDictionary();
 
-            var locations = (Builder.GetLocations());
+            var locations = Builder.GetLocations();
 
-            var results = new List<TextResult>();
-
-            var result = new TextResult() { DetectedLocations = locations, Files = files };
-            Result = result;
+            _result = new TextResult() { DetectedLocations = locations, Files = files };
             
-            results.Add(result);
-
-            foreach (var node in Childs)
+            foreach (var rule in Childs)
             {
-                results.AddRange(node.Build(files));
+                rule.Build(files);
             }
-
-
-            return results;
         }
     }
 }
