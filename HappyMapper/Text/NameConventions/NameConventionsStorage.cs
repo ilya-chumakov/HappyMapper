@@ -5,8 +5,9 @@
         public static ActionNameConvention BeforeMap { get; set; } = new ActionNameConvention();
         public static ActionNameConvention Condition { get; set; } = new ActionNameConvention();
         public static MapperNameConvention Mapper { get; set; } = new MapperNameConvention();
+        public static MapNameConvention Map { get; set; } = new MapNameConvention();
         public static MapCollectionNameConvention MapCollection { get; set; } = new MapCollectionNameConvention();
-        
+
 
         static NameConventionsStorage()
         {
@@ -22,6 +23,10 @@
             Condition.Namespace = nms;
             Condition.ClassShortName = "ConditionStore";
             Condition.MemberPrefix = "Condition_";
+
+            Map.SrcParam = "src";
+            Map.DestParam = "dest";
+            Map.Method = "Map";
 
             MapCollection.SrcParam = "src";
             MapCollection.DestParam = "dest";

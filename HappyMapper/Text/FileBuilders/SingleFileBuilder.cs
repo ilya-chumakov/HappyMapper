@@ -43,31 +43,27 @@ namespace HappyMapper.Text
         private ImmutableDictionary<TypePair, CodeFile> CreateCodeFilesDictionary()
         {
             var files = new Dictionary<TypePair, CodeFile>();
-
-            //TODO: move to convention
-            string srcFieldName = "src";
-            string destFieldName = "dest";
-            string methodName = "Map";
+            var cv = NameConventionsStorage.Map;
 
             foreach (var kvp in ExplicitTypeMaps)
             {
                 TypePair typePair = kvp.Key;
                 TypeMap map = kvp.Value;
 
-                var SrcTypeFullName = typePair.SourceType.FullName;
-                var DestTypeFullName = typePair.DestinationType.FullName;
+                string srcType = typePair.SourceType.FullName.NormalizeTypeName();
+                string destType = typePair.DestinationType.FullName.NormalizeTypeName();
 
                 var assignment = MethodInnerCodeBuilder.GetAssignment(map);
 
-                string methodInnerCode = assignment.GetCode(srcFieldName, destFieldName);
+                string methodInnerCode = assignment.GetCode(cv.SrcParam, cv.DestParam);
 
                 string methodCode = CodeTemplates.Method(methodInnerCode, 
-                    new MethodDeclarationContext(methodName,
-                        new VariableContext(DestTypeFullName, destFieldName),
-                        new VariableContext(SrcTypeFullName, srcFieldName),
-                        new VariableContext(DestTypeFullName, destFieldName)));
+                    new MethodDeclarationContext(cv.Method,
+                        new VariableContext(destType, cv.DestParam),
+                        new VariableContext(srcType, cv.SrcParam),
+                        new VariableContext(destType, cv.DestParam)));
 
-                var file = TextBuilderHelper.CreateFile(typePair, methodCode, methodName, assignment);
+                var file = TextBuilderHelper.CreateFile(typePair, methodCode, cv.Method, assignment);
 
                 files.Add(typePair, file);
             }
