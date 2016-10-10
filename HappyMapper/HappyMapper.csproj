@@ -133,7 +133,6 @@
     <Compile Include="Compilation\Tools.cs" />
     <Compile Include="PublicAPI\HappyConfig.cs" />
     <Compile Include="PublicAPI\HappyMapperConfigurationException.cs" />
-    <Compile Include="Text\Assign.cs" />
     <Compile Include="Text\FileBuilders\IFileBuilder.cs" />
     <Compile Include="Text\FileBuilders\OneArgWrapFileBuilder.cs" />
     <Compile Include="Text\FileBuilders\CollectionFileBuilder.cs" />

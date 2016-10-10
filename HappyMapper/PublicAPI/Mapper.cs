@@ -117,7 +117,6 @@ namespace HappyMapper
             if (mapMethod == null)
                 throw new HappyMapperException(ErrorMessages.MissingMapping(key.SourceType, key.DestinationType));
 
-            //TODO: arrays are not supported, add if-throw
             var dest = new TDest();
 
             mapMethod(src, dest);

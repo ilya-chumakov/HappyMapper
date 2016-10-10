@@ -81,19 +81,33 @@ namespace HappyMapper.Tests.PublicAPI
 
 
         [Test]
-        public void Map_ListIsTarget_Success()
+        public void Map_ListToList_Success()
         {
             var config = new HappyConfig(cfg => cfg.CreateMap<Src, Dest>());
             config.AssertConfigurationIsValid();
             var mapper = config.CompileMapper();
 
+            var src = new List<Src>();
+            src.Add(new Src { Id = 1 });
 
-            var srcList = new List<Src>();
-            srcList.Add(new Src { Id = 1 });
+            var dest = mapper.MapCollection2<List<Src>, List<Dest>>(src);
 
-            var destList = mapper.MapCollection2<List<Src>, List<Dest>>(srcList);
+            Assert.AreEqual(src[0].Id, dest[0].Id);
+        }
 
-            Assert.AreEqual(srcList[0].Id, destList[0].Id);
+        [Test]
+        public void Map_ListToLinkedList_Success()
+        {
+            var config = new HappyConfig(cfg => cfg.CreateMap<Src, Dest>());
+            config.AssertConfigurationIsValid();
+            var mapper = config.CompileMapper();
+
+            var src = new List<Src>();
+            src.Add(new Src { Id = 1 });
+
+            var dest = mapper.MapCollection2<List<Src>, LinkedList<Dest>>(src);
+
+            Assert.AreEqual(src[0].Id, dest.First.Value.Id);
         }
     }
 }

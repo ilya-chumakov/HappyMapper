@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace AutoMapper.Extended.Net4
 {
@@ -7,10 +8,8 @@ namespace AutoMapper.Extended.Net4
         public static bool IsValid(Type type)
         {
             //bool isStruct = type.IsValueType && !type.IsPrimitive;
-            bool isClass = type.IsClass && !type.IsAbstract;
 
-            return isClass;
-
+            return type.IsClass && !type.IsAbstract && !type.IsGenericType;
         }
 
         public static NotSupportedException CreateException(Type sourceType)

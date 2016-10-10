@@ -3,6 +3,14 @@ using System.Text;
 
 namespace HappyMapper.Text
 {
+    public enum Assign
+    {
+        AsNoCast,
+        AsExplicitCast,
+        AsToStringCall,
+        AsStringToValueTypeConvert
+    }
+
     public class Recorder
     {
         public Recorder()
@@ -16,6 +24,7 @@ namespace HappyMapper.Text
         {
             TemplateBuilder.AppendLine(template);
         }
+
         public string GetAssignTemplate(Assign assignType, IAssignContext context)
         {
             switch (assignType)
