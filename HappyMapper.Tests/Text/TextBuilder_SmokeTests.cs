@@ -37,7 +37,7 @@ namespace HappyMapper.Tests.Text
             });
 
             var typeMaps = config.TypeMaps;
-            var mtb = new FileBuilder(typeMaps, config.Configuration);
+            var mtb = new SingleFileBuilder(typeMaps, config.Configuration);
 
             var files = mtb.Build().Files;
 
@@ -55,11 +55,11 @@ namespace HappyMapper.Tests.Text
             });
 
             var typeMaps = config.TypeMaps;
-            var mtb = new FileBuilder(typeMaps, config.Configuration);
+            var mtb = new SingleFileBuilder(typeMaps, config.Configuration);
 
             var files = mtb.Build().Files;
 
-            var a1tb = new OneArgWrapFileBuilder(typeMaps, config.Configuration);
+            var a1tb = new SingleOneArgFileBuilder(typeMaps, config.Configuration);
 
             var a1files = a1tb.Build(files).Files;
 

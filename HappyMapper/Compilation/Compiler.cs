@@ -39,11 +39,11 @@ namespace HappyMapper.Compilation
         private void RegisterFileBuilders()
         {
             FileBuilderRunner
-                .Add(new FileBuilder(TypeMaps, Config))
+                .Add(new SingleFileBuilder(TypeMaps, Config))
                 .With(new CollectionFileBuilder(TypeMaps, Config)
-                    , n => n.With(new ObjectWrapFileBuilder(TypeMaps, Config))
+                    , n => n.With(new CollectionObjectFileBuilder(TypeMaps, Config))
                     )
-                .With(new OneArgWrapFileBuilder(TypeMaps, Config));
+                .With(new SingleOneArgFileBuilder(TypeMaps, Config));
         }
 
         public Dictionary<TypePair, CompiledDelegate> CompileMapsToAssembly()

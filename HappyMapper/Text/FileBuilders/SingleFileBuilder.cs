@@ -8,18 +8,20 @@ using HappyMapper.Compilation;
 
 namespace HappyMapper.Text
 {
-    public class FileBuilder : IFileBuilder
+    /// <summary>
+    /// Builds Map(Src, Dest) method code.
+    /// </summary>
+    public class SingleFileBuilder : IFileBuilder
     {
         public ImmutableDictionary<TypePair, TypeMap> ExplicitTypeMaps { get; }
+        public MethodInnerCodeBuilder MethodInnerCodeBuilder { get; set; }
 
-        public FileBuilder(IDictionary<TypePair, TypeMap> explicitTypeMaps, MapperConfigurationExpression mce)
+        public SingleFileBuilder(IDictionary<TypePair, TypeMap> explicitTypeMaps, MapperConfigurationExpression mce)
         {
             ExplicitTypeMaps = explicitTypeMaps.ToImmutableDictionary();
 
             MethodInnerCodeBuilder = new MethodInnerCodeBuilder(explicitTypeMaps, mce);
         }
-
-        public MethodInnerCodeBuilder MethodInnerCodeBuilder { get; set; }
 
         public HashSet<string> GetLocations()
         {
@@ -41,7 +43,6 @@ namespace HappyMapper.Text
         private ImmutableDictionary<TypePair, CodeFile> CreateCodeFilesDictionary()
         {
             var files = new Dictionary<TypePair, CodeFile>();
-            var Convention = NameConventionsStorage.Mapper;
 
             //TODO: move to convention
             string srcFieldName = "src";
@@ -56,9 +57,6 @@ namespace HappyMapper.Text
                 var SrcTypeFullName = typePair.SourceType.FullName;
                 var DestTypeFullName = typePair.DestinationType.FullName;
 
-                string shortClassName = Convention.CreateUniqueMapperMethodNameWithGuid(typePair);
-                string fullClassName = $"{Convention.Namespace}.{shortClassName}";
-
                 var assignment = MethodInnerCodeBuilder.GetAssignment(map);
 
                 string methodInnerCode = assignment.GetCode(srcFieldName, destFieldName);
@@ -69,9 +67,7 @@ namespace HappyMapper.Text
                         new VariableContext(SrcTypeFullName, srcFieldName),
                         new VariableContext(DestTypeFullName, destFieldName)));
 
-                string classCode = CodeTemplates.Class(methodCode, Convention.Namespace, shortClassName);
-
-                var file = new CodeFile(classCode, fullClassName, methodName, typePair, assignment);
+                var file = TextBuilderHelper.CreateFile(typePair, methodCode, methodName, assignment);
 
                 files.Add(typePair, file);
             }

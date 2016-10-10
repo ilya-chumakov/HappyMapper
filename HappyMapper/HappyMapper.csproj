@@ -125,7 +125,8 @@
   <ItemGroup>
     <Compile Include="Compilation\CompiledDelegate.cs" />
     <Compile Include="Extensions\CollectionExtensions.cs" />
-    <Compile Include="Text\FileBuilders\ObjectWrapFileBuilder.cs" />
+    <Compile Include="Text\FileBuilders\CollectionObjectFileBuilder.cs" />
+    <Compile Include="Text\FileBuilders\TextBuilderHelper.cs" />
     <Compile Include="Text\Fill.cs" />
     <Compile Include="Text\Runners\Rule.cs" />
     <Compile Include="Text\Runners\TextResult.cs" />
@@ -134,7 +135,7 @@
     <Compile Include="PublicAPI\HappyConfig.cs" />
     <Compile Include="PublicAPI\HappyMapperConfigurationException.cs" />
     <Compile Include="Text\FileBuilders\IFileBuilder.cs" />
-    <Compile Include="Text\FileBuilders\OneArgWrapFileBuilder.cs" />
+    <Compile Include="Text\FileBuilders\SingleOneArgFileBuilder.cs" />
     <Compile Include="Text\FileBuilders\CollectionFileBuilder.cs" />
     <Compile Include="PublicAPI\ErrorMessages.cs" />
     <Compile Include="Text\Legacy\LegacyMapContext.cs" />
@@ -155,7 +156,7 @@
     <Compile Include="Text\StorageBuilders\ConditionStorageBuilder.cs" />
     <Compile Include="Text\ImplicitCastChecker.cs" />
     <Compile Include="Text\Recorder.cs" />
-    <Compile Include="Text\FileBuilders\FileBuilder.cs" />
+    <Compile Include="Text\FileBuilders\SingleFileBuilder.cs" />
     <Compile Include="Text\Assignment.cs" />
     <Compile Include="Text\NameConventions\ActionNameConvention.cs" />
     <Compile Include="Text\NameConventions\NameConventionsStorage.cs" />

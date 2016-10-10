@@ -8,6 +8,9 @@ using HappyMapper.Compilation;
 
 namespace HappyMapper.Text
 {
+    /// <summary>
+    /// Builds Map(ICollection<>, ICollection<>) code.
+    /// </summary>
     public class CollectionFileBuilder : IFileBuilder
     {
         public ImmutableDictionary<TypePair, TypeMap> ExplicitTypeMaps { get; }
@@ -33,7 +36,6 @@ namespace HappyMapper.Text
             ImmutableDictionary<TypePair, CodeFile> files)
         {
             var collectionFiles = new Dictionary<TypePair, CodeFile>();
-            var Convention = NameConventionsStorage.Mapper;
 
             //TODO: move to convention
             string srcParamName = "src";
@@ -46,15 +48,11 @@ namespace HappyMapper.Text
             foreach (var kvp in ExplicitTypeMaps)
             {
                 TypePair typePair = kvp.Key;
-                TypeMap map = kvp.Value;
 
                 var mapCodeFile = files[typePair];
 
                 var SrcTypeFullName = string.Format(template, typePair.SourceType.FullName);
                 var DestTypeFullName = string.Format(template, typePair.DestinationType.FullName);
-
-                string shortClassName = Convention.CreateUniqueMapperMethodNameWithGuid(typePair);
-                string fullClassName = $"{Convention.Namespace}.{shortClassName}";
 
                 string methodInnerCode = mapCodeFile.InnerMethodAssignment
                     .GetCode(srcParamName, destParamName)
@@ -69,9 +67,9 @@ namespace HappyMapper.Text
                         new VariableContext(SrcTypeFullName, srcCollectionName),
                         new VariableContext(DestTypeFullName, destCollectionName)));
 
-                string classCode = CodeTemplates.Class(methodCode, Convention.Namespace, shortClassName);
+                //var file = new CodeFile(classCode, fullClassName, methodName, typePair, default(Assignment));
+                var file = TextBuilderHelper.CreateFile(typePair, methodCode, methodName);
 
-                var file = new CodeFile(classCode, fullClassName, methodName, typePair, default(Assignment));
 
                 collectionFiles.Add(typePair, file);
             }
