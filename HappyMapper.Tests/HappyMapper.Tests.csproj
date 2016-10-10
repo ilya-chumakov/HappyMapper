@@ -125,6 +125,7 @@
     <Compile Include="AutoMapper.Extended\UnsupportedTypeBlocker_Tests.cs" />
     <Compile Include="AutoMapperMigrated\ConfigurationValidation.cs" />
     <Compile Include="AutoMapperMigrated\AutoMapperSpecBase.cs" />
+    <Compile Include="Extensions\CollectionExtensions_Tests.cs" />
     <Compile Include="PublicAPI\Cast_Tests.cs" />
     <Compile Include="PublicAPI\MapCollections_Tests.cs" />
     <Compile Include="CompilationResult.cs" />

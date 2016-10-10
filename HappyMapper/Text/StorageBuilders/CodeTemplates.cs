@@ -46,7 +46,12 @@ namespace HappyMapper.Text
         {
             var builder = new StringBuilder();
 
-            builder.AppendLine($"       public static {ctx.Return.Type} ");
+            string returnType = ctx.Return?.Type ?? "void";
+            string returnStatement = ctx.Return != null ?
+                $"        return {ctx.Return.Name};"
+                : string.Empty;
+
+            builder.AppendLine($"       public static {returnType} ");
             builder.AppendLine($"       {ctx.MethodName}");
             builder.AppendLine("        (");
 
@@ -57,10 +62,9 @@ namespace HappyMapper.Text
             builder.AppendLine("        " + arguments);
             builder.AppendLine("        )");
             builder.AppendLine("        {");
-            builder.AppendLine(innerCode);
+            builder.AppendLine(innerCode + ";");
 
-            if (ctx.Return != null)
-                builder.AppendLine($"        return {ctx.Return.Name};");
+            builder.AppendLine(returnStatement + ";");
 
             builder.AppendLine("        }");
 

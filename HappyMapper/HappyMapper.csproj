@@ -124,6 +124,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Compilation\CompiledDelegate.cs" />
+    <Compile Include="Extensions\CollectionExtensions.cs" />
+    <Compile Include="Text\FileBuilders\ObjectWrapFileBuilder.cs" />
+    <Compile Include="Text\Fill.cs" />
     <Compile Include="Text\Runners\Rule.cs" />
     <Compile Include="Text\Runners\TextResult.cs" />
     <Compile Include="Text\Runners\FileBuilderRunner.cs" />
@@ -132,7 +135,7 @@
     <Compile Include="PublicAPI\HappyMapperConfigurationException.cs" />
     <Compile Include="Text\Assign.cs" />
     <Compile Include="Text\FileBuilders\IFileBuilder.cs" />
-    <Compile Include="Text\FileBuilders\OneArgFileBuilder.cs" />
+    <Compile Include="Text\FileBuilders\OneArgWrapFileBuilder.cs" />
     <Compile Include="Text\FileBuilders\CollectionFileBuilder.cs" />
     <Compile Include="PublicAPI\ErrorMessages.cs" />
     <Compile Include="Text\Legacy\LegacyMapContext.cs" />
@@ -160,7 +163,7 @@
     <Compile Include="Text\NameContexts\PropertyNameContext.cs" />
     <Compile Include="Text\NameContexts\ForDeclarationContext.cs" />
     <Compile Include="Text\StorageBuilders\IStorageBuilder.cs" />
-    <Compile Include="Extensions\StringEx.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Text\Legacy\LegacyTextBuilder.cs" />
     <Compile Include="Compilation\MapperTypeBuilder.cs" />
     <Compile Include="PublicAPI\HappyMapperException.cs" />

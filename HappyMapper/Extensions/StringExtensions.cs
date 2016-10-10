@@ -29,6 +29,5 @@ namespace HappyMapper
                 .Replace("{0}", "{0}." + srcName)
                 .Replace("{1}", "{1}." + destName);
         }
-
     }
 }

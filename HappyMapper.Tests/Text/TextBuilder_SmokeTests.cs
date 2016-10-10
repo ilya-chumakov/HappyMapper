@@ -59,7 +59,7 @@ namespace HappyMapper.Tests.Text
 
             var files = mtb.Build().Files;
 
-            var a1tb = new OneArgFileBuilder(typeMaps, config.Configuration);
+            var a1tb = new OneArgWrapFileBuilder(typeMaps, config.Configuration);
 
             var a1files = a1tb.Build(files).Files;
 

@@ -112,14 +112,14 @@ namespace HappyMapper
             CompiledDelegate @delegate = null;
 
             DelegateCache.TryGetValue(key, out @delegate);
-            var mapMethod = @delegate?.SingleOneArg as Func<object, object, object>;
+            var mapMethod = @delegate?.CollectionUntyped as Action<object, object>;
 
             if (mapMethod == null)
                 throw new HappyMapperException(ErrorMessages.MissingMapping(key.SourceType, key.DestinationType));
 
+            //TODO: arrays are not supported, add if-throw
             var dest = new TDest();
 
-            //obj, obj wrapper is needed.
             mapMethod(src, dest);
 
             return dest;

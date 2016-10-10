@@ -41,9 +41,9 @@ namespace HappyMapper.Compilation
             FileBuilderRunner
                 .Add(new FileBuilder(TypeMaps, Config))
                 .With(new CollectionFileBuilder(TypeMaps, Config)
-                    //, n => n.With(new OneArgFileBuilder(TypeMaps, config))
+                    , n => n.With(new ObjectWrapFileBuilder(TypeMaps, Config))
                     )
-                .With(new OneArgFileBuilder(TypeMaps, Config));
+                .With(new OneArgWrapFileBuilder(TypeMaps, Config));
         }
 
         public Dictionary<TypePair, CompiledDelegate> CompileMapsToAssembly()

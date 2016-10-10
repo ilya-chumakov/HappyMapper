@@ -8,11 +8,11 @@ using HappyMapper.Compilation;
 
 namespace HappyMapper.Text
 {
-    public class OneArgFileBuilder : IFileBuilder
+    public class OneArgWrapFileBuilder : IFileBuilder
     {
         public ImmutableDictionary<TypePair, TypeMap> ExplicitTypeMaps { get; }
 
-        public OneArgFileBuilder(IDictionary<TypePair, TypeMap> explicitTypeMaps, MapperConfigurationExpression config)
+        public OneArgWrapFileBuilder(IDictionary<TypePair, TypeMap> explicitTypeMaps, MapperConfigurationExpression config)
         {
             ExplicitTypeMaps = explicitTypeMaps.ToImmutableDictionary();
         }
