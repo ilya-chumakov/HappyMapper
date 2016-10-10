@@ -128,6 +128,7 @@
     <Compile Include="Text\FileBuilders\CollectionObjectFileBuilder.cs" />
     <Compile Include="Text\FileBuilders\TextBuilderHelper.cs" />
     <Compile Include="Text\Fill.cs" />
+    <Compile Include="Text\NameConventions\MapCollectionNameConvention.cs" />
     <Compile Include="Text\Runners\Rule.cs" />
     <Compile Include="Text\Runners\TextResult.cs" />
     <Compile Include="Text\Runners\FileBuilderRunner.cs" />

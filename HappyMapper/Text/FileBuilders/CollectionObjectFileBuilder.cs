@@ -38,14 +38,7 @@ namespace HappyMapper.Text
             ImmutableDictionary<TypePair, CodeFile> parentFiles)
         {
             var files = new Dictionary<TypePair, CodeFile>();
-
-            //TODO: move to convention
-            string srcParamName = "src";
-            string destParamName = "dest";
-            string srcCollectionName = "srcList";
-            string destCollectionName = "destList";
-            string methodName = "MapCollection";
-            string template = "ICollection<{0}>";
+            var cv = NameConventionsStorage.MapCollection;
 
             foreach (var kvp in ExplicitTypeMaps)
             {
@@ -53,28 +46,28 @@ namespace HappyMapper.Text
 
                 var mapCodeFile = parentFiles[typePair];
 
-                var SrcTypeFullName = string.Format(template, typePair.SourceType.FullName.NormalizeTypeName());
-                var DestTypeFullName = string.Format(template, typePair.DestinationType.FullName.NormalizeTypeName());
+                string srcCollType = cv.GetCollectionType(typePair.SourceType.FullName);
+                string destCollType = cv.GetCollectionType(typePair.DestinationType.FullName);
 
                 string fill = Fill.GetText(typePair.DestinationType);
                 var builder = new StringBuilder();
-                builder.AppendLine($"var {srcParamName} = {srcCollectionName} as {SrcTypeFullName};");
-                builder.AppendLine($"var {destParamName} = {destCollectionName} as {DestTypeFullName};");
-                builder.AppendLine($"{destParamName}.Fill({srcParamName}.Count, () => {fill});");
+                builder.AppendLine($"var {cv.SrcParam} = {cv.SrcCollection} as {srcCollType};");
+                builder.AppendLine($"var {cv.DestParam} = {cv.DestCollection} as {destCollType};");
+                builder.AppendLine($"{cv.DestParam}.Fill({cv.SrcParam}.Count, () => {fill});");
 
                 string methodCall = CodeTemplates.MethodCall(
-                    mapCodeFile.GetClassAndMethodName(), srcParamName, destParamName);
+                    mapCodeFile.GetClassAndMethodName(), cv.SrcParam, cv.DestParam);
 
                 builder.AppendLine(methodCall);
 
                 string methodCode = CodeTemplates.Method(builder.ToString(), 
-                    new MethodDeclarationContext(methodName,
+                    new MethodDeclarationContext(cv.Method,
                         null,
-                        new VariableContext(typeof(object).Name, srcCollectionName),
-                        new VariableContext(typeof(object).Name, destCollectionName))
+                        new VariableContext(typeof(object).Name, cv.SrcCollection),
+                        new VariableContext(typeof(object).Name, cv.DestCollection))
                     );
 
-                var file = TextBuilderHelper.CreateFile(typePair, methodCode, methodName);
+                var file = TextBuilderHelper.CreateFile(typePair, methodCode, cv.Method);
 
                 files.Add(typePair, file);
             }

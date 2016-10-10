@@ -33,48 +33,39 @@ namespace HappyMapper.Text
         }
 
         public ImmutableDictionary<TypePair, CodeFile> CreateCodeFilesDictionary(
-            ImmutableDictionary<TypePair, CodeFile> files)
+            ImmutableDictionary<TypePair, CodeFile> parentFiles)
         {
-            var collectionFiles = new Dictionary<TypePair, CodeFile>();
-
-            //TODO: move to convention
-            string srcParamName = "src";
-            string destParamName = "dest";
-            string srcCollectionName = "srcList";
-            string destCollectionName = "destList";
-            string methodName = "MapCollection";
-            string template = "ICollection<{0}>";
+            var files = new Dictionary<TypePair, CodeFile>();
+            var cv = NameConventionsStorage.MapCollection;
 
             foreach (var kvp in ExplicitTypeMaps)
             {
                 TypePair typePair = kvp.Key;
 
-                var mapCodeFile = files[typePair];
+                var mapCodeFile = parentFiles[typePair];
 
-                var SrcTypeFullName = string.Format(template, typePair.SourceType.FullName);
-                var DestTypeFullName = string.Format(template, typePair.DestinationType.FullName);
+                string srcCollType = cv.GetCollectionType(typePair.SourceType.FullName);
+                string destCollType = cv.GetCollectionType(typePair.DestinationType.FullName);
 
                 string methodInnerCode = mapCodeFile.InnerMethodAssignment
-                    .GetCode(srcParamName, destParamName)
+                    .GetCode(cv.SrcParam, cv.DestParam)
                     .RemoveDoubleBraces();
 
                 var forCode = CodeTemplates.For(methodInnerCode,
-                    new ForDeclarationContext(srcCollectionName, destCollectionName, srcParamName, destParamName));
+                    new ForDeclarationContext(cv.SrcCollection, cv.DestCollection, cv.SrcParam, cv.DestParam));
 
                 string methodCode = CodeTemplates.Method(forCode, 
-                    new MethodDeclarationContext(methodName,
-                        new VariableContext(DestTypeFullName, destCollectionName), 
-                        new VariableContext(SrcTypeFullName, srcCollectionName),
-                        new VariableContext(DestTypeFullName, destCollectionName)));
+                    new MethodDeclarationContext(cv.Method,
+                        new VariableContext(destCollType, cv.DestCollection), 
+                        new VariableContext(srcCollType, cv.SrcCollection),
+                        new VariableContext(destCollType, cv.DestCollection)));
 
-                //var file = new CodeFile(classCode, fullClassName, methodName, typePair, default(Assignment));
-                var file = TextBuilderHelper.CreateFile(typePair, methodCode, methodName);
+                var file = TextBuilderHelper.CreateFile(typePair, methodCode, cv.Method);
 
-
-                collectionFiles.Add(typePair, file);
+                files.Add(typePair, file);
             }
 
-            return collectionFiles.ToImmutableDictionary();
+            return files.ToImmutableDictionary();
         }
     }
 }
