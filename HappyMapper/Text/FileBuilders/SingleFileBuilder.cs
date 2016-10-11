@@ -57,7 +57,7 @@ namespace HappyMapper.Text
 
                 string methodInnerCode = assignment.GetCode(cv.SrcParam, cv.DestParam);
 
-                string methodCode = CodeTemplates.Method(methodInnerCode, 
+                string methodCode = StatementTemplates.Method(methodInnerCode, 
                     new MethodDeclarationContext(cv.Method,
                         new VariableContext(destType, cv.DestParam),
                         new VariableContext(srcType, cv.SrcParam),

@@ -127,7 +127,7 @@
     <Compile Include="Extensions\CollectionExtensions.cs" />
     <Compile Include="Text\FileBuilders\CollectionObjectFileBuilder.cs" />
     <Compile Include="Text\FileBuilders\TextBuilderHelper.cs" />
-    <Compile Include="Text\Fill.cs" />
+    <Compile Include="Text\CreationTemplates.cs" />
     <Compile Include="Text\NameConventions\MapNameConvention.cs" />
     <Compile Include="Text\NameConventions\MapCollectionNameConvention.cs" />
     <Compile Include="Text\Runners\Rule.cs" />
@@ -154,7 +154,7 @@
     <Compile Include="Text\MethodInnerCodeBuilder.cs" />
     <Compile Include="Text\NameConventions\MapperNameConvention.cs" />
     <Compile Include="Text\StorageBuilders\BeforeStorageBuilder.cs" />
-    <Compile Include="Text\StorageBuilders\CodeTemplates.cs" />
+    <Compile Include="Text\StorageBuilders\StatementTemplates.cs" />
     <Compile Include="Text\StorageBuilders\ConditionStorageBuilder.cs" />
     <Compile Include="Text\ImplicitCastChecker.cs" />
     <Compile Include="Text\Recorder.cs" />

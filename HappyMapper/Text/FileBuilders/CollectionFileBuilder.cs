@@ -51,10 +51,10 @@ namespace HappyMapper.Text
                     .GetCode(cv.SrcParam, cv.DestParam)
                     .RemoveDoubleBraces();
 
-                var forCode = CodeTemplates.For(methodInnerCode,
+                var forCode = StatementTemplates.For(methodInnerCode,
                     new ForDeclarationContext(cv.SrcCollection, cv.DestCollection, cv.SrcParam, cv.DestParam));
 
-                string methodCode = CodeTemplates.Method(forCode, 
+                string methodCode = StatementTemplates.Method(forCode, 
                     new MethodDeclarationContext(cv.Method,
                         new VariableContext(destCollType, cv.DestCollection), 
                         new VariableContext(srcCollType, cv.SrcCollection),

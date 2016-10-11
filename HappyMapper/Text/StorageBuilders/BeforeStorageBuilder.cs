@@ -32,7 +32,7 @@ namespace HappyMapper.Text
                 members.Add(memberCode);
             }
             );
-            string code = CodeTemplates.Class(members, Convention.Namespace, Convention.ClassShortName);
+            string code = StatementTemplates.Class(members, Convention.Namespace, Convention.ClassShortName);
 
             return code;
         }

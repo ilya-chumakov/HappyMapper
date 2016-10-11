@@ -128,7 +128,7 @@ namespace HappyMapper.Text
 
             string iterationCode = itemAssignment.GetCode(itemSrcName, itemDestName);
 
-            string template = CodeTemplates.For(iterationCode,
+            string template = StatementTemplates.For(iterationCode,
                 new ForDeclarationContext(
                     "{0}", "{1}", itemSrcName, itemDestName));
 
@@ -145,14 +145,15 @@ namespace HappyMapper.Text
         {
             Recorder recorder = new Recorder();
 
-            recorder.AppendLine(CodeTemplates.IfNull($"{{0}}.{ctx.SrcMemberName}", $"{{1}}.{ctx.DestMemberName}"));
+            recorder.AppendLine(StatementTemplates.IfNull($"{{0}}.{ctx.SrcMemberName}"));
+            recorder.AppendLine($"{{1}}.{ctx.DestMemberName} = null;");
             recorder.AppendLine(" else {");
 
             //has parameterless ctor
             if (ctx.PropertyMap.DestType.HasParameterlessCtor())
             {
                 //create new Dest() object
-                string newDest = $"{{1}}.{ctx.DestMemberName} = {CodeTemplates.New(ctx.DestTypeFullName)};";
+                string newDest = $"{{1}}.{ctx.DestMemberName} = {StatementTemplates.New(ctx.DestTypeFullName)};";
 
                 recorder.AppendLine(newDest);
             }

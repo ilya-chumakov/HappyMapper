@@ -6,7 +6,7 @@ using AutoMapper.Extended.Net4;
 
 namespace HappyMapper.Text
 {
-    public static class CodeTemplates
+    public static class StatementTemplates
     {
         public static string Class(string method, string nms, string className)
         {
@@ -92,13 +92,12 @@ namespace HappyMapper.Text
         }
 
         /// <summary>
-        /// if ({src} == null) {dest} = null;
+        /// if ({src} == null)
         /// TODO: perfomance degrades on each null check! Try to avoid it if possible!
         /// </summary>
         /// <param name="src"></param>
-        /// <param name="dest"></param>
         /// <returns></returns>
-        public static string IfNull(string src, string dest) => $"if ({src} == null) {dest} = null;";
+        public static string IfNull(string src) => $"if ({src} == null)";
 
         public static string New(string type) => $"new {type}()";
 

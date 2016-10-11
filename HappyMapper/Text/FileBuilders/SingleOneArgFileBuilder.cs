@@ -48,11 +48,11 @@ namespace HappyMapper.Text
                 string destType = typePair.DestinationType.FullName.NormalizeTypeName();
 
                 string arg1 = $"{cv.SrcParam} as {srcType}";
-                string arg2 = CodeTemplates.New(destType);
+                string arg2 = StatementTemplates.New(destType);
 
-                var methodCall = CodeTemplates.MethodCall(mapCodeFile.GetClassAndMethodName(), arg1, arg2);
+                var methodCall = StatementTemplates.MethodCall(mapCodeFile.GetClassAndMethodName(), arg1, arg2);
 
-                string methodCode = CodeTemplates.Method(string.Empty, 
+                string methodCode = StatementTemplates.Method(string.Empty, 
                     new MethodDeclarationContext(cv.Method,
                         new VariableContext(destType, methodCall),
                         new VariableContext(typeof(object).Name, cv.SrcParam)));
