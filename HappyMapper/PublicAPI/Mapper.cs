@@ -98,7 +98,7 @@ namespace HappyMapper
             return mapMethod(src);
         }
 
-        public TDest MapCollection2<TSrc, TDest>(TSrc src)
+        public TDest MapCollectionWithCreate<TSrc, TDest>(TSrc src)
             where TSrc : class, IEnumerable, new() 
             where TDest : class, IEnumerable, new()
         {

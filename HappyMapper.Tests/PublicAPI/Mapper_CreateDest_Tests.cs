@@ -67,7 +67,7 @@ namespace HappyMapper.Tests.PublicAPI
         }
     }
 
-    public class Mapper_CreateDestCollection_Tests
+    public class Mapper_CreateCollectionDest_Tests
     {
         public class Src
         {
@@ -90,7 +90,7 @@ namespace HappyMapper.Tests.PublicAPI
             var src = new List<Src>();
             src.Add(new Src { Id = 1 });
 
-            var dest = mapper.MapCollection2<List<Src>, List<Dest>>(src);
+            var dest = mapper.MapCollectionWithCreate<List<Src>, List<Dest>>(src);
 
             Assert.AreEqual(src[0].Id, dest[0].Id);
         }
@@ -105,7 +105,7 @@ namespace HappyMapper.Tests.PublicAPI
             var src = new List<Src>();
             src.Add(new Src { Id = 1 });
 
-            var dest = mapper.MapCollection2<List<Src>, LinkedList<Dest>>(src);
+            var dest = mapper.MapCollectionWithCreate<List<Src>, LinkedList<Dest>>(src);
 
             Assert.AreEqual(src[0].Id, dest.First.Value.Id);
         }

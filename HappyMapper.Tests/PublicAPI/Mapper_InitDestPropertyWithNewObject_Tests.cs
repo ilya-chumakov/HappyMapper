@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System.Collections.Generic;
+using NUnit.Framework;
 
 namespace HappyMapper.Tests.PublicAPI
 {
@@ -24,8 +25,18 @@ namespace HappyMapper.Tests.PublicAPI
             public int P1 { get; set; }
         }
 
+        public class SrcWrap
+        {
+            public List<SrcChild> List { get; set; }
+        }
+
+        public class DestWrap
+        {
+            public List<DestChild> List { get; set; }
+        }
+
         [Test]
-        public void Mapper_MapNullDestChild_CreatesDestChild()
+        public void Mapper_MapNullDestChild_CreatesObject()
         {
             var config = new HappyConfig(cfg =>
             {
@@ -41,6 +52,26 @@ namespace HappyMapper.Tests.PublicAPI
             mapper.Map(src, dest);
 
             Assert.IsNotNull(dest.Child);
+        }
+
+        [Test]
+        public void Mapper_MapNullDestList_CreatesList()
+        {
+            var config = new HappyConfig(cfg =>
+            {
+                cfg.CreateMap<SrcWrap, DestWrap>();
+                cfg.CreateMap<SrcChild, DestChild>();
+            });
+            var mapper = config.CompileMapper();
+
+            var src = new SrcWrap { List = new List<SrcChild> {new SrcChild {P1 = 1} } };
+            var dest = new DestWrap();
+
+            Assert.IsNull(dest.List);
+
+            mapper.Map(src, dest);
+
+            Assert.IsTrue(dest.List.Count > 0);
         }
     }
 }
