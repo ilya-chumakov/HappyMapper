@@ -46,14 +46,18 @@ namespace HappyMapper.Tests.PublicAPI
             
 
             var srcList = new List<Src>();
-            srcList.Add(new Src { Value1 = 1 });
+            srcList.Add(new Src { Value1 = Gen.Int() });
+            srcList.Add(new Src { Value1 = Gen.Int() });
+            srcList.Add(new Src { Value1 = Gen.Int() });
 
             List<Dest> destList = new List<Dest>();
+            destList.Add(new Dest());
+            destList.Add(new Dest());
             destList.Add(new Dest());
 
             mapper.MapCollection(srcList, destList);
 
-            Assert.AreEqual(srcList[0].Value1, destList[0].Value1);
+            ObjectComparer.AreEqualCollections(srcList, destList);
         }
 
         [Test]

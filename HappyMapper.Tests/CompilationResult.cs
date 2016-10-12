@@ -4,57 +4,87 @@ using HappyMapper.Tests.PublicAPI;
 
 namespace HappyMapper
 {
-    public static class Mapper_SrcWrapLevel2_DestWrapLevel2_8bae
+    public static class Mapper_Src_Dest_c493
     {
-        public static MapCollections_Tests.DestWrapLevel2
+        public static MapCollections_Tests.Dest
             Map
             (
-            MapCollections_Tests.SrcWrapLevel2 src,
-            MapCollections_Tests.DestWrapLevel2 dest
+            MapCollections_Tests.Src src,
+            MapCollections_Tests.Dest dest
             )
         {
-            if (src.P1 == null)
+            dest.Value1 = src.Value1;
+            ;
+            return dest;
+            ;
+        }
+    }
+}
+
+namespace HappyMapper
+{
+    public static class Mapper_Src_Dest_3fd5
+    {
+        public static ICollection<MapCollections_Tests.Dest>
+            MapCollection
+            (
+            ICollection<MapCollections_Tests.Src> srcList,
+            ICollection<MapCollections_Tests.Dest> destList
+            )
+        {
+            for (var index_ac65 = 0; index_ac65 < srcList.Count; index_ac65++)
             {
-                dest.P1 = null;
-            }
-            else
-            {
-                if (dest.P1 == null || src.P1.Count != dest.P1.Count)
-                {
-                    dest.P1 = new List<List<MapCollections_Tests.Dest>>();
-                    dest.P1.Add(src.P1.Count, () => new List<MapCollections_Tests.Dest>());
-                }
-                for (var index_26ef = 0; index_26ef < src.P1.Count; index_26ef++)
-                {
-                    var src_6830 = src.P1.ElementAt(index_26ef);
-                    var dest_12e0 = dest.P1.ElementAt(index_26ef);
-
-                    if (dest_12e0 == null)
-                    {
-                        dest_12e0 = new List<MapCollections_Tests.Dest>();
-                    }
-                    else
-                    {
-                        dest_12e0.Clear();
-                    }
-
-                    dest_12e0.Add(src_6830.Count, () => new MapCollections_Tests.Dest());
-
-                    for (var index_8e02 = 0; index_8e02 < src_6830.Count; index_8e02++)
-                    {
-                        var src_0baf = src_6830.ElementAt(index_8e02);
-                        var dest_ddf0 = dest_12e0.ElementAt(index_8e02);
-                        dest_ddf0.Value1 = src_0baf.Value1;
-
-                    }
-
-
-                }
-
+                var src = srcList.ElementAt(index_ac65);
+                var dest = destList.ElementAt(index_ac65);
+                dest.Value1 = src.Value1;
 
             }
             ;
-            return dest;
+            return destList;
+            ;
+        }
+    }
+}
+
+namespace HappyMapper
+{
+    public static class Mapper_Src_Dest_a883
+    {
+        public static void
+            MapCollection
+            (
+            object srcList,
+            object destList
+            )
+        {
+            var src = srcList as ICollection<MapCollections_Tests.Src>;
+            var dest = destList as ICollection<MapCollections_Tests.Dest>;
+            dest.Add(src.Count, () => new MapCollections_Tests.Dest());
+            Mapper_Src_Dest_3fd5.MapCollection(
+                src,
+                dest
+                )
+                ;
+            ;
+        }
+    }
+}
+
+namespace HappyMapper
+{
+    public static class Mapper_Src_Dest_c5a5
+    {
+        public static MapCollections_Tests.Dest
+            Map
+            (
+            object src
+            )
+        {
+            ;
+            return Mapper_Src_Dest_c493.Map(
+                src as MapCollections_Tests.Src,
+                new MapCollections_Tests.Dest()
+                );
             ;
         }
     }

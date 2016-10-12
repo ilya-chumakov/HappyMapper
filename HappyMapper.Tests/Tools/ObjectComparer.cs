@@ -1,5 +1,7 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using NUnit.Framework;
 
 namespace HappyMapper.Tests.Tools
 {
@@ -8,6 +10,16 @@ namespace HappyMapper.Tests.Tools
     /// </summary>
     public static class ObjectComparer
     {
+        public static void AreEqualCollections<TSrc, TDest>(ICollection<TSrc> src, ICollection<TDest> dest)
+        { 
+            for (int i = 0; i < src.Count; i++)
+            {
+                var result = ObjectComparer.AreEqual(src.ElementAt(i), dest.ElementAt(i));
+
+                Assert.IsTrue(result.Success);
+            }
+        }
+
         public static CompareResult AreEqual(object src, object dest)
         {
             if (src == null) return new CompareResult("src == null");

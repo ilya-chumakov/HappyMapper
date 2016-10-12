@@ -49,7 +49,8 @@ namespace HappyMapper
 
             var key = new TypePair(typeof(TSrc), typeof(TDest));
 
-            var mapMethod = GetMapMethod<TSrc, TDest>(key, @delegate => @delegate?.Single);
+            var mapMethod = GetMapMethod(key, @delegate => @delegate?.Single)
+                as Func<TSrc, TDest, TDest>;
 
             mapMethod(src, dest);
         }
@@ -62,17 +63,18 @@ namespace HappyMapper
 
             var key = new TypePair(typeof(TSrc), typeof(TDest));
 
-            var mapMethod = GetMapMethod<ICollection<TSrc>, ICollection<TDest>>(key, @delegate => @delegate?.Collection);
+            var mapMethod = GetMapMethod(key, @delegate => @delegate?.Collection)
+                 as Func<ICollection<TSrc>, ICollection<TDest>, ICollection<TDest>>;
 
             mapMethod(src, dest);
         }
 
-        private Func<TSrc, TDest, TDest> GetMapMethod<TSrc, TDest>(TypePair key, Func<CompiledDelegate, object> propertyAccessor)
+        private object GetMapMethod(TypePair key, Func<CompiledDelegate, object> propertyAccessor)
         {
             CompiledDelegate @delegate = null;
 
             DelegateCache.TryGetValue(key, out @delegate);
-            var mapMethod = propertyAccessor(@delegate) as Func<TSrc, TDest, TDest>;
+            var mapMethod = propertyAccessor(@delegate);
 
             if (mapMethod == null)
                 throw new HappyMapperException(ErrorMessages.MissingMapping(key.SourceType, key.DestinationType));
@@ -87,13 +89,8 @@ namespace HappyMapper
 
             var key = new TypePair(src.GetType(), typeof(TDest));
 
-            CompiledDelegate @delegate = null;
-
-            DelegateCache.TryGetValue(key, out @delegate);
-            var mapMethod = @delegate?.SingleOneArg as Func<object, TDest>;
-
-            if (mapMethod == null)
-                throw new HappyMapperException(ErrorMessages.MissingMapping(key.SourceType, key.DestinationType));
+            var mapMethod = GetMapMethod(key, @delegate => @delegate?.SingleOneArg)
+                as Func<object, TDest>;
 
             return mapMethod(src);
         }
@@ -109,13 +106,8 @@ namespace HappyMapper
 
             var key = new TypePair(srcType, destType);
 
-            CompiledDelegate @delegate = null;
-
-            DelegateCache.TryGetValue(key, out @delegate);
-            var mapMethod = @delegate?.CollectionUntyped as Action<object, object>;
-
-            if (mapMethod == null)
-                throw new HappyMapperException(ErrorMessages.MissingMapping(key.SourceType, key.DestinationType));
+            var mapMethod = GetMapMethod(key, @delegate => @delegate?.CollectionUntyped)
+                            as Action<object, object>;
 
             var dest = new TDest();
 
@@ -128,12 +120,15 @@ namespace HappyMapper
         {
             var collectionType = typeof (TCollection);
 
-            if (collectionType.GenericTypeArguments.Count() != 1) 
+            return GetCollectionGenericTypeArgument(collectionType);
+        }
+
+        private static Type GetCollectionGenericTypeArgument(Type collectionType)
+        {
+            if (collectionType.GenericTypeArguments.Count() != 1)
                 throw new NotSupportedException($"The type {collectionType.FullName} is not supported.");
 
-            var type = collectionType.GenericTypeArguments[0];
-
-            return type;
+            return collectionType.GenericTypeArguments[0];
         }
     }
 }

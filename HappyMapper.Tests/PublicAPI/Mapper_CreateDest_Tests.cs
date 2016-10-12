@@ -92,7 +92,7 @@ namespace HappyMapper.Tests.PublicAPI
 
             var dest = mapper.MapCollectionWithCreate<List<Src>, List<Dest>>(src);
 
-            Assert.AreEqual(src[0].Id, dest[0].Id);
+            ObjectComparer.AreEqualCollections(src, dest);
         }
 
         [Test]
@@ -107,7 +107,7 @@ namespace HappyMapper.Tests.PublicAPI
 
             var dest = mapper.MapCollectionWithCreate<List<Src>, LinkedList<Dest>>(src);
 
-            Assert.AreEqual(src[0].Id, dest.First.Value.Id);
+            ObjectComparer.AreEqualCollections(src, dest);
         }
     }
 }
