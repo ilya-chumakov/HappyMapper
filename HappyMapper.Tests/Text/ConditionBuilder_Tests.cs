@@ -50,6 +50,7 @@ namespace HappyMapper.Tests.Text
             Assert.IsNullOrEmpty(coder.ToAssignment().RelativeTemplate);
         }
 
+        //migrate to PropertyMapFactory
         private static PropertyMap CreatePropertyMap<TSrc, TDest>(string srcPropertyName, string destPropertyName)
         {
             var factory = new TypeMapFactory();

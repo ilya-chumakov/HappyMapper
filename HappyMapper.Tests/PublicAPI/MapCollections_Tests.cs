@@ -104,7 +104,8 @@ namespace HappyMapper.Tests.PublicAPI
             var srcWrap = new SrcWrapLevel2 { P1 = srcListL2 };
             var destWrap = new DestWrapLevel2 { P1 = destListL2 };
 
-            mapper.Map(srcWrap, destWrap);
+            //mapper.Map(srcWrap, destWrap);
+            Mapper_SrcWrapLevel2_DestWrapLevel2_e32945d9f7bd48e99ada0cca3b06c392.Map(srcWrap, destWrap);
 
             //It's easy to make things work by modifying AssignCollections method: 
             //dig onto generic arguments in cycle until you met non-collection type at both src and dest ends.

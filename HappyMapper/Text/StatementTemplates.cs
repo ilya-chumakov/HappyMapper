@@ -98,6 +98,7 @@ namespace HappyMapper.Text
         /// <param name="src"></param>
         /// <returns></returns>
         public static string IfNull(string src) => $"if ({src} == null)";
+        public static string IfNotNull(string src) => $"if ({src} != null)";
 
         public static string New(string type) => $"new {type}()";
 

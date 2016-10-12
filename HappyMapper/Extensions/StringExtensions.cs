@@ -22,7 +22,13 @@ namespace HappyMapper
             return str.Replace("{{", "").Replace("}}", "");
         }
 
-
+        /// <summary>
+        /// .Replace("{0}", "{0}." + srcName)
+        /// </summary>
+        /// <param name="template"></param>
+        /// <param name="srcName"></param>
+        /// <param name="destName"></param>
+        /// <returns></returns>
         public static string AddPropertyNamesToTemplate(this string template, string srcName, string destName)
         {
             return template

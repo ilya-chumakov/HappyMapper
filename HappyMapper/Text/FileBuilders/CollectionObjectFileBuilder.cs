@@ -49,11 +49,12 @@ namespace HappyMapper.Text
                 string srcCollType = cv.GetCollectionType(typePair.SourceType.FullName);
                 string destCollType = cv.GetCollectionType(typePair.DestinationType.FullName);
 
-                string fill = CreationTemplates.NewObject(typePair.DestinationType);
+                //string filler = CreationTemplates.NewObject(typePair.DestinationType);
                 var builder = new StringBuilder();
                 builder.AppendLine($"var {cv.SrcParam} = {cv.SrcCollection} as {srcCollType};");
                 builder.AppendLine($"var {cv.DestParam} = {cv.DestCollection} as {destCollType};");
-                builder.AppendLine($"{cv.DestParam}.Fill({cv.SrcParam}.Count, () => {fill});");
+                //builder.AppendLine($"{cv.DestParam}.Fill({cv.SrcParam}.Count, () => {filler});");
+                builder.AppendLine(CreationTemplates.Fill(cv.DestParam, $"{cv.SrcParam}.Count", typePair.DestinationType));
 
                 string methodCall = StatementTemplates.MethodCall(
                     mapCodeFile.GetClassAndMethodName(), cv.SrcParam, cv.DestParam);

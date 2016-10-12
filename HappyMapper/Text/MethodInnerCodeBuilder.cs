@@ -2,9 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics;
+using System.Text;
 using AutoMapper.ConfigurationAPI;
 using AutoMapper.ConfigurationAPI.Configuration;
 using AutoMapper.Extended.Net4;
+using HappyMapper.Compilation;
 
 namespace HappyMapper.Text
 {
@@ -80,7 +82,7 @@ namespace HappyMapper.Text
 
                     if (st.IsCollectionType() && dt.IsCollectionType())
                     {
-                        string template = AssignCollections(ctx);
+                        string template = AssignCollections(ctx).AddPropertyNamesToTemplate(ctx.SrcMemberName, ctx.DestMemberName); ;
 
                         recorder.AppendLine(template);
                     }
@@ -101,10 +103,18 @@ namespace HappyMapper.Text
             return assignment;
         }
 
-        private string AssignCollections(PropertyNameContext ctx)
+        private string AssignCollections(IPropertyNameContext ctx)
         {
-            var itemSrcType = ctx.PropertyMap.SrcType.GenericTypeArguments[0];
-            var itemDestType = ctx.PropertyMap.DestType.GenericTypeArguments[0];
+            var builder = new StringBuilder();
+
+            var itemSrcType = ctx.SrcType.GenericTypeArguments[0];
+            var itemDestType = ctx.DestType.GenericTypeArguments[0];
+
+            string newCollection = CreationTemplates.NewCollection(ctx.DestType, "{0}.Count");
+
+            builder.AppendLine(StatementTemplates.IfNotNull("{0}"));
+            builder.AppendLine($"{{1}} = {newCollection};");
+            builder.AppendLine(CreationTemplates.Fill("{1}", "{0}.Count", itemDestType));
 
             //inner cycle variables (on each iteration itemSrcName is mapped to itemDestName).
             string itemSrcName = "src_" + NamingTools.NewGuid(4);
@@ -119,6 +129,15 @@ namespace HappyMapper.Text
             {
                 itemAssignment.RelativeTemplate = cachedTemplate;
             }
+            else if (itemSrcType.IsCollectionType() && itemDestType.IsCollectionType())
+            {
+                var innerContext = PropertyNameContextFactory.CreateWithoutPropertyMap(
+                    itemSrcType, itemDestType, itemSrcName, itemDestName);
+
+                string innerTemplate = AssignCollections(innerContext);
+
+                itemAssignment.RelativeTemplate = innerTemplate;
+            }
             else
             {
                 var nodeMap = GetTypeMap(typePair);
@@ -128,15 +147,18 @@ namespace HappyMapper.Text
 
             string iterationCode = itemAssignment.GetCode(itemSrcName, itemDestName);
 
-            string template = StatementTemplates.For(iterationCode,
+            string forCode = StatementTemplates.For(iterationCode,
                 new ForDeclarationContext(
                     "{0}", "{1}", itemSrcName, itemDestName));
 
-            template = template.AddPropertyNamesToTemplate(ctx.SrcMemberName, ctx.DestMemberName);
+            builder.AppendLine(forCode);
 
-            Debug.WriteLine("-----------------------------");
-            Debug.WriteLine(template);
-            Debug.WriteLine("-----------------------------");
+            string template = builder.ToString();
+            //string template = builder.ToString().AddPropertyNamesToTemplate(ctx.SrcMemberName, ctx.DestMemberName);
+
+            //Debug.WriteLine("-----------------------------");
+            //Debug.WriteLine(template);
+            //Debug.WriteLine("-----------------------------");
 
             return template;
         }
@@ -150,7 +172,7 @@ namespace HappyMapper.Text
             recorder.AppendLine(" else {");
 
             //has parameterless ctor
-            if (ctx.PropertyMap.DestType.HasParameterlessCtor())
+            if (ctx.DestType.HasParameterlessCtor())
             {
                 //create new Dest() object
                 string newDest = $"{{1}}.{ctx.DestMemberName} = {StatementTemplates.New(ctx.DestTypeFullName)};";
@@ -160,18 +182,16 @@ namespace HappyMapper.Text
             else
             {
                 string exMessage = ErrorMessages.NoParameterlessCtor(
-                    ctx.SrcMemberName, ctx.DestMemberName, ctx.PropertyMap.DestType);
+                    ctx.SrcMemberName, ctx.DestMemberName, ctx.DestType);
 
                 throw new HappyMapperException(exMessage);
             }
 
-            var typePair = ctx.PropertyMap.GetTypePair();
-
             string template;
             //typepair isn't in template cache
-            if (!TemplateCache.TryGetValue(typePair, out template))
+            if (!TemplateCache.TryGetValue(ctx.TypePair, out template))
             {
-                var nodeMap = GetTypeMap(typePair);
+                var nodeMap = GetTypeMap(ctx.TypePair);
 
                 var assignment = ProcessTypeMap(nodeMap);
 
