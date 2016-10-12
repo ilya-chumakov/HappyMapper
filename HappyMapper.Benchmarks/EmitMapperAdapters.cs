@@ -4,29 +4,11 @@ using EmitMapper;
 namespace HappyMapper.Benchmarks
 {
     /// <summary>
-    /// Mapping without cache search
-    /// </summary>
-    public class EmitMapperSingle : ITestableMapper
-    {
-        public static ITestableMapper Instance => new EmitMapperSingle();
-
-        public Action<TSrc, TDest> CreateMapMethod<TSrc, TDest>()
-            where TSrc : class, new() where TDest : class, new()
-        {
-            var mapper = ObjectMapperManager.DefaultInstance.GetMapper<TSrc, TDest>();
-
-            Action<TSrc, TDest> action = (src, dest) => mapper.Map(src, dest);
-
-            return action;
-        }
-    }
-
-    /// <summary>
     /// Mapper search + mapping
     /// </summary>
-    public class EmitMapperCached: ITestableMapper
+    public class EmitMapperUntyped : ITestableMapper
     {
-        public static ITestableMapper Instance => new EmitMapperCached();
+        public static ITestableMapper Instance => new EmitMapperUntyped();
 
         public Action<TSrc, TDest> CreateMapMethod<TSrc, TDest>()
             where TSrc : class, new() where TDest : class, new()
@@ -36,6 +18,24 @@ namespace HappyMapper.Benchmarks
                 var mapper = ObjectMapperManager.DefaultInstance.GetMapper<TSrc, TDest>();
                 mapper.Map(src, dest);
             };
+
+            return action;
+        }
+    }
+
+    /// <summary>
+    /// Mapping without cache search
+    /// </summary>
+    public class EmitMapperTyped : ITestableMapper
+    {
+        public static ITestableMapper Instance => new EmitMapperTyped();
+
+        public Action<TSrc, TDest> CreateMapMethod<TSrc, TDest>()
+            where TSrc : class, new() where TDest : class, new()
+        {
+            var mapper = ObjectMapperManager.DefaultInstance.GetMapper<TSrc, TDest>();
+
+            Action<TSrc, TDest> action = (src, dest) => mapper.Map(src, dest);
 
             return action;
         }

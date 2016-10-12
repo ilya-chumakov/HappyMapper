@@ -28,8 +28,8 @@ namespace HappyMapper.Benchmarks
         {
             NameMaxLength = Mappers.Keys.Max(k => k.Length);
 
-            Console.Write("Exponents:  ");
-            Array.ForEach(exponents, e => Console.Write(e + " "));
+            Console.Write("Map operations count per mapper:  ");
+            Array.ForEach(exponents, e => Console.Write($"10^{e}  "));
             Console.WriteLine();
             Console.WriteLine("--------------------------");
 

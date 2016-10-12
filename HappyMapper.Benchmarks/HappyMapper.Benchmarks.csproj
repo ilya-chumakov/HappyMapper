@@ -60,10 +60,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Benchmark.cs" />
-    <Compile Include="Benchmark_Tests.cs" />
+    <Compile Include="BenchmarkRunner.cs" />
     <Compile Include="EmitMapperAdapters.cs" />
     <Compile Include="Types\NestedTypes.cs" />
-    <Compile Include="OrdinaryMapperAdapters.cs" />
+    <Compile Include="HappyMapperAdapters.cs" />
     <Compile Include="ITestableMapper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="HandwrittenMapper.cs" />

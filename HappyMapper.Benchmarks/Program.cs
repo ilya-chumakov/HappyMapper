@@ -8,9 +8,9 @@ namespace HappyMapper.Benchmarks
         {
             while (true)
             {
-                var benchmark = new Benchmark_Tests();
-                benchmark.SetUp();
-                benchmark.Run_AllMappers_MeasuresTime();
+                var runner = new BenchmarkRunner();
+                runner.SetUp();
+                runner.RunAllMappersAndMeasureTime();
 
                 Console.Read(); 
             }

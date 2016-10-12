@@ -3,28 +3,25 @@ using NUnit.Framework;
 
 namespace HappyMapper.Benchmarks
 {
-    public class Benchmark_Tests
+    public class BenchmarkRunner
     {
-        [SetUp]
         public void SetUp()
         {
             Benchmark = new Benchmark<Src, Dest>();
 
             Benchmark.Register<HandwrittenMapper>();
-            Benchmark.Register<HappyMapperSingle>();
-            Benchmark.Register<EmitMapperSingle>();
+            Benchmark.Register<HappyMapperTyped>();
+            Benchmark.Register<EmitMapperTyped>();
 
-            Benchmark.Register<HappyMapperCached>();
-            Benchmark.Register<EmitMapperCached>();
-
+            Benchmark.Register<HappyMapperUntyped>();
+            Benchmark.Register<EmitMapperUntyped>();
         }
 
         public Benchmark<Src, Dest> Benchmark { get; set; }
 
-        //[Test]
-        public void Run_AllMappers_MeasuresTime()
+        public void RunAllMappersAndMeasureTime()
         {
-            int[] exponents = new[] { 7 };
+            int[] exponents = new[] { 6 };
             //int[] exponents = new[] { 5, 6, 7, 8 };
 
             Benchmark.Run(exponents);

@@ -3,11 +3,9 @@
 namespace HappyMapper.Benchmarks
 {
     /// <summary>
-    /// Mapper search + mapping.
-    /// New API and text engine.
-    /// Perfomance a bit degraded due to 'if' statements added by new text engine (runtime null checks etc.).
+    /// Search in cache + mapping.
     /// </summary>
-    public class HappyMapperCached : ITestableMapper
+    public class HappyMapperUntyped : ITestableMapper
     {
         public Action<TSrc, TDest> CreateMapMethod<TSrc, TDest>()
             where TSrc : class, new() where TDest : class, new()
@@ -26,9 +24,9 @@ namespace HappyMapper.Benchmarks
     }
 
     /// <summary>
-    /// Mapping without cache search
+    /// Direct mapping without search in cache.
     /// </summary>
-    public class HappyMapperSingle : ITestableMapper
+    public class HappyMapperTyped : ITestableMapper
     {
         public Action<TSrc, TDest> CreateMapMethod<TSrc, TDest>()
             where TSrc : class, new() where TDest : class, new()
