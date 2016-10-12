@@ -77,14 +77,12 @@ namespace HappyMapper.Text
 
             string index = "index_" + NamingTools.NewGuid(4);
 
-            //builder.AppendLine($@"if ({ctx.SrcCollection}.Count != {ctx.DestCollection}.Count)");
-            //builder.AppendLine($@"throw new NotImplementedException(""{ctx.SrcCollection}.Count != {ctx.DestCollection}.Count"");");
-
             builder.AppendLine($"           for (int {index} = 0; {index} < {ctx.SrcCollection}.Count; {index}++)");
             builder.AppendLine("            {");
             builder.AppendLine($"                var {ctx.SrcVariable} = {ctx.SrcCollection}.ElementAt({index});");
             builder.AppendLine($"                var {ctx.DestVariable} = {ctx.DestCollection}.ElementAt({index});");
             builder.AppendLine(innerCode);
+
             builder.AppendLine("            }");
 
             string forCode = builder.ToString();

@@ -141,6 +141,7 @@
     <Compile Include="Text\ParameterNameReplaceVisitor_Tests.cs" />
     <Compile Include="Text\ConditionBuilder_Tests.cs" />
     <Compile Include="Text\TextBuilder_SmokeTests.cs" />
+    <Compile Include="Tools\Gen.cs" />
     <Compile Include="Tools\TypeExtentions.cs" />
     <Compile Include="Issues\DestWithoutParameterlessCtor_Tests.cs" />
     <Compile Include="Tools\ObjectComparer_Tests.cs" />

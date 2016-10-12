@@ -13,7 +13,7 @@ namespace HappyMapper.Tests
 
             int expected = 10;
 
-            list.Fill(expected, () => null);
+            list.Add(expected, () => null);
 
             Assert.AreEqual(expected, list.Count);
         }
@@ -30,7 +30,7 @@ namespace HappyMapper.Tests
 
             int expected = 10;
 
-            list.Fill(expected, () => default(T));
+            list.Add(expected, () => default(T));
 
             Assert.AreEqual(expected, list.Count);
         }
@@ -47,7 +47,7 @@ namespace HappyMapper.Tests
 
             int expected = 10;
 
-            list.Fill(expected, () => new T());
+            list.Add(expected, () => new T());
 
             Assert.AreEqual(expected, list.Count);
         }

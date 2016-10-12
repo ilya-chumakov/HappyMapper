@@ -4,6 +4,11 @@ namespace HappyMapper.Text
 {
     public static class CreationTemplates
     {
+        /// <summary>
+        /// TODO: it won't work for array and tricky collection
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
         public static string NewObject(Type type)
         {
             //string name = type.FullName.NormalizeTypeName();
@@ -26,15 +31,16 @@ namespace HappyMapper.Text
             return NewObject(type);
         }
 
-        public static string Fill(string collection, string countCode, Type fillerType)
+        
+        public static string Add(string collection, string countCode, Type fillerType)
         {
             string filler = CreationTemplates.NewObject(fillerType);
-            return $"{collection}.Fill({countCode}, () => {filler});";
+            return $"{collection}.Add({countCode}, () => {filler});";
         }
 
-        public static string Fill(string collection, string countCode, string filler)
+        public static string Add(string collection, string countCode, string filler)
         {
-            return $"{collection}.Fill({countCode}, () => {filler});";
+            return $"{collection}.Add({countCode}, () => {filler});";
         }
 
 

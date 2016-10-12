@@ -5,7 +5,7 @@ namespace HappyMapper
 {
     public static class CollectionExtensions
     {
-        public static void Fill<T>(this ICollection<T> collection, int count, Func<T> creator)
+        public static void Add<T>(this ICollection<T> collection, int count, Func<T> creator)
         {
             for (int i = 0; i < count; i++)
             {

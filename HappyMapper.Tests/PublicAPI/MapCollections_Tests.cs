@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using HappyMapper.Tests.Tools;
 using NUnit.Framework;
 
 namespace HappyMapper.Tests.PublicAPI
@@ -80,7 +82,7 @@ namespace HappyMapper.Tests.PublicAPI
         }
 
         [Test]
-        public void Map_ListOfLists_NotMapped()
+        public void Map_ListOfLists_Success()
         {
             var config = new HappyConfig(cfg =>
             {
@@ -90,10 +92,20 @@ namespace HappyMapper.Tests.PublicAPI
             config.AssertConfigurationIsValid();
             var mapper = config.CompileMapper();
 
-            var srcList = new List<Src>();
+            var srcListA = new List<Src>();
+            
+            srcListA.Add(new Src { Value1 = Gen.Int() });
+            srcListA.Add(new Src { Value1 = Gen.Int() });
+            srcListA.Add(new Src { Value1 = Gen.Int() });
+
+            var srcListB = new List<Src>();
+
+            srcListB.Add(new Src { Value1 = Gen.Int() });
+            srcListB.Add(new Src { Value1 = Gen.Int() });
+
             var srcListL2 = new List<List<Src>>();
-            srcList.Add(new Src { Value1 = 1 });
-            srcListL2.Add(srcList);
+            srcListL2.Add(srcListA);
+            srcListL2.Add(srcListB);
 
 
             var destList = new List<Dest>();
@@ -104,13 +116,21 @@ namespace HappyMapper.Tests.PublicAPI
             var srcWrap = new SrcWrapLevel2 { P1 = srcListL2 };
             var destWrap = new DestWrapLevel2 { P1 = destListL2 };
 
-            //mapper.Map(srcWrap, destWrap);
-            Mapper_SrcWrapLevel2_DestWrapLevel2_e32945d9f7bd48e99ada0cca3b06c392.Map(srcWrap, destWrap);
+            mapper.Map(srcWrap, destWrap);
+            //Mapper_SrcWrapLevel2_DestWrapLevel2_8bae.Map(srcWrap, destWrap);
 
-            //It's easy to make things work by modifying AssignCollections method: 
-            //dig onto generic arguments in cycle until you met non-collection type at both src and dest ends.
-            //However, I think the destination creation module should be implemented first.
-            Assert.AreNotEqual(srcWrap.P1[0][0].Value1, destWrap.P1[0][0].Value1);
+            for (int i = 0; i < srcWrap.P1.Count; i++)
+            {
+                for (int j = 0; j < srcWrap.P1[i].Count; j++)
+                {
+                    var src = srcWrap.P1[i][j];
+                    var dest= destWrap.P1[i][j];
+
+                    var result = ObjectComparer.AreEqual(src, dest);
+
+                    Assert.IsTrue(result.Success);
+                }
+            }
         }
     }
 }
