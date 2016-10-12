@@ -20,6 +20,11 @@ namespace HappyMapper.Text
 
         public StringBuilder TemplateBuilder { get; set; }
 
+        public void Append(string template)
+        {
+            TemplateBuilder.Append(template);
+        }
+
         public void AppendLine(string template)
         {
             TemplateBuilder.AppendLine(template);

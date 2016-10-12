@@ -126,6 +126,7 @@
     <Compile Include="Compilation\CompiledDelegate.cs" />
     <Compile Include="Compilation\PropertyMapFactory.cs" />
     <Compile Include="Extensions\CollectionExtensions.cs" />
+    <Compile Include="Text\Block.cs" />
     <Compile Include="Text\FileBuilders\CollectionObjectFileBuilder.cs" />
     <Compile Include="Text\FileBuilders\TextBuilderHelper.cs" />
     <Compile Include="Text\CreationTemplates.cs" />

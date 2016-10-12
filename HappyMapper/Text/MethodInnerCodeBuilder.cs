@@ -80,18 +80,27 @@ namespace HappyMapper.Text
                         continue;
                     }
 
-                    if (st.IsCollectionType() && dt.IsCollectionType())
+                    if (!st.IsValueType && !dt.IsValueType)
                     {
-                        string template = AssignCollections(ctx).AddPropertyNamesToTemplate(ctx.SrcMemberName, ctx.DestMemberName); ;
+                        if (st.IsCollectionType() && dt.IsCollectionType())
+                        {
+                            string template = AssignCollections(ctx)
+                                .AddPropertyNamesToTemplate(ctx.SrcMemberName, ctx.DestMemberName);
 
-                        recorder.AppendLine(template);
+                            recorder.AppendLine(template);
+                        }
+
+                        else
+                        {
+                            string template = AssignReferenceTypes(ctx)
+                                .AddPropertyNamesToTemplate(ctx.SrcMemberName, ctx.DestMemberName);
+
+                            recorder.AppendLine(template);
+                        } 
                     }
-
                     else
                     {
-                        string template = AssignReferenceTypes(ctx);
-
-                        recorder.AppendLine(template);
+                        throw new NotSupportedException();
                     }
                 }
             }
@@ -112,9 +121,9 @@ namespace HappyMapper.Text
 
             string newCollection = CreationTemplates.NewCollection(ctx.DestType, "{0}.Count");
 
-            builder.AppendLine(StatementTemplates.IfNotNull("{0}"));
-            builder.AppendLine($"{{1}} = {newCollection};");
-            builder.AppendLine(CreationTemplates.Fill("{1}", "{0}.Count", itemDestType));
+            //builder.AppendLine(StatementTemplates.IfNotNull("{0}"));
+            //builder.AppendLine($"{{1}} = {newCollection};");
+            //builder.AppendLine(CreationTemplates.Fill("{1}", "{0}.Count", itemDestType));
 
             //inner cycle variables (on each iteration itemSrcName is mapped to itemDestName).
             string itemSrcName = "src_" + NamingTools.NewGuid(4);
@@ -167,40 +176,41 @@ namespace HappyMapper.Text
         {
             Recorder recorder = new Recorder();
 
-            recorder.AppendLine(StatementTemplates.IfNull($"{{0}}.{ctx.SrcMemberName}"));
-            recorder.AppendLine($"{{1}}.{ctx.DestMemberName} = null;");
-            recorder.AppendLine(" else {");
-
-            //has parameterless ctor
-            if (ctx.DestType.HasParameterlessCtor())
+            using (var block = new Block(recorder, "if", "{0} == null"))
             {
-                //create new Dest() object
-                string newDest = $"{{1}}.{ctx.DestMemberName} = {StatementTemplates.New(ctx.DestTypeFullName)};";
-
-                recorder.AppendLine(newDest);
-            }
-            else
-            {
-                string exMessage = ErrorMessages.NoParameterlessCtor(
-                    ctx.SrcMemberName, ctx.DestMemberName, ctx.DestType);
-
-                throw new HappyMapperException(exMessage);
+                recorder.AppendLine("{1} = null;");
             }
 
-            string template;
-            //typepair isn't in template cache
-            if (!TemplateCache.TryGetValue(ctx.TypePair, out template))
+            using (var block = new Block(recorder, "else"))
             {
-                var nodeMap = GetTypeMap(ctx.TypePair);
+                //has parameterless ctor
+                if (ctx.DestType.HasParameterlessCtor())
+                {
+                    //create new Dest() object
+                    string newDest = $"{{1}} = {StatementTemplates.New(ctx.DestTypeFullName)};";
 
-                var assignment = ProcessTypeMap(nodeMap);
+                    recorder.AppendLine(newDest);
+                }
+                else
+                {
+                    throw new HappyMapperException(ErrorMessages.NoParameterlessCtor(ctx.DestType));
+                }
 
-                template = assignment.RelativeTemplate.AddPropertyNamesToTemplate(
-                    ctx.SrcMemberName, ctx.DestMemberName);
+                string template;
+                //typepair isn't in template cache
+                if (!TemplateCache.TryGetValue(ctx.TypePair, out template))
+                {
+                    var nodeMap = GetTypeMap(ctx.TypePair);
+
+                    var assignment = ProcessTypeMap(nodeMap);
+
+                    template = assignment.RelativeTemplate
+                        //.AddPropertyNamesToTemplate(ctx.SrcMemberName, ctx.DestMemberName)
+                        ;
+                }
+
+                recorder.AppendLine(template);
             }
-
-            recorder.AppendLine(template);
-            recorder.AppendLine("}");
 
             return recorder.ToAssignment().RelativeTemplate;
         }

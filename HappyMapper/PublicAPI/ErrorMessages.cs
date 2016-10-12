@@ -14,5 +14,11 @@ namespace HappyMapper
             return 
                 $"{srcProperty} -> {destProperty} cann't be mapped because destination is null and destination type {destType.FullName} has no parameterless ctor";
         }
+
+        public static string NoParameterlessCtor(Type destType)
+        {
+            return 
+                $"Destination is null and destination type {destType.FullName} has no parameterless ctor";
+        }
     }
 }
