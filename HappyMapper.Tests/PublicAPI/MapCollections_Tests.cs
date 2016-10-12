@@ -55,7 +55,7 @@ namespace HappyMapper.Tests.PublicAPI
             destList.Add(new Dest());
             destList.Add(new Dest());
 
-            mapper.MapCollection(srcList, destList);
+            mapper.Map(srcList, destList);
 
             ObjectComparer.AreEqualCollections(srcList, destList);
         }

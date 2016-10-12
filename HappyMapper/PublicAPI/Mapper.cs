@@ -42,32 +42,24 @@ namespace HappyMapper
             return mapper;
         }
 
-        public void Map<TSrc, TDest>(TSrc src, TDest dest)
+        public TDest Map<TSrc, TDest>(TSrc src, TDest dest)
             where TSrc : class , new() where TDest : class , new()
         {
             if (src == null) throw new ArgumentNullException(nameof(src));
             if (dest == null) throw new ArgumentNullException(nameof(dest));
 
-            var key = new TypePair(typeof(TSrc), typeof(TDest));
+            var srcType = src.GetType();
 
-            var mapMethod = GetMapMethod(key, @delegate => @delegate?.Single)
-                as Func<TSrc, TDest, TDest>;
+            if (!srcType.IsCollectionType()) return MapTypedSingle<TSrc, TDest>(src, dest);
 
-            mapMethod(src, dest);
-        }
+            var destType = typeof(TDest);
 
-        public void MapCollection<TSrc, TDest>(ICollection<TSrc> src, ICollection<TDest> dest)
-            where TSrc : class, new() where TDest : class, new()
-        {
-            if (src == null) throw new ArgumentNullException(nameof(src));
-            if (dest == null) throw new ArgumentNullException(nameof(dest));
+            if (destType.IsCollectionType())
+            {
+                return MapUntypedCollection(src, dest, srcType, destType);
+            }
 
-            var key = new TypePair(typeof(TSrc), typeof(TDest));
-
-            var mapMethod = GetMapMethod(key, @delegate => @delegate?.Collection)
-                 as Func<ICollection<TSrc>, ICollection<TDest>, ICollection<TDest>>;
-
-            mapMethod(src, dest);
+            throw new NotSupportedException("These types are not supported!");
         }
 
         public TDest Map<TDest>(object src)
@@ -75,11 +67,24 @@ namespace HappyMapper
         {
             return MapUntyped<TDest>(src);
         }
+
         public TDest Map<TSrc, TDest>(TSrc src)
-            where TSrc : class, new() 
+            where TSrc : class, new()
             where TDest : class, new()
         {
             return MapUntyped<TDest>(src);
+        }
+
+        private TDest MapTypedSingle<TSrc, TDest>(TSrc src, TDest dest) where TSrc : class, new() where TDest : class, new()
+        {
+            var key = new TypePair(typeof (TSrc), typeof (TDest));
+
+            var mapMethod = GetMapMethod(key, @delegate => @delegate?.Single)
+                as Func<TSrc, TDest, TDest>;
+
+            mapMethod(src, dest);
+
+            return dest;
         }
 
         private TDest MapUntyped<TDest>(object src) where TDest : class, new()
@@ -96,7 +101,7 @@ namespace HappyMapper
             {
                 var dest = new TDest();
 
-                return MapUntypedCollection(src, srcType, destType, dest);
+                return MapUntypedCollection(src, dest, srcType, destType);
             }
 
             throw new NotSupportedException("These types are not supported!");
@@ -115,7 +120,7 @@ namespace HappyMapper
             return mapMethod(src);
         }
 
-        private TDest MapUntypedCollection<TSrc, TDest>(TSrc src, Type srcType, Type destType, TDest dest)
+        private TDest MapUntypedCollection<TSrc, TDest>(TSrc src, TDest dest, Type srcType, Type destType)
             where TSrc : class, new() where TDest : class, new()
         {
             var srcItemType = GetCollectionGenericTypeArgument(srcType);
@@ -158,5 +163,20 @@ namespace HappyMapper
 
             return collectionType.GenericTypeArguments[0];
         }
+
+        //public void MapCollection<TSrc, TDest>(ICollection<TSrc> src, ICollection<TDest> dest)
+        //    where TSrc : class, new() where TDest : class, new()
+        //{
+        //    if (src == null) throw new ArgumentNullException(nameof(src));
+        //    if (dest == null) throw new ArgumentNullException(nameof(dest));
+
+
+        //    //var key = new TypePair(typeof(TSrc), typeof(TDest));
+
+        //    //var mapMethod = GetMapMethod(key, @delegate => @delegate?.Collection)
+        //    //     as Func<ICollection<TSrc>, ICollection<TDest>, ICollection<TDest>>;
+
+        //    //mapMethod(src, dest);
+        //}
     }
 }
