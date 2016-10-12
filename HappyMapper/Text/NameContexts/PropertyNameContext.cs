@@ -40,7 +40,7 @@ namespace HappyMapper.Text
             return ctx;
         }
     }
-    public class PropertyNameContext : IAssignContext, IPropertyNameContext
+    internal class PropertyNameContext : IAssignContext, IPropertyNameContext
     {
         internal PropertyNameContext() { }
 

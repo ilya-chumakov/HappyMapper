@@ -11,9 +11,9 @@ namespace HappyMapper
 {
     public class Mapper
     {
-        public Dictionary<TypePair, CompiledDelegate> DelegateCache { get; private set; }
-        public Dictionary<TypePair, TypeMap> TypeMaps { get; } = new Dictionary<TypePair, TypeMap>();
-        public MapperNameConvention Convention { get; set; } = NameConventionsStorage.Mapper;
+        internal Dictionary<TypePair, CompiledDelegate> DelegateCache { get; private set; }
+        internal Dictionary<TypePair, TypeMap> TypeMaps { get; } = new Dictionary<TypePair, TypeMap>();
+        internal MapperNameConvention Convention { get; set; } = NameConventionsStorage.Mapper;
 
         [Obsolete("Call HappyConfig.CompileMapper to create a mapper instance.")]
         public Mapper()

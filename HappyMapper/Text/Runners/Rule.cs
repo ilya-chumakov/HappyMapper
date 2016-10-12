@@ -7,7 +7,7 @@ using HappyMapper.Compilation;
 
 namespace HappyMapper.Text
 {
-    public class Rule
+    internal class Rule
     {
         private TextResult _result;
         public FileBuilderRunner Runner { get; set; }

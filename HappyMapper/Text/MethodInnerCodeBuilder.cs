@@ -10,7 +10,7 @@ using HappyMapper.Compilation;
 
 namespace HappyMapper.Text
 {
-    public class MethodInnerCodeBuilder
+    internal class MethodInnerCodeBuilder
     {
         public Dictionary<TypePair, string> TemplateCache { get; } = new Dictionary<TypePair, string>();
         public ImmutableDictionary<TypePair, TypeMap> ExplicitTypeMaps { get; }

@@ -3,7 +3,7 @@ using AutoMapper.Extended.Net4;
 
 namespace HappyMapper.Text
 {
-    public class MapCollectionNameConvention
+    internal class MapCollectionNameConvention
     {
         public string SrcParam { get; set; }
         public string DestParam { get; set; }

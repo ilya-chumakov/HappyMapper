@@ -7,7 +7,7 @@ using AutoMapper.ConfigurationAPI;
 
 namespace HappyMapper.Text
 {
-    public class ConditionStorageBuilder : IStorageBuilder
+    internal class ConditionStorageBuilder : IStorageBuilder
     {
         public ImmutableDictionary<TypePair, TypeMap> ExplicitTypeMaps { get; set; }
         public ActionNameConvention Convention { get; set; }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace HappyMapper.Text.Legacy
 {
-    public class LegacyMapContext
+    internal class LegacyMapContext
     {
         public Type SrcType { get; }
         public Type DestType { get; }

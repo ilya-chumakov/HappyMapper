@@ -2,7 +2,7 @@
 
 namespace HappyMapper.Text
 {
-    public class TextBuilderHelper
+    internal class TextBuilderHelper
     {
         public static CodeFile CreateFile(
             TypePair typePair, string methodCode, string methodName, Assignment assignment = default(Assignment))

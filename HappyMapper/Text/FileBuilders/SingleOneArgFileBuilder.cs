@@ -11,7 +11,7 @@ namespace HappyMapper.Text
     /// <summary>
     /// Builds Map(object) wrap code for the Map(Src, Dest) method.
     /// </summary>
-    public class SingleOneArgFileBuilder : IFileBuilder
+    internal class SingleOneArgFileBuilder : IFileBuilder
     {
         public ImmutableDictionary<TypePair, TypeMap> ExplicitTypeMaps { get; }
 

@@ -11,7 +11,7 @@ namespace HappyMapper.Text
     /// <summary>
     /// Builds Map(ICollection<>, ICollection<>) code.
     /// </summary>
-    public class CollectionFileBuilder : IFileBuilder
+    internal class CollectionFileBuilder : IFileBuilder
     {
         public ImmutableDictionary<TypePair, TypeMap> ExplicitTypeMaps { get; }
 

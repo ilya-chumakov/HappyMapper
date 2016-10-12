@@ -2,7 +2,7 @@ using System;
 
 namespace HappyMapper.Text
 {
-    public class VariableContext
+    internal class VariableContext
     {
         public VariableContext(string type, string name)
         {
@@ -14,7 +14,7 @@ namespace HappyMapper.Text
         public string Type { get; }
     }
 
-    public class MethodDeclarationContext
+    internal class MethodDeclarationContext
     {
         public string MethodName { get; }
         public VariableContext Return { get; set; }

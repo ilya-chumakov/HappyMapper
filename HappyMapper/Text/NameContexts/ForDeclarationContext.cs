@@ -1,6 +1,6 @@
 namespace HappyMapper.Text
 {
-    public class ForDeclarationContext
+    internal class ForDeclarationContext
     {
         public string SrcVariable { get; set; }
         public string SrcCollection { get; set; }

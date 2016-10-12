@@ -11,7 +11,7 @@ namespace HappyMapper.Text
     /// <summary>
     /// Builds Map(Src, Dest) method code.
     /// </summary>
-    public class SingleFileBuilder : IFileBuilder
+    internal class SingleFileBuilder : IFileBuilder
     {
         public ImmutableDictionary<TypePair, TypeMap> ExplicitTypeMaps { get; }
         public MethodInnerCodeBuilder MethodInnerCodeBuilder { get; set; }

@@ -7,9 +7,9 @@ using AutoMapper.Extended.Net4;
 
 namespace HappyMapper.Text.Legacy
 {
-    public static class LegacyTextBuilder
+    internal static class LegacyTextBuilder
     {
-        public class MapperNameConvention
+        internal class MapperNameConvention
         {
             public string Namespace { get; set; }
             public string ClassShortName { get; set; }

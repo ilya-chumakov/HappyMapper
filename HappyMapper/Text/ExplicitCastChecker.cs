@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace HappyMapper.Text
 {
     //https://msdn.microsoft.com/en-us/library/yht2cx7b.aspx
-    public class ExplicitCastChecker
+    internal class ExplicitCastChecker
     {
         /// <summary>
         /// Returns true if explicit cast is possible.

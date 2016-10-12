@@ -11,7 +11,7 @@ using Microsoft.CodeAnalysis.CSharp;
 
 namespace HappyMapper.Compilation
 {
-    public class Compiler
+    internal class Compiler
     {
         public IDictionary<TypePair, TypeMap> TypeMaps { get; private set; }
         public MapperConfigurationExpression Config { get; private set; }

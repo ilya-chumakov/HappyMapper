@@ -1,13 +1,12 @@
 ﻿namespace HappyMapper.Text
 {
-    public static class NameConventionsStorage
+    internal static class NameConventionsStorage
     {
         public static ActionNameConvention BeforeMap { get; set; } = new ActionNameConvention();
         public static ActionNameConvention Condition { get; set; } = new ActionNameConvention();
         public static MapperNameConvention Mapper { get; set; } = new MapperNameConvention();
         public static MapNameConvention Map { get; set; } = new MapNameConvention();
         public static MapCollectionNameConvention MapCollection { get; set; } = new MapCollectionNameConvention();
-
 
         static NameConventionsStorage()
         {

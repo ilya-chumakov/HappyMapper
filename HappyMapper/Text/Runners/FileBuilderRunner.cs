@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace HappyMapper.Text
 {
-    public class FileBuilderRunner
+    internal class FileBuilderRunner
     {
         public List<Rule> RootRules { get; set; } = new List<Rule>();
         public List<Rule> AllRules { get; set; } = new List<Rule>();

@@ -2,7 +2,7 @@ using System;
 
 namespace HappyMapper.Text
 {
-    public class Block : IDisposable
+    internal class Block : IDisposable
     {
         protected Recorder Recorder { get; set; }
 

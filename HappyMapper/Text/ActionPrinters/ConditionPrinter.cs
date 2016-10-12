@@ -11,7 +11,7 @@ namespace HappyMapper.Text
     /// Only src and dest - no captured variables!
     /// </summary>
     [Obsolete]
-    public class ConditionPrinter : IDisposable
+    internal class ConditionPrinter : IDisposable
     {
         public bool IsExist { get; set; } = false;
         protected PropertyNameContext Context { get; set; }
@@ -58,7 +58,7 @@ namespace HappyMapper.Text
         }
     }
 
-    public class ParameterNameReplaceVisitor : ExpressionVisitor
+    internal class ParameterNameReplaceVisitor : ExpressionVisitor
     {
         public Type SrcType { get; set; }
         public Type DestType { get; set; }

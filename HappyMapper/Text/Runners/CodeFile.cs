@@ -2,7 +2,7 @@ using AutoMapper.ConfigurationAPI;
 
 namespace HappyMapper.Text
 {
-    public class CodeFile
+    internal class CodeFile
     {
         public string Code { get; }
         public TypePair TypePair { get; }

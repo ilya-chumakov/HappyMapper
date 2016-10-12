@@ -1,6 +1,6 @@
 namespace HappyMapper.Compilation
 {
-    public class CompiledDelegate
+    internal class CompiledDelegate
     {
         public object Single { get; set; }
         public object SingleOneArg { get; set; }

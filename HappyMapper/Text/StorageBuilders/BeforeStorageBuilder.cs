@@ -8,7 +8,7 @@ using AutoMapper.Extended.Net4;
 
 namespace HappyMapper.Text
 {
-    public class BeforeStorageBuilder : IStorageBuilder
+    internal class BeforeStorageBuilder : IStorageBuilder
     {
         public ImmutableDictionary<TypePair, TypeMap> ExplicitTypeMaps { get; set; }
         public ActionNameConvention Convention { get; set; }

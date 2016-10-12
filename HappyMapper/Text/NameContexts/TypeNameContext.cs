@@ -2,7 +2,7 @@ using AutoMapper.ConfigurationAPI;
 
 namespace HappyMapper.Text
 {
-    public class TypeNameContext
+    internal class TypeNameContext
     {
         public TypeNameContext(TypeMap typeMap)
         {

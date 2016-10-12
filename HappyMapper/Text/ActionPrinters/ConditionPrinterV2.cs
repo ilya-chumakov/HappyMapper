@@ -6,7 +6,7 @@ namespace HappyMapper.Text
     /// <summary>
     /// Captured variable support!
     /// </summary>
-    public class ConditionPrinterV2 : IDisposable
+    internal class ConditionPrinterV2 : IDisposable
     {
         public bool IsExist { get; set; } = false;
         protected PropertyNameContext Context { get; set; }

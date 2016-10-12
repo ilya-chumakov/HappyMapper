@@ -7,7 +7,7 @@ using HappyMapper.Compilation;
 
 namespace HappyMapper.Text
 {
-    public interface IFileBuilder
+    internal interface IFileBuilder
     {
         ImmutableDictionary<TypePair, TypeMap> ExplicitTypeMaps { get; }
 

@@ -1,6 +1,6 @@
 ﻿namespace HappyMapper.Text
 {
-    public class ActionNameConvention
+    internal class ActionNameConvention
     {
         public string Namespace { get; set; }
         public string ClassShortName { get; set; }

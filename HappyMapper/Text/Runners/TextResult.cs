@@ -5,7 +5,7 @@ using AutoMapper.ConfigurationAPI;
 
 namespace HappyMapper.Text
 {
-    public class TextResult
+    internal class TextResult
     {
         public TextResult(ImmutableDictionary<TypePair, CodeFile> files, HashSet<string> locations)
         {

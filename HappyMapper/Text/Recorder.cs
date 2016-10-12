@@ -11,7 +11,7 @@ namespace HappyMapper.Text
         AsStringToValueTypeConvert
     }
 
-    public class Recorder
+    internal class Recorder
     {
         public Recorder()
         {

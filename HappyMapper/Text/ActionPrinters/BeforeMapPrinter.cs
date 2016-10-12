@@ -9,7 +9,7 @@ namespace HappyMapper.Text
     /// <summary>
     /// Captured variable support!
     /// </summary>
-    public class BeforeMapPrinter : IDisposable
+    internal class BeforeMapPrinter : IDisposable
     {
         public bool IsExist { get; set; } = false;
         protected TypeNameContext Context { get; set; }

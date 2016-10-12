@@ -12,7 +12,7 @@ namespace HappyMapper.Text
     /// <summary>
     /// Builds Map(object, object) wrap code for Map(ICollection<>, ICollection<>).
     /// </summary>
-    public class CollectionObjectFileBuilder : IFileBuilder
+    internal class CollectionObjectFileBuilder : IFileBuilder
     {
         public ImmutableDictionary<TypePair, TypeMap> ExplicitTypeMaps { get; }
 

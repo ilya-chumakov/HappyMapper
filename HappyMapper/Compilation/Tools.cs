@@ -7,7 +7,7 @@ using HappyMapper.Text;
 
 namespace HappyMapper.Compilation
 {
-    public class Tools
+    internal class Tools
     {
         public static Type ToCollectionDelegateType(TypeMap map)
         {

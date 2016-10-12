@@ -6,7 +6,7 @@ using AutoMapper.Extended.Net4;
 
 namespace HappyMapper.Text
 {
-    public static class StatementTemplates
+    internal static class StatementTemplates
     {
         public static string Class(string method, string nms, string className)
         {
