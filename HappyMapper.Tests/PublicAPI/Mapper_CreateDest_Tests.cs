@@ -90,7 +90,7 @@ namespace HappyMapper.Tests.PublicAPI
             var src = new List<Src>();
             src.Add(new Src { Id = 1 });
 
-            var dest = mapper.MapCollectionWithCreate<List<Src>, List<Dest>>(src);
+            var dest = mapper.Map<List<Src>, List<Dest>>(src);
 
             ObjectComparer.AreEqualCollections(src, dest);
         }
@@ -105,7 +105,7 @@ namespace HappyMapper.Tests.PublicAPI
             var src = new List<Src>();
             src.Add(new Src { Id = 1 });
 
-            var dest = mapper.MapCollectionWithCreate<List<Src>, LinkedList<Dest>>(src);
+            var dest = mapper.Map<List<Src>, LinkedList<Dest>>(src);
 
             ObjectComparer.AreEqualCollections(src, dest);
         }

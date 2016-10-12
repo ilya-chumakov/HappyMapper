@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper.ConfigurationAPI;
+using AutoMapper.ConfigurationAPI.Configuration;
 using HappyMapper.Compilation;
 using HappyMapper.Text;
 
@@ -69,20 +70,39 @@ namespace HappyMapper
             mapMethod(src, dest);
         }
 
-        private object GetMapMethod(TypePair key, Func<CompiledDelegate, object> propertyAccessor)
+        public TDest Map<TDest>(object src)
+            where TDest : class, new()
         {
-            CompiledDelegate @delegate = null;
-
-            DelegateCache.TryGetValue(key, out @delegate);
-            var mapMethod = propertyAccessor(@delegate);
-
-            if (mapMethod == null)
-                throw new HappyMapperException(ErrorMessages.MissingMapping(key.SourceType, key.DestinationType));
-
-            return mapMethod;
+            return MapUntyped<TDest>(src);
+        }
+        public TDest Map<TSrc, TDest>(TSrc src)
+            where TSrc : class, new() 
+            where TDest : class, new()
+        {
+            return MapUntyped<TDest>(src);
         }
 
-        public TDest Map<TDest>(object src)
+        private TDest MapUntyped<TDest>(object src) where TDest : class, new()
+        {
+            if (src == null) throw new ArgumentNullException(nameof(src));
+
+            var srcType = src.GetType();
+
+            if (!srcType.IsCollectionType()) return MapUntypedSingle<TDest>(src);
+
+            var destType = typeof(TDest);
+
+            if (destType.IsCollectionType())
+            {
+                var dest = new TDest();
+
+                return MapUntypedCollection(src, srcType, destType, dest);
+            }
+
+            throw new NotSupportedException("These types are not supported!");
+        }
+
+        private TDest MapUntypedSingle<TDest>(object src)
             where TDest : class, new()
         {
             if (src == null) throw new ArgumentNullException(nameof(src));
@@ -95,25 +115,33 @@ namespace HappyMapper
             return mapMethod(src);
         }
 
-        public TDest MapCollectionWithCreate<TSrc, TDest>(TSrc src)
-            where TSrc : class, IEnumerable, new() 
-            where TDest : class, IEnumerable, new()
+        private TDest MapUntypedCollection<TSrc, TDest>(TSrc src, Type srcType, Type destType, TDest dest)
+            where TSrc : class, new() where TDest : class, new()
         {
-            if (src == null) throw new ArgumentNullException(nameof(src));
+            var srcItemType = GetCollectionGenericTypeArgument(srcType);
+            var destItemType = GetCollectionGenericTypeArgument(destType);
 
-            var srcType = GetCollectionGenericTypeArgument<TSrc>();
-            var destType = GetCollectionGenericTypeArgument<TDest>();
-
-            var key = new TypePair(srcType, destType);
+            var key = new TypePair(srcItemType, destItemType);
 
             var mapMethod = GetMapMethod(key, @delegate => @delegate?.CollectionUntyped)
-                            as Action<object, object>;
-
-            var dest = new TDest();
+                as Action<object, object>;
 
             mapMethod(src, dest);
 
             return dest;
+        }
+
+        private object GetMapMethod(TypePair key, Func<CompiledDelegate, object> propertyAccessor)
+        {
+            CompiledDelegate @delegate = null;
+
+            DelegateCache.TryGetValue(key, out @delegate);
+            var mapMethod = propertyAccessor(@delegate);
+
+            if (mapMethod == null)
+                throw new HappyMapperException(ErrorMessages.MissingMapping(key.SourceType, key.DestinationType));
+
+            return mapMethod;
         }
 
         private Type GetCollectionGenericTypeArgument<TCollection>()
