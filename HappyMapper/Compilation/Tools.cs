@@ -11,7 +11,7 @@ namespace HappyMapper.Compilation
     {
         public static Type ToCollectionDelegateType(TypeMap map)
         {
-            var singleDelegateType = map.MapDelegateType;
+            var singleDelegateType = map.DelegateTypeSingleTyped;
 
             var srcType = singleDelegateType.GenericTypeArguments[0];
             var destType = singleDelegateType.GenericTypeArguments[1];
@@ -24,15 +24,6 @@ namespace HappyMapper.Compilation
 
         public static Type ToCollectionUntypedDelegateType(TypeMap map)
         {
-            var singleDelegateType = map.MapDelegateType;
-
-            //var srcType = singleDelegateType.GenericTypeArguments[0];
-            //var destType = singleDelegateType.GenericTypeArguments[1];
-
-            //var srcCollType = typeof(object);
-            //var destCollType = typeof(ICollection<>).MakeGenericType(destType);
-
-            //return typeof(Action<,>).MakeGenericType(typeof(object), typeof(object));
             return typeof(Action<object, object>);
         }
 

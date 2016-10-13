@@ -29,7 +29,7 @@ namespace HappyMapper.Text
 
         public void VisitDelegate(CompiledDelegate @delegate, TypeMap map, Assembly assembly, CodeFile file)
         {
-            @delegate.Collection = Tools.CreateDelegate(Tools.ToCollectionDelegateType(map), assembly, file);
+            @delegate.CollectionTyped = Tools.CreateDelegate(Tools.ToCollectionDelegateType(map), assembly, file);
         }
 
         public ImmutableDictionary<TypePair, CodeFile> CreateCodeFilesDictionary(

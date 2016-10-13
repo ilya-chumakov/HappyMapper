@@ -17,8 +17,8 @@ namespace AutoMapper.ConfigurationAPI
     [DebuggerDisplay("{SourceType.Name} -> {DestinationType.Name}")]
     public class TypeMap
     {
-        public Type MapDelegateType { get; set; }
-        public Type MapDelegateTypeOneArg { get; set; }
+        public Type DelegateTypeSingleTyped { get; set; }
+        public Type DelegateTypeSingleUntyped { get; set; }
         public Type MapDelegateTypeCollectionUntyped { get; set; }
 
         private readonly List<LambdaExpression> _afterMapActions = new List<LambdaExpression>();
@@ -37,10 +37,8 @@ namespace AutoMapper.ConfigurationAPI
         public TypeMap(TypeDetails sourceType, 
             TypeDetails destinationType, 
             MemberList memberList, 
-            IProfileConfiguration profile,
-            Type mapDelegateType = null)
+            IProfileConfiguration profile)
         {
-            MapDelegateType = mapDelegateType;
             SourceTypeDetails = sourceType;
             DestinationTypeDetails = destinationType;
             TypePair = new TypePair(sourceType.Type, destinationType.Type);

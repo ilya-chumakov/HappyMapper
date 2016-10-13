@@ -30,7 +30,7 @@ namespace HappyMapper.Text
 
         public void VisitDelegate(CompiledDelegate @delegate, TypeMap map, Assembly assembly, CodeFile file)
         {
-            @delegate.Single = Tools.CreateDelegate(map.MapDelegateType, assembly, file);
+            @delegate.SingleTyped = Tools.CreateDelegate(map.DelegateTypeSingleTyped, assembly, file);
         }
 
         public TextResult Build(ImmutableDictionary<TypePair, CodeFile> parentFiles = null)

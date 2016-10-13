@@ -9,18 +9,13 @@ namespace AutoMapper.ConfigurationAPI
 {
     public class TypeMapFactory
     {
-        public TypeMap CreateTypeMapEx(TypePair pair, IProfileConfiguration options, MemberList memberList, Type mapDelegateType)
-        {
-            return CreateTypeMap(pair.SourceType, pair.DestinationType, options, memberList, mapDelegateType);
-        }
-
-        public TypeMap CreateTypeMap(Type sourceType, Type destinationType, 
-            IProfileConfiguration options, MemberList memberList = MemberList.Destination, Type mapDelegateType = null)
+        public TypeMap CreateTypeMap(Type sourceType, Type destinationType, IProfileConfiguration options, 
+            MemberList memberList = MemberList.Destination)
         {
             var sourceTypeInfo = options.CreateTypeDetails(sourceType);
             var destTypeInfo = options.CreateTypeDetails(destinationType);
 
-            var typeMap = new TypeMap(sourceTypeInfo, destTypeInfo, memberList, options, mapDelegateType);
+            var typeMap = new TypeMap(sourceTypeInfo, destTypeInfo, memberList, options);
 
             foreach (var destProperty in destTypeInfo.PublicWriteAccessors)
             {

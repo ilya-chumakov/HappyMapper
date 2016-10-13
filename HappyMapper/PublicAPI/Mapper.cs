@@ -26,6 +26,7 @@ namespace HappyMapper
             DelegateCache = delegates;
         }
 
+        //TODO: enable collection mapping.
         public SingleMapper<TSrc, TDest> GetSingleMapper<TSrc, TDest>()
         {
             CompiledDelegate @delegate = null;
@@ -33,7 +34,7 @@ namespace HappyMapper
             var key = new TypePair(typeof(TSrc), typeof(TDest));
             DelegateCache.TryGetValue(key, out @delegate);
 
-            var mapMethod = @delegate?.Single as Func<TSrc, TDest, TDest>;
+            var mapMethod = @delegate?.SingleTyped as Func<TSrc, TDest, TDest>;
 
             if (mapMethod == null) throw new HappyMapperException(ErrorMessages.MissingMapping(key.SourceType, key.DestinationType));
 
@@ -79,8 +80,10 @@ namespace HappyMapper
         {
             var key = new TypePair(typeof (TSrc), typeof (TDest));
 
-            var mapMethod = GetMapMethod(key, @delegate => @delegate?.Single)
+            var mapMethod = GetMapMethod(key, @delegate => @delegate?.SingleTyped)
                 as Func<TSrc, TDest, TDest>;
+
+            if (mapMethod == null) throw new HappyMapperException(ErrorMessages.MissingMapping(key.SourceType, key.DestinationType));
 
             mapMethod(src, dest);
 
@@ -114,8 +117,10 @@ namespace HappyMapper
 
             var key = new TypePair(src.GetType(), typeof(TDest));
 
-            var mapMethod = GetMapMethod(key, @delegate => @delegate?.SingleOneArg)
+            var mapMethod = GetMapMethod(key, @delegate => @delegate?.SingleUntyped)
                 as Func<object, TDest>;
+
+            if (mapMethod == null) throw new HappyMapperException(ErrorMessages.MissingMapping(key.SourceType, key.DestinationType));
 
             return mapMethod(src);
         }
@@ -131,6 +136,8 @@ namespace HappyMapper
             var mapMethod = GetMapMethod(key, @delegate => @delegate?.CollectionUntyped)
                 as Action<object, object>;
 
+            if (mapMethod == null) throw new HappyMapperException(ErrorMessages.MissingMapping(key.SourceType, key.DestinationType));
+
             mapMethod(src, dest);
 
             return dest;
@@ -142,9 +149,6 @@ namespace HappyMapper
 
             DelegateCache.TryGetValue(key, out @delegate);
             var mapMethod = propertyAccessor(@delegate);
-
-            if (mapMethod == null)
-                throw new HappyMapperException(ErrorMessages.MissingMapping(key.SourceType, key.DestinationType));
 
             return mapMethod;
         }
@@ -173,7 +177,7 @@ namespace HappyMapper
 
         //    //var key = new TypePair(typeof(TSrc), typeof(TDest));
 
-        //    //var mapMethod = GetMapMethod(key, @delegate => @delegate?.Collection)
+        //    //var mapMethod = GetMapMethod(key, @delegate => @delegate?.CollectionTyped)
         //    //     as Func<ICollection<TSrc>, ICollection<TDest>, ICollection<TDest>>;
 
         //    //mapMethod(src, dest);
