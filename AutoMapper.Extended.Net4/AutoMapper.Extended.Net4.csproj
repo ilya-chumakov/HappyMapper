@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>AutoMapper.Extended.Net4</RootNamespace>
-    <AssemblyName>AutoMapper.Extended.Net4</AssemblyName>
+    <AssemblyName>HappyMapper.AutoMapper.Extended.Net4</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />

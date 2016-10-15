@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>HappyMapper</id>
+    <version>0.4.0</version>
+    <title>HappyMapper</title>
+    <authors>Ilya Chumakov</authors>
+    <owners>Ilya Chumakov</owners>
+    <!--<licenseUrl>http://LICENSE_URL_HERE_OR_DELETE_THIS_LINE</licenseUrl>
+    <projectUrl>http://PROJECT_URL_HERE_OR_DELETE_THIS_LINE</projectUrl>
+    <iconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</iconUrl>-->
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Fast object-to-object mapper. In a proof-of-concept state for now.</description>
+    <copyright>Copyright 2016</copyright>
+    <tags></tags>
+    <dependencies>
+      <!-- <dependency id="ExpressionToCodeLib" version="1.5.4" /> -->
+      <!-- <dependency id="Microsoft.CodeAnalysis.CSharp" version="1.3.2" /> -->
+      <dependency id="System.Collections.Immutable" version="1.2.0" />
+      <dependency id="System.Reflection.Metadata" version="1.3.0" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="..\HappyMapper\bin\Release\HappyMapper.dll" target="lib\net45" />
+    <file src="..\HappyMapper\bin\Release\HappyMapper.AutoMapper.ConfigurationAPI.dll" target="lib\net45" />
+    <file src="..\HappyMapper\bin\Release\HappyMapper.AutoMapper.Extended.Net4.dll" target="lib\net45" />
+    <file src="..\HappyMapper\bin\Release\Microsoft.CodeAnalysis.dll" target="lib\net45" />
+    <!--Whole Microsoft.CodeAnalysis.CSharp package is too large with too many dependencies to keep it as dependency itself for such simple tool in development-->
+    <file src="..\HappyMapper\bin\Release\Microsoft.CodeAnalysis.CSharp.dll" target="lib\net45" />
+    </files>
+</package>
