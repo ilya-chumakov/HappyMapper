@@ -26,6 +26,7 @@
     <file src="..\HappyMapper\bin\Release\HappyMapper.AutoMapper.Extended.Net4.dll" target="lib\net45" />
     <file src="..\HappyMapper\bin\Release\Microsoft.CodeAnalysis.dll" target="lib\net45" />
     <!--Whole Microsoft.CodeAnalysis.CSharp package is too large with too many dependencies to keep it as dependency itself for such simple tool in development-->
+    <!--https://www.nuget.org/packages/Microsoft.CodeAnalysis.Common/-->
     <file src="..\HappyMapper\bin\Release\Microsoft.CodeAnalysis.CSharp.dll" target="lib\net45" />
     </files>
 </package>

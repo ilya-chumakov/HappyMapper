@@ -1,12 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Diagnostics;
-using System.Text;
 using AutoMapper.ConfigurationAPI;
 using AutoMapper.ConfigurationAPI.Configuration;
 using AutoMapper.Extended.Net4;
-using HappyMapper.Compilation;
 
 namespace HappyMapper.Text
 {
@@ -132,11 +129,11 @@ namespace HappyMapper.Text
                 string newCollection = CreationTemplates.NewCollection(ctx.DestType, "{0}.Count");
                 recorder.AppendLine($"{{1}} = {newCollection};");
             }
-            //, "{1} == null || {0}.Count != {1}.Count"
             using (var block = new Block(recorder, "else"))
             {
                 recorder.AppendLine("{1}.Clear();");
             }
+
             //fill new (or cleared) collection with the new set of items
             recorder.AppendLine(CreationTemplates.Add("{1}", "{0}.Count", itemDestType));
 
@@ -188,10 +185,7 @@ namespace HappyMapper.Text
             //has parameterless ctor
             if (ctx.DestType.HasParameterlessCtor())
             {
-                //create new Dest() object
-                string newDest = $"{{1}} = {StatementTemplates.New(ctx.DestTypeFullName)};";
-
-                recorder.AppendLine(newDest);
+                recorder.AppendLine($"{{1}} = {StatementTemplates.New(ctx.DestTypeFullName)};");
             }
             else
             {
@@ -206,9 +200,7 @@ namespace HappyMapper.Text
 
                 var assignment = ProcessTypeMap(nodeMap);
 
-                template = assignment.RelativeTemplate
-                    //.AddPropertyNamesToTemplate(ctx.SrcMemberName, ctx.DestMemberName)
-                    ;
+                template = assignment.RelativeTemplate;
             }
 
             recorder.AppendLine(template);

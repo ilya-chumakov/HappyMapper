@@ -3,7 +3,7 @@ using System.Text;
 
 namespace HappyMapper.Text
 {
-    public enum Assign
+    internal enum Assign
     {
         AsNoCast,
         AsExplicitCast,
