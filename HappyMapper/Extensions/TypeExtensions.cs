@@ -3,7 +3,7 @@ using HappyMapper.Text;
 
 namespace HappyMapper
 {
-    public static class TypeExtensions
+    internal static class TypeExtensions
     {
         public static bool IsImplicitCastableFrom(this Type dest, Type src)
         {

@@ -4,7 +4,7 @@ using AutoMapper.ConfigurationAPI;
 
 namespace HappyMapper
 {
-    public static class DictionaryExtensions
+    internal static class DictionaryExtensions
     {
         public static void AddIfNotExist(this IDictionary<TypePair, TypeMap> origin, TypeMap typeMap)
         {

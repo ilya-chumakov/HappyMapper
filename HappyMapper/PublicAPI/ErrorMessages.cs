@@ -2,7 +2,7 @@
 
 namespace HappyMapper
 {
-    public static class ErrorMessages
+    internal static class ErrorMessages
     {
         public static string MissingMapping(Type srcType, Type destType)
         {

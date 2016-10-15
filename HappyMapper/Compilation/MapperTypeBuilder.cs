@@ -10,7 +10,7 @@ using Microsoft.CodeAnalysis.Emit;
 
 namespace HappyMapper.Compilation
 {
-    public static class MapperTypeBuilder
+    internal static class MapperTypeBuilder
     {
         public static CSharpCompilation CreateCompilation(string[] texts, HashSet<Type> types)
         {

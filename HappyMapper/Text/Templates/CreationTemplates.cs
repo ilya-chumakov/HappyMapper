@@ -2,7 +2,7 @@
 
 namespace HappyMapper.Text
 {
-    public static class CreationTemplates
+    internal static class CreationTemplates
     {
         /// <summary>
         /// TODO: it won't work for array and tricky collection

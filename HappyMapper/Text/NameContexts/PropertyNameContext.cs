@@ -4,14 +4,14 @@ using AutoMapper.ConfigurationAPI;
 
 namespace HappyMapper.Text
 {
-    public interface IAssignContext
+    internal interface IAssignContext
     {
         string DestMemberName { get; }
         string SrcMemberName { get; }
         string DestTypeFullName { get; set; }
     }
 
-    public interface IPropertyNameContext
+    internal interface IPropertyNameContext
     {
         TypePair TypePair { get; set; }
 
@@ -25,7 +25,7 @@ namespace HappyMapper.Text
         string DestTypeFullName { get; set; }
     }
 
-    public static class PropertyNameContextFactory
+    internal static class PropertyNameContextFactory
     {
         public static IPropertyNameContext CreateWithoutPropertyMap(Type srcType, Type destType, string srcPropertyName, string destPropertyName)
         {

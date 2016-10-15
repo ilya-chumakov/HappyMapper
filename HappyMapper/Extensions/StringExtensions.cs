@@ -1,6 +1,6 @@
 namespace HappyMapper
 {
-    public static class StringExtensions
+    internal static class StringExtensions
     {
         /// <summary>
         /// Remove +

@@ -6,7 +6,7 @@ using AutoMapper.ConfigurationAPI.Configuration;
 namespace HappyMapper.Compilation
 {
     [Obsolete]
-    public static class PropertyMapFactory
+    internal static class PropertyMapFactory
     {
         public static PropertyMap CreateFake(Type srcType, Type destType, string srcPropertyName, string destPropertyName)
         {
