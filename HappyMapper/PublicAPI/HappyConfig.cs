@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using AutoMapper.ConfigurationAPI;
-using AutoMapper.ConfigurationAPI.Configuration;
+
+using HappyMapper.AutoMapper.ConfigurationAPI;
+using HappyMapper.AutoMapper.ConfigurationAPI.Configuration;
 using HappyMapper.Compilation;
 
 namespace HappyMapper

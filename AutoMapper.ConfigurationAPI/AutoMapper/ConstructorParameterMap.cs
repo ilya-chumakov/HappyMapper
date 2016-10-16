@@ -2,9 +2,9 @@ using System;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using AutoMapper.ConfigurationAPI.Execution;
+using HappyMapper.AutoMapper.ConfigurationAPI.Execution;
 
-namespace AutoMapper.ConfigurationAPI
+namespace HappyMapper.AutoMapper.ConfigurationAPI
 {
     public class ConstructorParameterMap
     {

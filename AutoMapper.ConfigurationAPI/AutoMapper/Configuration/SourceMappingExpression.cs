@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace AutoMapper.ConfigurationAPI.Configuration
+namespace HappyMapper.AutoMapper.ConfigurationAPI.Configuration
 {
     public class SourceMappingExpression : ISourceMemberConfigurationExpression
     {

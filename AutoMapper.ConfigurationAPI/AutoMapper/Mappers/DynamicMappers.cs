@@ -3,11 +3,11 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using AutoMapper.ConfigurationAPI.Execution;
+using HappyMapper.AutoMapper.ConfigurationAPI.Execution;
 using Microsoft.CSharp.RuntimeBinder;
 using Binder = Microsoft.CSharp.RuntimeBinder.Binder;
 
-namespace AutoMapper.ConfigurationAPI.Mappers
+namespace HappyMapper.AutoMapper.ConfigurationAPI.Mappers
 {
     public class FromDynamicMapper : IObjectMapper
     {

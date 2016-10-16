@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using AutoMapper.ConfigurationAPI.Execution;
+using HappyMapper.AutoMapper.ConfigurationAPI.Execution;
 
-namespace AutoMapper.ConfigurationAPI.Configuration.Conventions
+namespace HappyMapper.AutoMapper.ConfigurationAPI.Configuration.Conventions
 {
     public class NameSplitMember : IChildMemberConfiguration
     {

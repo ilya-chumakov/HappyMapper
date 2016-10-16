@@ -1,4 +1,4 @@
-namespace AutoMapper.ConfigurationAPI
+namespace HappyMapper.AutoMapper.ConfigurationAPI
 {
     /// <summary>
     /// Converts source type to destination type instead of normal member mapping

@@ -1,11 +1,10 @@
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using AutoMapper.ConfigurationAPI.Execution;
+using HappyMapper.AutoMapper.ConfigurationAPI.Execution;
 
-namespace AutoMapper.ConfigurationAPI
+namespace HappyMapper.AutoMapper.ConfigurationAPI
 {
     public class TypeMapFactory
     {

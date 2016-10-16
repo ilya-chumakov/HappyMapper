@@ -1,4 +1,4 @@
-namespace AutoMapper.ConfigurationAPI
+namespace HappyMapper.AutoMapper.ConfigurationAPI
 {
     public interface IMapperConfigurationExpression : IProfileExpression
     {

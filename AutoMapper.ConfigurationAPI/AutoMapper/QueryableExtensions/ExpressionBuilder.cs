@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using AutoMapper.ConfigurationAPI.Configuration;
-using AutoMapper.ConfigurationAPI.Execution;
-using AutoMapper.ConfigurationAPI.QueryableExtensions.Impl;
+using HappyMapper.AutoMapper.ConfigurationAPI.Configuration;
+using HappyMapper.AutoMapper.ConfigurationAPI.Execution;
+using HappyMapper.AutoMapper.ConfigurationAPI.QueryableExtensions.Impl;
 
-namespace AutoMapper.ConfigurationAPI.QueryableExtensions
+namespace HappyMapper.AutoMapper.ConfigurationAPI.QueryableExtensions
 {
     public interface IExpressionBuilder
     {

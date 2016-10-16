@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace AutoMapper.ConfigurationAPI
+namespace HappyMapper.AutoMapper.ConfigurationAPI
 {
     public interface IConfiguration : IProfileConfiguration
     {

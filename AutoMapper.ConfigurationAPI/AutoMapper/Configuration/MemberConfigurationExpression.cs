@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using AutoMapper.Extended.Net4;
 
-namespace AutoMapper.ConfigurationAPI.Configuration
+namespace HappyMapper.AutoMapper.ConfigurationAPI.Configuration
 {
     public interface IMemberConfiguration
     {

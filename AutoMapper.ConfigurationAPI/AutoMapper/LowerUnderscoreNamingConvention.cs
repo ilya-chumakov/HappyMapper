@@ -1,6 +1,6 @@
 using System.Text.RegularExpressions;
 
-namespace AutoMapper.ConfigurationAPI
+namespace HappyMapper.AutoMapper.ConfigurationAPI
 {
     public class LowerUnderscoreNamingConvention : INamingConvention
     {

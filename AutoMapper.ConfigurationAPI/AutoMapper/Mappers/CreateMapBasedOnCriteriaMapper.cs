@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace AutoMapper.ConfigurationAPI.Mappers
+namespace HappyMapper.AutoMapper.ConfigurationAPI.Mappers
 {
     public interface IConditionalObjectMapper
     {

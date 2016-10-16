@@ -1,4 +1,3 @@
-
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -6,10 +5,10 @@ using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using AutoMapper.ConfigurationAPI.Configuration;
 using AutoMapper.Extended.Net4;
+using HappyMapper.AutoMapper.ConfigurationAPI.Configuration;
 
-namespace AutoMapper.ConfigurationAPI
+namespace HappyMapper.AutoMapper.ConfigurationAPI
 {
     /// <summary>
     /// Main configuration object holding all mapping configuration for a source and destination type

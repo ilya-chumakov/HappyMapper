@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using AutoMapper.ConfigurationAPI;
-using AutoMapper.ConfigurationAPI.Configuration;
+
 using AutoMapper.Extended.Net4;
+using HappyMapper.AutoMapper.ConfigurationAPI;
+using HappyMapper.AutoMapper.ConfigurationAPI.Configuration;
 
 namespace HappyMapper.Text
 {

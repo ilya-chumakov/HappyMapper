@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace AutoMapper.ConfigurationAPI.QueryableExtensions.Impl
+namespace HappyMapper.AutoMapper.ConfigurationAPI.QueryableExtensions.Impl
 {
     public interface IQueryDataSourceInjection<TSource>
     {

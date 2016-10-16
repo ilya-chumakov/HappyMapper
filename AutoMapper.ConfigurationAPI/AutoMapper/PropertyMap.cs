@@ -4,10 +4,10 @@ using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using AutoMapper.ConfigurationAPI.Execution;
 using AutoMapper.Extended.Net4;
+using HappyMapper.AutoMapper.ConfigurationAPI.Execution;
 
-namespace AutoMapper.ConfigurationAPI
+namespace HappyMapper.AutoMapper.ConfigurationAPI
 {
     [DebuggerDisplay("{DestMember.Name}")]
     public class PropertyMap

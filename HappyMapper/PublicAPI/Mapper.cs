@@ -2,8 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using AutoMapper.ConfigurationAPI;
-using AutoMapper.ConfigurationAPI.Configuration;
+using HappyMapper.AutoMapper.ConfigurationAPI;
+using HappyMapper.AutoMapper.ConfigurationAPI.Configuration;
 using HappyMapper.Compilation;
 using HappyMapper.Text;
 

@@ -9,7 +9,7 @@ using System.Reflection.Emit;
 using System.Text.RegularExpressions;
 
 #if NET45
-namespace AutoMapper.ConfigurationAPI.Execution
+namespace HappyMapper.AutoMapper.ConfigurationAPI.Execution
 {
     public class ProxyGenerator : IProxyGenerator
     {

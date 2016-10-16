@@ -1,4 +1,4 @@
-namespace AutoMapper.ConfigurationAPI.Execution
+namespace HappyMapper.AutoMapper.ConfigurationAPI.Execution
 {
     public delegate TValue LateBoundMethod<TSource, TValue>(TSource target, object[] arguments);
 

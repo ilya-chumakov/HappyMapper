@@ -1,6 +1,6 @@
 using System.Reflection;
 
-namespace AutoMapper.ConfigurationAPI.Configuration
+namespace HappyMapper.AutoMapper.ConfigurationAPI.Configuration
 {
     /// <summary>
     /// Contains member configuration relating to source members

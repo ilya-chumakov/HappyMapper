@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using AutoMapper.ConfigurationAPI.Configuration;
-using AutoMapper.ConfigurationAPI.Execution;
+using HappyMapper.AutoMapper.ConfigurationAPI.Configuration;
+using HappyMapper.AutoMapper.ConfigurationAPI.Execution;
 
-namespace AutoMapper.ConfigurationAPI.Mappers
+namespace HappyMapper.AutoMapper.ConfigurationAPI.Mappers
 {
     public static class CollectionMapperExtensions
     {

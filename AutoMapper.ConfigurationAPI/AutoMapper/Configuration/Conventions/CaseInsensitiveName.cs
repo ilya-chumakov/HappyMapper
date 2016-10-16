@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using System.Reflection;
 
-namespace AutoMapper.ConfigurationAPI.Configuration.Conventions
+namespace HappyMapper.AutoMapper.ConfigurationAPI.Configuration.Conventions
 {
     public class CaseInsensitiveName : ISourceToDestinationNameMapper
     {

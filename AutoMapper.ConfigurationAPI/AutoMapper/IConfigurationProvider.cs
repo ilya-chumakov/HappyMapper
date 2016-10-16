@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using AutoMapper.ConfigurationAPI.QueryableExtensions;
+using HappyMapper.AutoMapper.ConfigurationAPI.QueryableExtensions;
 
-namespace AutoMapper.ConfigurationAPI
+namespace HappyMapper.AutoMapper.ConfigurationAPI
 {
     public interface IConfigurationProvider
     {

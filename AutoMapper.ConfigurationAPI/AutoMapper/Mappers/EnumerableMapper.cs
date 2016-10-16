@@ -2,9 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using AutoMapper.ConfigurationAPI.Configuration;
+using HappyMapper.AutoMapper.ConfigurationAPI.Configuration;
 
-namespace AutoMapper.ConfigurationAPI.Mappers
+namespace HappyMapper.AutoMapper.ConfigurationAPI.Mappers
 {
     public class EnumerableMapper : IObjectMapper
     {

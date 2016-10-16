@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using AutoMapper.Extended.Net4.SharedTools;
 using HappyMapper.Tests.PublicAPI;
 
-namespace HappyMapper
+namespace HappyMapper.Tests
 {
     public static class Mapper_Src_Dest_c493
     {
@@ -19,10 +20,7 @@ namespace HappyMapper
             ;
         }
     }
-}
 
-namespace HappyMapper
-{
     public static class Mapper_Src_Dest_3fd5
     {
         public static ICollection<MapCollections_Tests.Dest>
@@ -44,10 +42,7 @@ namespace HappyMapper
             ;
         }
     }
-}
 
-namespace HappyMapper
-{
     public static class Mapper_Src_Dest_a883
     {
         public static void
@@ -68,10 +63,7 @@ namespace HappyMapper
             ;
         }
     }
-}
 
-namespace HappyMapper
-{
     public static class Mapper_Src_Dest_c5a5
     {
         public static MapCollections_Tests.Dest

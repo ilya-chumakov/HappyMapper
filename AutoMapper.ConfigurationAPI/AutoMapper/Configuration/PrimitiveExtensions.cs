@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace AutoMapper.ConfigurationAPI.Configuration
+namespace HappyMapper.AutoMapper.ConfigurationAPI.Configuration
 {
     public static class PrimitiveExtensions
     {

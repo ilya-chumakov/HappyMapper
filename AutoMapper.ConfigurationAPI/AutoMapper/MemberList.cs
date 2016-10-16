@@ -1,4 +1,4 @@
-namespace AutoMapper.ConfigurationAPI
+namespace HappyMapper.AutoMapper.ConfigurationAPI
 {
     /// <summary>
     /// Member list to check for configuration validation

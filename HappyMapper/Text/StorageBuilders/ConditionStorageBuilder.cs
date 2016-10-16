@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Reflection;
 using System.Text;
-using AutoMapper.ConfigurationAPI;
+using HappyMapper.AutoMapper.ConfigurationAPI;
 
 namespace HappyMapper.Text
 {

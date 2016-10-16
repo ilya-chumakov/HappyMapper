@@ -1,7 +1,7 @@
 using System;
 using System.Linq.Expressions;
 
-namespace AutoMapper.ConfigurationAPI.QueryableExtensions
+namespace HappyMapper.AutoMapper.ConfigurationAPI.QueryableExtensions
 {
     public class ExpressionResolutionResult
     {

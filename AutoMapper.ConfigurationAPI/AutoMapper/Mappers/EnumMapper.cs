@@ -3,7 +3,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace AutoMapper.ConfigurationAPI.Mappers
+namespace HappyMapper.AutoMapper.ConfigurationAPI.Mappers
 {
     public class StringToEnumMapper : IObjectMapper
     {

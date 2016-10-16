@@ -1,4 +1,4 @@
-﻿using AutoMapper.ConfigurationAPI;
+﻿using HappyMapper.AutoMapper.ConfigurationAPI;
 using HappyMapper.Compilation;
 using HappyMapper.Text;
 using NUnit.Framework;

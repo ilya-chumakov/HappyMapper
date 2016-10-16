@@ -1,7 +1,7 @@
 using System.Collections.Concurrent;
 using System.Linq.Expressions;
 
-namespace AutoMapper.ConfigurationAPI.QueryableExtensions
+namespace HappyMapper.AutoMapper.ConfigurationAPI.QueryableExtensions
 {
     public interface IExpressionBinder
     {

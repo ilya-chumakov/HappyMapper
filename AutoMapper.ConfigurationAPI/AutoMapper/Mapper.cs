@@ -1,8 +1,8 @@
 using System;
-using AutoMapper.ConfigurationAPI.Configuration;
-using AutoMapper.ConfigurationAPI.Mappers;
+using HappyMapper.AutoMapper.ConfigurationAPI.Configuration;
+using HappyMapper.AutoMapper.ConfigurationAPI.Mappers;
 
-namespace AutoMapper.ConfigurationAPI
+namespace HappyMapper.AutoMapper.ConfigurationAPI
 {
     using ObjectMappingOperationOptions = MappingOperationOptions<object, object>;
 

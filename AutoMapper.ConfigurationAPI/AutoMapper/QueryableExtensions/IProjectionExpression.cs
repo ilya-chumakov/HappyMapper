@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace AutoMapper.ConfigurationAPI.QueryableExtensions
+namespace HappyMapper.AutoMapper.ConfigurationAPI.QueryableExtensions
 {
     /// <summary>
     /// Continuation to execute projection

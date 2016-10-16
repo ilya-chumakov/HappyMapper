@@ -1,7 +1,7 @@
 using System;
 using System.Reflection;
 
-namespace AutoMapper.ConfigurationAPI.Configuration.Conventions
+namespace HappyMapper.AutoMapper.ConfigurationAPI.Configuration.Conventions
 {
     public abstract class SourceToDestinationMapperAttribute : Attribute
     {

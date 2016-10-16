@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using AutoMapper.ConfigurationAPI.QueryableExtensions.Impl;
+using HappyMapper.AutoMapper.ConfigurationAPI.QueryableExtensions.Impl;
 
-namespace AutoMapper.ConfigurationAPI.QueryableExtensions
+namespace HappyMapper.AutoMapper.ConfigurationAPI.QueryableExtensions
 {
     /// <summary>
     /// Queryable extensions for AutoMapper

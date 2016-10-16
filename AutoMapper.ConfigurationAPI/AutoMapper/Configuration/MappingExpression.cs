@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using AutoMapper.ConfigurationAPI.Execution;
 using AutoMapper.Extended.Net4;
+using HappyMapper.AutoMapper.ConfigurationAPI.Execution;
 
-namespace AutoMapper.ConfigurationAPI.Configuration
+namespace HappyMapper.AutoMapper.ConfigurationAPI.Configuration
 {
     public class MappingExpression : MappingExpression<object, object>, IMappingExpression
     {

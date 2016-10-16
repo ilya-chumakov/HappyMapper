@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using AutoMapper.ConfigurationAPI.Execution;
+using HappyMapper.AutoMapper.ConfigurationAPI.Execution;
 
-namespace AutoMapper.ConfigurationAPI.QueryableExtensions.Impl
+namespace HappyMapper.AutoMapper.ConfigurationAPI.QueryableExtensions.Impl
 {
     public class QueryMapperVisitor : ExpressionVisitor
     {

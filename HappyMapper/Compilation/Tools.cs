@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
-using AutoMapper.ConfigurationAPI;
+using HappyMapper.AutoMapper.ConfigurationAPI;
 using HappyMapper.Text;
 
 namespace HappyMapper.Compilation

@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 
 #if NETSTANDARD1_3 || NET45
-namespace AutoMapper.ConfigurationAPI.Mappers
+namespace HappyMapper.AutoMapper.ConfigurationAPI.Mappers
 {
     public class NameValueCollectionMapper : IObjectMapper
     {

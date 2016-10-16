@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace AutoMapper.ConfigurationAPI.Configuration.Conventions
+namespace HappyMapper.AutoMapper.ConfigurationAPI.Configuration.Conventions
 {
     // Source Destination Mapper
 

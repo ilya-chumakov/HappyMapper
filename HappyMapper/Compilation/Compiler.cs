@@ -4,8 +4,8 @@ using System.Collections.Immutable;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
-using AutoMapper.ConfigurationAPI;
-using AutoMapper.ConfigurationAPI.Configuration;
+using HappyMapper.AutoMapper.ConfigurationAPI;
+using HappyMapper.AutoMapper.ConfigurationAPI.Configuration;
 using HappyMapper.Text;
 using Microsoft.CodeAnalysis.CSharp;
 

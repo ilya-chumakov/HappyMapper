@@ -1,11 +1,11 @@
 using System;
 using System.Linq;
 using System.Linq.Expressions;
-using AutoMapper.ConfigurationAPI.Configuration;
-using AutoMapper.ConfigurationAPI.Execution;
-using AutoMapper.ConfigurationAPI.Mappers;
+using HappyMapper.AutoMapper.ConfigurationAPI.Configuration;
+using HappyMapper.AutoMapper.ConfigurationAPI.Execution;
+using HappyMapper.AutoMapper.ConfigurationAPI.Mappers;
 
-namespace AutoMapper.ConfigurationAPI.QueryableExtensions.Impl
+namespace HappyMapper.AutoMapper.ConfigurationAPI.QueryableExtensions.Impl
 {
     public class SourceInjectedQueryProvider<TSource, TDestination> : IQueryProvider
     {

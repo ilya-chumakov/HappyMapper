@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AutoMapper.ConfigurationAPI
+namespace HappyMapper.AutoMapper.ConfigurationAPI
 {
     /// <summary>
     /// Ignore this member for validation and skip during mapping

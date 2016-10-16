@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using AutoMapper.ConfigurationAPI.Configuration;
-using AutoMapper.ConfigurationAPI.Mappers;
+using HappyMapper.AutoMapper.ConfigurationAPI.Configuration;
+using HappyMapper.AutoMapper.ConfigurationAPI.Mappers;
 
-namespace AutoMapper.ConfigurationAPI.Execution
+namespace HappyMapper.AutoMapper.ConfigurationAPI.Execution
 {
     public class TypeMapPlanBuilder
     {

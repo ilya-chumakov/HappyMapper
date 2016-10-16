@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using System.Text;
 
-namespace AutoMapper.ConfigurationAPI
+namespace HappyMapper.AutoMapper.ConfigurationAPI
 {
     public class AutoMapperConfigurationException : Exception
     {

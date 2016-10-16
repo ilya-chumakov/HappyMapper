@@ -1,6 +1,6 @@
 using System.Linq.Expressions;
 
-namespace AutoMapper.ConfigurationAPI.QueryableExtensions.Impl
+namespace HappyMapper.AutoMapper.ConfigurationAPI.QueryableExtensions.Impl
 {
     public class ParameterReplacementVisitor : ExpressionVisitor
     {

@@ -1,4 +1,4 @@
-namespace AutoMapper.ConfigurationAPI.Configuration.Conventions
+namespace HappyMapper.AutoMapper.ConfigurationAPI.Configuration.Conventions
 {
     public class MemberNameReplacer
     {

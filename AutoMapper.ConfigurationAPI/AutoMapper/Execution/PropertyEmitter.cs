@@ -4,7 +4,7 @@ using System.Reflection;
 using System.Reflection.Emit;
 
 #if NET45
-namespace AutoMapper.ConfigurationAPI.Execution
+namespace HappyMapper.AutoMapper.ConfigurationAPI.Execution
 {
     public class PropertyEmitter
     {

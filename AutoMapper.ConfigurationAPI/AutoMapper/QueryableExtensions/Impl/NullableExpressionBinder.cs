@@ -1,8 +1,8 @@
 using System.Collections.Concurrent;
 using System.Linq.Expressions;
-using AutoMapper.ConfigurationAPI.Configuration;
+using HappyMapper.AutoMapper.ConfigurationAPI.Configuration;
 
-namespace AutoMapper.ConfigurationAPI.QueryableExtensions.Impl
+namespace HappyMapper.AutoMapper.ConfigurationAPI.QueryableExtensions.Impl
 {
     public class NullableExpressionBinder : IExpressionBinder
     {

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace AutoMapper.ConfigurationAPI.Mappers
+namespace HappyMapper.AutoMapper.ConfigurationAPI.Mappers
 {
     public static class MapperRegistry
     {

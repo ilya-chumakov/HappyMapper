@@ -1,6 +1,6 @@
 using System.ComponentModel;
 
-namespace AutoMapper.ConfigurationAPI.Execution
+namespace HappyMapper.AutoMapper.ConfigurationAPI.Execution
 {
     public abstract class ProxyBase
     {

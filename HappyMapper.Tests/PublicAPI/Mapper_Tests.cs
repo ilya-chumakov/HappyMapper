@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using AutoMapper.ConfigurationAPI;
+using HappyMapper.AutoMapper.ConfigurationAPI;
 using HappyMapper.Benchmarks.Types;
 using HappyMapper.Compilation;
 using HappyMapper.Tests.Tools;

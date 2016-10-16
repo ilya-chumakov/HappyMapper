@@ -1,7 +1,7 @@
 using System;
 
 #if NET45
-namespace AutoMapper.ConfigurationAPI.Execution
+namespace HappyMapper.AutoMapper.ConfigurationAPI.Execution
 {
     public interface IProxyGenerator
     {

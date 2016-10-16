@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using AutoMapper.ConfigurationAPI;
+
 using AutoMapper.Extended.Net4;
+using HappyMapper.AutoMapper.ConfigurationAPI;
 
 namespace HappyMapper.Text
 {

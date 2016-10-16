@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using AutoMapper.ConfigurationAPI.Configuration.Conventions;
-using AutoMapper.ConfigurationAPI.Mappers;
+using HappyMapper.AutoMapper.ConfigurationAPI.Configuration.Conventions;
+using HappyMapper.AutoMapper.ConfigurationAPI.Mappers;
 
-namespace AutoMapper.ConfigurationAPI
+namespace HappyMapper.AutoMapper.ConfigurationAPI
 {
     /// <summary>
     /// Contains profile-specific configuration

@@ -1,7 +1,7 @@
 using System;
 using System.Linq.Expressions;
 
-namespace AutoMapper.ConfigurationAPI
+namespace HappyMapper.AutoMapper.ConfigurationAPI
 {
     /// <summary>
     /// Member configuration options

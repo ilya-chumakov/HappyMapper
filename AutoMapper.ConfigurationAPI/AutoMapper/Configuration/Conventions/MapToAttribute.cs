@@ -1,7 +1,7 @@
 using System;
 using System.Reflection;
 
-namespace AutoMapper.ConfigurationAPI.Configuration.Conventions
+namespace HappyMapper.AutoMapper.ConfigurationAPI.Configuration.Conventions
 {
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
     public class MapToAttribute : SourceToDestinationMapperAttribute

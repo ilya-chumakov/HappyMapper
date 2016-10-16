@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace AutoMapper.ConfigurationAPI
+namespace HappyMapper.AutoMapper.ConfigurationAPI
 {
     /// <summary>
     /// Context information regarding resolution of a destination value

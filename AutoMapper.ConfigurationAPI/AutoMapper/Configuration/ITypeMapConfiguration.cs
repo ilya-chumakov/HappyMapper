@@ -1,6 +1,6 @@
 using System;
 
-namespace AutoMapper.ConfigurationAPI.Configuration
+namespace HappyMapper.AutoMapper.ConfigurationAPI.Configuration
 {
     public interface ITypeMapConfiguration
     {

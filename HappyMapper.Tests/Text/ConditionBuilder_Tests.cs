@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
-using AutoMapper.ConfigurationAPI;
-using AutoMapper.ConfigurationAPI.Configuration;
+using HappyMapper.AutoMapper.ConfigurationAPI;
+using HappyMapper.AutoMapper.ConfigurationAPI.Configuration;
 using AutoMapper.Extended.Net4;
 using HappyMapper.Text;
 using NUnit.Framework;

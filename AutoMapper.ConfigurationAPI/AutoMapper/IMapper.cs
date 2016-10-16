@@ -1,6 +1,6 @@
 using System;
 
-namespace AutoMapper.ConfigurationAPI
+namespace HappyMapper.AutoMapper.ConfigurationAPI
 {
     public interface IMapper
     {

@@ -1,5 +1,6 @@
-﻿using AutoMapper.ConfigurationAPI;
+﻿
 using AutoMapper.Extended.Net4;
+using HappyMapper.AutoMapper.ConfigurationAPI;
 
 namespace HappyMapper.Text
 {

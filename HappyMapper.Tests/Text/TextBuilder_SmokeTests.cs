@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using AutoMapper.ConfigurationAPI;
+using HappyMapper.AutoMapper.ConfigurationAPI;
 using HappyMapper.Compilation;
 using HappyMapper.Text;
 using NUnit.Framework;

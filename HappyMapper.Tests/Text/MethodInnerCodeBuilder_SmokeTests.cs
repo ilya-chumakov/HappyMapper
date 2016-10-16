@@ -1,5 +1,5 @@
 ﻿using System;
-using AutoMapper.ConfigurationAPI;
+using HappyMapper.AutoMapper.ConfigurationAPI;
 using HappyMapper.Text;
 using NUnit.Framework;
 

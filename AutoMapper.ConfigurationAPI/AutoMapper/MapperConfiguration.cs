@@ -4,12 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using AutoMapper.ConfigurationAPI.Configuration;
-using AutoMapper.ConfigurationAPI.Mappers;
-using AutoMapper.ConfigurationAPI.QueryableExtensions;
-using AutoMapper.ConfigurationAPI.QueryableExtensions.Impl;
+using HappyMapper.AutoMapper.ConfigurationAPI.Configuration;
+using HappyMapper.AutoMapper.ConfigurationAPI.Mappers;
+using HappyMapper.AutoMapper.ConfigurationAPI.QueryableExtensions;
+using HappyMapper.AutoMapper.ConfigurationAPI.QueryableExtensions.Impl;
 
-namespace AutoMapper.ConfigurationAPI
+namespace HappyMapper.AutoMapper.ConfigurationAPI
 {
     using UntypedMapperFunc = System.Func<object, object, ResolutionContext, object>;
 

@@ -1,5 +1,5 @@
 ﻿using System;
-using AutoMapper.ConfigurationAPI;
+using HappyMapper.AutoMapper.ConfigurationAPI;
 using NUnit.Framework;
 
 namespace HappyMapper.Tests.AutoMapperMigrated
