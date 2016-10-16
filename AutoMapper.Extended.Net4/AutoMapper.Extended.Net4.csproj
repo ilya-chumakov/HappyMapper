@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="NamingTools.cs" />
     <Compile Include="OriginalStatement.cs" />
+    <Compile Include="SharedTools\CollectionExtensions.cs" />
     <Compile Include="UnsupportedTypeBlocker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

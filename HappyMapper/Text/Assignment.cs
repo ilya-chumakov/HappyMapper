@@ -1,6 +1,6 @@
 namespace HappyMapper.Text
 {
-    public struct Assignment
+    internal struct Assignment
     {
         public string RelativeTemplate { get; set; }
 

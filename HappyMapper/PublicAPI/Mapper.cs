@@ -18,7 +18,7 @@ namespace HappyMapper
         [Obsolete("Call HappyConfig.CompileMapper to create a mapper instance.")]
         public Mapper()
         {
-            DelegateCache = new Dictionary<TypePair, CompiledDelegate>();
+            throw new NotSupportedException("Call HappyConfig.CompileMapper to create a mapper instance.");
         }
 
         internal Mapper(Dictionary<TypePair, CompiledDelegate> delegates)
@@ -27,6 +27,7 @@ namespace HappyMapper
         }
 
         //TODO: enable collection mapping.
+        [Obsolete("only POCO-to-POCO, no collections")]
         public SingleMapper<TSrc, TDest> GetSingleMapper<TSrc, TDest>()
         {
             CompiledDelegate @delegate = null;

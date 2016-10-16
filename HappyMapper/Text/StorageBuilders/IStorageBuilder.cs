@@ -2,7 +2,7 @@
 
 namespace HappyMapper.Text
 {
-    public interface IStorageBuilder
+    internal interface IStorageBuilder
     {
         string BuildCode();
 

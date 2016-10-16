@@ -41,40 +41,36 @@ namespace HappyMapper.Compilation
             return trees;
         }
 
-        //TODO: remove duplicate method
-        private static List<MetadataReference> GetMetadataReferences(HashSet<Type> types)
+        private static IReadOnlyList<MetadataReference> GetMetadataReferences(HashSet<Type> types)
+        {
+            var locations = types.Select(t => t.Assembly.Location).ToList();
+
+            return GetMetadataReferences(locations);
+        }
+
+        private static IReadOnlyList<MetadataReference> GetMetadataReferences(HashSet<string> locations)
+        {
+            return GetMetadataReferences(locations.ToList());
+        }
+
+        private static IReadOnlyList<MetadataReference> GetMetadataReferences(IReadOnlyList<string> locations)
         {
             var references = new List<MetadataReference>();
             references.Add(MetadataReference.CreateFromFile(typeof(object).Assembly.Location));
             references.Add(MetadataReference.CreateFromFile(typeof(HappyMapperException).Assembly.Location));
+            references.Add(MetadataReference.CreateFromFile(typeof(CollectionExtensions).Assembly.Location));
             references.Add(MetadataReference.CreateFromFile(typeof(ResolutionContext).Assembly.Location));
-            references.Add(MetadataReference.CreateFromFile(typeof(System.Linq.Enumerable).Assembly.Location)); //only for CollectionBuilder
-            references.Add(MetadataReference.CreateFromFile(typeof(System.Linq.Queryable).Assembly.Location)); //only for CollectionBuilder
+            references.Add(MetadataReference.CreateFromFile(typeof(Enumerable).Assembly.Location)); //only for CollectionBuilder
+            references.Add(MetadataReference.CreateFromFile(typeof(Queryable).Assembly.Location)); //only for CollectionBuilder
 
-            foreach (Type type in types)
-            {
-                references.Add(MetadataReference.CreateFromFile(type.Assembly.Location));
-            }
+            references.AddRange(locations.Select(location => MetadataReference.CreateFromFile(location)));
+
             return references;
         }
 
-        private static List<MetadataReference> GetMetadataReferences(HashSet<string> locations)
-        {
-            var references = new List<MetadataReference>();
-            references.Add(MetadataReference.CreateFromFile(typeof(object).Assembly.Location));
-            references.Add(MetadataReference.CreateFromFile(typeof(HappyMapperException).Assembly.Location));
-            references.Add(MetadataReference.CreateFromFile(typeof(ResolutionContext).Assembly.Location));
-            references.Add(MetadataReference.CreateFromFile(typeof(System.Linq.Enumerable).Assembly.Location)); //only for CollectionBuilder
-            references.Add(MetadataReference.CreateFromFile(typeof(System.Linq.Queryable).Assembly.Location)); //only for CollectionBuilder
-
-            foreach (string location in locations)
-            {
-                references.Add(MetadataReference.CreateFromFile(location));
-            }
-            return references;
-        }
-
-        public static CSharpCompilation CreateCompilation(SyntaxTree[] syntaxTrees, List<MetadataReference> references)
+        public static CSharpCompilation CreateCompilation(
+            SyntaxTree[] syntaxTrees, 
+            IReadOnlyList<MetadataReference> references)
         {
             string assemblyName = Path.GetRandomFileName();
 
