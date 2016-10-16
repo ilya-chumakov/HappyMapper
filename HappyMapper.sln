@@ -23,6 +23,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HappyMapper.Tests", "HappyM
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HappyMapper.Tests.SeparateAssembly", "HappyMapper.Tests.SeparateAssembly\HappyMapper.Tests.SeparateAssembly.csproj", "{C1C8B73F-E3CB-433E-A5EC-EA12C8712243}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{A765FD2A-ED9D-482A-AE94-BCFAC42BF565}"
+	ProjectSection(SolutionItems) = preProject
+		tools\HappyMapper.nuspec = tools\HappyMapper.nuspec
+		tools\NuGet.exe = tools\NuGet.exe
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
