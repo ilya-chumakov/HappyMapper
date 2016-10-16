@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
 
-namespace AutoMapper.Extended.Net4.SharedTools
+// ReSharper disable once CheckNamespace
+namespace HappyMapper
 {
     //keep it public - the method Add() is used in generated code.
     public static class CollectionExtensions

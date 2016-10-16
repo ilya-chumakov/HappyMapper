@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using AutoMapper.Extended.Net4.SharedTools;
 using HappyMapper.Benchmarks.Types;
 using NUnit.Framework;
 

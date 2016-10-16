@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using AutoMapper.Extended.Net4.SharedTools;
 using HappyMapper.AutoMapper.ConfigurationAPI;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
