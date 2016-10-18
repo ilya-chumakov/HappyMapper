@@ -62,4 +62,4 @@ Simple!
 - Inheritance maps
 - ALL rest of AutoMapper customization API.
 
-So there is a lot of work to code in HappyMapper project.
+So there is a lot of work to do!
