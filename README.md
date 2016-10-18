@@ -4,7 +4,7 @@
 
 HappyMapper is a simple .NET library to map objects.
 
-In 2016, a lot of awesome mapping tools exist so who in his right mind will waste time to create another one? All because of curiousity. Is it possible to achieve both [EmitMapper](https://emitmapper.codeplex.com/) high speed and [AutoMapper](https://github.com/AutoMapper/AutoMapper) flexibility? The only goal of this project is to say "Yes". Look at the approximate time to map 10 <sup>8</sup> simple POCO objects:
+In 2016 a lot of awesome mapping tools exist. Who in his right mind will waste time to create another one? All because of curiousity. Is it possible to achieve both [EmitMapper](https://emitmapper.codeplex.com/) high speed and [AutoMapper](https://github.com/AutoMapper/AutoMapper) flexibility? The only goal of this project is to say "Yes". Look at the approximate time to map 10 <sup>8</sup> simple POCO objects:
 
 Mapper | Case | Time, s
 ------ | ----- | -------------
@@ -44,6 +44,7 @@ Simple!
     Dest dest = mapper.Map<Dest>(new Src()); //Search + Map case (untyped mapper)
     
     var singleMapper = mapper.GetSingleMapper<Src, Dest>();
+    
     singleMapper.Map(new Src(), new Dest()); //Map case (typed mapper)
 
 **Which is supported for now?**
